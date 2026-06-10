@@ -1,10 +1,15 @@
-const express = require('express');
-const app = express();
+const express = require('express')
+const app = express()
 
-app.use(express.json());
+app.use(express.json())
+
+require('./config/db')
+
+const authRoutes = require('./routes/authRoutes')
+app.use('/auth', authRoutes)
 
 app.get('/', (req, res) => {
-    res.json({ message: 'Bem-vindo à Monetiza!' });
-});
+  res.json({ message: 'API Monetiza funcionando!' })
+})
 
-module.exports = app;
+module.exports = app
