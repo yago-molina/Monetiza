@@ -1,5 +1,5 @@
 require('dotenv').config();
-const app = require('./monetiza-backend/src/app')
+const app = require('./src/app')
 
 const PORT = process.env.PORT || 3000 ;
 
