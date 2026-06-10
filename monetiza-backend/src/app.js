@@ -6,7 +6,12 @@ app.use(express.json())
 require('./config/db')
 
 const authRoutes = require('./routes/authRoutes')
+const usuarioRoutes = require('./routes/usuarioRoutes')
+const produtoRoutes = require('./routes/produtoRoutes')
+
 app.use('/auth', authRoutes)
+app.use('/usuario', usuarioRoutes)
+app.use('/produtos', produtoRoutes)
 
 app.get('/', (req, res) => {
   res.json({ message: 'API Monetiza funcionando!' })

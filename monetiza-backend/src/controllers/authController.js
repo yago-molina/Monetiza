@@ -10,7 +10,7 @@ const cadastrar = async (req, res) => {
 
   try {
     // Verifica se o email já existe
-    const [existente] = await db.query('SELECT id FROM usuarios WHERE email = ?', [email])
+    const [existente] = await db.query('select id from usuarios where email = ?', [email])
     if (existente.length > 0) {
       return res.status(400).json({ erro: 'Email já cadastrado' })
     }
@@ -20,7 +20,7 @@ const cadastrar = async (req, res) => {
 
     // Insere no banco
     await db.query(
-      'INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)',
+      'insert into usuarios (nome, email, senha) values (?, ?, ?)',
       [nome, email, senhaCriptografada]
     )
 
@@ -42,7 +42,7 @@ const login = async (req, res) => {
 
   try {
     // Busca o usuário pelo email
-    const [usuarios] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email])
+    const [usuarios] = await db.query('select * from usuarios where email = ?', [email])
     
     if (usuarios.length === 0) {
       return res.status(401).json({ erro: 'Email ou senha inválidos' })
