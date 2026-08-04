@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monetiza - Login</title>
+    <link rel="icon" type="image/png" href="../img/icon_monetiza.png">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="brand-header">
+            <img id="logo_monetiza" src="image/icon_monetiza.png" alt="Logo Monetiza">
+        </div>
+        
+        <section id="tela-login" class="auth-box">
+            <h2>Entrar na sua conta</h2>
+            <p class="auth-subtitle">ou <a href="cadastro.html" id="link-ir-cadastro">Criar uma nova conta</a></p>
+            
+            <div class="input-group">
+                <label for="login-email">E-mail</label>
+                <input id="login-email" type="email" placeholder="seu@email.com">
+            </div>
+            
+            <div class="input-group">
+                <label for="login-senha">Senha</label>
+                <input id="login-senha" type="password" placeholder="••••••••">
+                <div class="forgot-password-container">
+                    <a href="#" id="link-esqueci-senha">Esqueceu a senha?</a>
+                </div>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn-primary" id="btn-entrar">Entrar</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>

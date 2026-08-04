@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Monetiza</title>
+    <link rel="icon" type="image/png" href="image/logo_monetiza.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
+                <span class="brand-name">Monetiza</span>
+            </div>
+
+            <nav class="menu-nav">
+                <ul>
+                    <li><a id="dashboard" href="dashboard.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
+                    <li><a href="#"><i class="fa-solid fa-users"></i> Afiliados</a></li>
+                    <li><a href="#"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
+                    <li><a href="#"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
+                    <li><a href="#"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
+                    <li><a href="#"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <i class="fa-solid fa-user"></i>
+                <p>Olá, <span id="nome-usuario">Carregando...</span>!</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="search-bar-container">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" placeholder="O que você está buscando..." class="search-input">
+                </div>
+                <a href="#" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+            <div class="banner-wrapper">
+                <header class="hero-banner">
+                    <img src="image/logo_monetiza.png" alt="Monetiza" class="logo-banner">
+                </header>
+            </div>
+
+            <section class="offers-section">
+                <h2>O que o Monetiza oferece</h2>
+                
+                <div class="cards-container">
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
+                        <p>Centralizar suas vendas, afiliados e finanças in uma única plataforma simples, segura e organizada.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-cubes"></i></div>
+                        <p>Gerenciar produtos digitais, acompanhe lucros e fortaleça parcerias com ferramentas integradas.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fa-solid fa-rocket"></i></div>
+                        <p>A solução completa para infoprodutores e afiliados que buscam controle, praticidade e crescimento.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/landing.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Monetiza</title>
+    <link rel="icon" type="image/png" href="/img/icon_monetiza.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
+                <span class="brand-name">Monetiza</span>
+            </div>
+
+            <nav class="menu-nav">
+                <ul>
+                    <li class="active"><a id="dashboard" href="landing.html"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                    <li><a id="produtos" href="#"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
+                    <li><a href="#"><i class="fa-solid fa-users"></i> Afiliados</a></li>
+                    <li><a href="#"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
+                    <li><a href="#"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
+                    <li><a href="#"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
+                    <li><a href="#"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="user-info">
+                    <span id="nome-usuario" class="user-name">Username</span>
+                    <span id="email-usuario" class="user-email">email@gmail.com</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="top-bar-right">
+                    <a href="#" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <div class="welcome-section">
+                    <h2>Olá, <span id="ola-usuario">Usuário</span></h2>
+                    <p>Veja um resumo da sua atividade na plataforma</p>
+                </div>
+
+                <div class="metrics-container">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Vendas Totais</span>
+                            <div class="metric-icon dollar"><i class="fa-solid fa-dollar-sign"></i></div>
+                        </div>
+                        <span class="metric-value">R$ 0.00</span>
+                        <div class="metric-change positive">
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Comissão</span>
+                            <div class="metric-icon commission"><i class="fa-solid fa-chart-line"></i></div>
+                        </div>
+                        <span class="metric-value">R$ 0.00</span>
+                        <div class="metric-change positive">
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Produtos Ativos</span>
+                            <div class="metric-icon products"><i class="fa-solid fa-bag-shopping"></i></div>
+                        </div>
+                        <span class="metric-value">0</span>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-title">Total de Vendas</span>
+                            <div class="metric-icon sales"><i class="fa-solid fa-users"></i></div>
+                        </div>
+                        <span class="metric-value">0</span>
+                    </div>
+                </div>
+
+                <div class="content-row">
+                    <div class="recent-sales-card">
+                        <h3>Vendas Recentes</h3>
+                        <div class="no-sales-message">
+                            <p>Nenhuma venda ainda</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions-container">
+                        <div class="balance-card">
+                            <div class="balance-header">
+                                <span class="balance-title">Saldo Disponível</span>
+                                <i class="fa-solid fa-wallet"></i>
+                            </div>
+                            <span class="balance-value">R$ 0.00</span>
+                            <div class="balance-details">
+                                <div class="detail green"><i class="fa-solid fa-arrow-down"></i> Entradas<br>R$ 0.00</div>
+                                <div class="detail red"><i class="fa-solid fa-arrow-up"></i> Saídas<br>R$ 0.00</div>
+                            </div>
+                        </div>
+
+                        <div class="quick-actions-card">
+                            <h3>Ações rápidas</h3>
+                            <div class="action-grid">
+                                <div class="action-item">
+                                    <div class="action-icon cyan"><i class="fa-solid fa-plus"></i></div>
+                                    <span class="action-label">Novo Produto</span>
+                                    <span class="action-desc">Cadastre um produto digital</span>
+                                </div>
+                                <div class="action-item">
+                                    <div class="action-icon orange"><i class="fa-solid fa-link"></i></div>
+                                    <span class="action-label">Gerar Link</span>
+                                    <span class="action-desc">Criar link de afiliado</span>
+                                </div>
+                                <div class="action-item">
+                                    <div class="action-icon purple"><i class="fa-solid fa-file-contract"></i></div>
+                                    <span class="action-label">Novo Contrato</span>
+                                    <span class="action-desc">Adicionar contrato</span>
+                                </div>
+                                <div class="action-item">
+                                    <div class="action-icon pink"><i class="fa-solid fa-comment-dots"></i></div>
+                                    <span class="action-label">Mensagens</span>
+                                    <span class="action-desc">Ver conversas</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
