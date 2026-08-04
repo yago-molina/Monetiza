@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // ================= 1. CONTROLE DE USUÁRIO LOGADO =================
     const usuario = localStorage.getItem('usuarioLogado');
 
     if (usuario) {
@@ -23,10 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     } else {
         alert("Acesso negado. Por favor, faça login primeiro.");
-        window.location.href = "../login/login.html";
+        window.location.href = "/login";
     }
 
-    // ================= 2. CONTROLE DO MENU LATERAL =================
     const itensMenu = document.querySelectorAll('.menu-nav ul li');
 
     itensMenu.forEach(item => {

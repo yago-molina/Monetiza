@@ -20,7 +20,7 @@ botaoEntrar.addEventListener('click', function(event) {
     if (emailValue === emailCorreto && senhaValue === senhaCorreta) {
         alert("Login bem-sucedido! Seja bem-vindo à Monetiza.");
         localStorage.setItem('usuarioLogado', emailValue); 
-        window.location.href = "../landing/landing.html"; 
+        window.location.href = "/landing"; 
     } else {
         alert("E-mail ou senha incorretos. Tente novamente.");
     }
