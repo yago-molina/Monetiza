@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monetiza - Cadastro</title>
+    <link rel="icon" type="image/png" href="../img/icon_monetiza.png">
+    <link rel="stylesheet" href="css/cadastro.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="brand-header">
+            <img id="logo_monetiza" src="../img/icon_monetiza.png" alt="Logo Monetiza">
+        </div>
+        
+        <section id="tela-cadastro" class="auth-box">
+            <h2>Criar uma nova conta</h2>
+            <p class="auth-subtitle">ou <a href="../login/login.html" id="link-ir-login">Entrar em uma conta existente</a></p>
+            
+            <div class="input-group">
+                <label for="cadastro-email">E-mail</label>
+                <input id="cadastro-email" type="email" placeholder="seu@email.com">
+            </div>
+            
+            <div class="input-group">
+                <label for="cadastro-senha">Senha</label>
+                <input id="cadastro-senha" type="password" placeholder="Mínimo 8 caracteres">
+            </div>
+
+            <div class="input-group">
+                <label for="cadastro-rep-senha">Repetir Senha</label>
+                <input id="cadastro-rep-senha" type="password" placeholder="••••••••">
+            </div>
+            
+            <div class="input-group">
+                <label for="pais">País</label>
+                <select id="pais">
+                    <option value="BR">Brasil</option>
+                    <option value="PT">Portugal</option>
+                    <option value="US">Estados Unidos</option>
+                </select>
+            </div>
+            
+            <div class="termos-container">
+                <input class="termos-checkbox" type="checkbox" id="termos">
+                <label for="termos" class="termos-text">
+                    Li e aceito os termos de uso, termos de licença de uso e software, política de conteúdo do Monetiza
+                </label>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn-primary" id="btn-cadastrar">Criar Conta</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/cadastro.js"></script>
+</body>
+</html>
