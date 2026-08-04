@@ -1,33 +1,71 @@
-document.getElementById('btn-cadastrar').addEventListener('click', function(e) {
-    e.preventDefault();
+const botaoCadastrar = document.getElementById('btn-cadastrar');
 
-    // Leitura dos campos
-    const username = document.getElementById('cadastro-username').value.trim();
+botaoCadastrar.addEventListener('click', async function (evento) {
+    evento.preventDefault();
+
+    // Pega os dados digitados
+    const nome = document.getElementById('cadastro-nome').value.trim();
     const email = document.getElementById('cadastro-email').value.trim();
     const senha = document.getElementById('cadastro-senha').value.trim();
     const repSenha = document.getElementById('cadastro-rep-senha').value.trim();
     const termos = document.getElementById('termos');
 
-    // Validação de campos vazios
-    if (username === "" || email === "" || senha === "" || repSenha === "") {
-        alert("Por favor, preencha todos os campos do cadastro.");
+    // Verifica campos vazios
+    if (nome === '' || email === '' || senha === '' || repSenha === '') {
+        alert('Por favor, preencha todos os campos do cadastro.');
         return;
     }
 
-    // Validação de confirmação de senha
+    // Verifica o tamanho da senha
+    if (senha.length < 8) {
+        alert('A senha precisa ter pelo menos 8 caracteres.');
+        return;
+    }
+
+    // Verifica se as senhas são iguais
     if (senha !== repSenha) {
-        alert("As senhas digitadas não coincidem!");
+        alert('As senhas digitadas não coincidem!');
         return;
     }
 
+    // Verifica os termos
     if (!termos.checked) {
-        alert("Você precisa aceitar os termos para criar sua conta.");
+        alert('Você precisa aceitar os termos para criar sua conta.');
         return;
     }
 
-    localStorage.setItem('usuarioLogado', email);
-    localStorage.setItem('usernameLogado', username);
+    try {
+        botaoCadastrar.disabled = true;
+        botaoCadastrar.textContent = 'Criando conta...';
 
-    alert("Conta criada com sucesso!");
-    window.location.href = "/landing";
+        const resposta = await fetch('/auth/cadastro', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                nome: nome,
+                email: email,
+                senha: senha
+            })
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            alert(dados.erro || 'Não foi possível criar a conta.');
+            return;
+        }
+
+        alert(dados.mensagem);
+
+        // Depois do cadastro, envia para o login
+        window.location.href = '/login';
+    } catch (erro) {
+        console.error('Erro no cadastro:', erro);
+        alert('Não foi possível conectar ao servidor.');
+    } finally {
+        botaoCadastrar.disabled = false;
+        botaoCadastrar.textContent = 'Criar Conta';
+    }
 });
