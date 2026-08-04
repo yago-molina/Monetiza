@@ -18,15 +18,11 @@ app.use('/usuario', usuarioRoutes)
 app.use('/produtos', produtoRoutes)
 
 app.get('/', (req, res) => {
-  res.json({ message: 'API Monetiza funcionando!' })
+  res.sendFile(path.join(__dirname, 'public', 'login.html'))
 })
 
 app.get('/cadastro', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'cadastro.html'))
-})
-
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'login.html'))
 })
 
 app.get('/landing', (req, res) => {

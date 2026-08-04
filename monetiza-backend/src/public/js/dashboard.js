@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    const usuario = localStorage.getItem('usuarioLogado');
+    const usuario = localStorage.getItem('token');
 
     if (usuario) {
         const apenasNome = usuario.split('@')[0];
