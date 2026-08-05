@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos - Monetiza</title>
+    <title>Mensagens - Monetiza</title>
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/produto.css">
+    <link rel="stylesheet" href="css/mensagens.css">
 </head>
 <body>
 
     <div class="container">
-        <!-- Sidebar -->
+        <!-- Sidebar Padrão -->
         <aside class="sidebar">
             <div class="logo-area">
                 <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
@@ -21,12 +21,12 @@
             <nav class="menu-nav">
                 <ul>
                     <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                    <li class="active"><a id="produto" href="landing"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
+                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
                     <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
                     <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
                     <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
                     <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
-                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
+                    <li class="active"><a id="mensagens" href="landing"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
                     <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
                 </ul>
             </nav>
@@ -42,46 +42,50 @@
 
         <!-- Conteúdo Principal -->
         <main class="main-content">
-            <!-- Barra Superior -->
+            <!-- Top Bar -->
             <div class="top-bar">
-                <span class="page-title">Produtos</span>
+                <span class="page-title">Mensagem</span>
                 <div class="top-bar-right">
                     <a href="#" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
-                    <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
-                    <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
+                    <div class="icon-group">
+                        <div class="notification-dot-container">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-dot"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Cabeçalho de Produtos -->
-            <div class="header-action-row">
-                <div class="page-header-text">
-                    <h2>Meus Produtos</h2>
-                    <p>Gerencie seus produtos digitais</p>
-                </div>
-                <button class="btn-primary" id="btn-novo-produto">
-                    <i class="fa-solid fa-plus"></i> Novo Produto
-                </button>
-            </div>
+            <!-- Chat Layout Grid -->
+            <div class="chat-container">
+                <!-- Coluna da Esquerda: Lista de Conversas -->
+                <aside class="chat-sidebar">
+                    <div class="chat-header">
+                        <h2>Mensagens</h2>
+                        <div class="search-box">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" placeholder="Buscar conversas...">
+                        </div>
+                    </div>
 
-            <!-- Campo de Busca -->
-            <div class="search-container">
-                <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" placeholder="Buscar produtos..." class="search-input">
-            </div>
+                    <div class="conversations-section">
+                        <span class="section-label">INICIAR CONVERSA</span>
+                    </div>
+                </aside>
 
-            <!-- Estado Vazio (Nenhum produto cadastrado) -->
-            <div class="empty-state-card">
-                <div class="empty-state-content">
-                    <h3>Nenhum produto ainda</h3>
-                    <p>Crie seu primeiro produto digital</p>
-                    <button class="btn-primary btn-large">
-                        <i class="fa-solid fa-plus"></i> Criar Produto
-                    </button>
-                </div>
+                <!-- Coluna da Direita: Área do Chat Vazia -->
+                <section class="chat-main-area">
+                    <div class="empty-chat-state">
+                        <div class="chat-icon-bg">
+                            <i class="fa-regular fa-comment-dots"></i>
+                        </div>
+                        <p>Selecionar uma Conversa</p>
+                    </div>
+                </section>
             </div>
         </main>
     </div>
 
-    <script src="js/produto.js"></script>
+    <script src="js/mensagens.js"></script>
 </body>
 </html>

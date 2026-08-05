@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Monetiza</title>
+    <link rel="icon" type="image/png" href="image/logo_monetiza.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/configuracoes.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar Padrão -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
+                <span class="brand-name">Monetiza</span>
+            </div>
+
+            <nav class="menu-nav">
+                <ul>
+                    <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
+                    <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
+                    <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
+                    <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
+                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
+                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
+                    <li class="active"><a id="configuracoes" href="landing"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="user-info">
+                    <span id="nome-usuario" class="user-name">Username</span>
+                    <span id="email-usuario" class="user-email">email@gmail.com</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <span class="page-title">Configurações</span>
+                <div class="top-bar-right">
+                    <a href="#" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+                    <div class="icon-group">
+                        <div class="notification-dot-container">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-dot"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Título e Subtítulo -->
+            <div class="page-header-text">
+                <h2>Configurações</h2>
+                <p>Gerencie seu perfil e preferências</p>
+            </div>
+
+            <!-- Abas de Navegação -->
+            <div class="tabs-nav">
+                <button class="tab-btn active"><i class="fa-regular fa-user"></i> Meu Perfil</button>
+                <button class="tab-btn"><i class="fa-regular fa-bell"></i> Notificações</button>
+                <button class="tab-btn"><i class="fa-solid fa-shield-halved"></i> Segurança</button>
+                <button class="tab-btn"><i class="fa-solid fa-wallet"></i> Pagamento</button>
+            </div>
+
+            <!-- Card de Configurações de Perfil -->
+            <div class="settings-card">
+                <div class="card-header-text">
+                    <h3>Informações do Perfil</h3>
+                    <p>Atualize suas informações pessoais</p>
+                </div>
+
+                <!-- Foto de Perfil e Botão -->
+                <div class="avatar-upload-row">
+                    <div class="profile-avatar-large">
+                        <i class="fa-solid fa-circle-user"></i>
+                    </div>
+                    <button class="btn-secondary" id="btn-alterar-foto">
+                        <i class="fa-solid fa-download"></i> Alterar foto
+                    </button>
+                </div>
+
+                <hr class="divider">
+
+                <!-- Formulário de Perfil -->
+                <form id="form-perfil" class="settings-form">
+                    <div class="form-group">
+                        <label for="input-nome">Nome Completo</label>
+                        <input type="text" id="input-nome" placeholder="Nome">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-email">Email</label>
+                        <input type="email" id="input-email" placeholder="email@gmail.com" disabled class="input-disabled">
+                        <span class="field-hint">O email não pode ser alterado</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-bio">Bio</label>
+                        <textarea id="input-bio" rows="3" placeholder="Conte um pouco sobre você..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="input-telefone">Telefone</label>
+                        <input type="text" id="input-telefone" placeholder="(11) 99999-9999">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">
+                            <i class="fa-solid fa-plus"></i> Salvar Alterações
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/configuracoes.js"></script>
+</body>
+</html>

@@ -1,23 +1,78 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function () {
+
+    const token = localStorage.getItem('token');
     const email = localStorage.getItem('usuarioLogado');
-    const username = localStorage.getItem('usernameLogado');
 
-    if (email) {
-        const nomeExibicao = username || email.split('@')[0];
-
-        // 1. Atualiza a Sidebar (inferior esquerda)
-        const nomeSidebar = document.getElementById('nome-usuario');
-        const emailSidebar = document.getElementById('email-usuario');
-
-        if (nomeSidebar) nomeSidebar.textContent = nomeExibicao;
-        if (emailSidebar) emailSidebar.textContent = email;
-
-        // 2. Atualiza a Top Bar (superior direita)
-        const nomeTopBar = document.getElementById('topbar-username');
-        if (nomeTopBar) nomeTopBar.textContent = nomeExibicao;
-
-    } else {
-        alert("Acesso negado. Por favor, faça login ou cadastre-se.");
-        window.location.href = "/";
+    if (!token) {
+        alert('Acesso negado. Faça login primeiro.');
+        window.location.href = '/';
+        return;
     }
+
+    try {
+        // Consulta os dados do usuário usando o token
+        const resposta = await fetch('/usuario/perfil', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const dados = await resposta.json();
+
+        // Token inválido ou expirado
+        if (!resposta.ok) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuarioLogado');
+
+            alert('Sua sessão expirou. Faça login novamente.');
+            window.location.href = '/';
+            return;
+        }
+
+        const usuario = dados.usuario;
+
+        // Nome do usuario
+        const olaUsuario = document.getElementById('ola-usuario');
+
+        if (olaUsuario) {
+            olaUsuario.textContent = usuario.nome;
+        }
+
+        // Nome no menu lateral
+        const nomeUsuario = document.getElementById('nome-usuario');
+
+        if (nomeUsuario) {
+            nomeUsuario.textContent = usuario.nome;
+        }
+
+        // Email no menu lateral
+        const emailUsuario = document.getElementById('email-usuario');
+
+        if (emailUsuario) {
+            emailUsuario.textContent = email;
+        }
+
+    } catch (erro) {
+
+        console.error('Erro ao carregar usuário:', erro);
+        alert('Erro ao carregar os dados do usuário.');
+    }
+
+    // Controle do menu lateral
+    const itensMenu = document.querySelectorAll('.menu-nav ul li');
+
+    itensMenu.forEach(item => {
+        item.addEventListener('click', function (e) {
+
+            if (this.classList.contains('disabled')) {
+                e.preventDefault();
+                return;
+            }
+
+            itensMenu.forEach(li => li.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
 });

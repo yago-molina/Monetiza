@@ -141,7 +141,7 @@ body {
 /* ================= MAIN CONTENT ================= */
 .main-content {
     flex: 1;
-    margin-left: 260px;
+    margin-left: 20px;
     padding: 32px 40px;
 }
 

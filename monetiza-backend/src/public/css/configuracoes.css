@@ -149,7 +149,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     background-color: #1c1c1e;
     padding: 16px 24px;
     border-radius: 12px;
@@ -200,11 +200,7 @@ body {
     border-radius: 50%;
 }
 
-/* Cabeçalho com botão */
-.header-action-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.page-header-text {
     margin-bottom: 24px;
 }
 
@@ -219,11 +215,165 @@ body {
     margin-top: 4px;
 }
 
+/* ================= ABAS DE NAVEGAÇÃO ================= */
+.tabs-nav {
+    display: inline-flex;
+    background-color: #1c1c1e;
+    border: 1px solid #2c2c2e;
+    border-radius: 10px;
+    padding: 4px;
+    gap: 4px;
+    margin-bottom: 24px;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: #c4c4cc;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+    color: #ffffff;
+}
+
+.tab-btn.active {
+    background-color: #ffffff;
+    color: #121214;
+    font-weight: 600;
+}
+
+/* ================= CARD DE CONFIGURAÇÕES ================= */
+.settings-card {
+    background-color: #1c1c1e;
+    border: 1px solid #2c2c2e;
+    border-radius: 14px;
+    padding: 28px;
+    max-width: 800px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header-text h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.card-header-text p {
+    font-size: 13px;
+    color: #7c7c8a;
+    margin-top: 2px;
+    margin-bottom: 20px;
+}
+
+.avatar-upload-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.profile-avatar-large {
+    font-size: 64px;
+    color: #7c7c8a;
+    display: flex;
+    align-items: center;
+}
+
+.btn-secondary {
+    background-color: #2c2c2e;
+    color: #ffffff;
+    border: 1px solid #3a3a3c;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #3a3a3c;
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid #2c2c2e;
+    margin-bottom: 24px;
+}
+
+/* ================= FORMULÁRIO ================= */
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.form-group input, 
+.form-group textarea {
+    background-color: #121214;
+    border: 1px solid #2c2c2e;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+    border-color: #4d4dff;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.input-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.field-hint {
+    font-size: 12px;
+    color: #7c7c8a;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
 .btn-primary {
     background-color: #0000c1;
     color: #ffffff;
     border: none;
-    padding: 12px 20px;
+    padding: 12px 24px;
     border-radius: 10px;
     font-weight: 600;
     font-size: 14px;
@@ -237,139 +387,4 @@ body {
 .btn-primary:hover {
     background-color: #3b3bff;
     transform: translateY(-2px);
-}
-
-/* ================= METRICS GRID (3 CARDS) ================= */
-.metrics-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-bottom: 32px;
-}
-
-.metric-card {
-    background-color: #1c1c1e;
-    border: 1px solid #2c2c2e;
-    border-radius: 14px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.metric-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.metric-title {
-    font-size: 14px;
-    color: #c4c4cc;
-    font-weight: 500;
-}
-
-.metric-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-}
-
-.metric-icon.purple { background-color: rgba(147, 51, 234, 0.15); color: #c084fc; }
-.metric-icon.pink { background-color: rgba(219, 39, 119, 0.15); color: #f472b6; }
-.metric-icon.cyan { background-color: rgba(0, 193, 154, 0.15); color: #00c19a; }
-
-.metric-value {
-    font-size: 26px;
-    font-weight: 700;
-    color: #ffffff;
-}
-
-/* ================= TABELA / LINKS ATIVOS ================= */
-.table-card {
-    background-color: #1c1c1e;
-    border: 1px solid #2c2c2e;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.table-card-header {
-    padding: 20px 24px;
-    border-bottom: 1px solid #2c2c2e;
-}
-
-.table-card-header h3 {
-    font-size: 16px;
-    font-weight: 700;
-    color: #ffffff;
-}
-
-.table-header {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
-    padding: 14px 24px;
-    background-color: #161618;
-    border-bottom: 1px solid #2c2c2e;
-    font-size: 13px;
-    font-weight: 600;
-    color: #7c7c8a;
-}
-
-.text-right {
-    text-align: right;
-}
-
-/* Estado vazio da tabela de afiliados */
-.empty-state-container {
-    padding: 60px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.link-icon-bg {
-    width: 56px;
-    height: 56px;
-    background-color: #2c2c2e;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: #7c7c8a;
-    margin-bottom: 16px;
-}
-
-.empty-text {
-    font-size: 14px;
-    color: #7c7c8a;
-    margin-bottom: 20px;
-}
-
-.btn-secondary {
-    background-color: transparent;
-    color: #ffffff;
-    border: 1px solid #3a3a3e;
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s ease;
-}
-
-.btn-secondary:hover {
-    background-color: #2c2c2e;
-    border-color: #4d4dff;
-    color: #4d4dff;
 }

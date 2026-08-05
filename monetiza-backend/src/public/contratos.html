@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos - Monetiza</title>
+    <title>Contratos - Monetiza</title>
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/produto.css">
+    <link rel="stylesheet" href="css/contratos.css">
 </head>
 <body>
 
     <div class="container">
-        <!-- Sidebar -->
+        <!-- Sidebar Padrão -->
         <aside class="sidebar">
             <div class="logo-area">
                 <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
@@ -21,11 +21,11 @@
             <nav class="menu-nav">
                 <ul>
                     <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                    <li class="active"><a id="produto" href="landing"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
+                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
                     <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
                     <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
                     <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
+                    <li class="active"><a id="contratos" href="landing"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
                     <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
                     <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
                 </ul>
@@ -42,46 +42,50 @@
 
         <!-- Conteúdo Principal -->
         <main class="main-content">
-            <!-- Barra Superior -->
+            <!-- Top Bar -->
             <div class="top-bar">
-                <span class="page-title">Produtos</span>
+                <span class="page-title">Contratos</span>
                 <div class="top-bar-right">
                     <a href="#" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
-                    <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
-                    <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
+                    <div class="icon-group">
+                        <div class="notification-dot-container">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-dot"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Cabeçalho de Produtos -->
+            <!-- Cabeçalho de Ação -->
             <div class="header-action-row">
                 <div class="page-header-text">
-                    <h2>Meus Produtos</h2>
-                    <p>Gerencie seus produtos digitais</p>
+                    <h2>Meus Contratos</h2>
+                    <p>Gerencie seus contratos e documentos</p>
                 </div>
-                <button class="btn-primary" id="btn-novo-produto">
-                    <i class="fa-solid fa-plus"></i> Novo Produto
+                <button class="btn-primary" id="btn-novo-contrato">
+                    <i class="fa-solid fa-plus"></i> Novo Contrato
                 </button>
             </div>
 
             <!-- Campo de Busca -->
             <div class="search-container">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" placeholder="Buscar produtos..." class="search-input">
+                <input type="text" placeholder="Buscar contratos..." class="search-input">
             </div>
 
-            <!-- Estado Vazio (Nenhum produto cadastrado) -->
-            <div class="empty-state-card">
-                <div class="empty-state-content">
-                    <h3>Nenhum produto ainda</h3>
-                    <p>Crie seu primeiro produto digital</p>
+            <!-- Card Estado Vazio -->
+            <div class="empty-card">
+                <div class="empty-content">
+                    <h3>Nenhum Contrato Ainda</h3>
+                    <p>Adicione seu Primeiro Contrato</p>
                     <button class="btn-primary btn-large">
-                        <i class="fa-solid fa-plus"></i> Criar Produto
+                        <i class="fa-solid fa-plus"></i> ADICIONAR Contrato
                     </button>
                 </div>
             </div>
         </main>
     </div>
 
-    <script src="js/produto.js"></script>
+    <script src="js/contratos.js"></script>
 </body>
 </html>
