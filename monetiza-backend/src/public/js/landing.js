@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Verifica se existe um token
     if (!token) {
         alert('Acesso negado. Faça login primeiro.');
-        window.location.href = '/login';
+        window.location.href = '/';
         return;
     }
 
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             localStorage.removeItem('usuarioLogado');
 
             alert('Sua sessão expirou. Faça login novamente.');
-            window.location.href = '/login';
+            window.location.href = '/';
             return;
         }
 
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 window.location.href = '/dashboard';
             } else {
                 alert('Por favor, faça login para acessar o painel.');
-                window.location.href = '/login';
+                window.location.href = '/';
             }
         });
     }

@@ -33,4 +33,36 @@ app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard.html'))
 })
 
+app.get('/produto', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'produto.html'))
+})
+
+app.get('/afiliados', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'afiliados.html'))
+})
+
+app.get('/minhasVendas', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'minhasVendas.html'))
+})
+
+app.get('/afiliados', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'afiliados.html'))
+})
+
+app.get('/financeiro', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'financeiro.html'))
+})
+
+app.get('/contratos', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'contratos.html'))
+})
+
+app.get('/mensagens', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'mensagens.html'))
+})
+
+app.get('/configuracoes', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'configuracoes.html'))
+})
+
 module.exports = app

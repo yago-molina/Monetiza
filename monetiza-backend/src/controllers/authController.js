@@ -8,6 +8,10 @@ const cadastrar = async (req, res) => {
     return res.status(400).json({ erro: 'Preencha todos os campos' })
   }
 
+  if (senha.length < 8) {
+      return res.status(400).json({ erro: 'A senha deve conter pelo menos 8 caracteres' })
+    }
+
   try {
     // Verifica se o email já existe
     const [existente] = await db.query('select id from usuarios where email = ?', [email])

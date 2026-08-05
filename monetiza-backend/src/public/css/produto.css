@@ -1,0 +1,342 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'DM Sans', sans-serif;
+}
+
+body {
+    background-color: #121214;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background-color: #1c1c1e;
+    border-right: 1px solid #2c2c2e;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px 0;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 12px;
+}
+
+.logo-sidebar {
+    width: 80px;
+    height: 80px;
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.menu-nav {
+    flex: 1;
+    margin-top: 32px;
+}
+
+.menu-nav ul {
+    list-style: none;
+}
+
+.menu-nav ul li {
+    padding: 2px 16px;
+}
+
+.menu-nav ul li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #a4a4a8;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.menu-nav ul li a i {
+    margin-right: 12px;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+    transition: color 0.2s ease;
+}
+
+.menu-nav ul li.active a {
+    background-color: rgba(0, 0, 193, 0.15);
+    color: #4d4dff;
+    font-weight: 600;
+}
+
+.menu-nav ul li.active a i {
+    color: #4d4dff;
+}
+
+.menu-nav ul li a:hover {
+    background-color: #2c2c2e;
+    color: #ffffff;
+}
+
+.menu-nav ul li a:hover i {
+    color: #ffffff;
+}
+
+.user-profile {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid #2c2c2e;
+}
+
+.avatar-fallback {
+    width: 42px;
+    height: 42px;
+    background-color: #2c2c2e;
+    color: #c4c4cc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.user-email {
+    font-size: 12px;
+    color: #7c7c8a;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 32px 40px;
+}
+
+/* Top Bar */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    background-color: #1c1c1e;
+    padding: 16px 24px;
+    border-radius: 12px;
+    border: 1px solid #2c2c2e;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.vitrine-link {
+    text-decoration: none;
+    color: #4d4dff;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.vitrine-link:hover {
+    color: #8080ff;
+    transform: translateX(2px);
+}
+
+.icon-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.notification-dot-container {
+    position: relative;
+    font-size: 18px;
+    color: #c4c4cc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.notification-dot-container:hover {
+    color: #ffffff;
+}
+
+.notification-dot {
+    position: absolute;
+    top: 0;
+    right: 2px;
+    width: 8px;
+    height: 8px;
+    background-color: #ef4444;
+    border-radius: 50%;
+}
+
+/* ================= COMPONENTES DA PÁGINA DE PRODUTOS ================= */
+
+/* Cabeçalho de Ações */
+.header-action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.page-header-text h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.page-header-text p {
+    font-size: 14px;
+    color: #7c7c8a;
+    margin-top: 4px;
+}
+
+/* Botão Principal com Efeito Hover Neon */
+.btn-primary {
+    background-color: #0000c1;
+    color: #ffffff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 193, 0.25);
+}
+
+.btn-primary:hover {
+    background-color: #3b3bff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 193, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Campo de busca interativo */
+.search-container {
+    position: relative;
+    max-width: 400px;
+    margin-bottom: 24px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7c7c8a;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.search-input {
+    width: 100%;
+    background-color: #1c1c1e;
+    border: 1px solid #2c2c2e;
+    padding: 12px 16px 12px 40px;
+    border-radius: 10px;
+    color: #ffffff;
+    outline: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.search-input::placeholder {
+    color: #7c7c8a;
+}
+
+.search-input:focus {
+    border-color: #4d4dff;
+    box-shadow: 0 0 0 3px rgba(77, 77, 255, 0.15);
+}
+
+.search-input:focus + .search-icon,
+.search-container:focus-within .search-icon {
+    color: #4d4dff;
+}
+
+/* Card de Estado Vazio (Mesmo estilo dos cards de métricas) */
+.empty-state-card {
+    background-color: #1c1c1e;
+    border: 1px solid #2c2c2e;
+    border-radius: 14px;
+    padding: 80px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: border-color 0.2s ease;
+}
+
+.empty-state-card:hover {
+    border-color: #3a3a3e;
+}
+
+.empty-state-content h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.empty-state-content p {
+    color: #7c7c8a;
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+
+.btn-large {
+    margin: 0 auto;
+    padding: 14px 28px;
+}

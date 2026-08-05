@@ -63,4 +63,4 @@ async function fazerLogin(evento) {
         botaoEntrar.disabled = false;
         botaoEntrar.textContent = 'Entrar';
     }
-}x  
+}

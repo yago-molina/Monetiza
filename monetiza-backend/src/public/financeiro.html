@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financeiro - Monetiza</title>
+    <link rel="icon" type="image/png" href="image/logo_monetiza.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/financeiro.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sidebar Atualizada (Sem disabled) -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
+                <span class="brand-name">Monetiza</span>
+            </div>
+
+            <nav class="menu-nav">
+                <ul>
+                    <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
+                    <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
+                    <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
+                    <li class="active"><a id="financeiro" href="landing"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
+                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
+                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
+                    <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="user-info">
+                    <span id="nome-usuario" class="user-name">Carregando...</span>
+                    <span id="email-usuario" class="user-email">...</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <span class="page-title">Financeiro</span>
+                <div class="top-bar-right">
+                    <a href="#" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+                    <div class="icon-group">
+                        <div class="notification-dot-container">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-dot"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cabeçalho de Ação -->
+            <div class="header-action-row">
+                <div class="page-header-text">
+                    <h2>Financeiro</h2>
+                    <p>Gerencie suas entradas e saídas</p>
+                </div>
+                <button class="btn-primary" id="btn-nova-transacao">
+                    <i class="fa-solid fa-plus"></i> Nova Transação
+                </button>
+            </div>
+
+            <!-- Grid de Cards Financeiros -->
+            <div class="financial-cards-grid">
+                <!-- Card Principal: Saldo Disponível -->
+                <div class="card-balance">
+                    <div class="balance-top">
+                        <div class="balance-title-group">
+                            <span>Saldo Disponível</span>
+                            <h2>R$ 0.00</h2>
+                        </div>
+                        <div class="balance-icon">
+                            <i class="fa-solid fa-wallet"></i>
+                        </div>
+                    </div>
+                    <div class="balance-submetrics">
+                        <div class="submetric green">
+                            <span><i class="fa-solid fa-arrow-up-right-dots"></i> Entradas</span>
+                            <strong>R$ 0.00</strong>
+                        </div>
+                        <div class="submetric red">
+                            <span><i class="fa-solid fa-arrow-down-left-dots"></i> Saídas</span>
+                            <strong>R$ 0.00</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Total de Entradas -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon green-bg"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                        <span class="metric-title">Total de Entradas</span>
+                    </div>
+                    <span class="metric-value green-text">R$ 0.00</span>
+                </div>
+
+                <!-- Card: Total de Saídas -->
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon red-bg"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                        <span class="metric-title">Total de Saídas</span>
+                    </div>
+                    <span class="metric-value red-text">R$ 0.00</span>
+                </div>
+            </div>
+
+            <!-- Barra de Filtros -->
+            <div class="filters-bar">
+                <div class="select-group">
+                    <i class="fa-solid fa-filter icon-filter"></i>
+                    <select id="filter-tipo" class="custom-select">
+                        <option value="todos">Todos</option>
+                        <option value="entradas">Entradas</option>
+                        <option value="saidas">Saídas</option>
+                    </select>
+                </div>
+
+                <div class="select-group">
+                    <i class="fa-regular fa-calendar icon-filter"></i>
+                    <select id="filter-periodo" class="custom-select">
+                        <option value="todo-periodo">Todo Período</option>
+                        <option value="hoje">Hoje</option>
+                        <option value="7dias">Últimos 7 dias</option>
+                        <option value="30dias">Últimos 30 dias</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Tabela / Histórico de Transações -->
+            <div class="table-card">
+                <div class="table-card-header">
+                    <h3>Histórico de Transações</h3>
+                </div>
+                <div class="table-header">
+                    <span>Tipo</span>
+                    <span>Descrição</span>
+                    <span>Categoria</span>
+                    <span>Data</span>
+                    <span class="text-right">Valor</span>
+                </div>
+                <div class="empty-state-container">
+                    <div class="wallet-icon-bg">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <p class="empty-text">Nenhuma Transação Encontrada</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/financeiro.js"></script>
+</body>
+</html>

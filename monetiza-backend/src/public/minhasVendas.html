@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Vendas - Monetiza</title>
+    <link rel="icon" type="image/png" href="image/logo_monetiza.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/minhasVendas.css">
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
+                <span class="brand-name">Monetiza</span>
+            </div>
+
+            <nav class="menu-nav">
+                <ul>
+                    <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
+                    <li class="active"><a id="minhasVendas" href="landing"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
+                    <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
+                    <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
+                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
+                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
+                    <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="user-info">
+                    <span id="nome-usuario" class="user-name">Carregando...</span>
+                    <span id="email-usuario" class="user-email">...</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <span class="page-title">Minhas Vendas</span>
+                <div class="top-bar-right">
+                    <a href="#" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+                    <div class="icon-group">
+                        <div class="notification-dot-container">
+                            <i class="fa-regular fa-bell"></i>
+                            <span class="notification-dot"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cabeçalho -->
+            <div class="page-header-text">
+                <h2>Minhas Vendas</h2>
+                <p>Acompanhe suas vendas e comissões</p>
+            </div>
+
+            <!-- Grid de Métricas (4 Cards) -->
+            <div class="metrics-container">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">Total de Vendas</span>
+                        <div class="metric-icon dollar"><i class="fa-solid fa-dollar-sign"></i></div>
+                    </div>
+                    <span class="metric-value">R$ 0.00</span>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">Comissões Ganhas</span>
+                        <div class="metric-icon commission"><i class="fa-solid fa-chart-line"></i></div>
+                    </div>
+                    <span class="metric-value">R$ 0.00</span>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">Vendas como Vendedor</span>
+                        <div class="metric-icon seller"><i class="fa-solid fa-box"></i></div>
+                    </div>
+                    <span class="metric-value">0</span>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-title">Vendas como Afiliados</span>
+                        <div class="metric-icon affiliate"><i class="fa-solid fa-users"></i></div>
+                    </div>
+                    <span class="metric-value">0</span>
+                </div>
+            </div>
+
+            <!-- Abas (Tabs) -->
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="vendas">Minhas Vendas (0)</button>
+                <button class="tab-btn" data-tab="comissoes">Comissões (0)</button>
+            </div>
+
+            <!-- Tabela / Estado Vazio -->
+            <div class="table-card">
+                <div class="table-header">
+                    <span>Produto</span>
+                    <span>Comprador</span>
+                    <span>Data</span>
+                    <span>Status</span>
+                    <span class="text-right">Valor</span>
+                </div>
+                <div class="empty-sales-state">
+                    <p>Nenhuma venda encontrada</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/minhasVendas.js"></script>
+</body>
+</html>
