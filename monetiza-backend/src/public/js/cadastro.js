@@ -60,7 +60,7 @@ botaoCadastrar.addEventListener('click', async function (evento) {
         alert(dados.mensagem);
 
         // Depois do cadastro, envia para o login
-        window.location.href = '/login';
+        window.location.href = '/';
     } catch (erro) {
         console.error('Erro no cadastro:', erro);
         alert('Não foi possível conectar ao servidor.');

@@ -50,7 +50,7 @@ const login = async (req, res) => {
 
     const usuario = usuarios[0]
 
-    // Compara a senha digitada com o hash salvo no banco
+    // Compara a senha com a versão salva no banco
     const senhaCorreta = await bcrypt.compare(senha, usuario.senha)
     
     if (!senhaCorreta) {

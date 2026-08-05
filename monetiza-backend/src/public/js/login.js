@@ -45,7 +45,7 @@ async function fazerLogin(evento) {
             return;
         }
 
-        // Salva o token gerado pelo back-end
+        // Salva o token gerado
         localStorage.setItem('token', dados.token);
 
         // Mantém as páginas atuais funcionando temporariamente
@@ -63,4 +63,4 @@ async function fazerLogin(evento) {
         botaoEntrar.disabled = false;
         botaoEntrar.textContent = 'Entrar';
     }
-}
+}x  
