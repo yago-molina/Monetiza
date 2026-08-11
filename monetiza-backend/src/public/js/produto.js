@@ -76,3 +76,79 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
 });
+
+// pop up provisório 
+document.addEventListener('DOMContentLoaded', function() {
+   
+    // --- ELEMENTOS DOS MODAIS ---
+    const modalEscolha = document.getElementById('modal-escolha-criacao');
+    const modalManual = document.getElementById('modal-novo-produto');
+
+    // --- BOTÕES DE AÇÃO ---
+    const btnNovoProduto = document.getElementById('btn-novo-produto'); // Botão principal da página
+    const btnFecharEscolha = document.getElementById('btn-fechar-escolha');
+    const btnFecharManual = document.getElementById('btn-fechar-modal');
+    const btnCancelarManual = document.getElementById('btn-cancelar');
+
+    // --- BOTÕES DE OPÇÃO ---
+    const btnOpcaoManual = document.getElementById('btn-opcao-manual');
+    const btnOpcaoIA = document.getElementById('btn-opcao-ia');
+
+    // --- FORMULÁRIO MANUAL ---
+    const formProduto = document.getElementById('form-novo-produto');
+
+    // 1. Clicar em "Novo Produto" abre a escolha
+    if (btnNovoProduto) {
+        btnNovoProduto.addEventListener('click', (e) => {
+            e.preventDefault();
+            modalEscolha.classList.remove('hidden');
+        });
+    }
+
+    // 2. Escolher "Criar Manualmente" -> Fecha escolha e abre o formulário
+    if (btnOpcaoManual) {
+        btnOpcaoManual.addEventListener('click', () => {
+            modalEscolha.classList.add('hidden');  // Sumir com a tela de escolha
+            modalManual.classList.remove('hidden'); // Mostrar o pop-up com o formulário
+        });
+    }
+
+    // 3. Escolher "Criar com IA"
+    if (btnOpcaoIA) {
+        btnOpcaoIA.addEventListener('click', () => {
+            modalEscolha.classList.add('hidden');
+            alert("Gerador com IA selecionado! Em breve você poderá criar seus produtos usando inteligência artificial.");
+        });
+    }
+
+    // 4. Fechar Modais (Botões X e Cancelar)
+    const fecharTudo = () => {
+        if (modalEscolha) modalEscolha.classList.add('hidden');
+        if (modalManual) modalManual.classList.add('hidden');
+    };
+
+    if (btnFecharEscolha) btnFecharEscolha.addEventListener('click', fecharTudo);
+    if (btnFecharManual) btnFecharManual.addEventListener('click', fecharTudo);
+    if (btnCancelarManual) btnCancelarManual.addEventListener('click', fecharTudo);
+
+    // Fechar ao clicar fora de qualquer modal
+    window.addEventListener('click', (e) => {
+        if (e.target === modalEscolha || e.target === modalManual) {
+            fecharTudo();
+        }
+    });
+
+    // 5. Salvar o Produto Manual
+    if (formProduto) {
+        formProduto.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const titulo = document.getElementById('prod-titulo').value;
+            const preco = document.getElementById('prod-preco').value;
+
+            alert(`Produto "${titulo}" (R$ ${preco}) cadastrado com sucesso!`);
+            fecharTudo();
+            formProduto.reset();
+        });
+    }
+});

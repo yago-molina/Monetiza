@@ -82,6 +82,128 @@
         </main>
     </div>
 
+    
+    
+        <!-- Modal 1: Escolha do Método de Criação -->
+    <div id="modal-escolha-criacao" class="modal-overlay hidden">
+        <div class="modal-card modal-card-sm">
+            <div class="modal-header">
+                <h2>Criar Novo Produto</h2>
+                <button id="btn-fechar-escolha" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <p class="modal-subtitle">Como você prefere cadastrar seu produto?</p>
+
+            <div class="creation-options">
+                <!-- Opção Manual -->
+                <button type="button" id="btn-opcao-manual" class="option-card">
+                    <div class="option-icon">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </div>
+                    <div class="option-info">
+                        <h3>Criar Manualmente</h3>
+                        <p>Preencha os campos, preços e descrições do seu jeito.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                </button>
+
+                <!-- Opção com IA -->
+                <button type="button" id="btn-opcao-ia" class="option-card option-ia">
+                    <div class="option-icon">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div class="option-info">
+                        <h3>Criar com IA <span class="badge-ia">Novo</span></h3>
+                        <p>Gere título, descrição e copys automaticamente em segundos.</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="modal-novo-produto" class="modal-overlay hidden">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2>Novo Produto</h2>
+            <button id="btn-fechar-modal" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <form id="form-novo-produto" class="modal-body">
+            <div class="input-group">
+                <label for="prod-titulo">Título *</label>
+                <input type="text" id="prod-titulo" placeholder="Nome do produto" required>
+            </div>
+
+            <div class="input-group">
+                <label for="prod-desc-curta">Descrição Curta</label>
+                <input type="text" id="prod-desc-curta" placeholder="Uma linha sobre o produto">
+            </div>
+
+            <div class="input-group">
+                <label for="prod-desc-completa">Descrição Completa</label>
+                <textarea id="prod-desc-completa" rows="3" placeholder="Descreva seu produto em detalhes"></textarea>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="prod-preco">Preço (R$) *</label>
+                    <input type="number" step="0.01" id="prod-preco" placeholder="99.90" required>
+                </div>
+                <div class="input-group">
+                    <label for="prod-categoria">Categoria</label>
+                    <select id="prod-categoria">
+                        <option value="curso">Curso</option>
+                        <option value="ebook">E-book</option>
+                        <option value="software">Software / SaaS</option>
+                        <option value="mentoria">Mentoria</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="prod-comissao">Comissão de Afiliado (%)</label>
+                    <input type="number" id="prod-comissao" placeholder="30">
+                </div>
+                <div class="input-group">
+                    <label for="prod-status">Status</label>
+                    <select id="prod-status">
+                        <option value="ativo">Ativo</option>
+                        <option value="rascunho">Rascunho</option>
+                        <option value="inativo">Inativo</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group file-group">
+                <label for="prod-imagem">Imagem de Capa</label>
+                <div class="file-input-wrapper">
+                    <input type="text" id="prod-imagem" placeholder="URL da imagem ou faça upload">
+                    <label for="upload-imagem" class="btn-upload"><i class="fa-solid fa-download"></i></label>
+                    <input type="file" id="upload-imagem" accept="image/*" class="hidden-file-input">
+                </div>
+            </div>
+
+            <div class="input-group file-group">
+                <label for="prod-arquivo">Arquivo do Produto</label>
+                <div class="file-input-wrapper">
+                    <input type="text" id="prod-arquivo" placeholder="URL do arquivo ou faça upload">
+                    <label for="upload-arquivo" class="btn-upload"><i class="fa-solid fa-download"></i></label>
+                    <input type="file" id="upload-arquivo" class="hidden-file-input">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" id="btn-cancelar" class="btn-secondary">Cancelar</button>
+                <button type="submit" class="btn-primary">Salvar Produto</button>
+            </div>
+        </form>
+    </div>
+</div>
+
     <script src="js/produto.js"></script>
 </body>
 </html>
