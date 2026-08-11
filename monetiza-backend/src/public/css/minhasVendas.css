@@ -165,7 +165,10 @@ body {
 .top-bar-right {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 40px;
+}
+.top-bar-right li {
+    list-style: none;
 }
 
 .vitrine-link {

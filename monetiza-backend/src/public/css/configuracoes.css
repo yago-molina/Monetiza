@@ -165,7 +165,10 @@ body {
 .top-bar-right {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 40px;
+}
+.top-bar-right li {
+    list-style: none;
 }
 
 .vitrine-link {
@@ -224,6 +227,7 @@ body {
     padding: 4px;
     gap: 4px;
     margin-bottom: 24px;
+    margin-left: 80px;
 }
 
 .tab-btn {
@@ -257,8 +261,9 @@ body {
     border: 1px solid #2c2c2e;
     border-radius: 14px;
     padding: 28px;
-    max-width: 800px;
+    width: 1400px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-left: 80px;
 }
 
 .card-header-text h3 {

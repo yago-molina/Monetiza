@@ -165,9 +165,11 @@ body {
 .top-bar-right {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 40px;
 }
-
+.top-bar-right li {
+    list-style: none;
+}
 .vitrine-link {
     text-decoration: none;
     color: #4d4dff;
@@ -247,7 +249,7 @@ body {
 }
 
 .card-balance {
-    background: linear-gradient(135deg, #0f4c81 0%, #0000a3 100%);
+    background: linear-gradient(135deg, #c78ed8 0%, #0000c1 100%);
     border-radius: 14px;
     padding: 20px;
     display: flex;
@@ -266,7 +268,7 @@ body {
 
 .balance-title-group span {
     font-size: 13px;
-    color: #a0c4ff;
+    color: #ffffff;
     font-weight: 500;
 }
 
