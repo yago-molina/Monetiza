@@ -63,4 +63,8 @@ app.get('/configuracoes', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'configuracoes.html'))
 })
 
+app.get('/vitrine', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'vitrine.html'))
+})
+
 module.exports = app
