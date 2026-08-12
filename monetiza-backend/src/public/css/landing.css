@@ -2,9 +2,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'DM Sans', 'Segoe UI', sans-serif;
 }
 
+/* Fundo Escuro com Degradê Roxo Original */
 body {
     background-image: linear-gradient(135deg, #460b52 0%, #121214 30%);
     color: #e1e1e6;
@@ -18,6 +19,7 @@ body {
     height: 100vh;
 }
 
+/* ================= SIDEBAR ESCURA ORIGINAL ================= */
 .sidebar {
     width: 260px;
     background-color: #1c1c1e;
@@ -36,8 +38,8 @@ body {
 }
 
 .logo-sidebar {
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
 }
 
 .brand-name {
@@ -77,7 +79,6 @@ body {
     font-size: 16px;
     width: 20px;
     text-align: center;
-    transition: color 0.2s ease;
 }
 
 .menu-nav ul li.active a {
@@ -95,37 +96,19 @@ body {
     color: #ffffff;
 }
 
-.menu-nav ul li a:hover i {
-    color: #ffffff;
-}
-
+/* Perfil do Usuário Escuro */
 .user-profile {
     margin-top: auto;
     display: flex;
     align-items: center;
     gap: 12px;
-    padding-top: 20px;
+    padding: 20px 24px 0 24px;
     border-top: 1px solid #2c2c2e;
 }
 
-.avatar-fallback, .avatar-fallback-mini {
-    width: 42px;
-    height: 42px;
-    background-color: #2c2c2e;
+.avatar-fallback {
+    font-size: 32px;
     color: #c4c4cc;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-}
-
-.avatar-fallback-mini {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-    background-color: #4d4dff;
-    color: #ffffff;
 }
 
 .user-info {
@@ -148,6 +131,7 @@ body {
     overflow: hidden;
 }
 
+/* ================= ÁREA PRINCIPAL ================= */
 .main-content {
     flex: 1;
     display: flex;
@@ -156,23 +140,14 @@ body {
     padding: 24px 40px;
 }
 
+/* TOPBAR ESCURA */
 .top-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 24px;
 }
-.top-bar-actions {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-}
-.top-bar-actions li {
-    list-style: none;
-}
-.top-ba-actions i {
-    size: 28px;
-}
+
 .search-bar-container {
     position: relative;
     width: 100%;
@@ -206,14 +181,17 @@ body {
     background-color: #2c2c2e;
 }
 
+.top-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
 .vitrine-link {
     text-decoration: none;
     color: #4d4dff;
     font-weight: 600;
     font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
     transition: color 0.2s;
 }
 
@@ -221,6 +199,12 @@ body {
     color: #8080ff;
 }
 
+.top-bar-actions i {
+    color: #a4a4a8;
+    cursor: pointer;
+}
+
+/* HERO BANNER AZUL DESTAQUE */
 .banner-wrapper {
     width: 100%;
     border-radius: 16px;
@@ -230,51 +214,82 @@ body {
 
 .hero-banner {
     background: linear-gradient(135deg, #0000c1 0%, #000066 100%);
-    height: 350px;
+    height: 220px;
     display: flex;
     align-items: center;
+    padding: 0 40px;
+}
+
+.hero-left {
+    flex: 1;
+    display: flex;
     justify-content: center;
 }
 
 .logo-banner {
-    width: 330px;
+    width: 180px;
     filter: brightness(0) invert(1);
 }
 
-.offers-section h2 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #ffffff;
-    margin-bottom: 20px;
+.hero-divider {
+    width: 1px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 0 30px;
 }
 
-.cards-container {
-    display: flex;
-    gap: 20px;
-}
-
-.card {
+.hero-right {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.hero-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ================= 2 CARROSSEIS ESCUROS LADO A LADO ================= */
+.two-carousels-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+}
+
+.carousel-wrapper {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+/* Fundo dos cards escuro original (#1c1c1e) */
+.swiperLeft, .swiperRight {
     background-color: #1c1c1e;
     border: 1px solid #2c2c2e;
     border-radius: 16px;
-    padding: 32px 24px;
+    padding: 28px 36px;
+    min-height: 200px;
+    position: relative;
+}
+
+.card-content {
+    color: #e1e1e6;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    transition: transform 0.2s, border-color 0.2s;
+    gap: 12px;
 }
 
-.card:hover {
-    transform: translateY(-4px);
-    border-color: #4d4dff;
-}
-
-.card-icon {
+.card-content .card-icon {
     width: 40px;
     height: 40px;
-    background-color: rgba(77, 77, 255, 0.1);
+    background-color: rgba(77, 77, 255, 0.15);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -283,8 +298,22 @@ body {
     font-size: 18px;
 }
 
-.card p {
+.card-content p {
     color: #c4c4cc;
     font-size: 14px;
     line-height: 1.6;
+}
+
+/* Setinhas das Navegações */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #4d4dff !important;
+    width: 28px !important;
+    height: 28px !important;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+    font-size: 14px !important;
+    font-weight: bold;
 }

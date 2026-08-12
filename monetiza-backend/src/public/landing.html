@@ -6,6 +6,7 @@
     <title>Dashboard - Monetiza</title>
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
@@ -51,34 +52,71 @@
                     <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
                 </div>
             </div>
-
             <div class="banner-wrapper">
                 <header class="hero-banner">
-                    <img src="image/logo_monetiza.png" alt="Monetiza" class="logo-banner">
+                    <div class="hero-left">
+                        <img src="image/logo_monetiza.png" alt="Monetiza" class="logo-banner logo-hero-img">
+                    </div>
+                    <div class="hero-divider"></div>
+                    <div class="hero-right">
+                        <a href="produto" class="hero-link"><i class="fa-solid fa-cart-shopping"></i> Produtos Digitais</a>
+                        <a href="afiliados" class="hero-link"><i class="fa-solid fa-link"></i> Afiliados</a>
+                        <a href="financeiro" class="hero-link"><i class="fa-solid fa-chart-pie"></i> Finanças</a>
+                    </div>
                 </header>
             </div>
 
             <section class="offers-section">
-                <h2>O que a Monetiza oferece</h2>
-                
-                <div class="cards-container">
-                    <div class="card">
-                        <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
-                        <p>Centralizar suas vendas, afiliados e finanças in uma única plataforma simples, segura e organizada.</p>
+                <div class="two-carousels-container">
+                    <div class="carousel-wrapper">
+                        <div class="swiper swiperLeft">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="card-content">
+                                        <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
+                                        <h3>Centralização</h3>
+                                        <p>Centralize suas vendas, afiliados e finanças em uma única plataforma simples, segura e organizada.</p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card-content">
+                                        <div class="card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                                        <h3>Segurança</h3>
+                                        <p>Proteção de dados de alto nível e transações 100% criptografadas para você e seus clientes.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-button-prev prev-left"></div>
+                            <div class="swiper-button-next next-left"></div>
+                        </div>
                     </div>
-                    <div class="card">
-                        <div class="card-icon"><i class="fa-solid fa-cubes"></i></div>
-                        <p>Gerenciar produtos digitais, acompanhe lucros e fortaleça parcerias com ferramentas integradas.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon"><i class="fa-solid fa-rocket"></i></div>
-                        <p>A solução completa para infoprodutores e afiliados que buscam controle, praticidade e crescimento.</p>
+                    <div class="carousel-wrapper">
+                        <div class="swiper swiperRight">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="card-content">
+                                        <div class="card-icon"><i class="fa-solid fa-cubes"></i></div>
+                                        <h3>Gestão</h3>
+                                        <p>Gerencie produtos digitais, acompanhe lucros e fortaleça parcerias com ferramentas integradas.</p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="card-content">
+                                        <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                                        <h3>Relatórios</h3>
+                                        <p>Acompanhe suas métricas de desempenho em tempo real com gráficos intuitivos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-button-prev prev-right"></div>
+                            <div class="swiper-button-next next-right"></div>
+                        </div>
                     </div>
                 </div>
             </section>
         </main>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="js/landing.js"></script>
 </body>
 </html>

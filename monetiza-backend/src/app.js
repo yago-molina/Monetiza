@@ -37,10 +37,6 @@ app.get('/produto', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'produto.html'))
 })
 
-app.get('/afiliados', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'afiliados.html'))
-})
-
 app.get('/minhasVendas', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'minhasVendas.html'))
 })

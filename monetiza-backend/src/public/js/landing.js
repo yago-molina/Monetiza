@@ -89,3 +89,31 @@ document.addEventListener('DOMContentLoaded', async function () {
     }
 
 });
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Instância do Carrossel Esquerdo
+    const swiperEsquerdo = new Swiper('.swiperLeft', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        navigation: {
+            nextEl: '.next-left',
+            prevEl: '.prev-left',
+        },
+    });
+
+    // 2. Instância do Carrossel Direito
+    const swiperDireito = new Swiper('.swiperRight', {
+        slidesPerView: 1,
+        spaceBetween: 20,
+        loop: true,
+        navigation: {
+            nextEl: '.next-right',
+            prevEl: '.prev-right',
+        },
+    });
+
+});
