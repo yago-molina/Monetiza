@@ -66,19 +66,21 @@
             <!-- Campo de Busca -->
             <div class="search-container">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" placeholder="Buscar produtos..." class="search-input">
+                <input type="text" id="busca-produto" placeholder="Buscar produtos..." class="search-input">
             </div>
 
             <!-- Estado Vazio (Nenhum produto cadastrado) -->
-            <div class="empty-state-card">
+            <div id="estado-vazio" class="empty-state-card">
                 <div class="empty-state-content">
                     <h3>Nenhum produto ainda</h3>
                     <p>Crie seu primeiro produto digital</p>
-                    <button class="btn-primary btn-large">
+                    <button type="button" id="btn-criar-primeiro-produto" class="btn-primary btn-large">
                         <i class="fa-solid fa-plus"></i> Criar Produto
                     </button>
                 </div>
             </div>
+
+            <div id="lista-produtos" class="lista-produtos"></div>
         </main>
     </div>
 
@@ -179,22 +181,19 @@
             </div>
 
             <div class="input-group file-group">
-                <label for="prod-imagem">Imagem de Capa</label>
-                <div class="file-input-wrapper">
-                    <input type="text" id="prod-imagem" placeholder="URL da imagem ou faça upload">
-                    <label for="upload-imagem" class="btn-upload"><i class="fa-solid fa-download"></i></label>
-                    <input type="file" id="upload-imagem" accept="image/*" class="hidden-file-input">
-                </div>
-            </div>
+    <label for="prod-imagem">Imagem de Capa *</label>
 
-            <div class="input-group file-group">
-                <label for="prod-arquivo">Arquivo do Produto</label>
-                <div class="file-input-wrapper">
-                    <input type="text" id="prod-arquivo" placeholder="URL do arquivo ou faça upload">
-                    <label for="upload-arquivo" class="btn-upload"><i class="fa-solid fa-download"></i></label>
-                    <input type="file" id="upload-arquivo" class="hidden-file-input">
-                </div>
-            </div>
+    <div class="file-input-wrapper">
+            <input type="url" id="prod-imagem" placeholder="https://exemplo.com/meu-produto" required>
+        </div>
+    </div>
+
+    <div class="input-group file-group">
+        <label for="prod-arquivo">Link do Produto *</label>
+           <div class="file-input-wrapper">
+            <input type="url" id="prod-arquivo" placeholder="https://exemplo.com/meu-produto" required>
+        </div>
+    </div>
 
             <div class="modal-footer">
                 <button type="button" id="btn-cancelar" class="btn-secondary">Cancelar</button>

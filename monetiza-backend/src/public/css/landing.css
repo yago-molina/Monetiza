@@ -1,3 +1,4 @@
+/* ================= RESET E BASE ================= */
 * {
     margin: 0;
     padding: 0;
@@ -19,9 +20,9 @@ body {
     height: 100vh;
 }
 
-/* ================= SIDEBAR ESCURA ORIGINAL ================= */
 .sidebar {
     width: 260px;
+    flex-shrink: 0;
     background-color: #1c1c1e;
     border-right: 1px solid #2c2c2e;
     display: flex;
@@ -38,8 +39,8 @@ body {
 }
 
 .logo-sidebar {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
 }
 
 .brand-name {
@@ -79,6 +80,7 @@ body {
     font-size: 16px;
     width: 20px;
     text-align: center;
+    transition: color 0.2s ease;
 }
 
 .menu-nav ul li.active a {
@@ -96,19 +98,37 @@ body {
     color: #ffffff;
 }
 
-/* Perfil do Usuário Escuro */
+.menu-nav ul li a:hover i {
+    color: #ffffff;
+}
+
 .user-profile {
     margin-top: auto;
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 20px 24px 0 24px;
+    padding-top: 20px;
     border-top: 1px solid #2c2c2e;
 }
 
-.avatar-fallback {
-    font-size: 32px;
+.avatar-fallback, .avatar-fallback-mini {
+    width: 42px;
+    height: 42px;
+    background-color: #2c2c2e;
     color: #c4c4cc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.avatar-fallback-mini {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    background-color: #4d4dff;
+    color: #ffffff;
 }
 
 .user-info {
@@ -131,36 +151,75 @@ body {
     overflow: hidden;
 }
 
-/* ================= ÁREA PRINCIPAL ================= */
 .main-content {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    padding: 24px 40px;
+    margin-left: 20;
+    padding: 32px 40px;
 }
 
-/* TOPBAR ESCURA */
 .top-bar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 24px;
+    align-items: center;
+    margin-bottom: 32px;
+    background-color: #1c1c1e;
+    padding: 16px 24px;
+    border-radius: 12px;
+    border: 1px solid #2c2c2e;
 }
 
-.search-bar-container {
-    position: relative;
-    width: 100%;
-    max-width: 480px;
+.page-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
 }
 
-.search-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #7c7c8a;
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+.top-bar-right li {
+    list-style: none;
+}
+
+.vitrine-link {
+    text-decoration: none;
+    color: #4d4dff;
     font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+}
+
+.vitrine-link {
+    text-decoration: none;
+    color: #4d4dff;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+}
+
+.vitrine-link:hover {
+    color: #8080ff;
+}
+
+.icon-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.notification-dot-container {
+    position: relative;
+    font-size: 18px;
+    color: #c4c4cc;
+    cursor: pointer;
 }
 
 .search-input {
@@ -204,7 +263,7 @@ body {
     cursor: pointer;
 }
 
-/* HERO BANNER AZUL DESTAQUE */
+/* ================= HERO BANNER AZUL ================= */
 .banner-wrapper {
     width: 100%;
     border-radius: 16px;
@@ -214,7 +273,7 @@ body {
 
 .hero-banner {
     background: linear-gradient(135deg, #0000c1 0%, #000066 100%);
-    height: 220px;
+    height: 350px;
     display: flex;
     align-items: center;
     padding: 0 40px;
@@ -224,17 +283,20 @@ body {
     flex: 1;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
+/* Logo mantida no tamanho original de 180px */
 .logo-banner {
-    width: 180px;
+    width: 250px;
     filter: brightness(0) invert(1);
+    object-fit: contain;
 }
 
 .hero-divider {
     width: 1px;
-    height: 100px;
-    background-color: rgba(255, 255, 255, 0.2);
+    height: 250px;
+    background-color: white;
     margin: 0 30px;
 }
 
@@ -242,43 +304,66 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    align-self: center;
+    gap: 16px;
 }
 
 .hero-link {
     color: #ffffff;
     text-decoration: none;
-    font-size: 15px;
+    font-size: 30px;
     font-weight: 500;
     display: flex;
-    align-items: center;
     gap: 12px;
+    transition: opacity 0.2s ease;
+    margin-left: 30%;
 }
 
-/* ================= 2 CARROSSEIS ESCUROS LADO A LADO ================= */
-.two-carousels-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+.hero-link:hover {
+    opacity: 0.8;
+}
+
+/* ================= 2 CARROSSEIS (CORRIGIDO SEM VAZAR) ================= */
+.offers-section {
     width: 100%;
 }
 
+.two-carousels-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    width: 100%;
+}
+
+/* O CARD AGORA É A DIV EXTERIOR */
 .carousel-wrapper {
     position: relative;
     border-radius: 16px;
-    overflow: hidden;
-}
-
-/* Fundo dos cards escuro original (#1c1c1e) */
-.swiperLeft, .swiperRight {
     background-color: #1c1c1e;
     border: 1px solid #2c2c2e;
-    border-radius: 16px;
-    padding: 28px 36px;
-    min-height: 200px;
-    position: relative;
+    overflow: hidden !important; /* SEGURA OS SLIDES PARA NÃO VAZAREM */
 }
 
+/* SWIPER DENTRO DO CARD */
+.swiperLeft, .swiperRight {
+    width: 100%;
+    min-height: 220px;
+    position: relative;
+    overflow: hidden !important;
+}
+
+/* Garantindo que o slide ocupe a largura inteira sem mostrar o vizinho */
+.swiper-slide {
+    width: 100% !important;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px 48px; /* Espaço para o texto não encostar nas setas */
+    box-sizing: border-box;
+}
+
+/* Conteúdo Interno dos Cards */
 .card-content {
     color: #e1e1e6;
     display: flex;
@@ -287,15 +372,21 @@ body {
 }
 
 .card-content .card-icon {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     background-color: rgba(77, 77, 255, 0.15);
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #4d4dff;
+    font-size: 20px;
+}
+
+.card-content h3 {
     font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
 }
 
 .card-content p {
@@ -304,16 +395,27 @@ body {
     line-height: 1.6;
 }
 
-/* Setinhas das Navegações */
+/* Posicionamento Fixo das Setinhas */
 .swiper-button-next,
 .swiper-button-prev {
     color: #4d4dff !important;
-    width: 28px !important;
-    height: 28px !important;
+    width: 32px !important;
+    height: 32px !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    z-index: 10;
 }
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-    font-size: 14px !important;
+    font-size: 16px !important;
     font-weight: bold;
+}
+
+.swiper-button-prev {
+    left: 8px !important;
+}
+
+.swiper-button-next {
+    right: 8px !important;
 }

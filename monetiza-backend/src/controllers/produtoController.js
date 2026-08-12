@@ -15,11 +15,20 @@ const criar = async (req, res) => {
 
   const usuario_id = req.usuario.id
 
-  if (!titulo || preco === undefined || !categoria) {
+  if (!titulo?.trim() || preco === undefined || !categoria || !capa?.trim() || !produto_arquivo?.trim()) {
     return res.status(400).json({
-      erro: 'Título, preço e categoria são obrigatórios'
+      erro: 'Título, preço, categoria, imagem e link do produto são obrigatórios'
     })
   }
+
+try {
+  new URL(capa)
+  new URL(produto_arquivo)
+} catch {
+  return res.status(400).json({
+    erro: 'Informe links válidos para a imagem e para o produto'
+  })
+}
 
   const precoNumero = Number(preco)
   const comissaoNumero = Number(comissao || 0)
@@ -62,8 +71,8 @@ const criar = async (req, res) => {
         categoria,
         comissaoNumero,
         status_produto || 'Rascunho',
-        capa?.trim() || null,
-        produto_arquivo?.trim() || null,
+        capa.trim(),
+        produto_arquivo.trim(),
         usuario_id
       ]
     )
@@ -98,10 +107,10 @@ const listar = async (req, res) => {
         produto_arquivo,
         criado_em,
         atualizado_em
-      FROM produtos
-      WHERE usuario_id = ?
-      ORDER BY criado_em DESC`,
-      [usuario_id]
+        FROM produtos
+        WHERE usuario_id = ?
+        ORDER BY criado_em DESC`,
+        [usuario_id]
     )
 
     res.json(produtos)
@@ -156,9 +165,18 @@ const atualizar = async (req, res) => {
     produto_arquivo
   } = req.body
 
-  if (!titulo || preco === undefined || !categoria) {
+  if (!titulo?.trim() || preco === undefined || !categoria || !capa?.trim() || !produto_arquivo?.trim()) {
     return res.status(400).json({
-      erro: 'Título, preço e categoria são obrigatórios'
+      erro: 'Título, preço, categoria, imagem e link do produto são obrigatórios'
+    })
+  }
+
+  try {
+      new URL(capa)
+      new URL(produto_arquivo)
+    } catch {
+      return res.status(400).json({
+        erro: 'Informe links válidos para a imagem e para o produto'
     })
   }
 
@@ -202,8 +220,8 @@ const atualizar = async (req, res) => {
         categoria,
         comissaoNumero,
         status_produto || 'Rascunho',
-        capa?.trim() || null,
-        produto_arquivo?.trim() || null,
+        capa.trim(),
+        produto_arquivo.trim(),
         id,
         usuario_id
       ]
