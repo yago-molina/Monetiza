@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #121214;
+    background-image: linear-gradient(135deg, #460b52 0%, #121214 30%);
     color: #ffffff;
     overflow-x: hidden;
 }
@@ -16,6 +16,7 @@ body {
     min-height: 100vh;
 }
 
+/* ================= SIDEBAR ================= */
 .sidebar {
     width: 260px;
     background-color: #1c1c1e;
@@ -24,6 +25,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     padding: 24px 0;
+    flex-shrink: 0;
 }
 
 .logo-area {
@@ -36,6 +38,7 @@ body {
 .logo-sidebar {
     width: 80px;
     height: 80px;
+    object-fit: contain;
 }
 
 .brand-name {
@@ -146,13 +149,14 @@ body {
     overflow: hidden;
 }
 
+/* ================= MAIN CONTENT ================= */
 .main-content {
     flex: 1;
-    margin-left: 0;
+    margin-left: 20px; /* Alinhado idêntico ao dashboard */
     padding: 32px 40px;
 }
 
-/* TOPBAR */
+/* ================= TOPBAR (IGUAL AO DASHBOARD) ================= */
 .top-bar {
     display: flex;
     justify-content: space-between;
@@ -164,18 +168,52 @@ body {
     border: 1px solid #2c2c2e;
 }
 
-.page-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #ffffff;
+.search-bar-container {
+    position: relative;
+    width: 400px;
+    display: flex;
+    align-items: center;
 }
 
-.top-bar-actions {
+.search-bar-container .search-icon {
+    position: absolute;
+    left: 14px;
+    color: #7c7c8a;
+    font-size: 14px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.search-input {
+    width: 100%;
+    height: 40px;
+    background-color: #121214;
+    border: 1px solid #2c2c2e;
+    border-radius: 8px;
+    padding: 0 16px 0 40px;
+    font-size: 14px;
+    color: #ffffff;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.search-input::placeholder {
+    color: #7c7c8a;
+}
+
+.search-input:focus {
+    border-color: #4d4dff;
+    background-color: #1a1a1e;
+}
+
+/* Lado direito ajustado idêntico ao .top-bar-right do dashboard */
+.top-bar-right, .top-bar-actions {
     display: flex;
     align-items: center;
     gap: 40px;
 }
-.top-bar-actions li {
+
+.top-bar-right li, .top-bar-actions li {
     list-style: none;
 }
 
@@ -188,6 +226,7 @@ body {
     align-items: center;
     gap: 6px;
     transition: color 0.2s;
+    white-space: nowrap;
 }
 
 .vitrine-link:hover {
@@ -217,55 +256,6 @@ body {
     border-radius: 50%;
 }
 
-.search-bar-container {
-    position: relative;
-    width: 600px; /* Largura ideal para a barra de busca */
-    display: flex;
-    align-items: center;
-}
-
-.search-bar-container .search-icon {
-    position: absolute;
-    left: 14px;
-    color: #7c7c8a; /* Cor do ícone discreta */
-    font-size: 14px;
-    pointer-events: none; /* Impede que o ícone atrapalhe o clique no input */
-    z-index: 2;
-}
-
-.search-input {
-    width: 150%;
-    height: 40px;
-    background-color: #121214; /* Fundo levemente mais escuro que a barra */
-    border: 1px solid #2c2c2e;
-    border-radius: 8px;
-    padding: 0 16px 0 40px; /* Espaço na esquerda pro texto não encostar na lupa */
-    font-size: 14px;
-    color: #ffffff;
-    outline: none;
-    transition: all 0.2s ease;
-}
-
-.search-input::placeholder {
-    color: #7c7c8a;
-}
-
-.search-input:focus {
-    border-color: #4d4dff; /* Brilha em azul/roxo quando clica */
-    background-color: #1a1a1e;
-}
-
-.top-bar-actions {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-.top-bar-actions i {
-    color: #a4a4a8;
-    cursor: pointer;
-}
-
 .text-muted { color: #505059; font-size: 12px; }
 
 /* ================= LANDING PAGE (HERO E CARROSSEIS) ================= */
@@ -278,10 +268,13 @@ body {
 
 .hero-banner {
     background: linear-gradient(135deg, #0000c1 0%, #000066 100%);
-    height: 350px;
+    height: 400px;
     display: flex;
     align-items: center;
-    padding: 0 40px;
+    justify-content: space-between;
+    padding: 40px;
+    border-radius: 16px;
+    border: 1px solid #2c2c2e;
 }
 
 .hero-left {
@@ -292,24 +285,25 @@ body {
 }
 
 .logo-banner {
-    width: 250px;
+    width: 350px;
     filter: brightness(0) invert(1);
     object-fit: contain;
 }
 
 .hero-divider {
     width: 1px;
-    height: 250px;
+    height: 300px;
     background-color: white;
-    margin: 0 30px;
+    margin: 0 40px;
+    margin-left: 10%;
 }
 
 .hero-right {
-    flex: 1;
+    flex: 1.2;
     display: flex;
     flex-direction: column;
-    align-self: center;
-    gap: 16px;
+    justify-content: center;
+    gap: 20px;
 }
 
 .hero-link {
@@ -318,20 +312,23 @@ body {
     font-size: 30px;
     font-weight: 500;
     display: flex;
+    align-items: center;
     gap: 12px;
     transition: opacity 0.2s ease;
+    font-family: 'Poppins', sans-serif;
     margin-left: 30%;
-    font-family: Poppins, sans-serif;
 }
 
 .hero-link:hover {
     opacity: 0.8;
 }
 
-#hero-icons {
-    margin-top: 8px;
+.hero-icon {
+    font-size: 24px;
+    color: #8080ff;
 }
 
+/* ================= OFFERS & CAROUSELS ================= */
 .offers-section {
     width: 100%;
 }
@@ -345,6 +342,7 @@ body {
 
 .carousel-wrapper {
     position: relative;
+
     border-radius: 16px;
     background-color: #1c1c1e;
     border: 1px solid #2c2c2e;
@@ -353,7 +351,7 @@ body {
 
 .swiperLeft, .swiperRight {
     width: 100%;
-    min-height: 220px;
+    height: 270px;
     position: relative;
     overflow: hidden !important;
 }
@@ -417,219 +415,3 @@ body {
 
 .swiper-button-prev { left: 8px !important; }
 .swiper-button-next { right: 8px !important; }
-
-/* ================= DASHBOARD (MÉTRICAS E VENDAS) ================= */
-.dashboard-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.welcome-section h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #ffffff;
-}
-
-.welcome-section p {
-    font-size: 14px;
-    color: #7c7c8a;
-    margin-top: 2px;
-}
-
-.metrics-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
-.metric-card {
-    background-color: #1c1c1e;
-    border: 1px solid #2c2c2e;
-    border-radius: 14px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.metric-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.metric-title {
-    font-size: 14px;
-    color: #c4c4cc;
-    font-weight: 500;
-}
-
-.metric-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-}
-
-.metric-icon.dollar { background-color: rgba(0, 193, 154, 0.15); color: #00c19a; }
-.metric-icon.commission { background-color: rgba(77, 77, 255, 0.15); color: #8080ff; }
-.metric-icon.products { background-color: rgba(193, 63, 0, 0.15); color: #ff6b35; }
-.metric-icon.sales { background-color: rgba(219, 39, 119, 0.15); color: #f472b6; }
-
-.metric-value {
-    font-size: 26px;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 6px;
-}
-
-.metric-change {
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-weight: 500;
-}
-
-.metric-change.positive { color: #00c19a; }
-.change-period { color: #505059; }
-
-.content-row {
-    display: grid;
-    grid-template-columns: 1.8fr 1.2fr;
-    gap: 24px;
-}
-
-.recent-sales-card {
-    background-color: #1c1c1e;
-    border: 1px solid #2c2c2e;
-    border-radius: 14px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-}
-
-.no-sales-message {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #505059;
-    font-size: 14px;
-    min-height: 200px;
-}
-
-.quick-actions-container {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.balance-card {
-    background: linear-gradient(135deg, #c78ed8 0%, #0000c1 100%);
-    border-radius: 14px;
-    padding: 24px;
-    color: #ffffff;
-    box-shadow: 0 4px 20px rgba(0, 0, 193, 0.25);
-}
-
-.balance-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    opacity: 0.9;
-    font-size: 14px;
-}
-
-.balance-value {
-    font-size: 28px;
-    font-weight: 700;
-    margin: 12px 0 20px 0;
-    display: block;
-}
-
-.balance-details {
-    display: flex;
-    justify-content: space-between;
-    background-color: rgba(255, 255, 255, 0.12);
-    padding: 12px;
-    border-radius: 10px;
-}
-
-.balance-details .detail {
-    font-size: 12px;
-    line-height: 1.6;
-}
-
-.balance-details .detail.green i { color: #34d399; }
-.balance-details .detail.red i { color: #f87171; }
-
-.quick-actions-card {
-    background-color: #1c1c1e;
-    border: 1px solid #2c2c2e;
-    border-radius: 14px;
-    padding: 24px;
-}
-
-.quick-actions-card h3, .recent-sales-card h3 {
-    font-size: 15px;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 16px;
-}
-
-.action-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-}
-
-.action-item {
-    border: 1px solid #2c2c2e;
-    background-color: #121214;
-    padding: 14px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.action-item:hover {
-    border-color: #4d4dff;
-    transform: translateY(-2px);
-}
-
-.action-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.action-icon.cyan { background-color: rgba(3, 105, 161, 0.2); color: #38bdf8; }
-.action-icon.orange { background-color: rgba(194, 65, 12, 0.2); color: #fb923c; }
-.action-icon.purple { background-color: rgba(79, 70, 229, 0.2); color: #818cf8; }
-.action-icon.pink { background-color: rgba(219, 39, 119, 0.2); color: #f472b6; }
-
-.action-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #ffffff;
-    display: block;
-}
-
-.action-desc {
-    font-size: 11px;
-    color: #7c7c8a;
-    margin-top: 2px;
-    display: block;
-    line-height: 1.3;
-}
