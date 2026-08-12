@@ -61,7 +61,7 @@
                             <span class="metric-title">Vendas Totais</span>
                             <div class="metric-icon dollar"><i class="fa-solid fa-dollar-sign"></i></div>
                         </div>
-                        <span class="metric-value">R$ 0.00</span>
+                        <span id="vendas-totais" class="metric-value">R$ 0,00</span>
                         <div class="metric-change positive">
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                             <span class="metric-title">Comissão</span>
                             <div class="metric-icon commission"><i class="fa-solid fa-chart-line"></i></div>
                         </div>
-                        <span class="metric-value">R$ 0.00</span>
+                        <span id="comissoes" class="metric-value">R$ 0,00</span>
                         <div class="metric-change positive">
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                             <span class="metric-title">Produtos Ativos</span>
                             <div class="metric-icon products"><i class="fa-solid fa-bag-shopping"></i></div>
                         </div>
-                        <span class="metric-value">0</span>
+                        <span id="produtos-ativos" class="metric-value">0</span>
                     </div>
 
                     <div class="metric-card">
@@ -89,49 +89,60 @@
                             <span class="metric-title">Total de Vendas</span>
                             <div class="metric-icon sales"><i class="fa-solid fa-users"></i></div>
                         </div>
-                        <span class="metric-value">0</span>
+                        <span id="total-vendas" class="metric-value">0</span>
                     </div>
                 </div>
 
                 <div class="content-row">
                     <div class="recent-sales-card">
-                        <h3>Vendas Recentes</h3>
-                        <div class="no-sales-message">
+                    <h3>Vendas Recentes</h3>
+                    <div id="lista-vendas-recentes">
+                        <div id="mensagem-sem-vendas" class="no-sales-message">
                             <p>Nenhuma venda ainda</p>
                         </div>
                     </div>
+                </div>
 
                     <div class="quick-actions-container">
                         <div class="balance-card">
                             <div class="balance-header">
                                 <span class="balance-title">Saldo Disponível</span>
                             </div>
-                            <span class="balance-value">R$ 0.00</span>
+
+                            <span id="saldo-disponivel" class="balance-value">R$ 0,00</span>
+
                             <div class="balance-details">
-                                <div class="detail green"><i class="fa-solid fa-arrow-down"></i> Entradas<br>R$ 0.00</div>
-                                <div class="detail red"><i class="fa-solid fa-arrow-up"></i> Saídas<br>R$ 0.00</div>
+                                <div class="detail green">
+                                    <i class="fa-solid fa-arrow-down"></i> Entradas<br>
+                                    <span id="total-entradas">R$ 0,00</span>
+                                </div>
+
+                                <div class="detail red">
+                                    <i class="fa-solid fa-arrow-up"></i> Saídas<br>
+                                    <span id="total-saidas">R$ 0,00</span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="quick-actions-card">
                             <h3>Ações rápidas</h3>
                             <div class="action-grid">
-                                <div class="action-item">
+                                <div id="acao-novo-produto" class="action-item">
                                     <div class="action-icon cyan"><i class="fa-solid fa-plus"></i></div>
                                     <span class="action-label">Novo Produto</span>
                                     <span class="action-desc">Cadastre um produto digital</span>
                                 </div>
-                                <div class="action-item">
+                                <div id="acao-gerar-link" class="action-item">
                                     <div class="action-icon orange"><i class="fa-solid fa-link"></i></div>
                                     <span class="action-label">Gerar Link</span>
                                     <span class="action-desc">Criar link de afiliado</span>
                                 </div>
-                                <div class="action-item">
+                                <div id="acao-novo-contrato" class="action-item">
                                     <div class="action-icon purple"><i class="fa-solid fa-file-contract"></i></div>
                                     <span class="action-label">Novo Contrato</span>
                                     <span class="action-desc">Adicionar contrato</span>
                                 </div>
-                                <div class="action-item">
+                                <div id="acao-mensagens" class="action-item">
                                     <div class="action-icon pink"><i class="fa-solid fa-comment-dots"></i></div>
                                     <span class="action-label">Mensagens</span>
                                     <span class="action-desc">Ver conversas</span>
