@@ -1,78 +1,100 @@
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener('DOMContentLoaded', () => {
+    // Elementos do Modal
+    const modal = document.getElementById('modalContrato');
+    const formContrato = document.querySelector('.modal-form');
+    const btnUpload = document.querySelector('.btn-upload');
+    const inputArquivo = document.getElementById('arquivo');
+    const btnNovoContrato = document.getElementById('btnNovoContrato'); // ID opcional do botão da página principal
 
-    const token = localStorage.getItem('token');
-    const email = localStorage.getItem('usuarioLogado');
+    // Criar um input do tipo file oculto para permitir o upload real de arquivos PDF
+    const hiddenFileInput = document.createElement('input');
+    hiddenFileInput.type = 'file';
+    hiddenFileInput.accept = '.pdf,application/pdf';
+    hiddenFileInput.style.display = 'none';
+    document.body.appendChild(hiddenFileInput);
 
-    if (!token) {
-        alert('Acesso negado. Faça login primeiro.');
-        window.location.href = '/';
-        return;
+    /* ================= FUNÇÕES DE ABERTURA E FECHAMENTO ================= */
+
+    // Função para abrir o modal
+    window.openModal = function () {
+        if (modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Trava o scroll de fundo
+        }
+    };
+
+    // Função para fechar o modal
+    window.closeModal = function () {
+        if (modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Destrava o scroll de fundo
+            if (formContrato) formContrato.reset(); // Limpa os campos ao fechar
+        }
+    };
+
+    /* ================= EVENT LISTENERS ================= */
+
+    // Botão de abrir modal (caso exista no DOM)
+    if (btnNovoContrato) {
+        btnNovoContrato.addEventListener('click', window.openModal);
     }
 
-    try {
-        // Consulta os dados do usuário usando o token
-        const resposta = await fetch('/usuario/perfil', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
+    // Fechar ao clicar fora da caixa branca (no fundo escuro)
+    if (modal) {
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                window.closeModal();
             }
         });
-
-        const dados = await resposta.json();
-
-        // Token inválido ou expirado
-        if (!resposta.ok) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('usuarioLogado');
-
-            alert('Sua sessão expirou. Faça login novamente.');
-            window.location.href = '/';
-            return;
-        }
-
-        const usuario = dados.usuario;
-
-        // Nome do usuario
-        const olaUsuario = document.getElementById('ola-usuario');
-
-        if (olaUsuario) {
-            olaUsuario.textContent = usuario.nome;
-        }
-
-        // Nome no menu lateral
-        const nomeUsuario = document.getElementById('nome-usuario');
-
-        if (nomeUsuario) {
-            nomeUsuario.textContent = usuario.nome;
-        }
-
-        // Email no menu lateral
-        const emailUsuario = document.getElementById('email-usuario');
-
-        if (emailUsuario) {
-            emailUsuario.textContent = email;
-        }
-
-    } catch (erro) {
-
-        console.error('Erro ao carregar usuário:', erro);
-        alert('Erro ao carregar os dados do usuário.');
     }
 
-    // Controle do menu lateral
-    const itensMenu = document.querySelectorAll('.menu-nav ul li');
-
-    itensMenu.forEach(item => {
-        item.addEventListener('click', function (e) {
-
-            if (this.classList.contains('disabled')) {
-                e.preventDefault();
-                return;
-            }
-
-            itensMenu.forEach(li => li.classList.remove('active'));
-            this.classList.add('active');
-        });
+    // Fechar ao pressionar a tecla ESC
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && modal && modal.classList.contains('active')) {
+            window.closeModal();
+        }
     });
 
+    /* ================= LÓGICA DE UPLOAD DE ARQUIVO ================= */
+
+    // Clique no botão do ícone aciona o seletor de arquivos do sistema
+    if (btnUpload) {
+        btnUpload.addEventListener('click', () => {
+            hiddenFileInput.click();
+        });
+    }
+
+    // Escreve o nome do arquivo selecionado dentro do campo de texto
+    hiddenFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            inputArquivo.value = file.name;
+        }
+    });
+
+    /* ================= SUBMISSÃO DO FORMULÁRIO ================= */
+
+    if (formContrato) {
+        formContrato.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Captura dos dados do formulário
+            const dadosContrato = {
+                titulo: document.getElementById('titulo').value,
+                arquivo: inputArquivo.value,
+                dataInicio: document.getElementById('dataInicio').value,
+                dataFim: document.getElementById('dataFim').value,
+                status: document.getElementById('status').value,
+                observacoes: document.getElementById('observacoes').value,
+            };
+
+            console.log('Contrato cadastrado com sucesso:', dadosContrato);
+
+            // Substitua este alert pela sua integração/requisição API (fetch/axios)
+            alert('Contrato salvo com sucesso!');
+
+            // Fecha o modal e limpa os campos
+            window.closeModal();
+        });
+    }
 });

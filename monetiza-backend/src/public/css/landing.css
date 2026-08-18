@@ -16,7 +16,6 @@ body {
     min-height: 100vh;
 }
 
-/* ================= SIDEBAR ================= */
 .sidebar {
     width: 260px;
     background-color: #1c1c1e;
@@ -149,14 +148,12 @@ body {
     overflow: hidden;
 }
 
-/* ================= MAIN CONTENT ================= */
 .main-content {
     flex: 1;
-    margin-left: 20px; /* Alinhado idêntico ao dashboard */
+    margin-left: 20px;
     padding: 32px 40px;
 }
 
-/* ================= TOPBAR (IGUAL AO DASHBOARD) ================= */
 .top-bar {
     display: flex;
     justify-content: space-between;
@@ -206,7 +203,6 @@ body {
     background-color: #1a1a1e;
 }
 
-/* Lado direito ajustado idêntico ao .top-bar-right do dashboard */
 .top-bar-right, .top-bar-actions {
     display: flex;
     align-items: center;
@@ -258,7 +254,6 @@ body {
 
 .text-muted { color: #505059; font-size: 12px; }
 
-/* ================= LANDING PAGE (HERO E CARROSSEIS) ================= */
 .banner-wrapper {
     width: 100%;
     border-radius: 16px;
@@ -328,7 +323,6 @@ body {
     color: #8080ff;
 }
 
-/* ================= OFFERS & CAROUSELS ================= */
 .offers-section {
     width: 100%;
 }

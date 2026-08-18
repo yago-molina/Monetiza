@@ -13,11 +13,13 @@ const authRoutes = require('./routes/authRoutes')
 const usuarioRoutes = require('./routes/usuarioRoutes')
 const produtoRoutes = require('./routes/produtoRoutes')
 const dashboardRoutes = require('./routes/dashboardRoutes')
+const afiliacaoRoutes = require('./routes/afiliacaoRoutes')
 
 app.use('/auth', authRoutes)
 app.use('/usuario', usuarioRoutes)
 app.use('/produtos', produtoRoutes)
 app.use('/dashboard', dashboardRoutes)
+app.use('/afiliacoes', afiliacaoRoutes)
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'))

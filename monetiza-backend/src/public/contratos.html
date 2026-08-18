@@ -46,7 +46,7 @@
             <div class="top-bar">
                 <span class="page-title">Contratos</span>
                 <div class="top-bar-right">
-                    <a href="#" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="vitrine.html" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
                     <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
                     <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
                 </div>
@@ -58,8 +58,8 @@
                     <h2>Meus Contratos</h2>
                     <p>Gerencie seus contratos e documentos</p>
                 </div>
-                <button class="btn-primary" id="btn-novo-contrato">
-                    <i class="fa-solid fa-plus"></i> Novo Contrato
+                <button class="btn-primary btn-large" onclick="openModal()">
+                    <i class="fa-solid fa-plus"></i> Adicionar Contrato
                 </button>
             </div>
 
@@ -74,12 +74,74 @@
                 <div class="empty-content">
                     <h3>Nenhum Contrato Ainda</h3>
                     <p>Adicione seu Primeiro Contrato</p>
-                    <button class="btn-primary btn-large">
-                        <i class="fa-solid fa-plus"></i> ADICIONAR Contrato
+                    <button class="btn-primary" id="btn-novo-contrato" onclick="openModal()">
+                        <i class="fa-solid fa-plus"></i> Novo Contrato
                     </button>
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- POPUP NOVO CONTRATO -->
+    <div class="modal-overlay" id="modalContrato">
+        <div class="modal-container">
+            <button type="button" class="modal-close" onclick="closeModal()">&times;</button>
+            
+            <h2 class="modal-title">Novo Contrato</h2>
+            
+            <form class="modal-form">
+                <!-- Título -->
+                <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <input type="text" id="titulo" placeholder="Nome do contrato" required>
+                </div>
+
+                <!-- Arquivo PDF -->
+                <div class="form-group">
+                    <label for="arquivo">Arquivo (PDF)</label>
+                    <div class="input-with-button">
+                        <input type="text" id="arquivo" placeholder="URL do arquivo ou faça upload">
+                        <button type="button" class="btn-upload" title="Fazer upload">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Datas -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="dataInicio">Data Início</label>
+                        <input type="date" id="dataInicio">
+                    </div>
+                    <div class="form-group">
+                        <label for="dataFim">Data Fim</label>
+                        <input type="date" id="dataFim">
+                    </div>
+                </div>
+
+                <!-- Status -->
+                <div class="form-group">
+                    <label for="status">Status</label>
+                    <select id="status">
+                        <option value="ativo" selected>Ativo</option>
+                        <option value="inativo">Inativo</option>
+                        <option value="pendente">Pendente</option>
+                    </select>
+                </div>
+
+                <!-- Observações -->
+                <div class="form-group">
+                    <label for="observacoes">Observações</label>
+                    <textarea id="observacoes" rows="4" placeholder="Anotações sobre o contrato"></textarea>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn-save">Salvar</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="js/contratos.js"></script>

@@ -58,66 +58,192 @@
                 <p>Gerencie seu perfil e preferências</p>
             </div>
 
-            <!-- Abas de Navegação -->
-            <div class="tabs-nav">
-                <button class="tab-btn active"><i class="fa-regular fa-user"></i> Meu Perfil</button>
-                <button class="tab-btn"><i class="fa-regular fa-bell"></i> Notificações</button>
-                <button class="tab-btn"><i class="fa-solid fa-shield-halved"></i> Segurança</button>
-                <button class="tab-btn"><i class="fa-solid fa-wallet"></i> Pagamento</button>
+            <!-- Navegação por Abas (Tabs) -->
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="perfil">
+                    <i class="fa-regular fa-user"></i> Meu Perfil
+                </button>
+                <button class="tab-btn" data-tab="notificacoes">
+                    <i class="fa-regular fa-bell"></i> Notificações
+                </button>
+                <button class="tab-btn" data-tab="seguranca">
+                    <i class="fa-solid fa-shield-halved"></i> Segurança
+                </button>
+                <button class="tab-btn" data-tab="pagamento">
+                    <i class="fa-solid fa-wallet"></i> Pagamento
+                </button>
             </div>
 
-            <!-- Card de Configurações de Perfil -->
+            <!-- Card Único de Conteúdo das Abas -->
             <div class="settings-card">
-                <div class="card-header-text">
-                    <h3>Informações do Perfil</h3>
-                    <p>Atualize suas informações pessoais</p>
-                </div>
-
-                <!-- Foto de Perfil e Botão -->
-                <div class="avatar-upload-row">
-                    <div class="profile-avatar-large">
-                        <i class="fa-solid fa-circle-user"></i>
-                    </div>
-                    <button class="btn-secondary" id="btn-alterar-foto">
-                        <i class="fa-solid fa-download"></i> Alterar foto
-                    </button>
-                </div>
-
-                <hr class="divider">
-
-                <!-- Formulário de Perfil -->
-                <form id="form-perfil" class="settings-form">
-                    <div class="form-group">
-                        <label for="input-nome">Nome Completo</label>
-                        <input type="text" id="input-nome" placeholder="Nome">
+                
+                <!-- Aba 1: Meu Perfil -->
+                <div class="tab-content active" id="tab-perfil">
+                    <div class="settings-section-header">
+                        <h3>Informações do Perfil</h3>
+                        <p>Atualize suas informações pessoais</p>
                     </div>
 
-                    <div class="form-group">
-                        <label for="input-email">Email</label>
-                        <input type="email" id="input-email" placeholder="email@gmail.com" disabled class="input-disabled">
-                        <span class="field-hint">O email não pode ser alterado</span>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="input-bio">Bio</label>
-                        <textarea id="input-bio" rows="3" placeholder="Conte um pouco sobre você..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="input-telefone">Telefone</label>
-                        <input type="text" id="input-telefone" placeholder="(11) 99999-9999">
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn-primary">
-                            <i class="fa-solid fa-plus"></i> Salvar Alterações
+                    <div class="avatar-upload-row">
+                        <div class="profile-avatar-large">
+                            <i class="fa-solid fa-circle-user"></i>
+                        </div>
+                        <button class="btn-secondary" id="btn-alterar-foto">
+                            <i class="fa-solid fa-download"></i> Alterar foto
                         </button>
                     </div>
-                </form>
+
+                    <hr class="divider">
+
+                    <form id="form-perfil" class="settings-form">
+                        <div class="form-group">
+                            <label for="input-nome">Nome Completo</label>
+                            <input type="text" id="input-nome" placeholder="Nome">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-email">Email</label>
+                            <input type="email" id="input-email" placeholder="email@gmail.com" disabled class="input-disabled">
+                            <span class="field-hint">O email não pode ser alterado</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-bio">Bio</label>
+                            <textarea id="input-bio" rows="3" placeholder="Conte um pouco sobre você..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-telefone">Telefone</label>
+                            <input type="text" id="input-telefone" placeholder="(11) 99999-9999">
+                        </div>
+
+                        <div class="settings-footer">
+                            <button type="submit" class="btn-save-preferences">
+                                + Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Aba 2: Notificações -->
+                <div class="tab-content" id="tab-notificacoes">
+                    <div class="settings-section-header">
+                        <h3>Notificações</h3>
+                        <p>Configure como você deseja ser notificado</p>
+                    </div>
+
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Vendas</h4>
+                                <p>Notificar quando uma venda for realizada</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notif-vendas" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Comissões</h4>
+                                <p>Notificar quando ganhar uma comissão</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notif-comissoes" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Mensagens</h4>
+                                <p>Notificar ao receber novas mensagens</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notif-mensagens" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Email</h4>
+                                <p>Receber notificações por email</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notif-email">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-footer">
+                        <button class="btn-save-preferences" id="btn-salvar-preferencias">
+                            + Salvar Preferências
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Aba 3: Segurança -->
+                <div class="tab-content" id="tab-seguranca">
+                    <div class="settings-section-header">
+                        <h3>Segurança</h3>
+                        <p>Proteja sua conta</p>
+                    </div>
+
+                    <div class="settings-list">
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Autenticação de Dois Fatores (2FA)</h4>
+                                <p>Adicione uma camada extra de segurança à sua conta</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="seg-2fa">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Sessões Ativas</h4>
+                                <p>Você está conectado neste dispositivo</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-footer">
+                        <button class="btn-save-preferences" id="btn-salvar-seguranca">
+                            + Salvar Configurações
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Aba 4: Pagamento -->
+                <div class="tab-content" id="tab-pagamento">
+                    <div class="settings-section-header">
+                        <h3>Dados de Pagamento</h3>
+                        <p>Configure como deseja receber seus pagamentos</p>
+                    </div>
+
+                    <form id="form-pagamento" class="settings-form">
+                        <div class="form-group">
+                            <label for="chave-pix">Chave PIX</label>
+                            <input type="text" id="chave-pix" placeholder="CPF, CNPJ, Email, Telefone, ou chave Aleatória">
+                            <span class="input-help-text">Usado para receber pagamentos de vendas e comissões</span>
+                        </div>
+
+                        <div class="settings-footer">
+                            <button type="submit" class="btn-save-preferences" id="btn-salvar-pagamento">
+                                + Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
             </div>
         </main>
     </div>
-
     <script src="js/configuracoes.js"></script>
 </body>
 </html>

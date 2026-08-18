@@ -138,14 +138,12 @@ body {
     overflow: hidden;
 }
 
-/* ================= MAIN CONTENT ================= */
 .main-content {
     flex: 1;
     margin-left: 20px;
     padding: 32px 40px;
 }
 
-/* Top Bar */
 .top-bar {
     display: flex;
     justify-content: space-between;
@@ -215,9 +213,6 @@ body {
     border-radius: 50%;
 }
 
-/* ================= COMPONENTES DA PÁGINA DE PRODUTOS ================= */
-
-/* Cabeçalho de Ações */
 .header-action-row {
     display: flex;
     justify-content: space-between;
@@ -237,7 +232,6 @@ body {
     margin-top: 4px;
 }
 
-/* Botão Principal com Efeito Hover Neon */
 .btn-primary {
     background-color: #0000c1;
     color: #ffffff;
@@ -264,7 +258,6 @@ body {
     transform: translateY(0);
 }
 
-/* Campo de busca interativo */
 .search-container {
     position: relative;
     max-width: 400px;
@@ -307,7 +300,6 @@ body {
     color: #4d4dff;
 }
 
-/* Card de Estado Vazio (Mesmo estilo dos cards de métricas) */
 .empty-state-card {
     background-color: #1c1c1e;
     border: 1px solid #2c2c2e;
@@ -343,11 +335,6 @@ body {
     padding: 14px 28px;
 }
 
-
-
-
-/* Overlay Escuro */
-/* Fundo Escuro do Modal com Desfocagem */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -366,7 +353,6 @@ body {
     display: none;
 }
 
-/* Card Base Escuro */
 .modal-card {
     background-color: #1c1c1e;
     border: 1px solid #2c2c2e;
@@ -388,7 +374,6 @@ body {
     max-width: 580px;
 }
 
-/* Cabeçalho */
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -420,9 +405,6 @@ body {
     font-size: 14px;
     margin-bottom: 20px;
 }
-
-
-
 
 .input-group {
     display: flex;
@@ -467,7 +449,6 @@ body {
     gap: 12px;
 }
 
-/* Estilo para Uploads */
 .file-input-wrapper {
     display: flex;
     gap: 8px;
@@ -498,7 +479,6 @@ body {
     display: none;
 }
 
-/* Botões do Rodapé */
 .modal-footer {
     display: flex;
     justify-content: flex-end;
@@ -538,10 +518,6 @@ body {
     background-color: #2626ff;
 }
 
-
-
-
-/* Fundo Escuro com Blur */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -560,7 +536,6 @@ body {
     display: none;
 }
 
-/* Card Principal Escuro */
 .modal-card {
     background-color: #1c1c1e;
     border: 1px solid #2c2c2e;
@@ -672,7 +647,6 @@ body {
     font-size: 14px;
 }
 
-/* Estilo em Destaque para Opção de IA */
 .option-ia .option-icon {
     background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
 }

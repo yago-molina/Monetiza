@@ -138,7 +138,6 @@ body {
     overflow: hidden;
 }
 
-/* ================= MAIN CONTENT ================= */
 .main-content {
     flex: 1;
     margin-left: 20px;
@@ -224,7 +223,6 @@ body {
     margin-top: 4px;
 }
 
-/* ================= METRICS GRID ================= */
 .metrics-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -282,7 +280,6 @@ body {
     color: #ffffff;
 }
 
-/* ================= TABS ================= */
 .tabs-container {
     display: flex;
     gap: 8px;
@@ -315,7 +312,6 @@ body {
     color: #ffffff;
 }
 
-/* ================= TABLE & EMPTY STATE ================= */
 .table-card {
     background-color: #1c1c1e;
     border: 1px solid #2c2c2e;

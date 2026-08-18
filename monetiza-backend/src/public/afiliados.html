@@ -68,7 +68,7 @@
                         <span class="metric-title">Total de Cliques</span>
                         <div class="metric-icon purple"><i class="fa-solid fa-arrow-pointer"></i></div>
                     </div>
-                    <span class="metric-value">0</span>
+                    <span id="total-cliques" class="metric-value">0</span>
                 </div>
 
                 <div class="metric-card">
@@ -76,7 +76,7 @@
                         <span class="metric-title">Conversões</span>
                         <div class="metric-icon pink"><i class="fa-solid fa-user-group"></i></div>
                     </div>
-                    <span class="metric-value">0</span>
+                    <span id="total-conversoes" class="metric-value">0</span>
                 </div>
 
                 <div class="metric-card">
@@ -84,35 +84,102 @@
                         <span class="metric-title">Total Ganho</span>
                         <div class="metric-icon cyan"><i class="fa-solid fa-dollar-sign"></i></div>
                     </div>
-                    <span class="metric-value">R$ 0.00</span>
+                   <span id="total-ganho" class="metric-value">R$ 0,00</span>
                 </div>
             </div>
 
-            <!-- Tabela / Links Ativos -->
             <div class="table-card">
-                <div class="table-card-header">
-                    <h3>Links Ativos</h3>
-                </div>
-                <div class="table-header">
-                    <span>Produto</span>
-                    <span>Cliques</span>
-                    <span>Conversões</span>
-                    <span>Ganho</span>
-                    <span>Status</span>
-                    <span class="text-right">Ações</span>
-                </div>
-                <div class="empty-state-container">
-                    <div class="link-icon-bg">
-                        <i class="fa-solid fa-link"></i>
-                    </div>
-                    <p class="empty-text">Você ainda não tem links de afiliado</p>
-                    <button class="btn-secondary">
-                        <i class="fa-solid fa-plus"></i> Criar Primeiro Link
-                    </button>
-                </div>
-            </div>
-        </main>
+    <div class="table-card-header">
+        <h3>Meus Links</h3>
     </div>
+
+    <div class="table-header">
+        <span>Produto</span>
+        <span>Cliques</span>
+        <span>Conversões</span>
+        <span>Ganho</span>
+        <span>Status</span>
+        <span class="text-right">Ações</span>
+    </div>
+
+    <div id="lista-afiliacoes">
+        <div id="estado-vazio-afiliacoes" class="empty-state-container">
+            <div class="link-icon-bg">
+                <i class="fa-solid fa-link"></i>
+            </div>
+
+            <p class="empty-text">
+                Você ainda não tem links de afiliado
+            </p>
+
+            <button type="button" id="btn-primeiro-link" class="btn-secondary">
+                <i class="fa-solid fa-plus"></i> Criar Primeiro Link
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Solicitações recebidas pelo produtor -->
+<div class="table-card solicitacoes-card">
+    <div class="table-card-header">
+        <h3>Solicitações Recebidas</h3>
+    </div>
+
+    <div class="table-header solicitacoes-header">
+        <span>Produto</span>
+        <span>Afiliado</span>
+        <span>Comissão</span>
+        <span>Status</span>
+        <span class="text-right">Ações</span>
+    </div>
+
+    <div id="lista-solicitacoes">
+        <div id="estado-vazio-solicitacoes" class="empty-state-container">
+            <p class="empty-text">
+                Nenhuma solicitação recebida
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para escolher um produto -->
+<div id="modal-novo-link" class="modal-overlay hidden">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2>Nova Afiliação</h2>
+
+            <button type="button" id="btn-fechar-modal" class="btn-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <form id="form-nova-afiliacao">
+            <div class="input-group">
+                <label for="produto-afiliacao">Produto *</label>
+
+                <select id="produto-afiliacao" required>
+                    <option value="">Carregando produtos...</option>
+                </select>
+            </div>
+
+            <p class="modal-aviso">
+                A solicitação será enviada ao produtor para aprovação.
+            </p>
+
+            <div class="modal-footer">
+                <button type="button" id="btn-cancelar-modal" class="btn-secondary">
+                    Cancelar
+                </button>
+
+                <button type="submit" class="btn-primary">
+                    Solicitar Afiliação
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+    </main>
+</div>
 
     <script src="js/afiliados.js"></script>
 </body>

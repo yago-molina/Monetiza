@@ -138,7 +138,6 @@ body {
     overflow: hidden;
 }
 
-/* ================= MAIN CONTENT ================= */
 .main-content {
     flex: 1;
     margin-left: 20px;
@@ -203,7 +202,6 @@ body {
     border-radius: 50%;
 }
 
-/* Cabeçalho com botão */
 .header-action-row {
     display: flex;
     justify-content: space-between;
@@ -242,7 +240,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* ================= METRICS GRID (3 CARDS) ================= */
 .metrics-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -293,7 +290,6 @@ body {
     color: #ffffff;
 }
 
-/* ================= TABELA / LINKS ATIVOS ================= */
 .table-card {
     background-color: #1c1c1e;
     border: 1px solid #2c2c2e;
@@ -328,7 +324,6 @@ body {
     text-align: right;
 }
 
-/* Estado vazio da tabela de afiliados */
 .empty-state-container {
     padding: 60px 20px;
     display: flex;
@@ -375,4 +370,139 @@ body {
     background-color: #2c2c2e;
     border-color: #4d4dff;
     color: #4d4dff;
+}
+
+.solicitacoes-card {
+    margin-top: 24px;
+}
+
+.solicitacoes-header {
+    grid-template-columns: 2fr 1.5fr 1fr 1fr 1.5fr;
+}
+
+.afiliacao-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #2c2c2e;
+    font-size: 13px;
+}
+
+.solicitacao-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 1fr 1.5fr;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #2c2c2e;
+    font-size: 13px;
+}
+
+.acoes-afiliacao {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.btn-acao {
+    border: 1px solid #3a3a3e;
+    background-color: #121214;
+    color: #ffffff;
+    padding: 7px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.btn-acao:hover {
+    border-color: #4d4dff;
+    color: #8080ff;
+}
+
+.status-afiliacao {
+    font-weight: 600;
+}
+
+.status-ativa {
+    color: #34d399;
+}
+
+.status-pendente {
+    color: #fbbf24;
+}
+
+.status-rejeitada,
+.status-encerrada {
+    color: #f87171;
+}
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 24px;
+    background-color: #1c1c1e;
+    border: 1px solid #2c2c2e;
+    border-radius: 14px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.btn-close {
+    border: none;
+    background: transparent;
+    color: #a4a4a8;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.input-group select {
+    width: 100%;
+    padding: 12px;
+    color: #ffffff;
+    background-color: #121214;
+    border: 1px solid #3a3a3e;
+    border-radius: 8px;
+}
+
+.modal-aviso {
+    margin-top: 14px;
+    color: #7c7c8a;
+    font-size: 13px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
 }

@@ -138,7 +138,6 @@ body {
     overflow: hidden;
 }
 
-/* ================= MAIN CONTENT ================= */
 .main-content {
     flex: 1;
     margin-left: 20px;
@@ -206,7 +205,6 @@ body {
     border-radius: 50%;
 }
 
-/* ================= CHAT CONTAINER ================= */
 .chat-container {
     display: flex;
     flex: 1;
@@ -320,7 +318,6 @@ body {
     overflow: hidden;
 }
 
-/* Área de Chat (direita) */
 .chat-main-area {
     flex: 1;
     display: flex;

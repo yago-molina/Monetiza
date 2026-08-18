@@ -11,7 +11,7 @@
 <body>
 
     <div class="container">
-        <!-- Sidebar Atualizada (Sem disabled) -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo-area">
                 <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
@@ -47,8 +47,8 @@
                 <span class="page-title">Financeiro</span>
                 <div class="top-bar-right">
                     <a href="vitrine.html" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
-                    <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
-                    <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
+                    <button class="top-icon-btn"><i class="fa-solid fa-bell"></i></button>
+                    <button class="top-icon-btn profile-btn"><i class="fa-solid fa-circle-user"></i></button>
                 </div>
             </div>
 
@@ -56,98 +56,181 @@
             <div class="header-action-row">
                 <div class="page-header-text">
                     <h2>Financeiro</h2>
-                    <p>Gerencie suas entradas e saídas</p>
+                    <p>Gerencie suas entradas, saídas e comissões</p>
                 </div>
                 <button class="btn-primary" id="btn-nova-transacao">
                     <i class="fa-solid fa-plus"></i> Nova Transação
                 </button>
             </div>
 
-            <!-- Grid de Cards Financeiros -->
-            <div class="financial-cards-grid">
-                <!-- Card Principal: Saldo Disponível -->
-                <div class="card-balance">
-                    <div class="balance-top">
-                        <div class="balance-title-group">
-                            <span>Saldo Disponível</span>
-                            <h2>R$ 0.00</h2>
+            <!-- Navegação por Abas -->
+            <div class="tabs-container">
+                <button class="tab-btn active" data-tab="geral">
+                    <i class="fa-solid fa-chart-line"></i> Visão Geral
+                </button>
+                <button class="tab-btn" data-tab="comissoes">
+                    <i class="fa-solid fa-percent"></i> Comissões
+                </button>
+            </div>
+
+            <!-- ABA 1: VISÃO GERAL -->
+            <div class="tab-content active" id="tab-geral">
+                <!-- Grid de Cards Financeiros -->
+                <div class="financial-cards-grid">
+                    <div class="card-balance">
+                        <div class="balance-top">
+                            <div class="balance-title-group">
+                                <span>Saldo Disponível</span>
+                                <h2>R$ 0.00</h2>
+                            </div>
+                            <div class="balance-icon">
+                                <i class="fa-solid fa-wallet"></i>
+                            </div>
                         </div>
-                        <div class="balance-icon">
+                        <div class="balance-submetrics">
+                            <div class="submetric green">
+                                <span><i class="fa-solid fa-arrow-up-right-dots"></i> Entradas</span>
+                                <strong>R$ 0.00</strong>
+                            </div>
+                            <div class="submetric red">
+                                <span><i class="fa-solid fa-arrow-down-left-dots"></i> Saídas</span>
+                                <strong>R$ 0.00</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon green-bg"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                            <span class="metric-title">Total de Entradas</span>
+                        </div>
+                        <span class="metric-value green-text">R$ 0.00</span>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon red-bg"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                            <span class="metric-title">Total de Saídas</span>
+                        </div>
+                        <span class="metric-value red-text">R$ 0.00</span>
+                    </div>
+                </div>
+
+                <!-- Barra de Filtros -->
+                <div class="filters-bar">
+                    <div class="select-group">
+                        <i class="fa-solid fa-filter icon-filter"></i>
+                        <select id="filter-tipo" class="custom-select">
+                            <option value="todos">Todos</option>
+                            <option value="entradas">Entradas</option>
+                            <option value="saidas">Saídas</option>
+                        </select>
+                    </div>
+
+                    <div class="select-group">
+                        <i class="fa-regular fa-calendar icon-filter"></i>
+                        <select id="filter-periodo" class="custom-select">
+                            <option value="todo-periodo">Todo Período</option>
+                            <option value="hoje">Hoje</option>
+                            <option value="7dias">Últimos 7 dias</option>
+                            <option value="30dias">Últimos 30 dias</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Tabela de Transações -->
+                <div class="table-card">
+                    <div class="table-card-header">
+                        <h3>Histórico de Transações</h3>
+                    </div>
+                    <div class="table-header">
+                        <span>Tipo</span>
+                        <span>Descrição</span>
+                        <span>Categoria</span>
+                        <span>Data</span>
+                        <span class="text-right">Valor</span>
+                    </div>
+                    <div class="empty-state-container">
+                        <div class="wallet-icon-bg">
                             <i class="fa-solid fa-wallet"></i>
                         </div>
+                        <p class="empty-text">Nenhuma Transação Encontrada</p>
                     </div>
-                    <div class="balance-submetrics">
-                        <div class="submetric green">
-                            <span><i class="fa-solid fa-arrow-up-right-dots"></i> Entradas</span>
-                            <strong>R$ 0.00</strong>
+                </div>
+            </div>
+
+            <!-- ABA 2: COMISSÕES -->
+            <div class="tab-content" id="tab-comissoes">
+                <!-- Cards de Comissões -->
+                <div class="financial-cards-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon green-bg"><i class="fa-solid fa-circle-check"></i></div>
+                            <span class="metric-title">Comissões Liberadas</span>
                         </div>
-                        <div class="submetric red">
-                            <span><i class="fa-solid fa-arrow-down-left-dots"></i> Saídas</span>
-                            <strong>R$ 0.00</strong>
+                        <span class="metric-value green-text">R$ 0.00</span>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon yellow-bg"><i class="fa-solid fa-clock"></i></div>
+                            <span class="metric-title">Comissões Pendentes</span>
                         </div>
+                        <span class="metric-value yellow-text">R$ 0.00</span>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon blue-bg"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                            <span class="metric-title">Total Acumulado</span>
+                        </div>
+                        <span class="metric-value">R$ 0.00</span>
                     </div>
                 </div>
 
-                <!-- Card: Total de Entradas -->
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon green-bg"><i class="fa-solid fa-arrow-trend-up"></i></div>
-                        <span class="metric-title">Total de Entradas</span>
+                <!-- Filtros da Aba de Comissões -->
+                <div class="filters-bar">
+                    <div class="select-group">
+                        <i class="fa-solid fa-filter icon-filter"></i>
+                        <select id="filter-status-comissao" class="custom-select">
+                            <option value="todos">Todos os Status</option>
+                            <option value="liberado">Liberado</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="cancelado">Cancelado</option>
+                        </select>
                     </div>
-                    <span class="metric-value green-text">R$ 0.00</span>
+
+                    <div class="select-group">
+                        <i class="fa-solid fa-user-tag icon-filter"></i>
+                        <select id="filter-papel" class="custom-select">
+                            <option value="todos">Todos os Papéis</option>
+                            <option value="produtor">Produtor</option>
+                            <option value="afiliado">Afiliado</option>
+                        </select>
+                    </div>
                 </div>
 
-                <!-- Card: Total de Saídas -->
-                <div class="metric-card">
-                    <div class="metric-header">
-                        <div class="metric-icon red-bg"><i class="fa-solid fa-arrow-trend-down"></i></div>
-                        <span class="metric-title">Total de Saídas</span>
+                <!-- Tabela de Comissões -->
+                <div class="table-card">
+                    <div class="table-card-header">
+                        <h3>Histórico de Comissões</h3>
                     </div>
-                    <span class="metric-value red-text">R$ 0.00</span>
+                    <div class="table-header grid-comissoes">
+                        <span>Produto</span>
+                        <span>Papel</span>
+                        <span>Data da Venda</span>
+                        <span>Status</span>
+                        <span class="text-right">Comissão</span>
+                    </div>
+                    <div class="empty-state-container">
+                        <div class="wallet-icon-bg">
+                            <i class="fa-solid fa-percent"></i>
+                        </div>
+                        <p class="empty-text">Nenhuma Comissão Registrada</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Barra de Filtros -->
-            <div class="filters-bar">
-                <div class="select-group">
-                    <i class="fa-solid fa-filter icon-filter"></i>
-                    <select id="filter-tipo" class="custom-select">
-                        <option value="todos">Todos</option>
-                        <option value="entradas">Entradas</option>
-                        <option value="saidas">Saídas</option>
-                    </select>
-                </div>
-
-                <div class="select-group">
-                    <i class="fa-regular fa-calendar icon-filter"></i>
-                    <select id="filter-periodo" class="custom-select">
-                        <option value="todo-periodo">Todo Período</option>
-                        <option value="hoje">Hoje</option>
-                        <option value="7dias">Últimos 7 dias</option>
-                        <option value="30dias">Últimos 30 dias</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Tabela / Histórico de Transações -->
-            <div class="table-card">
-                <div class="table-card-header">
-                    <h3>Histórico de Transações</h3>
-                </div>
-                <div class="table-header">
-                    <span>Tipo</span>
-                    <span>Descrição</span>
-                    <span>Categoria</span>
-                    <span>Data</span>
-                    <span class="text-right">Valor</span>
-                </div>
-                <div class="empty-state-container">
-                    <div class="wallet-icon-bg">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-                    <p class="empty-text">Nenhuma Transação Encontrada</p>
-                </div>
-            </div>
         </main>
     </div>
 
