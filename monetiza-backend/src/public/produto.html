@@ -11,6 +11,7 @@
 <body>
 
     <div class="container">
+
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo-area">
@@ -20,35 +21,94 @@
 
             <nav class="menu-nav">
                 <ul>
-                    <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                    <li class="active"><a id="produto" href="landing"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
-                    <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
-                    <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
-                    <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
-                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
-                    <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                    <li>
+                        <a id="dashboard" href="dashboard">
+                            <i class="fa-solid fa-chart-pie"></i> Dashboard
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a id="produto" href="landing">
+                            <i class="fa-solid fa-bag-shopping"></i> Produtos
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="minhasVendas" href="minhasVendas">
+                            <i class="fa-solid fa-chart-line"></i> Minhas Vendas
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="afiliados" href="afiliados">
+                            <i class="fa-solid fa-users"></i> Afiliados
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="financeiro" href="financeiro">
+                            <i class="fa-solid fa-wallet"></i> Financeiro
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="contratos" href="contratos">
+                            <i class="fa-solid fa-file-contract"></i> Contratos
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="mensagens" href="mensagens">
+                            <i class="fa-solid fa-comment-dots"></i> Mensagens
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="configuracoes" href="configuracoes">
+                            <i class="fa-solid fa-gear"></i> Configurações
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
             <div class="user-profile">
-                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="avatar-fallback">
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+
                 <div class="user-info">
                     <span id="nome-usuario" class="user-name">Username</span>
-                    <span id="email-usuario" class="user-email">email@gmail.com</span>
+                    <span id="email-usuario" class="user-email">
+                        email@gmail.com
+                    </span>
                 </div>
             </div>
         </aside>
 
         <!-- Conteúdo Principal -->
         <main class="main-content">
+
             <!-- Barra Superior -->
             <div class="top-bar">
                 <span class="page-title">Produtos</span>
+
                 <div class="top-bar-right">
-                    <a href="vitrine.html" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
-                    <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
-                    <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
+                    <a href="vitrine.html" class="vitrine-link">
+                        Ver Vitrine
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                    <li>
+                        <a>
+                            <i class="fa-solid fa-bell fa-lg"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a>
+                            <i class="fa-solid fa-circle-user fa-3x"></i>
+                        </a>
+                    </li>
                 </div>
             </div>
 
@@ -58,151 +118,577 @@
                     <h2>Meus Produtos</h2>
                     <p>Gerencie seus produtos digitais</p>
                 </div>
-                <button class="btn-primary" id="btn-novo-produto">
-                    <i class="fa-solid fa-plus"></i> Novo Produto
+
+                <button
+                    type="button"
+                    class="btn-primary"
+                    id="btn-novo-produto"
+                >
+                    <i class="fa-solid fa-plus"></i>
+                    Novo Produto
                 </button>
             </div>
 
             <!-- Campo de Busca -->
             <div class="search-container">
                 <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                <input type="text" id="busca-produto" placeholder="Buscar produtos..." class="search-input">
+
+                <input
+                    type="text"
+                    id="busca-produto"
+                    placeholder="Buscar produtos..."
+                    class="search-input"
+                >
             </div>
 
-            <!-- Estado Vazio (Nenhum produto cadastrado) -->
+            <!-- Estado Vazio -->
             <div id="estado-vazio" class="empty-state-card">
                 <div class="empty-state-content">
                     <h3>Nenhum produto ainda</h3>
                     <p>Crie seu primeiro produto digital</p>
-                    <button type="button" id="btn-criar-primeiro-produto" class="btn-primary btn-large">
-                        <i class="fa-solid fa-plus"></i> Criar Produto
+
+                    <button
+                        type="button"
+                        id="btn-criar-primeiro-produto"
+                        class="btn-primary btn-large"
+                    >
+                        <i class="fa-solid fa-plus"></i>
+                        Criar Produto
                     </button>
                 </div>
             </div>
 
-            <div id="lista-produtos" class="lista-produtos"></div>
+            <!-- Produtos são renderizados pelo produto.js -->
+            <div
+                id="lista-produtos"
+                class="lista-produtos"
+            ></div>
+
         </main>
     </div>
 
-    
-    
-        <!-- Modal 1: Escolha do Método de Criação -->
-    <div id="modal-escolha-criacao" class="modal-overlay hidden">
+    <!-- Modal: Escolha do Método de Criação -->
+    <div
+        id="modal-escolha-criacao"
+        class="modal-overlay hidden"
+    >
         <div class="modal-card modal-card-sm">
+
             <div class="modal-header">
                 <h2>Criar Novo Produto</h2>
-                <button id="btn-fechar-escolha" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
+
+                <button
+                    type="button"
+                    id="btn-fechar-escolha"
+                    class="btn-close"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
-            <p class="modal-subtitle">Como você prefere cadastrar seu produto?</p>
+            <p class="modal-subtitle">
+                Como você prefere cadastrar seu produto?
+            </p>
 
             <div class="creation-options">
+
                 <!-- Opção Manual -->
-                <button type="button" id="btn-opcao-manual" class="option-card">
+                <button
+                    type="button"
+                    id="btn-opcao-manual"
+                    class="option-card"
+                >
                     <div class="option-icon">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </div>
+
                     <div class="option-info">
                         <h3>Criar Manualmente</h3>
-                        <p>Preencha os campos, preços e descrições do seu jeito.</p>
+                        <p>
+                            Preencha os campos, preços e descrições do seu jeito.
+                        </p>
                     </div>
+
                     <i class="fa-solid fa-chevron-right arrow-icon"></i>
                 </button>
 
                 <!-- Opção com IA -->
-                <button type="button" id="btn-opcao-ia" class="option-card option-ia">
+                <button
+                    type="button"
+                    id="btn-opcao-ia"
+                    class="option-card option-ia"
+                >
                     <div class="option-icon">
                         <i class="fa-solid fa-wand-magic-sparkles"></i>
                     </div>
+
                     <div class="option-info">
-                        <h3>Criar com IA <span class="badge-ia">Novo</span></h3>
-                        <p>Gere título, descrição e copys automaticamente em segundos.</p>
+                        <h3>
+                            Criar com IA
+                            <span class="badge-ia">Novo</span>
+                        </h3>
+
+                        <p>
+                            Gere título, descrição e copys automaticamente em segundos.
+                        </p>
                     </div>
+
                     <i class="fa-solid fa-chevron-right arrow-icon"></i>
                 </button>
+
             </div>
         </div>
     </div>
 
+    <!-- Modal: Novo Produto -->
+    <div
+        id="modal-novo-produto"
+        class="modal-overlay hidden"
+    >
+        <div class="modal-card">
 
+            <div class="modal-header">
+                <h2>Novo Produto</h2>
 
-    <div id="modal-novo-produto" class="modal-overlay hidden">
-    <div class="modal-card">
-        <div class="modal-header">
-            <h2>Novo Produto</h2>
-            <button id="btn-fechar-modal" class="btn-close"><i class="fa-solid fa-xmark"></i></button>
-        </div>
-
-        <form id="form-novo-produto" class="modal-body">
-            <div class="input-group">
-                <label for="prod-titulo">Título *</label>
-                <input type="text" id="prod-titulo" placeholder="Nome do produto" required>
+                <button
+                    type="button"
+                    id="btn-fechar-modal"
+                    class="btn-close"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
-            <div class="input-group">
-                <label for="prod-desc-curta">Descrição Curta</label>
-                <input type="text" id="prod-desc-curta" placeholder="Uma linha sobre o produto">
-            </div>
+            <form
+                id="form-novo-produto"
+                class="modal-body"
+            >
 
-            <div class="input-group">
-                <label for="prod-desc-completa">Descrição Completa</label>
-                <textarea id="prod-desc-completa" rows="3" placeholder="Descreva seu produto em detalhes"></textarea>
-            </div>
-
-            <div class="input-row">
                 <div class="input-group">
-                    <label for="prod-preco">Preço (R$) *</label>
-                    <input type="number" step="0.01" id="prod-preco" placeholder="99.90" required>
-                </div>
-                <div class="input-group">
-                    <label for="prod-categoria">Categoria</label>
-                    <select id="prod-categoria">
-                        <option value="Curso">Curso</option>
-                        <option value="E-book">E-book</option>
-                        <option value="Software / SaaS">Software / SaaS</option>
-                        <option value="Mentoria">Produto Físico</option>
-                    </select>
-                </div>
-            </div>
+                    <label for="prod-titulo">
+                        Título *
+                    </label>
 
-            <div class="input-row">
-                <div class="input-group">
-                    <label for="prod-comissao">Comissão de Afiliado (%)</label>
-                    <input type="number" id="prod-comissao" placeholder="30">
+                    <input
+                        type="text"
+                        id="prod-titulo"
+                        placeholder="Nome do produto"
+                        required
+                    >
                 </div>
+
                 <div class="input-group">
-                    <label for="prod-status">Status</label>
-                    <select id="prod-status">
-                        <option value="Ativo">Ativo</option>
-                        <option value="Rascunho">Rascunho</option>
-                        <option value="Inativo">Inativo</option>
-                    </select>
+                    <label for="prod-desc-curta">
+                        Descrição Curta
+                    </label>
+
+                    <input
+                        type="text"
+                        id="prod-desc-curta"
+                        placeholder="Uma linha sobre o produto"
+                    >
                 </div>
-            </div>
 
-            <div class="input-group file-group">
-    <label for="prod-imagem">Imagem de Capa *</label>
+                <div class="input-group">
+                    <label for="prod-desc-completa">
+                        Descrição Completa
+                    </label>
 
-    <div class="file-input-wrapper">
-            <input type="url" id="prod-imagem" placeholder="https://exemplo.com/imagem.jpg" required>
+                    <textarea
+                        id="prod-desc-completa"
+                        rows="3"
+                        placeholder="Descreva seu produto em detalhes"
+                    ></textarea>
+                </div>
+
+                <div class="input-row">
+
+                    <div class="input-group">
+                        <label for="prod-preco">
+                            Preço (R$) *
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            min="0.01"
+                            id="prod-preco"
+                            placeholder="99.90"
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label for="prod-categoria">
+                            Categoria *
+                        </label>
+
+                        <select
+                            id="prod-categoria"
+                            required
+                        >
+                            <option value="Curso">Curso</option>
+                            <option value="E-book">E-book</option>
+                            <option value="Software / SaaS">
+                                Software / SaaS
+                            </option>
+                            <option value="Produto Físico">
+                                Produto Físico
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="input-row">
+
+                    <div class="input-group">
+                        <label for="prod-comissao">
+                            Comissão de Afiliado (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="prod-comissao"
+                            placeholder="30"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label for="prod-status">
+                            Status
+                        </label>
+
+                        <select id="prod-status">
+                            <option value="Ativo">
+                                Ativo
+                            </option>
+
+                            <option value="Rascunho">
+                                Rascunho
+                            </option>
+
+                            <option value="Inativo">
+                                Inativo
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="input-group file-group">
+                    <label for="prod-imagem">
+                        Imagem de Capa *
+                    </label>
+
+                    <div class="file-input-wrapper">
+                        <input
+                            type="url"
+                            id="prod-imagem"
+                            placeholder="https://exemplo.com/imagem.jpg"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="input-group file-group">
+                    <label for="prod-arquivo">
+                        Link do Produto *
+                    </label>
+
+                    <div class="file-input-wrapper">
+                        <input
+                            type="url"
+                            id="prod-arquivo"
+                            placeholder="https://exemplo.com/meu-produto"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        id="btn-cancelar"
+                        class="btn-secondary"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn-primary"
+                    >
+                        Salvar Produto
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
 
-    <div class="input-group file-group">
-        <label for="prod-arquivo">Link do Produto *</label>
-           <div class="file-input-wrapper">
-            <input type="url" id="prod-arquivo" placeholder="https://exemplo.com/meu-produto" required>
+    <!-- Modal: Editar Produto -->
+    <div
+        id="modal-editar-produto"
+        class="modal-overlay hidden"
+    >
+        <div class="modal-card">
+
+            <div class="modal-header">
+                <h2>Editar Produto</h2>
+
+                <button
+                    type="button"
+                    id="btn-fechar-edicao"
+                    class="btn-close"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form
+                id="form-editar-produto"
+                class="modal-body"
+            >
+
+                <!-- ID do produto que está sendo editado -->
+                <input
+                    type="hidden"
+                    id="edit-prod-id"
+                >
+
+                <div class="input-group">
+                    <label for="edit-prod-titulo">
+                        Título *
+                    </label>
+
+                    <input
+                        type="text"
+                        id="edit-prod-titulo"
+                        required
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label for="edit-prod-desc-curta">
+                        Descrição Curta
+                    </label>
+
+                    <input
+                        type="text"
+                        id="edit-prod-desc-curta"
+                    >
+                </div>
+
+                <div class="input-group">
+                    <label for="edit-prod-desc-completa">
+                        Descrição Completa
+                    </label>
+
+                    <textarea
+                        id="edit-prod-desc-completa"
+                        rows="3"
+                    ></textarea>
+                </div>
+
+                <div class="input-row">
+
+                    <div class="input-group">
+                        <label for="edit-prod-preco">
+                            Preço (R$) *
+                        </label>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            min="0.01"
+                            id="edit-prod-preco"
+                            required
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label for="edit-prod-categoria">
+                            Categoria *
+                        </label>
+
+                        <select
+                            id="edit-prod-categoria"
+                            required
+                        >
+                            <option value="Curso">
+                                Curso
+                            </option>
+
+                            <option value="E-book">
+                                E-book
+                            </option>
+
+                            <option value="Software / SaaS">
+                                Software / SaaS
+                            </option>
+
+                            <option value="Produto Físico">
+                                Produto Físico
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="input-row">
+
+                    <div class="input-group">
+                        <label for="edit-prod-comissao">
+                            Comissão de Afiliado (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="edit-prod-comissao"
+                            min="0"
+                            max="100"
+                            step="0.01"
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <label for="edit-prod-status">
+                            Status
+                        </label>
+
+                        <select id="edit-prod-status">
+                            <option value="Ativo">
+                                Ativo
+                            </option>
+
+                            <option value="Rascunho">
+                                Rascunho
+                            </option>
+
+                            <option value="Inativo">
+                                Inativo
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="input-group file-group">
+                    <label for="edit-prod-imagem">
+                        Imagem de Capa *
+                    </label>
+
+                    <div class="file-input-wrapper">
+                        <input
+                            type="url"
+                            id="edit-prod-imagem"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="input-group file-group">
+                    <label for="edit-prod-arquivo">
+                        Link do Produto *
+                    </label>
+
+                    <div class="file-input-wrapper">
+                        <input
+                            type="url"
+                            id="edit-prod-arquivo"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        id="btn-cancelar-edicao"
+                        class="btn-secondary"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn-primary"
+                    >
+                        Salvar Alterações
+                    </button>
+
+                </div>
+
+            </form>
         </div>
     </div>
 
-            <div class="modal-footer">
-                <button type="button" id="btn-cancelar" class="btn-secondary">Cancelar</button>
-                <button type="submit" class="btn-primary">Salvar Produto</button>
-            </div>
-        </form>
-    </div>
-</div>
+    <!-- Modal: Confirmar Exclusão -->
+    <div
+        id="modal-excluir-produto"
+        class="modal-overlay hidden"
+    >
+        <div class="modal-card modal-card-sm">
 
+            <div class="modal-header">
+                <h2>Excluir Produto</h2>
+
+                <button
+                    type="button"
+                    id="btn-fechar-exclusao"
+                    class="btn-close"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <p>
+                    Tem certeza que deseja excluir
+                    <strong id="nome-produto-excluir"></strong>?
+                </p>
+
+                <p>
+                    Essa ação não poderá ser desfeita.
+                </p>
+
+                <input
+                    type="hidden"
+                    id="produto-id-excluir"
+                >
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        id="btn-cancelar-exclusao"
+                        class="btn-secondary"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button
+                        type="button"
+                        id="btn-confirmar-exclusao"
+                        class="btn-primary"
+                    >
+                        <i class="fa-solid fa-trash"></i>
+                        Excluir Produto
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="js/ia-btn.js"></script>
     <script src="js/produto.js"></script>
+
 </body>
 </html>

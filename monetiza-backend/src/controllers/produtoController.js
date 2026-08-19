@@ -1,5 +1,17 @@
 const db = require('../config/db')
 
+const statusPermitidos = ['Rascunho', 'Ativo', 'Inativo']
+
+function validarUrlHttp(url) {
+  try {
+    const urlValida = new URL(url)
+
+    return ['http:', 'https:'].includes(urlValida.protocol)
+  } catch {
+    return false
+  }
+}
+
 const criar = async (req, res) => {
   const {
     titulo,
@@ -15,23 +27,27 @@ const criar = async (req, res) => {
 
   const usuario_id = req.usuario.id
 
-  if (!titulo?.trim() || preco === undefined || !categoria || !capa?.trim() || !produto_arquivo?.trim()) {
+  if (
+    !titulo?.trim() ||
+    preco === undefined ||
+    !categoria?.trim() ||
+    !capa?.trim() ||
+    !produto_arquivo?.trim()
+  ) {
     return res.status(400).json({
       erro: 'Título, preço, categoria, imagem e link do produto são obrigatórios'
     })
   }
 
-try {
-  new URL(capa)
-  new URL(produto_arquivo)
-} catch {
-  return res.status(400).json({
-    erro: 'Informe links válidos para a imagem e para o produto'
-  })
-}
+  if (!validarUrlHttp(capa) || !validarUrlHttp(produto_arquivo)) {
+    return res.status(400).json({
+      erro: 'Informe links HTTP ou HTTPS válidos para a imagem e para o produto'
+    })
+  }
 
   const precoNumero = Number(preco)
   const comissaoNumero = Number(comissao || 0)
+  const statusProduto = status_produto || 'Rascunho'
 
   if (Number.isNaN(precoNumero) || precoNumero <= 0) {
     return res.status(400).json({
@@ -46,6 +62,12 @@ try {
   ) {
     return res.status(400).json({
       erro: 'A comissão deve estar entre 0 e 100'
+    })
+  }
+
+  if (!statusPermitidos.includes(statusProduto)) {
+    return res.status(400).json({
+      erro: 'Status do produto inválido'
     })
   }
 
@@ -68,22 +90,23 @@ try {
         descricao_curta?.trim() || null,
         descricao_completa?.trim() || null,
         precoNumero,
-        categoria,
+        categoria.trim(),
         comissaoNumero,
-        status_produto || 'Rascunho',
+        statusProduto,
         capa.trim(),
         produto_arquivo.trim(),
         usuario_id
       ]
     )
 
-    res.status(201).json({
+    return res.status(201).json({
       mensagem: 'Produto cadastrado com sucesso!',
       id: resultado.insertId
     })
   } catch (erro) {
     console.error('Erro ao cadastrar produto:', erro)
-    res.status(500).json({
+
+    return res.status(500).json({
       erro: 'Erro interno ao cadastrar produto'
     })
   }
@@ -107,16 +130,18 @@ const listar = async (req, res) => {
         produto_arquivo,
         criado_em,
         atualizado_em
-        FROM produtos
-        WHERE usuario_id = ?
-        ORDER BY criado_em DESC`,
-        [usuario_id]
+      FROM produtos
+      WHERE usuario_id = ?
+      AND excluido_em IS NULL
+      ORDER BY criado_em DESC`,
+      [usuario_id]
     )
 
-    res.json(produtos)
+    return res.json(produtos)
   } catch (erro) {
     console.error('Erro ao listar produtos:', erro)
-    res.status(500).json({
+
+    return res.status(500).json({
       erro: 'Erro interno ao listar produtos'
     })
   }
@@ -126,11 +151,31 @@ const buscarPorId = async (req, res) => {
   const { id } = req.params
   const usuario_id = req.usuario.id
 
+  if (Number.isNaN(Number(id))) {
+    return res.status(400).json({
+      erro: 'ID do produto inválido'
+    })
+  }
+
   try {
     const [produtos] = await db.query(
-      `SELECT *
-       FROM produtos
-       WHERE id = ? AND usuario_id = ?`,
+      `SELECT
+        id,
+        titulo,
+        descricao_curta,
+        descricao_completa,
+        preco,
+        categoria,
+        comissao,
+        status_produto,
+        capa,
+        produto_arquivo,
+        criado_em,
+        atualizado_em
+      FROM produtos
+      WHERE id = ?
+      AND usuario_id = ?
+      AND excluido_em IS NULL`,
       [id, usuario_id]
     )
 
@@ -140,10 +185,11 @@ const buscarPorId = async (req, res) => {
       })
     }
 
-    res.json(produtos[0])
+    return res.json(produtos[0])
   } catch (erro) {
     console.error('Erro ao buscar produto:', erro)
-    res.status(500).json({
+
+    return res.status(500).json({
       erro: 'Erro interno ao buscar produto'
     })
   }
@@ -165,23 +211,33 @@ const atualizar = async (req, res) => {
     produto_arquivo
   } = req.body
 
-  if (!titulo?.trim() || preco === undefined || !categoria || !capa?.trim() || !produto_arquivo?.trim()) {
+  if (Number.isNaN(Number(id))) {
+    return res.status(400).json({
+      erro: 'ID do produto inválido'
+    })
+  }
+
+  if (
+    !titulo?.trim() ||
+    preco === undefined ||
+    !categoria?.trim() ||
+    !capa?.trim() ||
+    !produto_arquivo?.trim()
+  ) {
     return res.status(400).json({
       erro: 'Título, preço, categoria, imagem e link do produto são obrigatórios'
     })
   }
 
-  try {
-      new URL(capa)
-      new URL(produto_arquivo)
-    } catch {
-      return res.status(400).json({
-        erro: 'Informe links válidos para a imagem e para o produto'
+  if (!validarUrlHttp(capa) || !validarUrlHttp(produto_arquivo)) {
+    return res.status(400).json({
+      erro: 'Informe links HTTP ou HTTPS válidos para a imagem e para o produto'
     })
   }
 
   const precoNumero = Number(preco)
   const comissaoNumero = Number(comissao || 0)
+  const statusProduto = status_produto || 'Rascunho'
 
   if (Number.isNaN(precoNumero) || precoNumero <= 0) {
     return res.status(400).json({
@@ -199,6 +255,12 @@ const atualizar = async (req, res) => {
     })
   }
 
+  if (!statusPermitidos.includes(statusProduto)) {
+    return res.status(400).json({
+      erro: 'Status do produto inválido'
+    })
+  }
+
   try {
     const [resultado] = await db.query(
       `UPDATE produtos SET
@@ -211,15 +273,17 @@ const atualizar = async (req, res) => {
         status_produto = ?,
         capa = ?,
         produto_arquivo = ?
-      WHERE id = ? AND usuario_id = ?`,
+      WHERE id = ?
+      AND usuario_id = ?
+      AND excluido_em IS NULL`,
       [
         titulo.trim(),
         descricao_curta?.trim() || null,
         descricao_completa?.trim() || null,
         precoNumero,
-        categoria,
+        categoria.trim(),
         comissaoNumero,
-        status_produto || 'Rascunho',
+        statusProduto,
         capa.trim(),
         produto_arquivo.trim(),
         id,
@@ -233,12 +297,13 @@ const atualizar = async (req, res) => {
       })
     }
 
-    res.json({
+    return res.json({
       mensagem: 'Produto atualizado com sucesso!'
     })
   } catch (erro) {
     console.error('Erro ao atualizar produto:', erro)
-    res.status(500).json({
+
+    return res.status(500).json({
       erro: 'Erro interno ao atualizar produto'
     })
   }
@@ -248,10 +313,21 @@ const excluir = async (req, res) => {
   const { id } = req.params
   const usuario_id = req.usuario.id
 
+  if (Number.isNaN(Number(id))) {
+    return res.status(400).json({
+      erro: 'ID do produto inválido'
+    })
+  }
+
   try {
     const [resultado] = await db.query(
-      `DELETE FROM produtos
-       WHERE id = ? AND usuario_id = ?`,
+      `UPDATE produtos
+      SET
+        status_produto = 'Inativo',
+        excluido_em = CURRENT_TIMESTAMP
+      WHERE id = ?
+      AND usuario_id = ?
+      AND excluido_em IS NULL`,
       [id, usuario_id]
     )
 
@@ -261,19 +337,13 @@ const excluir = async (req, res) => {
       })
     }
 
-    res.json({
+    return res.json({
       mensagem: 'Produto excluído com sucesso!'
     })
   } catch (erro) {
     console.error('Erro ao excluir produto:', erro)
 
-    if (erro.code === 'ER_ROW_IS_REFERENCED_2') {
-      return res.status(409).json({
-        erro: 'Este produto possui vendas registradas e não pode ser excluído'
-      })
-    }
-
-    res.status(500).json({
+    return res.status(500).json({
       erro: 'Erro interno ao excluir produto'
     })
   }
