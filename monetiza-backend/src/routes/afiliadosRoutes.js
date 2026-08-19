@@ -8,7 +8,7 @@ const {
   listarRecebidas,
   alterarStatus,
   registrarClique
-} = require('../controllers/afiliacaoController')
+} = require('../controllers/afiliadosController')
 
 const autenticar = require('../middlewares/authMiddleware')
 
