@@ -1024,10 +1024,7 @@ async function gerarProdutoCompleto(
             ideia
         );
 
-
-        // ==========================================
         // PROMPT BUILDER
-        // ==========================================
 
         etapaAtual =
             'promptBuilder';
@@ -1052,10 +1049,7 @@ async function gerarProdutoCompleto(
 ${promptFinal}
 `);
 
-
-        // ==========================================
         // GERADOR DE PRODUTO
-        // ==========================================
 
         etapaAtual =
             'produto';
@@ -1124,10 +1118,7 @@ ${erro.message}
 
 }
 
-
-// ==================================================
 // BOTÃO EDITAR PRODUTO
-// ==================================================
 
 if (botaoEditarProduto) {
 
@@ -1144,10 +1135,7 @@ if (botaoEditarProduto) {
 
 }
 
-
-// ==================================================
 // BOTÃO GERAR PDF
-// ==================================================
 
 if (botaoGerarPdf) {
 
@@ -1164,10 +1152,7 @@ if (botaoGerarPdf) {
 
 }
 
-
-// ==================================================
 // BOTÃO PUBLICAR
-// ==================================================
 
 if (botaoPublicarProduto) {
 
@@ -1184,10 +1169,7 @@ if (botaoPublicarProduto) {
 
 }
 
-
-// ==================================================
-// BOTÃO ENVIAR
-// ==================================================
+// botão envar
 
 botao.addEventListener(
     'click',
@@ -1210,14 +1192,6 @@ prompt.addEventListener(
     }
 )
 
+// inicialização
 atualizarVisualEtapa()
 carregarModelos()
-
-
-// ==================================================
-// INICIALIZAÇÃO
-// ==================================================
-
-atualizarVisualEtapa();
-
-carregarModelos();

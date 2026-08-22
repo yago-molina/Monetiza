@@ -47,10 +47,7 @@ async function gerar({
     return gerarTexto({
         systemPrompt: configuracao.prompt,
         mensagem,
-        historico:
-            etapa === 'consultor'
-                ? historico
-                : [],
+        historico,
         temperatura:
             configuracao.temperatura,
         limiteTokens:

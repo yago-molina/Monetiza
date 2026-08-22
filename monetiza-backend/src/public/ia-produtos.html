@@ -625,102 +625,29 @@
 
                         </div>
 
-
                         <div class="produto-acoes">
-
-                            <button
-                                class="btn-secundario"
-                                id="editar-produto"
-                            >
-                                Editar
-                            </button>
-
-
-                            <button
-                                class="btn-secundario"
-                                id="gerar-pdf"
-                            >
-                                Gerar PDF
-                            </button>
-
-
-                            <button
-                                class="btn-publicar"
-                                id="publicar-produto"
-                            >
-                                Publicar
-                            </button>
-
+                            <button class="btn-secundario"id="editar-produto">Editar</button>
+                            <button class="btn-secundario" id="gerar-pdf">Gerar PDF</button>
+                            <button class="btn-publicar" id="publicar-produto">Publicar</button>
                         </div>
-
                     </div>
-
-
                     <div
                         class="produto-preview-conteudo"
                         id="produto-preview-conteudo"
                     >
                     </div>
-
                 </section>
-
-
             </section>
-
         </main>
 
     </div>
 
-
-
-    <!-- ========================================= -->
-    <!-- BIBLIOTECA MARKDOWN -->
-    <!-- ========================================= -->
-
-    <!--
-        marked.js transforma a resposta Markdown
-        da IA em HTML formatado.
-
-        Exemplo:
-
-        ## Título
-
-        vira um <h2>
-
-        | Campo | Informação |
-
-        vira uma tabela HTML.
-    -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <script
-        src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
-    ></script>
-
-
-
-    <!-- ========================================= -->
-    <!-- PROMPTS DA IA -->
-    <!-- ========================================= -->
-
-    <!--
-        prompts.js precisa vir antes do script.js
-        porque ele cria:
-
-        PROMPT_CONSULTOR
-        PROMPT_BUILDER
-        PROMPT_PRODUTO
-    -->
-
-    <script
-    src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
-    ></script>
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"
-    ></script>
+        src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
 
     <script src="/js/ia-produtos.js"></script>
-
 
 </body>
 

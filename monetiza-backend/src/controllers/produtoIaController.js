@@ -16,6 +16,14 @@ const status = async (req, res) => {
         const resultado =
             await verificarConexao()
 
+        if (!resultado.disponivel) {
+            return res.status(503).json({
+                erro:
+                    'O modelo configurado não está disponível.',
+                modelo: resultado.modelo
+            })
+        }
+
         res.json({
             mensagem:
                 'Groq conectada com sucesso.',
