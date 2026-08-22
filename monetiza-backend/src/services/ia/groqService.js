@@ -2,6 +2,15 @@ const Groq = require('groq-sdk')
 
 let clienteGroq = null
 
+const modelosComJsonEstrito = [
+    'openai/gpt-oss-20b',
+    'openai/gpt-oss-120b'
+]
+
+function suportaFormatoEstrito(modelo) {
+    return modelosComJsonEstrito.includes(modelo)
+}
+
 function obterConfiguracao() {
     const apiKey = process.env.GROQ_API_KEY
     const modelo =
@@ -70,33 +79,65 @@ async function gerarTexto({
     mensagem,
     historico = [],
     temperatura = 0.7,
-    limiteTokens = 4000
+    limiteTokens = 4000,
+    formatoResposta = null
 }) {
     const cliente = obterCliente()
     const configuracao = obterConfiguracao()
 
+    if (
+        formatoResposta?.json_schema?.strict === true &&
+        !suportaFormatoEstrito(configuracao.modelo)
+    ) {
+        const erro = new Error(
+            'O modelo configurado não suporta JSON estruturado estrito.'
+        )
+
+        erro.codigo = 'GROQ_MODELO_SEM_JSON_ESTRITO'
+        throw erro
+    }
+
+    const parametros = {
+        model: configuracao.modelo,
+
+        messages: [
+            {
+                role: 'system',
+                content: systemPrompt
+            },
+            ...prepararHistorico(historico),
+            {
+                role: 'user',
+                content: mensagem
+            }
+        ],
+        temperature: temperatura,
+        max_completion_tokens:
+            limiteTokens
+    }
+
+    if (formatoResposta) {
+        parametros.response_format = formatoResposta
+    }
+
     const resposta =
-        await cliente.chat.completions.create({
-            model: configuracao.modelo,
+        await cliente.chat.completions.create(
+            parametros
+        )
 
-            messages: [
-                {
-                    role: 'system',
-                    content: systemPrompt
-                },
-                ...prepararHistorico(historico),
-                {
-                    role: 'user',
-                    content: mensagem
-                }
-            ],
-            temperature: temperatura,
-            max_completion_tokens:
-                limiteTokens
-        })
+    const mensagemResposta =
+        resposta.choices?.[0]?.message
 
-    const conteudo =
-        resposta.choices?.[0]?.message?.content
+    if (mensagemResposta?.refusal) {
+        const erro = new Error(
+            'A IA recusou a geração deste conteúdo.'
+        )
+
+        erro.codigo = 'GROQ_CONTEUDO_RECUSADO'
+        throw erro
+    }
+
+    const conteudo = mensagemResposta?.content
 
     if (!conteudo) {
         throw new Error(
@@ -125,11 +166,16 @@ async function verificarConexao() {
             (modelo) =>
                 modelo.id === configuracao.modelo
         ),
-        modelo: configuracao.modelo
+        modelo: configuracao.modelo,
+        suportaProdutosEstruturados:
+            suportaFormatoEstrito(
+                configuracao.modelo
+            )
     }
 }
 
 module.exports = {
     gerarTexto,
-    verificarConexao
+    verificarConexao,
+    suportaFormatoEstrito
 }

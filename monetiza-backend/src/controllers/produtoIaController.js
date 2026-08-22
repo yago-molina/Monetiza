@@ -24,6 +24,14 @@ const status = async (req, res) => {
             })
         }
 
+        if (!resultado.suportaProdutosEstruturados) {
+            return res.status(503).json({
+                erro:
+                    'O modelo configurado não suporta a geração estruturada de produtos.',
+                modelo: resultado.modelo
+            })
+        }
+
         res.json({
             mensagem:
                 'Groq conectada com sucesso.',
@@ -92,6 +100,7 @@ const gerar = async (req, res) => {
 
         res.json({
             etapa,
+            formato: resultado.formato,
             resposta: resultado.conteudo,
             modelo: resultado.modelo,
             uso: resultado.uso
@@ -108,6 +117,34 @@ const gerar = async (req, res) => {
                     'Limite da Groq atingido. Aguarde um pouco e tente novamente.'
             })
         }
+
+        if (
+            erro.codigo === 'PRODUTO_IA_INVALIDO' ||
+            erro.codigo === 'PRODUTO_IA_JSON_INVALIDO'
+        ) {
+            return res.status(502).json({
+                erro:
+                    'A IA não conseguiu montar um produto válido. Tente gerar novamente.'
+            })
+        }
+
+        if (erro.codigo === 'GROQ_CONTEUDO_RECUSADO') {
+            return res.status(422).json({
+                erro:
+                    'A IA não pode gerar um produto com esse conteúdo.'
+            })
+        }
+
+        if (
+            erro.codigo ===
+            'GROQ_MODELO_SEM_JSON_ESTRITO'
+        ) {
+            return res.status(503).json({
+                erro:
+                    'O modelo configurado não suporta produtos estruturados.'
+            })
+        }
+
         res.status(503).json({
             erro:
                 'Não foi possível gerar o conteúdo neste momento.'

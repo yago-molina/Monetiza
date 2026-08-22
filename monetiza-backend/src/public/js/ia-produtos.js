@@ -70,7 +70,7 @@ let ideiaEscolhida = '';
 
 let promptGerado = '';
 
-let produtoGerado = '';
+let produtoGerado = null;
 
 
 // ==================================================
@@ -110,6 +110,106 @@ function renderizarMarkdown(texto) {
         marked.parse(texto)
 
     return DOMPurify.sanitize(html)
+}
+
+
+// ==================================================
+// FORMATA O PRODUTO ESTRUTURADO PARA O PROTÓTIPO
+// ==================================================
+
+function formatarProdutoMarkdown(produto) {
+    const cadastro = produto.cadastro
+    const detalhes = produto.produto
+
+    const preco = new Intl.NumberFormat(
+        'pt-BR',
+        {
+            style: 'currency',
+            currency: 'BRL'
+        }
+    ).format(cadastro.preco)
+
+    const beneficios = detalhes.beneficios
+        .map((item) => `- ${item}`)
+        .join('\n')
+
+    const diferenciais = detalhes.diferenciais
+        .map((item) => `- ${item}`)
+        .join('\n')
+
+    const capitulos = detalhes.capitulos
+        .map((capitulo) => {
+            return `### ${capitulo.numero}. ${capitulo.titulo}\n\n**Objetivo:** ${capitulo.objetivo}\n\n${capitulo.resumo}`
+        })
+        .join('\n\n')
+
+    const criativos = produto.criativos
+        .map((criativo, indice) => {
+            return `### Criativo ${indice + 1} — ${criativo.canal}\n\n**Formato:** ${criativo.formato}\n\n**Headline:** ${criativo.headline}\n\n**Copy:** ${criativo.copy}\n\n**CTA:** ${criativo.cta}\n\n**Prompt de imagem:** ${criativo.prompt_imagem}`
+        })
+        .join('\n\n')
+
+    return `# 📦 ${cadastro.titulo}
+
+${detalhes.subtitulo}
+
+- **Categoria:** ${cadastro.categoria}
+- **Formato original:** ${detalhes.tipo_original}
+- **Preço sugerido:** ${preco}
+- **Comissão sugerida:** ${cadastro.comissao}%
+
+## Público-alvo
+
+${detalhes.publico_alvo}
+
+## Problema principal
+
+${detalhes.problema_principal}
+
+## Proposta de valor
+
+${detalhes.proposta_valor}
+
+## Benefícios
+
+${beneficios}
+
+## Diferenciais
+
+${diferenciais}
+
+## Estrutura do produto
+
+${capitulos}
+
+## Ideias de criativos
+
+${criativos}`
+}
+
+
+// ==================================================
+// MOSTRA A PRÉVIA SEM DEFINIR O DESIGN FINAL
+// ==================================================
+
+function mostrarProdutoPreview(produto) {
+    if (
+        !produtoPreview ||
+        !produtoPreviewNome ||
+        !produtoPreviewConteudo
+    ) {
+        return
+    }
+
+    produtoPreviewNome.innerText =
+        produto.cadastro.titulo
+
+    produtoPreviewConteudo.innerHTML =
+        renderizarMarkdown(
+            formatarProdutoMarkdown(produto)
+        )
+
+    produtoPreview.classList.remove('oculto')
 }
 
 
@@ -736,6 +836,11 @@ async function chamarGroq(
         )
     }
 
+    const respostaHistorico =
+        typeof dados.resposta === 'string'
+            ? dados.resposta
+            : JSON.stringify(dados.resposta)
+
     historico.push(
         {
             role: 'user',
@@ -743,7 +848,7 @@ async function chamarGroq(
         },
         {
             role: 'assistant',
-            content: dados.resposta
+            content: respostaHistorico
         }
     )
 
@@ -896,7 +1001,17 @@ async function enviarMensagem() {
 
         removerCarregamento(carregamento)
 
-        adicionarMensagemIA(resultado)
+        if (
+            etapaAtual === 'produto' &&
+            typeof resultado === 'object'
+        ) {
+            mostrarProdutoPreview(resultado)
+            adicionarMensagemIA(
+                formatarProdutoMarkdown(resultado)
+            )
+        } else {
+            adicionarMensagemIA(resultado)
+        }
 
         const fim =
             performance.now()
@@ -1068,11 +1183,11 @@ ${promptFinal}
             );
 
 
-        adicionarMensagemIA(`
-# 📦 Produto criado
+        mostrarProdutoPreview(produto)
 
-${produto}
-`);
+        adicionarMensagemIA(
+            formatarProdutoMarkdown(produto)
+        );
 
 
         const fim =
@@ -1161,7 +1276,7 @@ if (botaoPublicarProduto) {
         function () {
 
             alert(
-                'Protótipo: produto publicado com sucesso!'
+                'A publicação será implementada depois da geração do arquivo e da capa.'
             );
 
         }

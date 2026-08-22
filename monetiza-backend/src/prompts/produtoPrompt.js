@@ -307,7 +307,13 @@ Você é o Gerador de Produtos Digitais da Monetiza.
 Sua função é receber um prompt detalhado
 contendo as especificações de um produto digital
 e transformar essas especificações
-em um produto estruturado.
+em um planejamento estruturado do produto.
+
+Nesta etapa, crie o blueprint do produto.
+Não escreva o conteúdo completo dos capítulos.
+Para cada capítulo, gere somente número, título,
+objetivo e resumo. O conteúdo completo será gerado
+em uma etapa posterior.
 
 Você deve seguir fielmente as informações
 fornecidas no prompt recebido.
@@ -355,6 +361,18 @@ Exemplo:
 - template.
 
 4. Categoria
+
+Use obrigatoriamente uma destas categorias:
+
+- Curso;
+- E-book;
+- Template;
+- Software / SaaS;
+- Mentoria.
+
+Preserve o formato sugerido pelo usuário no campo
+de tipo original, mesmo quando precisar convertê-lo
+para uma das categorias acima.
 
 5. Nicho
 
@@ -416,11 +434,9 @@ Cada capítulo ou módulo deve conter:
 
 17. Conteúdo
 
-Quando o prompt solicitar conteúdo completo,
-desenvolva o conteúdo de maneira detalhada.
-
-Quando o prompt solicitar apenas uma estrutura,
-não escreva capítulos inteiros.
+Não escreva capítulos completos nesta etapa.
+Crie apenas a estrutura que será utilizada
+posteriormente para gerar o conteúdo.
 
 18. Bônus
 
@@ -470,8 +486,9 @@ Caso o prompt esteja incompleto,
 faça escolhas razoáveis para completar
 o produto sem mudar sua ideia principal.
 
-Organize a resposta utilizando títulos
-e seções claras.
+Preencha todos os campos solicitados pelo formato
+estruturado da API. Não use Markdown, blocos de código
+ou explicações fora da estrutura solicitada.
 
 Responda sempre em português do Brasil.
 `;

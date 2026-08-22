@@ -8,6 +8,14 @@ const {
     gerarTexto
 } = require('./groqService')
 
+const {
+    formatoRespostaProduto
+} = require('../../schemas/produtoIaSchema')
+
+const {
+    validarProdutoGerado
+} = require('../../validators/produtoIaValidator')
+
 const configuracoes = {
     consultor: {
         prompt: PROMPT_CONSULTOR,
@@ -23,10 +31,12 @@ const configuracoes = {
 
     produto: {
         prompt: PROMPT_PRODUTO,
-        temperatura: 0.6,
+        temperatura: 0.4,
         limiteTokens:
             Number(process.env.GROQ_MAX_TOKENS) ||
-            8000
+            8000,
+        formatoResposta:
+            formatoRespostaProduto
     }
 }
 
@@ -44,15 +54,46 @@ async function gerar({
         )
     }
 
-    return gerarTexto({
+    const resultado = await gerarTexto({
         systemPrompt: configuracao.prompt,
         mensagem,
         historico,
         temperatura:
             configuracao.temperatura,
         limiteTokens:
-            configuracao.limiteTokens
+            configuracao.limiteTokens,
+        formatoResposta:
+            configuracao.formatoResposta
     })
+
+    if (etapa !== 'produto') {
+        return {
+            ...resultado,
+            formato: 'markdown'
+        }
+    }
+
+    let produtoGerado
+
+    try {
+        produtoGerado = JSON.parse(
+            resultado.conteudo
+        )
+    } catch {
+        const erro = new Error(
+            'A IA retornou um produto em formato inválido.'
+        )
+
+        erro.codigo = 'PRODUTO_IA_JSON_INVALIDO'
+        throw erro
+    }
+
+    return {
+        ...resultado,
+        conteudo:
+            validarProdutoGerado(produtoGerado),
+        formato: 'produto_json'
+    }
 }
 module.exports = {
     gerar
