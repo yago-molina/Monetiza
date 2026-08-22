@@ -1,8 +1,19 @@
 const {
     PROMPT_CONSULTOR,
     PROMPT_BUILDER,
-    PROMPT_PRODUTO
+    PROMPT_PRODUTO,
+    PROMPT_CAPITULO
 } = require('../../prompts/produtoPrompt')
+
+const {
+    formatoRespostaCapitulo
+} = require('../../schemas/capituloIaSchema')
+
+const {
+    validarCapituloGerado
+} = require(
+    '../../validators/capituloIaValidator'
+)
 
 const {
     gerarTexto
@@ -107,6 +118,116 @@ async function gerar({
         formato: 'produto_json'
     }
 }
+
+async function gerarCapitulo({
+    produto,
+    capitulo
+}) {
+    const detalhes =
+        produto.produto
+
+    const contexto = {
+        titulo:
+            produto.cadastro.titulo,
+
+        tipo:
+            detalhes.tipo_original,
+
+        subtitulo:
+            detalhes.subtitulo,
+
+        nicho:
+            detalhes.nicho,
+
+        subnicho:
+            detalhes.subnicho,
+
+        publico_alvo:
+            detalhes.publico_alvo,
+
+        problema_principal:
+            detalhes.problema_principal,
+
+        proposta_valor:
+            detalhes.proposta_valor,
+
+        promessa_principal:
+            detalhes.promessa_principal,
+
+        estrutura_completa:
+            detalhes.capitulos,
+
+        capitulo_solicitado:
+            capitulo
+    }
+
+    const resultado =
+        await gerarTexto({
+            systemPrompt:
+                PROMPT_CAPITULO,
+
+            mensagem:
+                JSON.stringify(contexto),
+
+            historico: [],
+
+            temperatura: 0.45,
+
+            limiteTokens:
+                Number(
+                    process.env
+                        .GROQ_MAX_TOKENS_CAPITULO
+                ) || 6000,
+
+            formatoResposta:
+                formatoRespostaCapitulo
+        })
+
+    if (
+        resultado.motivoFinalizacao ===
+        'length'
+    ) {
+        const erro = new Error(
+            'A geração do capítulo atingiu o limite de tokens.'
+        )
+
+        erro.codigo =
+            'GROQ_LIMITE_TOKENS'
+
+        throw erro
+    }
+
+    let capituloGerado
+
+    try {
+        capituloGerado =
+            JSON.parse(resultado.conteudo)
+    } catch {
+        const erro = new Error(
+            'A IA retornou um capítulo em formato inválido.'
+        )
+
+        erro.codigo =
+            'CAPITULO_IA_JSON_INVALIDO'
+
+        throw erro
+    }
+
+    return {
+        ...resultado,
+
+        conteudo:
+            validarCapituloGerado(
+                capituloGerado,
+                capitulo
+            ),
+
+        formato:
+            'capitulo_json'
+    }
+}
+
 module.exports = {
-    gerar
+    gerar,
+    gerarCapitulo
 }

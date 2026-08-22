@@ -29,6 +29,11 @@ function obterLimite(etapa) {
         produto: numeroConfigurado(
             'IA_LIMITE_PRODUTO',
             5
+        ),
+
+        capitulo: numeroConfigurado(
+            'IA_LIMITE_CAPITULO',
+            20
         )
     }
 
@@ -51,7 +56,7 @@ function limparRegistrosExpirados(agora) {
 
 function limitarUsoIa(req, res, next) {
     const usuarioId = req.usuario?.id
-    const etapa = req.body?.etapa
+    const etapa = req.etapaIa || req.body?.etapa
 
     if (!usuarioId) {
         return res.status(401).json({
@@ -175,7 +180,19 @@ function impedirGeracoesSimultaneas(
     next()
 }
 
+function definirEtapaIa(etapa) {
+    return function (
+        req,
+        res,
+        next
+    ) {
+        req.etapaIa = etapa
+        next()
+    }
+}
+
 module.exports = {
     limitarUsoIa,
-    impedirGeracoesSimultaneas
+    impedirGeracoesSimultaneas,
+    definirEtapaIa
 }

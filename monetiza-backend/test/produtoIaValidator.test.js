@@ -84,17 +84,30 @@ const cenarios = [
 ]
 
 cenarios.forEach(([nicho, categoria, tipoOriginal]) => {
-        test('rejeita produto com menos de 3 criativos', () => {
-        const produto = criarProdutoValido()
+    test(`aceita um produto válido de ${nicho}`, () => {
+        const produto = criarProdutoValido({
+            titulo: `Produto de ${nicho}`,
+            categoria,
+            tipoOriginal
+        })
 
-        produto.criativos =
-            produto.criativos.slice(0, 2)
-
-        assert.throws(
-            () => validarProdutoGerado(produto),
-            /entre 3 e 5 ideias de criativos/i
+        assert.equal(
+            validarProdutoGerado(produto),
+            produto
         )
     })
+})
+
+test('rejeita produto com menos de 3 criativos', () => {
+    const produto = criarProdutoValido()
+
+    produto.criativos =
+        produto.criativos.slice(0, 2)
+
+    assert.throws(
+        () => validarProdutoGerado(produto),
+        /entre 3 e 5 ideias de criativos/i
+    )
 })
 
 test('rejeita categoria incompatível com o banco', () => {
