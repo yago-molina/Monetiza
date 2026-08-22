@@ -99,11 +99,13 @@ const gerar = async (req, res) => {
             })
 
         res.json({
-            etapa,
-            formato: resultado.formato,
-            resposta: resultado.conteudo,
-            modelo: resultado.modelo,
-            uso: resultado.uso
+        etapa,
+        formato: resultado.formato,
+        resposta: resultado.conteudo,
+        modelo: resultado.modelo,
+        uso: resultado.uso,
+        motivo_finalizacao:
+        resultado.motivoFinalizacao
         })
     } catch (erro) {
         console.error(
@@ -145,6 +147,13 @@ const gerar = async (req, res) => {
             })
         }
 
+        if (erro.codigo === 'GROQ_LIMITE_TOKENS') {
+            return res.status(502).json({
+                erro:
+                'A geração atingiu o limite de conteúdo. Tente novamente.',
+            motivo_finalizacao: 'length'
+            })
+        }
         res.status(503).json({
             erro:
                 'Não foi possível gerar o conteúdo neste momento.'

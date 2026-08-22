@@ -66,6 +66,18 @@ async function gerar({
             configuracao.formatoResposta
     })
 
+    if (
+        etapa === 'produto' &&
+        resultado.motivoFinalizacao === 'length'
+    ) {
+        const erro = new Error(
+            'A geração atingiu o limite de tokens.'
+        )
+
+        erro.codigo = 'GROQ_LIMITE_TOKENS'
+        throw erro
+    }
+
     if (etapa !== 'produto') {
         return {
             ...resultado,

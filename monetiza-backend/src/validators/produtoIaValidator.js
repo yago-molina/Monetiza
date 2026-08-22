@@ -164,11 +164,11 @@ function validarDetalhesProduto(produto) {
 function validarCriativos(criativos) {
     if (
         !Array.isArray(criativos) ||
-        criativos.length < 1 ||
-        criativos.length > 10
+        criativos.length < 3 ||
+        criativos.length > 5
     ) {
         throw erroValidacao(
-            'A IA deve retornar entre 1 e 10 ideias de criativos.'
+            'A IA deve retornar entre 3 e 5 ideias de criativos.'
         )
     }
 

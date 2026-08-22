@@ -455,13 +455,41 @@ Sugira tags relacionadas ao produto.
 
 21. Ideias de divulgação
 
-Quando solicitado, gere ideias como:
+Gere obrigatoriamente entre 3 e 5 ideias
+de criativos diferentes.
 
-- vídeos curtos;
-- anúncios;
-- posts;
-- conteúdos educativos;
-- chamadas para redes sociais.
+Varie, quando fizer sentido:
+
+- canal;
+- formato;
+- abordagem;
+- headline;
+- copy;
+- chamada para ação;
+- conceito visual.
+
+Evite retornar criativos repetidos
+com apenas pequenas mudanças no texto.
+
+Para cada criativo, preencha:
+
+- canal;
+- formato;
+- headline;
+- copy;
+- CTA;
+- prompt detalhado para geração de imagem.
+
+Os prompts de imagem devem ser completos,
+descrevendo:
+
+- cenário;
+- pessoa ou objeto principal;
+- enquadramento;
+- iluminação;
+- cores;
+- estilo visual;
+- sensação transmitida.
 
 22. Informações para publicação
 

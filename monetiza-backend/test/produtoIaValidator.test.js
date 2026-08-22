@@ -54,6 +54,22 @@ function criarProdutoValido({
                 copy: 'Conheça um caminho mais organizado.',
                 cta: 'Saiba mais',
                 prompt_imagem: 'Pessoa estudando em uma mesa organizada'
+            },
+            {
+                canal: 'TikTok',
+                formato: 'Vídeo curto',
+                headline: 'Você está começando agora?',
+                copy: 'Veja como aprender seguindo uma estrutura simples.',
+                cta: 'Conheça o produto',
+                prompt_imagem: 'Pessoa aprendendo com um guia digital'
+            },
+            {
+                canal: 'Instagram',
+                formato: 'Carrossel',
+                headline: 'Um caminho simples para começar',
+                copy: 'Descubra os primeiros passos para avançar.',
+                cta: 'Acesse agora',
+                prompt_imagem: 'Mesa moderna com tablet exibindo produto digital'
             }
         ]
     }
@@ -68,14 +84,16 @@ const cenarios = [
 ]
 
 cenarios.forEach(([nicho, categoria, tipoOriginal]) => {
-    test(`aceita um produto válido de ${nicho}`, () => {
-        const produto = criarProdutoValido({
-            titulo: `Produto de ${nicho}`,
-            categoria,
-            tipoOriginal
-        })
+        test('rejeita produto com menos de 3 criativos', () => {
+        const produto = criarProdutoValido()
 
-        assert.equal(validarProdutoGerado(produto), produto)
+        produto.criativos =
+            produto.criativos.slice(0, 2)
+
+        assert.throws(
+            () => validarProdutoGerado(produto),
+            /entre 3 e 5 ideias de criativos/i
+        )
     })
 })
 

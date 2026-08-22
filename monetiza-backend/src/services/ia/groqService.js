@@ -125,8 +125,14 @@ async function gerarTexto({
             parametros
         )
 
+    const escolha =
+    resposta.choices?.[0]
+
     const mensagemResposta =
-        resposta.choices?.[0]?.message
+        escolha?.message
+
+    const motivoFinalizacao =
+        escolha?.finish_reason || null
 
     if (mensagemResposta?.refusal) {
         const erro = new Error(
@@ -148,7 +154,8 @@ async function gerarTexto({
     return {
         conteudo,
         modelo: resposta.model,
-        uso: resposta.usage || null
+        uso: resposta.usage || null,
+        motivoFinalizacao
     }
 }
 
