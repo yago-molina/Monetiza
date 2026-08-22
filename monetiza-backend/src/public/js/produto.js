@@ -633,12 +633,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     )
 
     btnOpcaoIA.addEventListener('click', () => {
-        fecharTodosModais()
+    fecharTodosModais()
 
-        alert(
-            'A criação com inteligência artificial ainda será desenvolvida.'
-        )
-    })
+    window.location.href =
+        '/ia-produtos'
+})
 
     btnFecharEscolha.addEventListener(
         'click',

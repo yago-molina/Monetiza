@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <title>Monetiza IA</title>
+    <link
+        rel="stylesheet"
+        href="css/ia-produtos.css"
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+    <link rel="icon" type="image/png" href="image/icon_monetiza.png">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <aside class="sidebar">
+
+            <div class="logo-area">
+
+                <div class="logo">
+                    Monetiza
+                </div>
+
+                <div class="logo-subtitulo">
+                    IA Lab
+                </div>
+
+            </div>
+
+
+            <nav class="menu">
+
+
+                <button
+                    class="menu-item ativo"
+                    id="menu-consultor"
+                    onclick="mudarParaConsultor()"
+                >
+
+                    <span class="menu-icone">
+                        💡
+                    </span>
+
+                    <div class="menu-texto">
+
+                        <strong>
+                            Consultor
+                        </strong>
+
+                        <small>
+                            Descobrir uma ideia
+                        </small>
+
+                    </div>
+
+                </button>
+
+
+                <!-- PROMPT BUILDER -->
+
+                <button
+                    class="menu-item"
+                    id="menu-prompt-builder"
+                    onclick="mudarParaPromptBuilder()"
+                >
+
+                    <span class="menu-icone">
+                        ✨
+                    </span>
+
+                    <div class="menu-texto">
+
+                        <strong>
+                            Prompt Builder
+                        </strong>
+
+                        <small>
+                            Estruturar sua ideia
+                        </small>
+
+                    </div>
+
+                </button>
+
+
+                <!-- GERADOR DE PRODUTO -->
+
+                <button
+                    class="menu-item"
+                    id="menu-produto"
+                    onclick="mudarParaGeradorProduto()"
+                >
+
+                    <span class="menu-icone">
+                        📦
+                    </span>
+
+                    <div class="menu-texto">
+
+                        <strong>
+                            Gerar produto
+                        </strong>
+
+                        <small>
+                            Criar produto final
+                        </small>
+
+                    </div>
+
+                </button>
+
+            </nav>
+
+
+            <!-- STATUS DA API -->
+
+            <div class="sidebar-footer">
+
+                <div class="api-status">
+
+                    <span class="status-bolinha"></span>
+
+                    <span>
+                        Groq API
+                    </span>
+
+                </div>
+
+                <small>
+                    Protótipo Monetiza IA
+                </small>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- ========================================= -->
+        <!-- ÁREA PRINCIPAL -->
+        <!-- ========================================= -->
+
+        <main class="main">
+
+            <!-- ========================================= -->
+            <!-- TOPO -->
+            <!-- ========================================= -->
+
+            <header class="topbar">
+
+                <div class="topbar-titulo">
+
+                    <span class="breadcrumb">
+                        Produtos / Criar com IA
+                    </span>
+
+                    <h1>
+                        Monetiza IA
+                    </h1>
+
+                </div>
+
+
+                <!-- MODELO DA IA -->
+
+                <div class="modelo-area">
+
+                    <label for="modelo">
+                        Modelo
+                    </label>
+
+                    <select id="modelo">
+
+                        <option value="">
+                            Carregando modelos...
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- ========================================= -->
+            <!-- WORKSPACE -->
+            <!-- ========================================= -->
+
+            <section class="workspace">
+
+
+                <!-- ========================================= -->
+                <!-- HERO -->
+                <!-- ========================================= -->
+
+                <div class="hero">
+
+                    <div class="ia-avatar grande">
+                        M
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Vamos criar seu próximo produto?
+                        </h2>
+
+                        <p>
+                            Use a Monetiza IA para descobrir uma ideia,
+                            criar um prompt profissional e gerar um produto
+                            digital completo.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ========================================= -->
+                <!-- AÇÕES RÁPIDAS -->
+                <!-- ========================================= -->
+
+                <div class="acoes">
+
+                    <!-- CONSULTOR -->
+
+                    <button
+                        class="acao-card"
+                        onclick="mudarParaConsultor()"
+                    >
+
+                        <span class="acao-icone">
+                            💡
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Não sei o que criar
+                            </strong>
+
+                            <p>
+                                Converse com o consultor para encontrar
+                                ideias de produtos digitais.
+                            </p>
+
+                        </div>
+
+                    </button>
+
+
+                    <!-- PROMPT BUILDER -->
+
+                    <button
+                        class="acao-card"
+                        onclick="mudarParaPromptBuilder()"
+                    >
+
+                        <span class="acao-icone">
+                            ✍️
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Já tenho uma ideia
+                            </strong>
+
+                            <p>
+                                Transforme uma ideia simples em um
+                                prompt detalhado e profissional.
+                            </p>
+
+                        </div>
+
+                    </button>
+
+
+                    <!-- PRODUTO -->
+
+                    <button
+                        class="acao-card"
+                        onclick="mudarParaGeradorProduto()"
+                    >
+
+                        <span class="acao-icone">
+                            ✨
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Gerar produto
+                            </strong>
+
+                            <p>
+                                Use um prompt pronto para gerar
+                                um produto digital estruturado.
+                            </p>
+
+                        </div>
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- ========================================= -->
+                <!-- CHAT -->
+                <!-- ========================================= -->
+
+                <section class="chat-card">
+
+
+                    <!-- ========================================= -->
+                    <!-- CABEÇALHO DO CHAT -->
+                    <!-- ========================================= -->
+
+                    <div class="chat-header">
+
+                        <div class="chat-identidade">
+
+                            <div class="ia-avatar">
+                                M
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Monetiza IA
+                                </strong>
+
+                                <span id="modo-atual">
+                                    Consultor de produtos digitais
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="online">
+
+                            <span class="status-bolinha"></span>
+
+                            <span>
+                                Online
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ========================================= -->
+                    <!-- ÁREA DE MENSAGENS -->
+                    <!-- ========================================= -->
+
+                    <div
+                        class="chat-conteudo"
+                        id="chat-conteudo"
+                    >
+
+                        <!-- MENSAGEM INICIAL DA IA -->
+
+                        <div class="mensagem ia">
+
+                            <div class="mini-avatar">
+                                M
+                            </div>
+
+                            <div class="mensagem-corpo">
+
+                                <span class="autor">
+                                    Monetiza IA
+                                </span>
+
+                                <!--
+                                    A resposta da IA será renderizada aqui.
+
+                                    IMPORTANTE:
+                                    O JavaScript vai usar marked.parse()
+                                    para transformar Markdown em HTML.
+                                -->
+
+                                <div
+                                    class="mensagem-balao markdown-content"
+                                    id="resposta"
+                                >
+
+                                    <p>
+                                        Olá! Posso ajudar você a encontrar
+                                        uma ideia de produto, melhorar uma ideia
+                                        que já possui ou gerar um produto completo.
+                                    </p>
+
+                                    <p>
+                                        Escolha uma das opções acima para começar.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ========================================= -->
+                    <!-- STATUS DA IA -->
+                    <!-- ========================================= -->
+
+                    <div
+                        id="status"
+                        class="status-ia"
+                    >
+                        Modo atual: Consultor
+                    </div>
+
+
+
+                    <!-- ========================================= -->
+                    <!-- CAMPO DE MENSAGEM -->
+                    <!-- ========================================= -->
+
+                    <div class="chat-input-area">
+
+                        <textarea
+                            id="prompt"
+                            placeholder="Ex: Quero criar um produto digital sobre academia..."
+                        ></textarea>
+
+
+                        <button
+                            type="button"
+                            id="enviar"
+                            class="btn-enviar"
+                        >
+                            <span>Enviar</span>
+                            <span class="seta">➜</span>
+                        </button>
+
+                    </div>
+
+
+                    <!-- DICA -->
+
+                    <div class="chat-dica">
+
+                        Ctrl + Enter para enviar
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- ========================================= -->
+                <!-- FLUXO DE CRIAÇÃO -->
+                <!-- ========================================= -->
+
+                <section class="fluxo">
+
+                    <div class="fluxo-titulo">
+
+                        <span>
+                            Fluxo da criação
+                        </span>
+
+                        <small>
+                            Protótipo
+                        </small>
+
+                    </div>
+
+
+                    <div class="fluxo-etapas">
+
+
+                        <!-- ETAPA 1 -->
+
+                        <div
+                            class="fluxo-item ativo"
+                            id="fluxo-consultor"
+                        >
+
+                            <div class="numero">
+                                1
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Descobrir
+                                </strong>
+
+                                <span>
+                                    Consultor
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="linha"></div>
+
+
+                        <!-- ETAPA 2 -->
+
+                        <div
+                            class="fluxo-item"
+                            id="fluxo-prompt-builder"
+                        >
+
+                            <div class="numero">
+                                2
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Estruturar
+                                </strong>
+
+                                <span>
+                                    Prompt Builder
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="linha"></div>
+
+
+                        <!-- ETAPA 3 -->
+
+                        <div
+                            class="fluxo-item"
+                            id="fluxo-produto"
+                        >
+
+                            <div class="numero">
+                                3
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Criar
+                                </strong>
+
+                                <span>
+                                    Produto
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- ========================================= -->
+                <!-- ÁREA FUTURA DO PRODUTO -->
+                <!-- ========================================= -->
+
+                <!--
+                    Essa área ainda fica escondida.
+
+                    Depois vamos usar ela para mostrar:
+
+                    - nome do produto
+                    - descrição
+                    - preço
+                    - categoria
+                    - capítulos
+                    - botão editar
+                    - botão gerar PDF
+                    - botão publicar
+                -->
+
+                <section
+                    class="produto-preview oculto"
+                    id="produto-preview"
+                >
+
+                    <div class="produto-preview-header">
+
+                        <div>
+
+                            <span class="produto-etiqueta">
+                                Produto criado
+                            </span>
+
+                            <h2 id="produto-preview-nome">
+                                Nome do produto
+                            </h2>
+
+                        </div>
+
+
+                        <div class="produto-acoes">
+
+                            <button
+                                class="btn-secundario"
+                                id="editar-produto"
+                            >
+                                Editar
+                            </button>
+
+
+                            <button
+                                class="btn-secundario"
+                                id="gerar-pdf"
+                            >
+                                Gerar PDF
+                            </button>
+
+
+                            <button
+                                class="btn-publicar"
+                                id="publicar-produto"
+                            >
+                                Publicar
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="produto-preview-conteudo"
+                        id="produto-preview-conteudo"
+                    >
+                    </div>
+
+                </section>
+
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+
+    <!-- ========================================= -->
+    <!-- BIBLIOTECA MARKDOWN -->
+    <!-- ========================================= -->
+
+    <!--
+        marked.js transforma a resposta Markdown
+        da IA em HTML formatado.
+
+        Exemplo:
+
+        ## Título
+
+        vira um <h2>
+
+        | Campo | Informação |
+
+        vira uma tabela HTML.
+    -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+    ></script>
+
+
+
+    <!-- ========================================= -->
+    <!-- PROMPTS DA IA -->
+    <!-- ========================================= -->
+
+    <!--
+        prompts.js precisa vir antes do script.js
+        porque ele cria:
+
+        PROMPT_CONSULTOR
+        PROMPT_BUILDER
+        PROMPT_PRODUTO
+    -->
+
+    <script
+    src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+    ></script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"
+    ></script>
+
+    <script src="/js/ia-produtos.js"></script>
+
+
+</body>
+
+</html>
