@@ -1,9 +1,14 @@
 const express = require('express')
 const path = require('path')
 const app = express()
+const produtoIaRoutes = require('./routes/produtoIaRoutes')
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(
+    '/ia/produtos',
+    produtoIaRoutes
+)
 
 require('./config/db')
 
@@ -67,6 +72,16 @@ app.get('/configuracoes', (req, res) => {
 
 app.get('/vitrine', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'vitrine.html'))
+})
+
+app.get('/ia-produtos', (req, res) => {
+    res.sendFile(
+        path.join(
+            __dirname,
+            'public',
+            'ia-produtos.html'
+        )
+    )
 })
 
 module.exports = app

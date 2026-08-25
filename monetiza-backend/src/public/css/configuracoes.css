@@ -15,7 +15,7 @@ html, body, .main-content {
 }
 
 body {
-    background-color: #121214;
+    background-image: linear-gradient(135deg, #460b52 0%, #121214 30%);
     color: #ffffff;
     min-height: 100vh;
     overflow-x: hidden;

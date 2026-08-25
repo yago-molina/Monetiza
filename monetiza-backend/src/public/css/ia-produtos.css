@@ -1,0 +1,874 @@
+/* ==================================================
+   1. VARIÁVEIS GERAIS & THEME
+================================================== */
+:root {
+    --bg-dark: #121214;
+    --card: #1c1c1e;
+    --card-hover: #27272a;
+    --border: #2c2c2e;
+    --border-light: #3f3f46;
+    --text: #ffffff;
+    --text-secondary: #a4a4a8;
+    --text-muted: #7c7c8a;
+    --primary: #4d4dff;
+    --primary-hover: #8080ff;
+    --primary-bg: rgba(77, 77, 255, 0.15);
+    --danger: #ef4444;
+    --success: #10b981;
+    --sidebar-width: 260px;
+}
+
+/* ==================================================
+   2. RESET & PREVENÇÃO DE DESLOCAMENTO (JUMP)
+================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html {
+    scrollbar-gutter: stable; /* Evita o 'pulo' de layout quando a scrollbar surge */
+}
+
+body {
+    background-image: linear-gradient(135deg, #460b52 0%, #121214 30%);
+    background-color: var(--bg-dark);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-light);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+/* ==================================================
+   3. ESTRUTURA MACRO (Layout Global)
+================================================== */
+.container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.main-content {
+    flex: 1;
+    padding: 32px 40px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==================================================
+   4. SIDEBAR GLOBAL (Menu Principal)
+================================================== */
+.sidebar-global {
+    width: var(--sidebar-width);
+    background-color: var(--card);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px 0;
+    flex-shrink: 0;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 12px;
+}
+
+.logo-sidebar {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+.brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.menu-nav {
+    flex: 1;
+    margin-top: 32px;
+}
+
+.menu-nav ul {
+    list-style: none;
+}
+
+.menu-nav ul li {
+    padding: 2px 16px;
+}
+
+.menu-nav ul li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.menu-nav ul li a i {
+    margin-right: 12px;
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+    transition: color 0.2s ease;
+}
+
+.menu-nav ul li.active a {
+    background-color: rgba(0, 0, 193, 0.15);
+    color: #4d4dff;
+    font-weight: 600;
+}
+
+.menu-nav ul li.active a i {
+    color: #4d4dff;
+}
+
+.menu-nav ul li a:hover {
+    background-color: #2c2c2e;
+    color: #ffffff;
+}
+
+.menu-nav ul li a:hover i {
+    color: #ffffff;
+}
+
+.user-profile {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px 0;
+    border-top: 1px solid var(--border);
+}
+
+.avatar-fallback {
+    width: 40px;
+    height: 40px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.user-email {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* ==================================================
+   5. TOP BAR GLOBAL
+================================================== */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    background-color: var(--card);
+    padding: 16px 24px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    width: 100%;
+}
+
+.search-bar-container {
+    position: relative;
+    width: 450px;
+    display: flex;
+    align-items: center;
+}
+
+.search-bar-container .search-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-muted);
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    height: 40px;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0 16px 0 40px;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-input:focus {
+    border-color: var(--primary);
+}
+
+.top-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.vitrine-link {
+    text-decoration: none;
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+
+.vitrine-link:hover {
+    color: var(--primary-hover);
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+}
+
+.icon-btn:hover {
+    background-color: var(--border);
+    color: var(--text);
+}
+
+/* ==================================================
+   6. MÓDULO IA - SUB-SIDEBAR E WORKSPACE
+================================================== */
+.app-ia-container {
+    display: flex;
+    gap: 24px;
+    flex: 1;
+    align-items: flex-start;
+}
+
+/* Sub-Sidebar IA */
+.sidebar-ia {
+    width: 240px;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    flex-shrink: 0;
+}
+
+.sidebar-ia .logo-area {
+    padding: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+}
+
+.sidebar-ia .logo {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.sidebar-ia .logo-subtitulo {
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.menu-ia {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.menu-item:hover {
+    background-color: var(--card-hover);
+    color: var(--text);
+}
+
+.menu-item.ativo {
+    background-color: var(--primary-bg);
+    border-color: rgba(77, 77, 255, 0.4);
+    color: var(--text);
+}
+
+.menu-icone {
+    font-size: 18px;
+}
+
+.menu-texto {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-texto strong {
+    font-size: 13px;
+    color: var(--text);
+}
+
+.menu-texto small {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.api-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.status-bolinha {
+    width: 8px;
+    height: 8px;
+    background-color: var(--success);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--success);
+}
+
+.sidebar-footer small {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* Área Workspace IA */
+.workspace-ia {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+}
+
+.topbar-ia {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 24px;
+}
+
+.topbar-titulo .breadcrumb {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.topbar-titulo h1 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.modelo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modelo-area label {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.modelo-area select {
+    background-color: var(--bg-dark);
+    color: var(--text);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+}
+
+.workspace {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Hero Component */
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    padding: 24px;
+    border-radius: 12px;
+}
+
+.ia-avatar {
+    width: 36px;
+    height: 36px;
+    background-color: var(--primary);
+    color: var(--text);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.ia-avatar.grande {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+    border-radius: 12px;
+}
+
+.hero h2 {
+    font-size: 18px;
+    margin-bottom: 4px;
+}
+
+.hero p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Cards de Ação Rápida */
+.acoes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.acao-card {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.acao-card:hover {
+    background-color: var(--card-hover);
+    border-color: var(--border-light);
+    transform: translateY(-2px);
+}
+
+.acao-icone {
+    font-size: 24px;
+}
+
+.acao-card strong {
+    display: block;
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.acao-card p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* ==================================================
+   7. CHAT IA COMPONENTS
+================================================== */
+.chat-card {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.chat-identidade {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.chat-identidade strong {
+    font-size: 14px;
+    display: block;
+}
+
+.chat-identidade span {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.online {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.chat-conteudo {
+    padding: 24px;
+    min-height: 280px;
+    max-height: 480px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mensagem {
+    display: flex;
+    gap: 12px;
+    max-width: 85%;
+}
+
+.mensagem.ia {
+    align-self: flex-start;
+}
+
+.mensagem.usuario {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.mini-avatar {
+    width: 28px;
+    height: 28px;
+    background-color: var(--primary);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.mensagem-corpo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mensagem-corpo .autor {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.mensagem-balao {
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.mensagem.usuario .mensagem-balao {
+    background-color: var(--primary-bg);
+    border-color: rgba(77, 77, 255, 0.3);
+}
+
+.status-ia {
+    padding: 6px 20px;
+    font-size: 12px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 12px;
+    padding: 16px 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    align-items: flex-end;
+}
+
+#prompt {
+    flex: 1;
+    height: 52px;
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    resize: none;
+}
+
+#prompt:focus {
+    border-color: var(--primary);
+}
+
+.btn-enviar {
+    height: 52px;
+    padding: 0 20px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.btn-enviar:hover {
+    background-color: var(--primary-hover);
+}
+
+.chat-dica {
+    font-size: 11px;
+    color: var(--text-muted);
+    padding: 0 20px 12px;
+    text-align: right;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ==================================================
+   8. FLUXO DE CRIAÇÃO & PREVIEW DE PRODUTO
+================================================== */
+.fluxo {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+}
+
+.fluxo-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.fluxo-titulo span {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.fluxo-titulo small {
+    color: var(--text-muted);
+}
+
+.fluxo-etapas {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fluxo-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.5;
+}
+
+.fluxo-item.ativo {
+    opacity: 1;
+}
+
+.fluxo-item .numero {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.fluxo-item.ativo .numero {
+    background-color: var(--primary);
+    color: white;
+}
+
+.fluxo-item strong {
+    display: block;
+    font-size: 13px;
+}
+
+.fluxo-item span {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.linha {
+    flex: 1;
+    height: 1px;
+    background-color: var(--border);
+    margin: 0 16px;
+}
+
+/* Preview do Produto */
+.produto-preview {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.produto-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.produto-etiqueta {
+    font-size: 11px;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.produto-preview-header h2 {
+    font-size: 20px;
+    margin-top: 2px;
+}
+
+.produto-acoes {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-secundario {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-secundario:hover {
+    background-color: var(--border);
+}
+
+.btn-publicar {
+    background-color: var(--success);
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-publicar:hover {
+    opacity: 0.9;
+}
+
+.produto-preview-conteudo {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* Class utilitária para ocultar o preview até ser gerado */
+.oculto {
+    display: none !important;
+}
