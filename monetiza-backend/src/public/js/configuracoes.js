@@ -1,145 +1,329 @@
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('token')
 
-    const token = localStorage.getItem('token');
-    const email = localStorage.getItem('usuarioLogado');
+    const tabButtons = document.querySelectorAll('.tab-btn')
+    const tabContents = document.querySelectorAll('.tab-content')
+
+    const formPerfil = document.getElementById('form-perfil')
+    const formPagamento = document.getElementById('form-pagamento')
+    const btnPreferencias = document.getElementById('btn-salvar-preferencias')
 
     if (!token) {
-        alert('Acesso negado. Faça login primeiro.');
-        window.location.href = '/';
-        return;
+        alert('Acesso negado. Faça login primeiro.')
+        window.location.href = '/'
+        return
+    }
+
+    function headers() {
+        return {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    function encerrarSessao() {
+        localStorage.removeItem('token')
+        localStorage.removeItem('usuarioLogado')
+
+        alert('Sua sessão expirou. Faça login novamente.')
+        window.location.href = '/'
+    }
+
+    async function verificarResposta(resposta) {
+        if (resposta.status === 401) {
+            encerrarSessao()
+            throw new Error('Sessão encerrada')
+        }
+
+        let dados = {}
+
+        try {
+            dados = await resposta.json()
+        } catch {
+            dados = {}
+        }
+
+        if (!resposta.ok) {
+            throw new Error(
+                dados.erro ||
+                'Não foi possível completar a operação'
+            )
+        }
+
+        return dados
+    }
+
+    async function carregarConfiguracoes() {
+        const resposta = await fetch(
+            '/configuracoes-api',
+            {
+                headers: headers()
+            }
+        )
+
+        const dados = await verificarResposta(resposta)
+        const usuario = dados.usuario
+
+        document.getElementById('input-nome').value =
+            usuario.nome || ''
+
+        document.getElementById('input-email').value =
+            usuario.email || ''
+
+        document.getElementById('input-bio').value =
+            usuario.bio || ''
+
+        document.getElementById('input-telefone').value =
+            usuario.telefone || ''
+
+        const nomeMenu =
+            document.getElementById('nome-usuario')
+
+        const emailMenu =
+            document.getElementById('email-usuario')
+
+        if (nomeMenu) {
+            nomeMenu.textContent = usuario.nome
+        }
+
+        if (emailMenu) {
+            emailMenu.textContent = usuario.email
+        }
+
+        const preferencias = dados.preferencias
+
+        document.getElementById('notif-vendas').checked =
+            Boolean(preferencias.notificar_vendas)
+
+        document.getElementById('notif-comissoes').checked =
+            Boolean(preferencias.notificar_comissoes)
+
+        document.getElementById('notif-mensagens').checked =
+            Boolean(preferencias.notificar_mensagens)
+
+        document.getElementById('notif-email').checked =
+            Boolean(preferencias.notificar_email)
+
+        const notifContratos =
+            document.getElementById('notif-contratos')
+
+        if (notifContratos) {
+            notifContratos.checked =
+                Boolean(preferencias.notificar_contratos)
+        }
+
+        const notifAfiliacoes =
+            document.getElementById('notif-afiliacoes')
+
+        if (notifAfiliacoes) {
+            notifAfiliacoes.checked =
+                Boolean(preferencias.notificar_afiliacoes)
+        }
+
+        if (dados.pagamento) {
+            document.getElementById('nome-titular').value =
+                dados.pagamento.nome_titular || ''
+
+            document.getElementById('tipo-chave-pix').value =
+                dados.pagamento.tipo_chave_pix || ''
+
+            document.getElementById('chave-pix').value =
+                dados.pagamento.chave_pix || ''
+        }
+    }
+
+    async function salvarPerfil(evento) {
+        evento.preventDefault()
+
+        const nome =
+            document.getElementById('input-nome').value
+
+        const bio =
+            document.getElementById('input-bio').value
+
+        const telefone =
+            document.getElementById('input-telefone').value
+
+        try {
+            const resposta = await fetch(
+                '/configuracoes-api/perfil',
+                {
+                    method: 'PUT',
+                    headers: headers(),
+                    body: JSON.stringify({
+                        nome,
+                        bio,
+                        telefone
+                    })
+                }
+            )
+
+            const dados = await verificarResposta(resposta)
+
+            alert(dados.mensagem)
+
+            await carregarConfiguracoes()
+        } catch (erro) {
+            alert(erro.message)
+        }
+    }
+
+    async function salvarPreferencias() {
+        const notifContratos =
+            document.getElementById('notif-contratos')
+
+        const notifAfiliacoes =
+            document.getElementById('notif-afiliacoes')
+
+        try {
+            const resposta = await fetch(
+                '/configuracoes-api/notificacoes',
+                {
+                    method: 'PUT',
+                    headers: headers(),
+
+                    body: JSON.stringify({
+                        notificar_vendas:
+                            document.getElementById(
+                                'notif-vendas'
+                            ).checked,
+
+                        notificar_comissoes:
+                            document.getElementById(
+                                'notif-comissoes'
+                            ).checked,
+
+                        notificar_mensagens:
+                            document.getElementById(
+                                'notif-mensagens'
+                            ).checked,
+
+                        notificar_email:
+                            document.getElementById(
+                                'notif-email'
+                            ).checked,
+
+                        notificar_contratos:
+                            notifContratos
+                                ? notifContratos.checked
+                                : true,
+
+                        notificar_afiliacoes:
+                            notifAfiliacoes
+                                ? notifAfiliacoes.checked
+                                : true
+                    })
+                }
+            )
+
+            const dados = await verificarResposta(resposta)
+
+            alert(dados.mensagem)
+        } catch (erro) {
+            alert(erro.message)
+        }
+    }
+
+    async function salvarPagamento(evento) {
+        evento.preventDefault()
+
+        const nome_titular =
+            document.getElementById(
+                'nome-titular'
+            ).value
+
+        const tipo_chave_pix =
+            document.getElementById(
+                'tipo-chave-pix'
+            ).value
+
+        const chave_pix =
+            document.getElementById(
+                'chave-pix'
+            ).value
+
+        try {
+            const resposta = await fetch(
+                '/configuracoes-api/pagamento',
+                {
+                    method: 'PUT',
+                    headers: headers(),
+
+                    body: JSON.stringify({
+                        nome_titular,
+                        tipo_chave_pix,
+                        chave_pix
+                    })
+                }
+            )
+
+            const dados = await verificarResposta(resposta)
+
+            alert(dados.mensagem)
+
+            await carregarConfiguracoes()
+        } catch (erro) {
+            alert(erro.message)
+        }
+    }
+
+    tabButtons.forEach(button => {
+        button.addEventListener(
+            'click',
+            () => {
+                const aba = button.dataset.tab
+
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active')
+                })
+
+                tabContents.forEach(content => {
+                    content.classList.remove('active')
+                })
+
+                button.classList.add('active')
+
+                document.getElementById(
+                    `tab-${aba}`
+                )?.classList.add('active')
+            }
+        )
+    })
+
+    if (formPerfil) {
+        formPerfil.addEventListener(
+            'submit',
+            salvarPerfil
+        )
+    }
+
+    if (formPagamento) {
+        formPagamento.addEventListener(
+            'submit',
+            salvarPagamento
+        )
+    }
+
+    if (btnPreferencias) {
+        btnPreferencias.addEventListener(
+            'click',
+            salvarPreferencias
+        )
     }
 
     try {
-        // Consulta os dados do usuário usando o token
-        const resposta = await fetch('/usuario/perfil', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        const dados = await resposta.json();
-
-        // Token inválido ou expirado
-        if (!resposta.ok) {
-            localStorage.removeItem('token');
-            localStorage.removeItem('usuarioLogado');
-
-            alert('Sua sessão expirou. Faça login novamente.');
-            window.location.href = '/';
-            return;
-        }
-
-        const usuario = dados.usuario;
-
-        // Nome do usuario
-        const olaUsuario = document.getElementById('ola-usuario');
-
-        if (olaUsuario) {
-            olaUsuario.textContent = usuario.nome;
-        }
-
-        // Nome no menu lateral
-        const nomeUsuario = document.getElementById('nome-usuario');
-
-        if (nomeUsuario) {
-            nomeUsuario.textContent = usuario.nome;
-        }
-
-        // Email no menu lateral
-        const emailUsuario = document.getElementById('email-usuario');
-
-        if (emailUsuario) {
-            emailUsuario.textContent = email;
-        }
-
+        await carregarConfiguracoes()
     } catch (erro) {
+        console.error(
+            'Erro ao carregar Configurações:',
+            erro
+        )
 
-        console.error('Erro ao carregar usuário:', erro);
-        alert('Erro ao carregar os dados do usuário.');
-    }
-
-    // Controle do menu lateral
-    const itensMenu = document.querySelectorAll('.menu-nav ul li');
-
-    itensMenu.forEach(item => {
-        item.addEventListener('click', function (e) {
-
-            if (this.classList.contains('disabled')) {
-                e.preventDefault();
-                return;
-            }
-
-            itensMenu.forEach(li => li.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-
-});
-
-document.addEventListener('DOMContentLoaded', () => {
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-    const btnSalvar = document.getElementById('btn-salvar-preferencias');
-
-    // Alternar entre as abas
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetTab = btn.getAttribute('data-tab');
-
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-
-            btn.classList.add('active');
-            const activeContent = document.getElementById(`tab-${targetTab}`);
-            if (activeContent) {
-                activeContent.classList.add('active');
-            }
-        });
-    });
-
-    // Evento do Botão Salvar Preferências
-    if (btnSalvar) {
-        btnSalvar.addEventListener('click', () => {
-            const preferencias = {
-                vendas: document.getElementById('notif-vendas').checked,
-                comissoes: document.getElementById('notif-comissoes').checked,
-                mensagens: document.getElementById('notif-mensagens').checked,
-                email: document.getElementById('notif-email').checked,
-            };
-
-            console.log('Preferências Salvas:', preferencias);
-            alert('Preferências salvas com sucesso!');
-        });
-    }
-});
-
-const btnSalvarSeguranca = document.getElementById('btn-salvar-seguranca');
-
-if (btnSalvarSeguranca) {
-    btnSalvarSeguranca.addEventListener('click', () => {
-        const segurancaConfig = {
-            fa2Habilitado: document.getElementById('seg-2fa').checked
-        };
-
-        console.log('Configurações de Segurança Salvas:', segurancaConfig);
-        alert('Configurações de segurança salvas com sucesso!');
-    });
-}
-
-const formPagamento = document.getElementById('form-pagamento');
-
-if (formPagamento) {
-    formPagamento.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const chavePix = document.getElementById('chave-pix').value;
-
-        if (!chavePix.trim()) {
-            alert('Por favor, informe uma chave PIX válida.');
-            return;
+        if (
+            erro.message !==
+            'Sessão encerrada'
+        ) {
+            alert(erro.message)
         }
-
-        console.log('Chave PIX cadastrada:', chavePix);
-        alert('Dados de pagamento salvos com sucesso!');
-    });
-}
+    }
+})

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Produto - Monetiza</title>
+    <link rel="icon" type="image/png" href="image/logo_monetiza.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/paginaDoProduto.css">
+</head>
+<body>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo-area">
+                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
+                <span class="brand-name">Monetiza</span>
+            </div>
+
+            <nav class="menu-nav">
+                <ul>
+                    <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
+                    <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
+                    <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
+                    <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
+                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
+                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
+                    <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                </ul>
+            </nav>
+
+            <div class="user-profile">
+                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="user-info">
+                    <span id="nome-usuario" class="user-name">Username</span>
+                    <span id="email-usuario" class="user-email">email@gmail.com</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="search-bar-container">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" placeholder="O que você está buscando..." class="search-input">
+                </div>
+                <div class="top-bar-actions">
+                    <a href="/vitrine" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+                    <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
+                    <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
+                </div>
+            </div>
+            <div class="product-detail-layout" id="produto-container">
+                <!-- Coluna da Esquerda: Imagem e Descrição Completa -->
+                <div class="product-main-info">
+                    <div class="cover-wrapper">
+                        <img id="detalhe-capa" src="image/placeholder.png" alt="Capa do Produto">
+                    </div>
+
+                    <div class="content-block">
+                        <h2>Sobre este produto</h2>
+                        <p id="detalhe-descricao">Carregando informações do produto...</p>
+                    </div>
+
+                    <div class="content-block">
+                        <h2>O que você vai receber</h2>
+                        <ul class="features-list">
+                            <li><i class="fa-solid fa-circle-check"></i> Acesso imediato após a confirmação do pagamento</li>
+                            <li><i class="fa-solid fa-circle-check"></i> Suporte direto com o produtor</li>
+                            <li><i class="fa-solid fa-circle-check"></i> Conteúdo 100% digital e atualizado</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Coluna da Direita: Card de Compra (Sticky) -->
+                <div class="product-action-card">
+                    <span id="detalhe-categoria" class="badge-categoria">Categoria</span>
+                    <h1 id="detalhe-titulo">Nome do Produto</h1>
+                    <p class="producer-text">Criado por: <strong id="detalhe-produtor">Produtor</strong></p>
+
+                    <div class="price-box">
+                        <span class="price-label">Preço:</span>
+                        <span id="detalhe-preco" class="price-value">R$ 0,00</span>
+                    </div>
+
+                    <button id="btn-ir-checkout" class="btn-comprar-agora">
+                        <i class="fa-solid fa-cart-shopping"></i> Comprar Agora
+                    </button>
+
+                    <div class="guarantees-container">
+                        <div class="guarantee-item">
+                            <i class="fa-solid fa-shield-halved"></i>
+                            <span>Pagamento 100% Seguro</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            <span>Garantia de 7 Dias</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <i class="fa-solid fa-bolt"></i>
+                            <span>Acesso Imediato</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <!-- Modal de Checkout Pop-up -->
+<div id="modal-checkout" class="modal-overlay">
+    <div class="modal-card">
+        <button class="modal-fechar" id="fechar-modal-checkout">&times;</button>
+        
+        <h2>Finalizar Compra</h2>
+
+        <div class="product-summary-modal">
+            <img id="modal-checkout-img" src="image/placeholder.png" alt="Capa">
+            <div>
+                <h4 id="modal-checkout-titulo">Nome do Produto</h4>
+                <span id="modal-checkout-preco" class="price-green">R$ 0,00</span>
+            </div>
+        </div>
+
+        <form id="form-checkout-modal">
+            <div class="input-group">
+                <label for="modal-nome">Nome Completo</label>
+                <input type="text" id="modal-nome" placeholder="Digite seu nome completo" required>
+            </div>
+
+            <div class="input-group">
+                <label for="modal-email">E-mail para entrega</label>
+                <input type="email" id="modal-email" placeholder="seu@email.com" required>
+            </div>
+
+            <div class="payment-methods">
+                <label>Forma de Pagamento</label>
+                <div class="options">
+                    <label class="option-btn">
+                        <input type="radio" name="pagamento" value="pix" checked>
+                        <i class="fa-brands fa-pix"></i> Pix
+                    </label>
+                    <label class="option-btn">
+                        <input type="radio" name="pagamento" value="cartao">
+                        <i class="fa-solid fa-credit-card"></i> Cartão
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-confirmar-modal" id="btn-finalizar-modal">
+                Confirmar Pagamento
+            </button>
+        </form>
+    </div>
+</div>
+
+        </main>
+    </div>
+
+    <script src="js/perfilSidebar.js"></script>
+    <script src="js/paginaDoProduto.js"></script>
+</body>
+</html>

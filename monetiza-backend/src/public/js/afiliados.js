@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             `
 
             btnCopiar.addEventListener('click', () => {
-                copiarLink(afiliacao.codigo_link)
+                copiarLink(afiliacao.codigo_link, afiliacao.produto_id)
             })
 
             const btnEncerrar = document.createElement('button')
@@ -360,24 +360,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         return linha
     }
 
-    async function copiarLink(codigo) {
-        if (!codigo) {
+    async function copiarLink(codigo, produtoId) {
+        if (!codigo || !produtoId) {
             alert('Este link de afiliado não está disponível.')
             return
         }
 
-        const link =
-            `${window.location.origin}/vitrine?ref=${codigo}`
+        const link = `${window.location.origin}/vitrine/produto/${produtoId}?ref=${codigo}`
 
         try {
             await navigator.clipboard.writeText(link)
-
             alert('Link de afiliado copiado!')
         } catch {
-            window.prompt(
-                'Copie seu link de afiliado:',
-                link
-            )
+            window.prompt('Copie seu link de afiliado:', link)
         }
     }
 

@@ -19,12 +19,20 @@ const usuarioRoutes = require('./routes/usuarioRoutes')
 const produtoRoutes = require('./routes/produtoRoutes')
 const dashboardRoutes = require('./routes/dashboardRoutes')
 const afiliadosRoutes = require('./routes/afiliadosRoutes')
+const vendasRoutes = require('./routes/vendasRoutes')
+const financeiroRoutes = require('./routes/financeiroRoutes')
+const configuracoesRoutes = require('./routes/configuracoesRoutes')
+const vitrineRoutes = require('./routes/vitrineRoutes')
 
 app.use('/auth', authRoutes)
 app.use('/usuario', usuarioRoutes)
 app.use('/produtos', produtoRoutes)
 app.use('/dashboard', dashboardRoutes)
 app.use('/afiliacoes', afiliadosRoutes)
+app.use('/vendas', vendasRoutes)
+app.use('/financeiro-api', financeiroRoutes)
+app.use('/configuracoes-api', configuracoesRoutes)
+app.use('/vitrine-api', vitrineRoutes)
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'))
@@ -72,6 +80,10 @@ app.get('/configuracoes', (req, res) => {
 
 app.get('/vitrine', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'vitrine.html'))
+})
+
+app.get('/vitrine/produto/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'paginaDoProduto.html'))
 })
 
 app.get('/ia-produtos', (req, res) => {

@@ -526,3 +526,49 @@ body {
     grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
     align-items: center;
 }
+
+.transacao-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1.5fr 1.5fr 1fr;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #2c2c2e;
+    font-size: 14px;
+    color: #c4c4cc;
+    gap: 12px;
+}
+
+.comissao-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid #2c2c2e;
+    font-size: 14px;
+    color: #c4c4cc;
+    gap: 12px;
+}
+
+.transacao-row:last-child,
+.comissao-row:last-child {
+    border-bottom: none;
+}
+
+.transacao-row:hover,
+.comissao-row:hover {
+    background-color: #222224;
+}
+
+.transacao-row span,
+.comissao-row span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.transacao-row .text-right,
+.comissao-row .text-right {
+    text-align: right;
+    font-weight: 600;
+    color: #ffffff;
+}

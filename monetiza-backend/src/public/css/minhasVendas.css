@@ -341,3 +341,67 @@ body {
     color: #505059;
     font-size: 14px;
 }
+
+.venda-row,
+.comissao-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.venda-row span,
+.comissao-row span {
+    font-size: 14px;
+}
+
+.venda-row .text-right,
+.comissao-row .text-right {
+    text-align: right;
+}
+
+.status-venda {
+    width: fit-content;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-pago {
+    background: rgba(34, 197, 94, 0.15);
+}
+
+.status-pendente {
+    background: rgba(234, 179, 8, 0.15);
+}
+
+.status-cancelado,
+.status-reembolsado {
+    background: rgba(239, 68, 68, 0.15);
+}
+
+.acao-indisponivel {
+    opacity: 0.6;
+}
+
+#lista-vendas {
+    width: 100%;
+}
+
+#lista-vendas .empty-sales-state {
+    width: 100%;
+    min-height: 135px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#lista-vendas .empty-sales-state p {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+}

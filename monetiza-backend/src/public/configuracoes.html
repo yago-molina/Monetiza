@@ -46,7 +46,7 @@
             <div class="top-bar">
                 <span class="page-title">Configurações</span>
                 <div class="top-bar-right">
-                    <a href="vitrine.html" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="/vitrine" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
                     <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
                     <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
                 </div>
@@ -119,7 +119,7 @@
 
                         <div class="settings-footer">
                             <button type="submit" class="btn-save-preferences">
-                                + Salvar Alterações
+                                Salvar Alterações
                             </button>
                         </div>
                     </form>
@@ -176,11 +176,33 @@
                                 <span class="slider"></span>
                             </label>
                         </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Contratos</h4>
+                                <p>Notificar sobre atualizações em contratos</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notif-contratos" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4>Afiliações</h4>
+                                <p>Notificar sobre solicitações e alterações de afiliação</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notif-afiliacoes" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                     </div>
 
                     <div class="settings-footer">
                         <button class="btn-save-preferences" id="btn-salvar-preferencias">
-                            + Salvar Preferências
+                            Salvar Preferências
                         </button>
                     </div>
                 </div>
@@ -195,26 +217,30 @@
                     <div class="settings-list">
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Autenticação de Dois Fatores (2FA)</h4>
-                                <p>Adicione uma camada extra de segurança à sua conta</p>
+                                <h4>Contratos</h4>
+                                <p>Notificar sobre atualizações em contratos</p>
                             </div>
                             <label class="switch">
-                                <input type="checkbox" id="seg-2fa">
+                                <input type="checkbox" id="notif-contratos" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
 
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Sessões Ativas</h4>
-                                <p>Você está conectado neste dispositivo</p>
+                                <h4>Afiliações</h4>
+                                <p>Notificar sobre solicitações e alterações de afiliação</p>
                             </div>
+                            <label class="switch">
+                                <input type="checkbox" id="notif-afiliacoes" checked>
+                                <span class="slider"></span>
+                            </label>
                         </div>
                     </div>
 
                     <div class="settings-footer">
                         <button class="btn-save-preferences" id="btn-salvar-seguranca">
-                            + Salvar Configurações
+                            Salvar Configurações
                         </button>
                     </div>
                 </div>
@@ -228,14 +254,33 @@
 
                     <form id="form-pagamento" class="settings-form">
                         <div class="form-group">
+                            <label for="nome-titular">Nome do Titular</label>
+                            <input type="text" id="nome-titular" placeholder="Nome completo do titular" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tipo-chave-pix">Tipo da Chave PIX</label>
+                            <select id="tipo-chave-pix" required>
+                                <option value="">Selecione</option>
+                                <option value="CPF">CPF</option>
+                                <option value="CNPJ">CNPJ</option>
+                                <option value="Email">Email</option>
+                                <option value="Telefone">Telefone</option>
+                                <option value="Aleatoria">Chave Aleatória</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label for="chave-pix">Chave PIX</label>
-                            <input type="text" id="chave-pix" placeholder="CPF, CNPJ, Email, Telefone, ou chave Aleatória">
-                            <span class="input-help-text">Usado para receber pagamentos de vendas e comissões</span>
+                            <input type="text" id="chave-pix" placeholder="Digite sua chave PIX" required>
+                            <span class="input-help-text">
+                                Usado para receber pagamentos de vendas e comissões
+                            </span>
                         </div>
 
                         <div class="settings-footer">
                             <button type="submit" class="btn-save-preferences" id="btn-salvar-pagamento">
-                                + Salvar
+                                Salvar
                             </button>
                         </div>
                     </form>
