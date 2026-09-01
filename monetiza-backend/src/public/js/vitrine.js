@@ -118,11 +118,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:6px;">
                     <strong style="font-size:17px;color:#fff;">${formatarDinheiro(produto.preco)}</strong>
-
-                    <button class="btn-comprar" data-id="${Number(produto.id)}"
-                        style="background:#0000c1;color:#fff;border:none;border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:600;">
-                        Comprar
-                    </button>
                 </div>
             </div>
         `
