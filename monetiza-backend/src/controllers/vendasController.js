@@ -8,13 +8,16 @@ const resumo = async (req, res) => {
             `SELECT
                 COUNT(*) AS quantidade,
                 COALESCE(
-                    SUM(vi.preco_unitario * vi.quantidade),
+                    SUM(
+                        (vi.preco_unitario * vi.quantidade)
+                        - vi.comissao_afiliado
+                    ),
                     0
                 ) AS total_vendido
             FROM venda_itens vi
             INNER JOIN vendas v ON v.id = vi.venda_id
             WHERE vi.vendedor_id = ?
-              AND v.status_venda = 'pago'`,
+            AND v.status_venda = 'pago'`,
             [usuario_id]
         )
 
@@ -28,7 +31,7 @@ const resumo = async (req, res) => {
             FROM venda_itens vi
             INNER JOIN vendas v ON v.id = vi.venda_id
             WHERE vi.afiliado_id = ?
-              AND v.status_venda = 'pago'`,
+            AND v.status_venda = 'pago'`,
             [usuario_id]
         )
 
@@ -68,8 +71,10 @@ const listarVendas = async (req, res) => {
                 v.status_venda,
                 vi.preco_unitario,
                 vi.quantidade,
+                vi.comissao_afiliado,
                 (
-                    vi.preco_unitario * vi.quantidade
+                    (vi.preco_unitario * vi.quantidade)
+                    - vi.comissao_afiliado
                 ) AS valor
             FROM venda_itens vi
             INNER JOIN vendas v
@@ -83,15 +88,10 @@ const listarVendas = async (req, res) => {
 
         const vendasFormatadas = vendas.map(venda => ({
             ...venda,
-            preco_unitario: Number(
-                venda.preco_unitario
-            ),
-            quantidade: Number(
-                venda.quantidade
-            ),
-            valor: Number(
-                venda.valor
-            )
+            preco_unitario: Number(venda.preco_unitario),
+            quantidade: Number(venda.quantidade),
+            comissao_afiliado: Number(venda.comissao_afiliado || 0),
+            valor: Number(venda.valor)
         }))
 
         return res.json(vendasFormatadas)

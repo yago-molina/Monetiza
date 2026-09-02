@@ -96,8 +96,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const totalVendas = Number(produto.total_vendas || 0)
 
         // Monta a URL para a página de detalhes mantendo o parâmetro 'ref' se existir
-        const paramRef = codigoAfiliado ? `&ref=${encodeURIComponent(codigoAfiliado)}` : ''
-        const urlDetalhes = `/paginaDoProduto.html?id=${produto.id}${paramRef}`
+        const paramRef = codigoAfiliado ? `?ref=${encodeURIComponent(codigoAfiliado)}` : ''
+        const urlDetalhes = `/vitrine/produto/${produto.id}${paramRef}`
 
         card.innerHTML = `
             <div class="product-image-container">
