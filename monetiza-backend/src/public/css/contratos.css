@@ -485,11 +485,165 @@ body {
     padding: 10px 24px;
     font-size: 14px;
     font-weight: 700;
-    color: #ffff00;
+    color: #ffffff;
     cursor: pointer;
     transition: opacity 0.2s;
 }
 
 .btn-save:hover {
     opacity: 0.9;
+}
+
+.form-group input[type="file"] {
+    padding: 8px;
+    background-color: #27272a;
+    border: 1px solid #3f3f46;
+    border-radius: 8px;
+    color: #a1a1aa;
+    cursor: pointer;
+}
+
+.form-group input[type="file"]::file-selector-button {
+    background-color: #0000c1;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    margin-right: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.form-group input[type="file"]::file-selector-button:hover {
+    background-color: #3b3bff;
+}
+
+.form-group input[type="file"]:focus {
+    border-color: #4d4dff;
+}
+
+.lista-contratos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.contrato-card {
+    background-color: #1c1c1e;
+    border: 1px solid #2c2c2e;
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.contrato-card:hover {
+    transform: translateY(-2px);
+    border-color: #3f3f46;
+}
+
+.contrato-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #2c2c2e;
+}
+
+.contrato-header h3 {
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+.contrato-header p {
+    font-size: 13px;
+    color: #a1a1aa;
+}
+
+.contrato-status {
+    background-color: rgba(234, 179, 8, 0.12);
+    color: #facc15;
+    border: 1px solid rgba(234, 179, 8, 0.25);
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.contrato-info {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.contrato-info p {
+    font-size: 14px;
+    color: #c4c4cc;
+    line-height: 1.4;
+}
+
+.contrato-info strong {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.contrato-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #2c2c2e;
+}
+
+.btn-contrato {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background-color: #27272a;
+    color: #ffffff;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-contrato:hover {
+    background-color: #3f3f46;
+    transform: translateY(-1px);
+}
+
+.btn-aceitar {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+.btn-aceitar:hover {
+    background-color: #3b3bff;
+}
+
+.btn-editar {
+    background-color: #27272a;
+    color: #ffffff;
+}
+
+.btn-cancelar-contrato {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.btn-cancelar-contrato:hover {
+    background-color: rgba(239, 68, 68, 0.25);
 }
