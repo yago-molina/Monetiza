@@ -80,9 +80,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         comprador.textContent = `Comprador: ${venda.comprador}`
 
         const detalhes = document.createElement('span')
-        detalhes.textContent =
+
+        let textoDetalhes =
             `${formatarData(venda.data_venda)} • ` +
             `${venda.forma_pagamento} • ${venda.status_venda}`
+
+        if (Number(venda.comissao_afiliado || 0) > 0) {
+            textoDetalhes += ` • Venda por afiliado`
+        }
+
+        detalhes.textContent = textoDetalhes
 
         const valor = document.createElement('strong')
         valor.className = 'venda-recente-valor'
