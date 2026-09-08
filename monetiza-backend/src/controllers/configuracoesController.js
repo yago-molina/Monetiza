@@ -1,4 +1,5 @@
 const db = require('../config/db')
+const bcrypt = require('bcryptjs')
 
 const buscarConfiguracoes = async (req, res) => {
     const usuario_id = req.usuario.id
@@ -265,9 +266,99 @@ const salvarPagamento = async (req, res) => {
     }
 }
 
+const alterarSenha = async (req, res) => {
+    const usuario_id = req.usuario.id
+
+    const {
+        senha_atual,
+        nova_senha,
+        confirmar_senha
+    } = req.body
+
+    if (!senha_atual || !nova_senha || !confirmar_senha) {
+        return res.status(400).json({
+            erro: 'Preencha todos os campos'
+        })
+    }
+
+    if (nova_senha.length < 6) {
+        return res.status(400).json({
+            erro: 'A nova senha deve ter pelo menos 6 caracteres'
+        })
+    }
+
+    if (nova_senha !== confirmar_senha) {
+        return res.status(400).json({
+            erro: 'A confirmação da senha não corresponde'
+        })
+    }
+
+    if (senha_atual === nova_senha) {
+        return res.status(400).json({
+            erro: 'A nova senha deve ser diferente da senha atual'
+        })
+    }
+
+    try {
+        const [usuarios] = await db.query(
+            `SELECT senha
+            FROM usuarios
+            WHERE id = ?
+            LIMIT 1`,
+            [usuario_id]
+        )
+
+        if (!usuarios.length) {
+            return res.status(404).json({
+                erro: 'Usuário não encontrado'
+            })
+        }
+
+        const senhaCorreta = await bcrypt.compare(
+            senha_atual,
+            usuarios[0].senha
+        )
+
+        if (!senhaCorreta) {
+            return res.status(400).json({
+                erro: 'Senha atual incorreta'
+            })
+        }
+
+        const novaSenhaHash = await bcrypt.hash(
+            nova_senha,
+            10
+        )
+
+        await db.query(
+            `UPDATE usuarios
+            SET senha = ?
+            WHERE id = ?`,
+            [
+                novaSenhaHash,
+                usuario_id
+            ]
+        )
+
+        return res.json({
+            mensagem: 'Senha alterada com sucesso!'
+        })
+    } catch (erro) {
+        console.error(
+            'Erro ao alterar senha:',
+            erro
+        )
+
+        return res.status(500).json({
+            erro: 'Erro interno ao alterar senha'
+        })
+    }
+}
+
 module.exports = {
     buscarConfiguracoes,
     atualizarPerfil,
     atualizarPreferencias,
-    salvarPagamento
+    salvarPagamento,
+    alterarSenha
 }

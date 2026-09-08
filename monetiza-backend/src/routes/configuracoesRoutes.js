@@ -5,7 +5,8 @@ const {
     buscarConfiguracoes,
     atualizarPerfil,
     atualizarPreferencias,
-    salvarPagamento
+    salvarPagamento,
+    alterarSenha
 } = require('../controllers/configuracoesController')
 
 const autenticar =
@@ -13,7 +14,10 @@ const autenticar =
 
 router.use(autenticar)
 
-router.get('/', buscarConfiguracoes)
+router.get(
+    '/',
+    buscarConfiguracoes
+)
 
 router.put(
     '/perfil',
@@ -28,6 +32,11 @@ router.put(
 router.put(
     '/pagamento',
     salvarPagamento
+)
+
+router.put(
+    '/seguranca',
+    alterarSenha
 )
 
 module.exports = router

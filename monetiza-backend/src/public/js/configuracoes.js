@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const formPerfil = document.getElementById('form-perfil')
     const formPagamento = document.getElementById('form-pagamento')
     const btnPreferencias = document.getElementById('btn-salvar-preferencias')
+    const formSeguranca = document.getElementById('form-seguranca')
 
     if (!token) {
         alert('Acesso negado. Faça login primeiro.')
@@ -290,6 +291,47 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
     })
 
+    async function salvarSeguranca(evento) {
+        evento.preventDefault()
+
+        const senha_atual =
+            document.getElementById('senha-atual').value
+
+        const nova_senha =
+            document.getElementById('nova-senha').value
+
+        const confirmar_senha =
+            document.getElementById('confirmar-senha').value
+
+        if (nova_senha !== confirmar_senha) {
+            alert('As novas senhas não coincidem.')
+            return
+        }
+
+        try {
+            const resposta = await fetch(
+                '/configuracoes-api/seguranca',
+                {
+                    method: 'PUT',
+                    headers: headers(),
+                    body: JSON.stringify({
+                        senha_atual,
+                        nova_senha,
+                        confirmar_senha
+                    })
+                }
+            )
+
+            const dados = await verificarResposta(resposta)
+
+            alert(dados.mensagem)
+
+            formSeguranca.reset()
+        } catch (erro) {
+            alert(erro.message)
+        }
+    }
+
     if (formPerfil) {
         formPerfil.addEventListener(
             'submit',
@@ -301,6 +343,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         formPagamento.addEventListener(
             'submit',
             salvarPagamento
+        )
+    }
+
+    if (formSeguranca) {
+        formSeguranca.addEventListener(
+            'submit',
+            salvarSeguranca
         )
     }
 
