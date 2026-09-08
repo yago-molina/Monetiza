@@ -728,3 +728,31 @@ body {
     text-align: center;
     padding: 20px 0;
 }
+
+.foto-usuario-global {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.foto-usuario-topo {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.avatar-conversa-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.conversa-avatar,
+.usuario-item-avatar,
+.chat-avatar {
+    overflow: hidden;
+    border-radius: 50%;
+}

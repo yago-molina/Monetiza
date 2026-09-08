@@ -647,3 +647,17 @@ body {
 .btn-cancelar-contrato:hover {
     background-color: rgba(239, 68, 68, 0.25);
 }
+
+.foto-usuario-global {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.foto-usuario-topo {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}

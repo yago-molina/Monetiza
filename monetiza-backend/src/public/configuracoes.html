@@ -32,7 +32,10 @@
             </nav>
 
             <div class="user-profile">
-                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="avatar-fallback" id="avatar-menu">
+                    <i class="fa-solid fa-circle-user" id="icone-avatar-menu"></i>
+                    <img id="foto-perfil-menu" class="foto-perfil-menu hidden" src="" alt="Foto de perfil">
+                </div>
                 <div class="user-info">
                     <span id="nome-usuario" class="user-name">Username</span>
                     <span id="email-usuario" class="user-email">email@gmail.com</span>
@@ -85,11 +88,30 @@
                     </div>
 
                     <div class="avatar-upload-row">
-                        <div class="profile-avatar-large">
-                            <i class="fa-solid fa-circle-user"></i>
+                        <div class="profile-avatar-large" id="avatar-perfil">
+                            <i class="fa-solid fa-circle-user" id="icone-avatar-perfil"></i>
+                            <img
+                                id="foto-perfil"
+                                class="foto-perfil hidden"
+                                src=""
+                                alt="Foto de perfil"
+                            >
                         </div>
-                        <button class="btn-secondary" id="btn-alterar-foto">
-                            <i class="fa-solid fa-download"></i> Alterar foto
+
+                        <input
+                            type="file"
+                            id="input-foto-perfil"
+                            accept="image/jpeg,image/png,image/webp"
+                            hidden
+                        >
+
+                        <button
+                            type="button"
+                            class="btn-secondary"
+                            id="btn-alterar-foto"
+                        >
+                            <i class="fa-solid fa-camera"></i>
+                            Alterar foto
                         </button>
                     </div>
 
@@ -114,7 +136,12 @@
 
                         <div class="form-group">
                             <label for="input-telefone">Telefone</label>
-                            <input type="text" id="input-telefone" placeholder="(11) 99999-9999">
+                            <input
+                                type="text"
+                                id="input-telefone"
+                                placeholder="(11) 99999-9999"
+                                maxlength="15"
+                            >
                         </div>
 
                         <div class="settings-footer">
@@ -378,5 +405,6 @@
     </div>
     <script src="js/ia-btn.js"></script>
     <script src="js/configuracoes.js"></script>
+    <script src="js/perfil-global.js"></script>
 </body>
 </html>

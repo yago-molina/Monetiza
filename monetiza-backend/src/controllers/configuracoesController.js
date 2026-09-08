@@ -171,8 +171,7 @@ const atualizarPerfil = async (req, res) => {
     const {
         nome,
         bio,
-        telefone,
-        foto_perfil
+        telefone
     } = req.body
 
     if (!nome || !nome.trim()) {
@@ -187,14 +186,12 @@ const atualizarPerfil = async (req, res) => {
             SET
                 nome = ?,
                 bio = ?,
-                telefone = ?,
-                foto_perfil = ?
+                telefone = ?
             WHERE id = ?`,
             [
                 nome.trim(),
                 bio?.trim() || null,
                 telefone?.trim() || null,
-                foto_perfil?.trim() || null,
                 usuario_id
             ]
         )
@@ -610,6 +607,59 @@ const alterarSenha = async (req, res) => {
     }
 }
 
+const atualizarFotoPerfil = async (req, res) => {
+    const usuario_id = req.usuario.id
+
+    if (!req.file) {
+        return res.status(400).json({
+            erro: 'Selecione uma imagem'
+        })
+    }
+
+    const foto_perfil =
+        `/uploads/perfis/${req.file.filename}`
+
+    try {
+        const [usuarios] = await db.query(
+            `SELECT foto_perfil
+            FROM usuarios
+            WHERE id = ?
+            LIMIT 1`,
+            [usuario_id]
+        )
+
+        if (!usuarios.length) {
+            return res.status(404).json({
+                erro: 'Usuário não encontrado'
+            })
+        }
+
+        await db.query(
+            `UPDATE usuarios
+            SET foto_perfil = ?
+            WHERE id = ?`,
+            [
+                foto_perfil,
+                usuario_id
+            ]
+        )
+
+        return res.json({
+            mensagem: 'Foto de perfil atualizada com sucesso!',
+            foto_perfil
+        })
+    } catch (erro) {
+        console.error(
+            'Erro ao atualizar foto de perfil:',
+            erro
+        )
+
+        return res.status(500).json({
+            erro: 'Erro interno ao atualizar foto de perfil'
+        })
+    }
+}
+
 module.exports = {
     buscarConfiguracoes,
     atualizarPerfil,
@@ -618,5 +668,6 @@ module.exports = {
     adicionarPagamento,
     editarPagamento,
     excluirPagamento,
-    alterarSenha
+    alterarSenha,
+    atualizarFotoPerfil
 }

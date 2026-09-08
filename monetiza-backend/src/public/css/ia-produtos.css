@@ -872,3 +872,17 @@ body {
 .oculto {
     display: none !important;
 }
+
+.foto-usuario-global {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.foto-usuario-topo {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+}

@@ -10,23 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nomeUsuario = document.getElementById('nome-usuario')
     const emailUsuario = document.getElementById('email-usuario')
-
     const btnNovaConversa = document.getElementById('btn-nova-conversa')
     const modalNovaConversa = document.getElementById('modal-nova-conversa')
     const btnFecharModal = document.getElementById('btn-fechar-modal-conversa')
-
     const buscaConversas = document.getElementById('busca-conversas')
     const buscaUsuarios = document.getElementById('busca-usuarios')
-
     const listaConversas = document.getElementById('lista-conversas')
     const listaUsuarios = document.getElementById('lista-usuarios')
     const listaMensagens = document.getElementById('lista-mensagens')
-
     const estadoChatVazio = document.getElementById('estado-chat-vazio')
     const chatAtivo = document.getElementById('chat-ativo')
-
     const chatUsuarioNome = document.getElementById('chat-usuario-nome')
-
+    const chatAvatar = document.getElementById('chat-avatar')
     const formMensagem = document.getElementById('form-mensagem')
     const inputMensagem = document.getElementById('input-mensagem')
     const btnEnviar = document.getElementById('btn-enviar-mensagem')
@@ -64,6 +59,20 @@ document.addEventListener('DOMContentLoaded', () => {
         const div = document.createElement('div')
         div.textContent = texto ?? ''
         return div.innerHTML
+    }
+
+    function avatarHtml(foto) {
+        if (foto) {
+            return `
+                <img
+                    src="${escaparHtml(foto)}"
+                    class="avatar-conversa-img"
+                    alt="Foto de perfil"
+                >
+            `
+        }
+
+        return '<i class="fa-solid fa-circle-user"></i>'
     }
 
     function formatarHora(data) {
@@ -148,10 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return true
         } catch (erro) {
-            console.error(
-                'Erro ao carregar usuário:',
-                erro
-            )
+            console.error('Erro ao carregar usuário:', erro)
             return false
         }
     }
@@ -167,11 +173,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const dados = await response.json()
 
             if (!response.ok) {
-                throw new Error(dados.erro || 'Erro ao carregar contatos')
+                throw new Error(
+                    dados.erro || 'Erro ao carregar contatos'
+                )
             }
 
             contatos = Array.isArray(dados) ? dados : []
-
             renderizarContatos(contatos)
         } catch (erro) {
             console.error('Erro ao carregar contatos:', erro)
@@ -208,13 +215,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             item.innerHTML = `
                 <div class="usuario-item-avatar">
-                    <i class="fa-solid fa-circle-user"></i>
+                    ${avatarHtml(contato.foto_perfil)}
                 </div>
 
                 <div class="usuario-item-info">
                     <strong>${escaparHtml(contato.nome)}</strong>
                     <span>${escaparHtml(contato.email)}</span>
-                    <small>${escaparHtml(contato.relacoes || '')}</small>
+                    <small>
+                        ${escaparHtml(contato.relacoes || '')}
+                    </small>
                 </div>
             `
 
@@ -228,24 +237,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function criarConversa(usuarioId) {
         try {
-            const response = await fetch('/mensagens-api/conversas', {
-                method: 'POST',
-                headers: headersJson(),
-                body: JSON.stringify({
-                    usuario_id: usuarioId
-                })
-            })
+            const response = await fetch(
+                '/mensagens-api/conversas',
+                {
+                    method: 'POST',
+                    headers: headersJson(),
+                    body: JSON.stringify({
+                        usuario_id: usuarioId
+                    })
+                }
+            )
 
             if (!verificarSessao(response)) return
 
             const resultado = await response.json()
 
             if (!response.ok) {
-                throw new Error(resultado.erro || 'Erro ao criar conversa')
+                throw new Error(
+                    resultado.erro || 'Erro ao criar conversa'
+                )
             }
 
             fecharModalNovaConversa()
-
             await carregarConversas()
 
             if (resultado.conversa_id) {
@@ -259,20 +272,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function carregarConversas() {
         try {
-            const response = await fetch('/mensagens-api/conversas', {
-                headers: headersAuth()
-            })
+            const response = await fetch(
+                '/mensagens-api/conversas',
+                {
+                    headers: headersAuth()
+                }
+            )
 
             if (!verificarSessao(response)) return
 
             const dados = await response.json()
 
             if (!response.ok) {
-                throw new Error(dados.erro || 'Erro ao carregar conversas')
+                throw new Error(
+                    dados.erro || 'Erro ao carregar conversas'
+                )
             }
 
             conversas = Array.isArray(dados) ? dados : []
-
             renderizarConversas(conversas)
         } catch (erro) {
             console.error('Erro ao carregar conversas:', erro)
@@ -307,25 +324,33 @@ document.addEventListener('DOMContentLoaded', () => {
             item.type = 'button'
             item.className = 'conversa-item'
 
-            if (Number(conversa.id) === Number(conversaAtualId)) {
+            if (
+                Number(conversa.id) ===
+                Number(conversaAtualId)
+            ) {
                 item.classList.add('active')
             }
 
-            const ultimaMensagem = conversa.ultima_mensagem
-                ? conversa.ultima_mensagem
-                : 'Conversa iniciada'
+            const ultimaMensagem =
+                conversa.ultima_mensagem ||
+                'Conversa iniciada'
 
-            const naoLidas = Number(conversa.nao_lidas || 0)
+            const naoLidas =
+                Number(conversa.nao_lidas || 0)
 
             item.innerHTML = `
                 <div class="conversa-avatar">
-                    <i class="fa-solid fa-circle-user"></i>
+                    ${avatarHtml(
+                        conversa.outro_usuario_foto
+                    )}
                 </div>
 
                 <div class="conversa-conteudo">
                     <div class="conversa-topo">
                         <strong>
-                            ${escaparHtml(conversa.outro_usuario_nome)}
+                            ${escaparHtml(
+                                conversa.outro_usuario_nome
+                            )}
                         </strong>
 
                         <span>
@@ -337,7 +362,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
 
                     <div class="conversa-baixo">
-                        <p>${escaparHtml(ultimaMensagem)}</p>
+                        <p>
+                            ${escaparHtml(ultimaMensagem)}
+                        </p>
 
                         ${
                             naoLidas > 0
@@ -365,8 +392,16 @@ document.addEventListener('DOMContentLoaded', () => {
             conversaAtualId = Number(id)
 
             const url = new URL(window.location.href)
-            url.searchParams.set('conversa', conversaAtualId)
-            window.history.replaceState({}, '', url)
+            url.searchParams.set(
+                'conversa',
+                conversaAtualId
+            )
+
+            window.history.replaceState(
+                {},
+                '',
+                url
+            )
 
             renderizarConversas(conversas)
 
@@ -383,7 +418,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 throw new Error(
-                    dados.erro || 'Erro ao carregar mensagens'
+                    dados.erro ||
+                    'Erro ao carregar mensagens'
                 )
             }
 
@@ -400,6 +436,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     dados.conversa.outro_usuario_nome
             }
 
+            if (chatAvatar) {
+                chatAvatar.innerHTML =
+                    avatarHtml(
+                        dados.conversa.outro_usuario_foto
+                    )
+            }
+
             renderizarMensagens(dados.mensagens)
 
             await marcarComoLidas(id)
@@ -409,7 +452,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 inputMensagem.focus()
             }
         } catch (erro) {
-            console.error('Erro ao abrir conversa:', erro)
+            console.error(
+                'Erro ao abrir conversa:',
+                erro
+            )
             alert(erro.message)
         }
     }
@@ -434,18 +480,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 Number(mensagem.remetente_id) ===
                 Number(usuarioLogado.id)
 
-            const item = document.createElement('div')
+            const item =
+                document.createElement('div')
 
-            item.className = minhaMensagem
-                ? 'mensagem mensagem-enviada'
-                : 'mensagem mensagem-recebida'
+            item.className =
+                minhaMensagem
+                    ? 'mensagem mensagem-enviada'
+                    : 'mensagem mensagem-recebida'
 
             item.innerHTML = `
                 <div class="mensagem-balao">
-                    <p>${escaparHtml(mensagem.conteudo)}</p>
+                    <p>
+                        ${escaparHtml(
+                            mensagem.conteudo
+                        )}
+                    </p>
 
                     <span class="mensagem-hora">
-                        ${formatarHora(mensagem.enviado_em)}
+                        ${formatarHora(
+                            mensagem.enviado_em
+                        )}
                     </span>
                 </div>
             `
@@ -453,7 +507,8 @@ document.addEventListener('DOMContentLoaded', () => {
             listaMensagens.appendChild(item)
         })
 
-        listaMensagens.scrollTop = listaMensagens.scrollHeight
+        listaMensagens.scrollTop =
+            listaMensagens.scrollHeight
     }
 
     async function enviarMensagem(event) {
@@ -466,7 +521,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!inputMensagem) return
 
-        const conteudo = inputMensagem.value.trim()
+        const conteudo =
+            inputMensagem.value.trim()
 
         if (!conteudo) return
 
@@ -488,19 +544,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!verificarSessao(response)) return
 
-            const resultado = await response.json()
+            const resultado =
+                await response.json()
 
             if (!response.ok) {
                 throw new Error(
-                    resultado.erro || 'Erro ao enviar mensagem'
+                    resultado.erro ||
+                    'Erro ao enviar mensagem'
                 )
             }
 
             inputMensagem.value = ''
 
-            await abrirConversa(conversaAtualId)
+            await abrirConversa(
+                conversaAtualId
+            )
         } catch (erro) {
-            console.error('Erro ao enviar mensagem:', erro)
+            console.error(
+                'Erro ao enviar mensagem:',
+                erro
+            )
             alert(erro.message)
         } finally {
             if (btnEnviar) {
@@ -527,7 +590,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!verificarSessao(response)) return
 
             if (!response.ok) {
-                const resultado = await response.json()
+                const resultado =
+                    await response.json()
 
                 throw new Error(
                     resultado.erro ||
@@ -557,21 +621,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (modalNovaConversa) {
-        modalNovaConversa.addEventListener('click', event => {
-            if (event.target === modalNovaConversa) {
-                fecharModalNovaConversa()
+        modalNovaConversa.addEventListener(
+            'click',
+            event => {
+                if (
+                    event.target ===
+                    modalNovaConversa
+                ) {
+                    fecharModalNovaConversa()
+                }
             }
-        })
+        )
     }
 
-    document.addEventListener('keydown', event => {
-        if (
-            event.key === 'Escape' &&
-            modalNovaConversa?.classList.contains('active')
-        ) {
-            fecharModalNovaConversa()
+    document.addEventListener(
+        'keydown',
+        event => {
+            if (
+                event.key === 'Escape' &&
+                modalNovaConversa
+                    ?.classList
+                    .contains('active')
+            ) {
+                fecharModalNovaConversa()
+            }
         }
-    })
+    )
 
     if (formMensagem) {
         formMensagem.addEventListener(
@@ -581,66 +656,100 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (inputMensagem) {
-        inputMensagem.addEventListener('keydown', event => {
-            if (event.key === 'Enter' && !event.shiftKey) {
-                event.preventDefault()
+        inputMensagem.addEventListener(
+            'keydown',
+            event => {
+                if (
+                    event.key === 'Enter' &&
+                    !event.shiftKey
+                ) {
+                    event.preventDefault()
 
-                if (formMensagem) {
-                    formMensagem.requestSubmit()
+                    if (formMensagem) {
+                        formMensagem.requestSubmit()
+                    }
                 }
             }
-        })
+        )
     }
 
     if (buscaUsuarios) {
-        buscaUsuarios.addEventListener('input', () => {
-            const termo = buscaUsuarios.value
-                .trim()
-                .toLowerCase()
+        buscaUsuarios.addEventListener(
+            'input',
+            () => {
+                const termo =
+                    buscaUsuarios.value
+                        .trim()
+                        .toLowerCase()
 
-            const filtrados = contatos.filter(contato => {
-                return (
-                    contato.nome?.toLowerCase().includes(termo) ||
-                    contato.email?.toLowerCase().includes(termo) ||
-                    contato.relacoes?.toLowerCase().includes(termo)
+                const filtrados =
+                    contatos.filter(contato => {
+                        return (
+                            contato.nome
+                                ?.toLowerCase()
+                                .includes(termo) ||
+                            contato.email
+                                ?.toLowerCase()
+                                .includes(termo) ||
+                            contato.relacoes
+                                ?.toLowerCase()
+                                .includes(termo)
+                        )
+                    })
+
+                renderizarContatos(
+                    filtrados
                 )
-            })
-
-            renderizarContatos(filtrados)
-        })
+            }
+        )
     }
 
     if (buscaConversas) {
-        buscaConversas.addEventListener('input', () => {
-            const termo = buscaConversas.value
-                .trim()
-                .toLowerCase()
+        buscaConversas.addEventListener(
+            'input',
+            () => {
+                const termo =
+                    buscaConversas.value
+                        .trim()
+                        .toLowerCase()
 
-            if (!termo) {
-                renderizarConversas(conversas)
-                return
-            }
+                if (!termo) {
+                    renderizarConversas(
+                        conversas
+                    )
+                    return
+                }
 
-            const filtradas = conversas.filter(conversa => {
-                return (
-                    conversa.outro_usuario_nome
-                        ?.toLowerCase()
-                        .includes(termo) ||
-                    conversa.outro_usuario_email
-                        ?.toLowerCase()
-                        .includes(termo) ||
-                    conversa.ultima_mensagem
-                        ?.toLowerCase()
-                        .includes(termo)
+                const filtradas =
+                    conversas.filter(
+                        conversa => {
+                            return (
+                                conversa
+                                    .outro_usuario_nome
+                                    ?.toLowerCase()
+                                    .includes(termo) ||
+                                conversa
+                                    .outro_usuario_email
+                                    ?.toLowerCase()
+                                    .includes(termo) ||
+                                conversa
+                                    .ultima_mensagem
+                                    ?.toLowerCase()
+                                    .includes(termo)
+                            )
+                        }
+                    )
+
+                renderizarConversas(
+                    filtradas
                 )
-            })
-
-            renderizarConversas(filtradas)
-        })
+            }
+        )
     }
 
     async function iniciarPagina() {
-        const usuarioCarregado = await carregarUsuario()
+        const usuarioCarregado =
+            await carregarUsuario()
 
         if (!usuarioCarregado) return
 
@@ -649,21 +758,44 @@ document.addEventListener('DOMContentLoaded', () => {
             carregarConversas()
         ])
 
-        const parametros = new URLSearchParams(window.location.search)
-        const conversaId = Number(parametros.get('conversa'))
+        const parametros =
+            new URLSearchParams(
+                window.location.search
+            )
+
+        const conversaId =
+            Number(
+                parametros.get('conversa')
+            )
 
         if (!conversaId) return
 
-        const conversaExiste = conversas.some(
-            conversa => Number(conversa.id) === conversaId
-        )
+        const conversaExiste =
+            conversas.some(
+                conversa =>
+                    Number(conversa.id) ===
+                    conversaId
+            )
 
         if (conversaExiste) {
-            await abrirConversa(conversaId)
+            await abrirConversa(
+                conversaId
+            )
         } else {
-            const url = new URL(window.location.href)
-            url.searchParams.delete('conversa')
-            window.history.replaceState({}, '', url)
+            const url =
+                new URL(
+                    window.location.href
+                )
+
+            url.searchParams.delete(
+                'conversa'
+            )
+
+            window.history.replaceState(
+                {},
+                '',
+                url
+            )
         }
     }
 

@@ -37,6 +37,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tituloFormPagamento =
         document.getElementById('titulo-form-pagamento')
 
+    const btnAlterarFoto =
+        document.getElementById('btn-alterar-foto')
+
+    const inputFotoPerfil =
+        document.getElementById('input-foto-perfil')
+
+    const fotoPerfil =
+        document.getElementById('foto-perfil')
+
+    const iconeAvatarPerfil =
+        document.getElementById('icone-avatar-perfil')
+
+    const fotoPerfilMenu =
+        document.getElementById('foto-perfil-menu')
+
+    const iconeAvatarMenu =
+        document.getElementById('icone-avatar-menu')
+
+    const inputTelefone =
+        document.getElementById('input-telefone')
+
     let pagamentos = []
     let pagamentoEditandoId = null
 
@@ -238,6 +259,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         return null
     }
 
+    function formatarTelefonePerfil(valor) {
+        const numeros = valor
+            .replace(/\D/g, '')
+            .slice(0, 11)
+
+        if (numeros.length <= 10) {
+            return numeros
+                .replace(/^(\d{2})(\d)/, '($1) $2')
+                .replace(/(\d{4})(\d)/, '$1-$2')
+        }
+
+        return numeros
+            .replace(/^(\d{2})(\d)/, '($1) $2')
+            .replace(/(\d{5})(\d)/, '$1-$2')
+    }
+
     function mostrarFormularioPagamento() {
         formPagamento.classList.remove('hidden')
         btnAdicionarPagamento.classList.add('hidden')
@@ -421,6 +458,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderizarPagamentos()
     }
 
+    function atualizarFotoNaTela(caminho) {
+        if (!caminho) {
+            fotoPerfil?.classList.add('hidden')
+            fotoPerfilMenu?.classList.add('hidden')
+
+            iconeAvatarPerfil?.classList.remove('hidden')
+            iconeAvatarMenu?.classList.remove('hidden')
+
+            return
+        }
+
+        if (fotoPerfil) {
+            fotoPerfil.src = caminho
+            fotoPerfil.classList.remove('hidden')
+        }
+
+        if (fotoPerfilMenu) {
+            fotoPerfilMenu.src = caminho
+            fotoPerfilMenu.classList.remove('hidden')
+        }
+
+        iconeAvatarPerfil?.classList.add('hidden')
+        iconeAvatarMenu?.classList.add('hidden')
+    }
+
     async function carregarConfiguracoes() {
         const resposta = await fetch(
             '/configuracoes-api',
@@ -433,6 +495,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             await verificarResposta(resposta)
 
         const usuario = dados.usuario
+
+        atualizarFotoNaTela(
+            usuario.foto_perfil
+        )
 
         document.getElementById(
             'input-nome'
@@ -855,6 +921,62 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
     })
 
+    async function alterarFotoPerfil(arquivo) {
+        if (!arquivo) return
+
+        const tiposPermitidos = [
+            'image/jpeg',
+            'image/png',
+            'image/webp'
+        ]
+
+        if (!tiposPermitidos.includes(arquivo.type)) {
+            alert('Selecione uma imagem JPG, PNG ou WEBP')
+            return
+        }
+
+        if (arquivo.size > 5 * 1024 * 1024) {
+            alert('A imagem deve ter no máximo 5MB')
+            return
+        }
+
+        const formData = new FormData()
+
+        formData.append(
+            'foto',
+            arquivo
+        )
+
+        try {
+            const resposta = await fetch(
+                '/configuracoes-api/foto',
+                {
+                    method: 'PUT',
+
+                    headers: {
+                        Authorization:
+                            `Bearer ${token}`
+                    },
+
+                    body: formData
+                }
+            )
+
+            const dados =
+                await verificarResposta(resposta)
+
+            atualizarFotoNaTela(
+                dados.foto_perfil
+            )
+
+            alert(dados.mensagem)
+
+            inputFotoPerfil.value = ''
+        } catch (erro) {
+            alert(erro.message)
+        }
+    }
+
     if (tipoChavePix) {
         tipoChavePix.addEventListener(
             'change',
@@ -911,6 +1033,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         btnPreferencias.addEventListener(
             'click',
             salvarPreferencias
+        )
+    }
+
+    if (btnAlterarFoto) {
+        btnAlterarFoto.addEventListener(
+            'click',
+            () => {
+                inputFotoPerfil.click()
+            }
+        )
+    }
+
+    if (inputFotoPerfil) {
+        inputFotoPerfil.addEventListener(
+            'change',
+            () => {
+                const arquivo =
+                    inputFotoPerfil.files[0]
+
+                alterarFotoPerfil(arquivo)
+            }
+        )
+    }
+
+    if (inputTelefone) {
+        inputTelefone.addEventListener(
+            'input',
+            () => {
+                inputTelefone.value =
+                    formatarTelefonePerfil(
+                        inputTelefone.value
+                    )
+            }
         )
     }
 
