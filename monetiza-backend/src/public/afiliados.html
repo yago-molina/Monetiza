@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Afiliados - Monetiza</title>
+    <title data-i18n="afiliados.tituloDocumento">Afiliados - Monetiza</title>
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/afiliados.css">
@@ -18,19 +18,68 @@
 
             <nav class="menu-nav">
                 <ul>
-                    <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
-                    <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
-                    <li class="active"><a id="afiliados" href="landing"><i class="fa-solid fa-users"></i> Afiliados</a></li>
-                    <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
-                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
-                    <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                    <li>
+                        <a id="dashboard" href="dashboard">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span data-i18n="sidebar.dashboard">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="produto" href="produto">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span data-i18n="sidebar.produtos">Produtos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="minhasVendas" href="minhasVendas">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span data-i18n="sidebar.minhasVendas">Minhas Vendas</span>
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a id="afiliados" href="landing">
+                            <i class="fa-solid fa-users"></i>
+                            <span data-i18n="sidebar.afiliados">Afiliados</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="financeiro" href="financeiro">
+                            <i class="fa-solid fa-wallet"></i>
+                            <span data-i18n="sidebar.financeiro">Financeiro</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="contratos" href="contratos">
+                            <i class="fa-solid fa-file-contract"></i>
+                            <span data-i18n="sidebar.contratos">Contratos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="mensagens" href="mensagens">
+                            <i class="fa-solid fa-comment-dots"></i>
+                            <span data-i18n="sidebar.mensagens">Mensagens</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="configuracoes" href="configuracoes">
+                            <i class="fa-solid fa-gear"></i>
+                            <span data-i18n="sidebar.configuracoes">Configurações</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
             <div class="user-profile">
-                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="avatar-fallback">
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
                 <div class="user-info">
                     <span id="nome-usuario" class="user-name">Username</span>
                     <span id="email-usuario" class="user-email">email@gmail.com</span>
@@ -40,148 +89,180 @@
 
         <!-- Conteúdo Principal -->
         <main class="main-content">
+
             <!-- Top Bar -->
             <div class="top-bar">
-                <span class="page-title">Afiliados</span>
+                <span class="page-title" data-i18n="afiliados.tituloPagina">Afiliados</span>
+
                 <div class="top-bar-right">
-                    <a href="/vitrine" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
-                    <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
-                    <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
+                    <a href="/vitrine" class="vitrine-link">
+                        <span data-i18n="topo.verVitrine">Ver Vitrine</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                    <li>
+                        <a>
+                            <i class="fa-solid fa-bell fa-lg"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a>
+                            <i class="fa-solid fa-circle-user fa-3x"></i>
+                        </a>
+                    </li>
                 </div>
             </div>
 
             <!-- Cabeçalho de Ação -->
             <div class="header-action-row">
                 <div class="page-header-text">
-                    <h2>Meus Links de Afiliado</h2>
-                    <p>Gerencie seus links e acompanhe suas comissões</p>
+                    <h2 data-i18n="afiliados.cabecalho.titulo">Meus Links de Afiliado</h2>
+                    <p data-i18n="afiliados.cabecalho.subtitulo">Gerencie seus links e acompanhe suas comissões</p>
                 </div>
+
                 <button class="btn-primary" id="btn-novo-link">
-                    <i class="fa-solid fa-plus"></i> Nova Afiliação
+                    <i class="fa-solid fa-plus"></i>
+                    <span data-i18n="afiliados.cabecalho.novaAfiliacao">Nova Afiliação</span>
                 </button>
             </div>
 
-            <!-- Grid de Métricas (3 Cards) -->
+            <!-- Grid de Métricas -->
             <div class="metrics-container">
                 <div class="metric-card">
                     <div class="metric-header">
-                        <span class="metric-title">Total de Cliques</span>
-                        <div class="metric-icon purple"><i class="fa-solid fa-arrow-pointer"></i></div>
+                        <span class="metric-title" data-i18n="afiliados.metricas.cliques">Total de Cliques</span>
+                        <div class="metric-icon purple">
+                            <i class="fa-solid fa-arrow-pointer"></i>
+                        </div>
                     </div>
                     <span id="total-cliques" class="metric-value">0</span>
                 </div>
 
                 <div class="metric-card">
                     <div class="metric-header">
-                        <span class="metric-title">Conversões</span>
-                        <div class="metric-icon pink"><i class="fa-solid fa-user-group"></i></div>
+                        <span class="metric-title" data-i18n="afiliados.metricas.conversoes">Conversões</span>
+                        <div class="metric-icon pink">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
                     </div>
                     <span id="total-conversoes" class="metric-value">0</span>
                 </div>
 
                 <div class="metric-card">
                     <div class="metric-header">
-                        <span class="metric-title">Total Ganho</span>
-                        <div class="metric-icon cyan"><i class="fa-solid fa-dollar-sign"></i></div>
+                        <span class="metric-title" data-i18n="afiliados.metricas.totalGanho">Total Ganho</span>
+                        <div class="metric-icon cyan">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                        </div>
                     </div>
-                   <span id="total-ganho" class="metric-value">R$ 0,00</span>
+                    <span id="total-ganho" class="metric-value">R$ 0,00</span>
                 </div>
             </div>
 
+            <!-- Meus Links -->
             <div class="table-card">
-    <div class="table-card-header">
-        <h3>Meus Links</h3>
-    </div>
+                <div class="table-card-header">
+                    <h3 data-i18n="afiliados.links.titulo">Meus Links</h3>
+                </div>
 
-    <div class="table-header">
-        <span>Produto</span>
-        <span>Cliques</span>
-        <span>Conversões</span>
-        <span>Ganho</span>
-        <span>Status</span>
-        <span class="text-right">Ações</span>
-    </div>
+                <div class="table-header">
+                    <span data-i18n="afiliados.tabela.produto">Produto</span>
+                    <span data-i18n="afiliados.tabela.cliques">Cliques</span>
+                    <span data-i18n="afiliados.tabela.conversoes">Conversões</span>
+                    <span data-i18n="afiliados.tabela.ganho">Ganho</span>
+                    <span data-i18n="afiliados.tabela.status">Status</span>
+                    <span class="text-right" data-i18n="afiliados.tabela.acoes">Ações</span>
+                </div>
 
-    <div id="lista-afiliacoes">
-        <div id="estado-vazio-afiliacoes" class="empty-state-container">
-            <div class="link-icon-bg">
-                <i class="fa-solid fa-link"></i>
+                <div id="lista-afiliacoes">
+                    <div id="estado-vazio-afiliacoes" class="empty-state-container">
+                        <div class="link-icon-bg">
+                            <i class="fa-solid fa-link"></i>
+                        </div>
+
+                        <p class="empty-text" data-i18n="afiliados.links.vazio">
+                            Você ainda não tem links de afiliado
+                        </p>
+
+                        <button type="button" id="btn-primeiro-link" class="btn-secondary">
+                            <i class="fa-solid fa-plus"></i>
+                            <span data-i18n="afiliados.links.novaConexao">Nova Conexão de Afiliado</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <p class="empty-text">
-                Você ainda não tem links de afiliado
-            </p>
+            <!-- Solicitações recebidas pelo produtor -->
+            <div class="table-card solicitacoes-card">
+                <div class="table-card-header">
+                    <h3 data-i18n="afiliados.solicitacoes.titulo">Solicitações Recebidas</h3>
+                </div>
 
-            <button type="button" id="btn-primeiro-link" class="btn-secondary">
-                <i class="fa-solid fa-plus"></i> Nova Conexão de Afiliado
-            </button>
-        </div>
-    </div>
-</div>
+                <div class="table-header solicitacoes-header">
+                    <span data-i18n="afiliados.tabela.produto">Produto</span>
+                    <span data-i18n="afiliados.solicitacoes.afiliado">Afiliado</span>
+                    <span data-i18n="afiliados.solicitacoes.comissao">Comissão</span>
+                    <span data-i18n="afiliados.tabela.status">Status</span>
+                    <span class="text-right" data-i18n="afiliados.tabela.acoes">Ações</span>
+                </div>
 
-<!-- Solicitações recebidas pelo produtor -->
-<div class="table-card solicitacoes-card">
-    <div class="table-card-header">
-        <h3>Solicitações Recebidas</h3>
-    </div>
-
-    <div class="table-header solicitacoes-header">
-        <span>Produto</span>
-        <span>Afiliado</span>
-        <span>Comissão</span>
-        <span>Status</span>
-        <span class="text-right">Ações</span>
-    </div>
-
-    <div id="lista-solicitacoes">
-        <div id="estado-vazio-solicitacoes" class="empty-state-container">
-            <p class="empty-text">
-                Nenhuma solicitação recebida
-            </p>
-        </div>
-    </div>
-</div>
-
-<!-- Modal para escolher um produto -->
-<div id="modal-novo-link" class="modal-overlay hidden">
-    <div class="modal-card">
-        <div class="modal-header">
-            <h2>Nova Afiliação</h2>
-
-            <button type="button" id="btn-fechar-modal" class="btn-close">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <form id="form-nova-afiliacao">
-            <div class="input-group">
-                <label for="produto-afiliacao">Produto *</label>
-
-                <select id="produto-afiliacao" required>
-                    <option value="">Carregando produtos...</option>
-                </select>
+                <div id="lista-solicitacoes">
+                    <div id="estado-vazio-solicitacoes" class="empty-state-container">
+                        <p class="empty-text" data-i18n="afiliados.solicitacoes.vazio">
+                            Nenhuma solicitação recebida
+                        </p>
+                    </div>
+                </div>
             </div>
 
-            <p class="modal-aviso">
-                A solicitação será enviada ao produtor para aprovação.
-            </p>
+            <!-- Modal para escolher um produto -->
+            <div id="modal-novo-link" class="modal-overlay hidden">
+                <div class="modal-card">
+                    <div class="modal-header">
+                        <h2 data-i18n="afiliados.modal.titulo">Nova Afiliação</h2>
 
-            <div class="modal-footer">
-                <button type="button" id="btn-cancelar-modal" class="btn-secondary">
-                    Cancelar
-                </button>
+                        <button type="button" id="btn-fechar-modal" class="btn-close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
 
-                <button type="submit" class="btn-primary">
-                    Solicitar Afiliação
-                </button>
+                    <form id="form-nova-afiliacao">
+                        <div class="input-group">
+                            <label for="produto-afiliacao">
+                                <span data-i18n="afiliados.modal.produto">Produto</span> *
+                            </label>
+
+                            <select id="produto-afiliacao" required>
+                                <option value="" data-i18n="afiliados.modal.carregando">
+                                    Carregando produtos...
+                                </option>
+                            </select>
+                        </div>
+
+                        <p class="modal-aviso" data-i18n="afiliados.modal.aviso">
+                            A solicitação será enviada ao produtor para aprovação.
+                        </p>
+
+                        <div class="modal-footer">
+                            <button type="button" id="btn-cancelar-modal" class="btn-secondary" data-i18n="afiliados.modal.cancelar">
+                                Cancelar
+                            </button>
+
+                            <button type="submit" class="btn-primary" data-i18n="afiliados.modal.solicitar">
+                                Solicitar Afiliação
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </form>
+
+        </main>
     </div>
-</div>
-    </main>
-</div>
+
     <script src="js/ia-btn.js"></script>
-    <script src="js/afiliados.js"></script>
     <script src="js/perfil-global.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/afiliados.js"></script>
 </body>
 </html>

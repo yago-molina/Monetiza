@@ -58,6 +58,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const inputTelefone =
         document.getElementById('input-telefone')
 
+    const opcoesIdioma =
+        document.querySelectorAll('.idioma-opcao')
+
+    const btnSalvarIdioma =
+        document.getElementById('btn-salvar-idioma')
+
+    let idiomaSelecionado = 'pt-BR'
+
     let pagamentos = []
     let pagamentoEditandoId = null
 
@@ -72,6 +80,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
         }
+    }
+
+    function selecionarIdioma(idioma) {
+        idiomaSelecionado = idioma
+
+        opcoesIdioma.forEach(opcao => {
+            opcao.classList.toggle(
+                'active',
+                opcao.dataset.idioma === idioma
+            )
+        })
     }
 
     function encerrarSessao() {
@@ -496,6 +515,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const usuario = dados.usuario
 
+        selecionarIdioma(
+            usuario.idioma || 'pt-BR'
+        )
+
         atualizarFotoNaTela(
             usuario.foto_perfil
         )
@@ -705,6 +728,39 @@ document.addEventListener('DOMContentLoaded', async () => {
                 await verificarResposta(
                     resposta
                 )
+
+            alert(dados.mensagem)
+        } catch (erro) {
+            alert(erro.message)
+        }
+    }
+
+    async function salvarIdioma() {
+        try {
+            const resposta = await fetch(
+                '/configuracoes-api/idioma',
+                {
+                    method: 'PUT',
+                    headers: headers(),
+
+                    body: JSON.stringify({
+                        idioma: idiomaSelecionado
+                    })
+                }
+            )
+
+            const dados =
+                await verificarResposta(resposta)
+
+            localStorage.setItem(
+                'idioma',
+                idiomaSelecionado
+            )
+            if (window.i18n) {
+                window.i18n.aplicarIdioma(
+                    idiomaSelecionado
+                )
+            }
 
             alert(dados.mensagem)
         } catch (erro) {
@@ -1068,6 +1124,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         )
     }
+
+    opcoesIdioma.forEach(opcao => {
+        opcao.addEventListener(
+            'click',
+            () => {
+                selecionarIdioma(
+                    opcao.dataset.idioma
+                )
+            }
+        )
+    })
+
+if (btnSalvarIdioma) {
+    btnSalvarIdioma.addEventListener(
+        'click',
+        salvarIdioma
+    )
+}
 
     try {
         await carregarConfiguracoes()

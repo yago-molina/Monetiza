@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contratos - Monetiza</title>
+    <title data-i18n="contratos.tituloDocumento">Contratos - Monetiza</title>
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/contratos.css">
@@ -19,14 +19,61 @@
 
         <nav class="menu-nav">
             <ul>
-                <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
-                <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
-                <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
-                <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                <li class="active"><a id="contratos" href="landing"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
-                <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
-                <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                <li>
+                    <a id="dashboard" href="dashboard">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span data-i18n="sidebar.dashboard">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="produto" href="produto">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span data-i18n="sidebar.produtos">Produtos</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="minhasVendas" href="minhasVendas">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span data-i18n="sidebar.minhasVendas">Minhas Vendas</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="afiliados" href="afiliados">
+                        <i class="fa-solid fa-users"></i>
+                        <span data-i18n="sidebar.afiliados">Afiliados</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="financeiro" href="financeiro">
+                        <i class="fa-solid fa-wallet"></i>
+                        <span data-i18n="sidebar.financeiro">Financeiro</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a id="contratos" href="landing">
+                        <i class="fa-solid fa-file-contract"></i>
+                        <span data-i18n="sidebar.contratos">Contratos</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="mensagens" href="mensagens">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        <span data-i18n="sidebar.mensagens">Mensagens</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="configuracoes" href="configuracoes">
+                        <i class="fa-solid fa-gear"></i>
+                        <span data-i18n="sidebar.configuracoes">Configurações</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 
@@ -44,11 +91,11 @@
 
     <main class="main-content">
         <div class="top-bar">
-            <span class="page-title">Contratos</span>
+            <span class="page-title" data-i18n="contratos.tituloPagina">Contratos</span>
 
             <div class="top-bar-right">
                 <a href="/vitrine" class="vitrine-link">
-                    Ver Vitrine
+                    <span data-i18n="topo.verVitrine">Ver Vitrine</span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
 
@@ -59,13 +106,13 @@
 
         <div class="header-action-row">
             <div class="page-header-text">
-                <h2>Meus Contratos</h2>
-                <p>Gerencie seus contratos de afiliação</p>
+                <h2 data-i18n="contratos.cabecalho.titulo">Meus Contratos</h2>
+                <p data-i18n="contratos.cabecalho.subtitulo">Gerencie seus contratos de afiliação</p>
             </div>
 
             <button type="button" id="btn-adicionar-contrato" class="btn-primary btn-large">
                 <i class="fa-solid fa-plus"></i>
-                Adicionar Contrato
+                <span data-i18n="contratos.cabecalho.adicionarContrato">Adicionar Contrato</span>
             </button>
         </div>
 
@@ -76,18 +123,19 @@
                 type="text"
                 id="busca-contratos"
                 placeholder="Buscar contratos..."
+                data-i18n-placeholder="contratos.buscaPlaceholder"
                 class="search-input"
             >
         </div>
 
         <div id="estado-vazio" class="empty-card">
             <div class="empty-content">
-                <h3>Nenhum Contrato Ainda</h3>
-                <p>Adicione seu primeiro contrato</p>
+                <h3 data-i18n="contratos.vazio.titulo">Nenhum Contrato Ainda</h3>
+                <p data-i18n="contratos.vazio.subtitulo">Adicione seu primeiro contrato</p>
 
                 <button type="button" id="btn-novo-contrato" class="btn-primary">
                     <i class="fa-solid fa-plus"></i>
-                    Novo Contrato
+                    <span data-i18n="contratos.vazio.novoContrato">Novo Contrato</span>
                 </button>
             </div>
         </div>
@@ -102,19 +150,18 @@
             &times;
         </button>
 
-        <h2 class="modal-title" id="titulo-modal">
+        <h2 class="modal-title" id="titulo-modal" data-i18n="contratos.modal.novoContrato">
             Novo Contrato
         </h2>
 
         <form class="modal-form" id="form-contrato" enctype="multipart/form-data">
-
             <div class="form-group">
                 <label for="afiliacao">
-                    Afiliação relacionada *
+                    <span data-i18n="contratos.modal.afiliacaoRelacionada">Afiliação relacionada</span> *
                 </label>
 
                 <select id="afiliacao" required>
-                    <option value="">
+                    <option value="" data-i18n="contratos.modal.selecioneAfiliacao">
                         Selecione uma afiliação
                     </option>
                 </select>
@@ -122,13 +169,14 @@
 
             <div class="form-group">
                 <label for="titulo">
-                    Título *
+                    <span data-i18n="contratos.modal.titulo">Título</span> *
                 </label>
 
                 <input
                     type="text"
                     id="titulo"
                     placeholder="Nome do contrato"
+                    data-i18n-placeholder="contratos.modal.tituloPlaceholder"
                     maxlength="150"
                     required
                 >
@@ -136,7 +184,7 @@
 
             <div class="form-group">
                 <label for="arquivo">
-                    Arquivo PDF *
+                    <span data-i18n="contratos.modal.arquivoPdf">Arquivo PDF</span> *
                 </label>
 
                 <input
@@ -151,7 +199,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="dataInicio">
-                        Data Início *
+                        <span data-i18n="contratos.modal.dataInicio">Data Início</span> *
                     </label>
 
                     <input
@@ -163,7 +211,7 @@
 
                 <div class="form-group">
                     <label for="dataFim">
-                        Data Fim *
+                        <span data-i18n="contratos.modal.dataFim">Data Fim</span> *
                     </label>
 
                     <input
@@ -175,7 +223,7 @@
             </div>
 
             <div class="form-group">
-                <label for="observacoes">
+                <label for="observacoes" data-i18n="contratos.modal.observacoes">
                     Observações
                 </label>
 
@@ -183,6 +231,7 @@
                     id="observacoes"
                     rows="4"
                     placeholder="Anotações sobre o contrato"
+                    data-i18n-placeholder="contratos.modal.observacoesPlaceholder"
                 ></textarea>
             </div>
 
@@ -191,6 +240,7 @@
                     type="button"
                     class="btn-cancel"
                     id="btn-cancelar"
+                    data-i18n="contratos.modal.cancelar"
                 >
                     Cancelar
                 </button>
@@ -199,16 +249,18 @@
                     type="submit"
                     class="btn-save"
                     id="btn-salvar-contrato"
+                    data-i18n="contratos.modal.salvar"
                 >
                     Salvar
                 </button>
             </div>
-
         </form>
     </div>
 </div>
 
-    <script src="js/contratos.js"></script>
-    <script src="js/perfil-global.js"></script>
+<script src="js/perfil-global.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/contratos.js"></script>
+
 </body>
 </html>

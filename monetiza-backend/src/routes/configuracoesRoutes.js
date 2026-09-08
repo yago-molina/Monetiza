@@ -13,7 +13,8 @@ const {
     editarPagamento,
     excluirPagamento,
     alterarSenha,
-    atualizarFotoPerfil
+    atualizarFotoPerfil,
+    atualizarIdioma
 } = require('../controllers/configuracoesController')
 
 const autenticar =
@@ -128,6 +129,11 @@ router.put(
     '/foto',
     uploadPerfil.single('foto'),
     atualizarFotoPerfil
+)
+
+router.put(
+    '/idioma',
+    atualizarIdioma
 )
 
 module.exports = router

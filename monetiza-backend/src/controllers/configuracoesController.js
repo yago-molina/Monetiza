@@ -95,7 +95,8 @@ const buscarConfiguracoes = async (req, res) => {
                 email,
                 bio,
                 telefone,
-                foto_perfil
+                foto_perfil,
+                idioma
             FROM usuarios
             WHERE id = ?`,
             [usuario_id]
@@ -161,6 +162,49 @@ const buscarConfiguracoes = async (req, res) => {
 
         return res.status(500).json({
             erro: 'Erro interno ao carregar configurações'
+        })
+    }
+}
+
+const atualizarIdioma = async (req, res) => {
+    const usuario_id = req.usuario.id
+    const { idioma } = req.body
+
+    const idiomasPermitidos = [
+        'pt-BR',
+        'en',
+        'es'
+    ]
+
+    if (!idiomasPermitidos.includes(idioma)) {
+        return res.status(400).json({
+            erro: 'Idioma inválido'
+        })
+    }
+
+    try {
+        await db.query(
+            `UPDATE usuarios
+            SET idioma = ?
+            WHERE id = ?`,
+            [
+                idioma,
+                usuario_id
+            ]
+        )
+
+        return res.json({
+            mensagem: 'Idioma atualizado com sucesso!',
+            idioma
+        })
+    } catch (erro) {
+        console.error(
+            'Erro ao atualizar idioma:',
+            erro
+        )
+
+        return res.status(500).json({
+            erro: 'Erro interno ao atualizar idioma'
         })
     }
 }
@@ -669,5 +713,6 @@ module.exports = {
     editarPagamento,
     excluirPagamento,
     alterarSenha,
-    atualizarFotoPerfil
+    atualizarFotoPerfil,
+    atualizarIdioma
 }

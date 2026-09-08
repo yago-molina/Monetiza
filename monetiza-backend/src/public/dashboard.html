@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Monetiza</title>
+    <title data-i18n="dashboard.tituloDocumento">Dashboard - Monetiza</title>
     <link rel="icon" type="image/png" href="image/icon_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-
     <div class="container">
         <aside class="sidebar">
             <div class="logo-area">
@@ -19,19 +18,69 @@
 
             <nav class="menu-nav">
                 <ul>
-                    <li class="active"><a id="dashboard" href="landing"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
-                    <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
-                    <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
-                    <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
-                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
-                    <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                    <li class="active">
+                        <a id="dashboard" href="landing">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span data-i18n="sidebar.dashboard">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="produto" href="produto">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span data-i18n="sidebar.produtos">Produtos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="minhasVendas" href="minhasVendas">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span data-i18n="sidebar.minhasVendas">Minhas Vendas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="afiliados" href="afiliados">
+                            <i class="fa-solid fa-users"></i>
+                            <span data-i18n="sidebar.afiliados">Afiliados</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="financeiro" href="financeiro">
+                            <i class="fa-solid fa-wallet"></i>
+                            <span data-i18n="sidebar.financeiro">Financeiro</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="contratos" href="contratos">
+                            <i class="fa-solid fa-file-contract"></i>
+                            <span data-i18n="sidebar.contratos">Contratos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="mensagens" href="mensagens">
+                            <i class="fa-solid fa-comment-dots"></i>
+                            <span data-i18n="sidebar.mensagens">Mensagens</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="configuracoes" href="configuracoes">
+                            <i class="fa-solid fa-gear"></i>
+                            <span data-i18n="sidebar.configuracoes">Configurações</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
             <div class="user-profile">
-                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="avatar-fallback">
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+
                 <div class="user-info">
                     <span id="nome-usuario" class="user-name">Username</span>
                     <span id="email-usuario" class="user-email">email@gmail.com</span>
@@ -41,9 +90,14 @@
 
         <main class="main-content">
             <header class="top-bar">
-                <h1 class="page-title">Dashboard</h1>
+                <h1 class="page-title" data-i18n="dashboard.tituloPagina">Dashboard</h1>
+
                 <div class="top-bar-right">
-                    <a href="/vitrine" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="/vitrine" class="vitrine-link">
+                        <span data-i18n="topo.verVitrine">Ver Vitrine</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
                     <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
                     <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
                 </div>
@@ -51,54 +105,85 @@
 
             <div class="dashboard-grid">
                 <div class="welcome-section">
-                    <h2>Olá, <span id="ola-usuario">Usuário</span></h2>
-                    <p>Veja um resumo da sua atividade na plataforma</p>
+                    <h2>
+                        <span data-i18n="dashboard.bemVindo.ola">Olá,</span>
+                        <span id="ola-usuario">Usuário</span>
+                    </h2>
+
+                    <p data-i18n="dashboard.bemVindo.subtitulo">
+                        Veja um resumo da sua atividade na plataforma
+                    </p>
                 </div>
 
                 <div class="metrics-container">
                     <div class="metric-card">
                         <div class="metric-header">
-                            <span class="metric-title">Vendas Totais</span>
-                            <div class="metric-icon dollar"><i class="fa-solid fa-dollar-sign"></i></div>
+                            <span class="metric-title" data-i18n="dashboard.metricas.vendasTotais">
+                                Vendas Totais
+                            </span>
+
+                            <div class="metric-icon dollar">
+                                <i class="fa-solid fa-dollar-sign"></i>
+                            </div>
                         </div>
+
                         <span id="vendas-totais" class="metric-value">R$ 0,00</span>
-                        <div class="metric-change positive">
-                        </div>
+                        <div class="metric-change positive"></div>
                     </div>
 
                     <div class="metric-card">
                         <div class="metric-header">
-                            <span class="metric-title">Comissões Recebidas</span>
-                            <div class="metric-icon commission"><i class="fa-solid fa-chart-line"></i></div>
+                            <span class="metric-title" data-i18n="dashboard.metricas.comissoesRecebidas">
+                                Comissões Recebidas
+                            </span>
+
+                            <div class="metric-icon commission">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
                         </div>
+
                         <span id="comissoes" class="metric-value">R$ 0,00</span>
-                        <div class="metric-change positive">
-                        </div>
+                        <div class="metric-change positive"></div>
                     </div>
 
                     <div class="metric-card">
                         <div class="metric-header">
-                            <span class="metric-title">Produtos Ativos</span>
-                            <div class="metric-icon products"><i class="fa-solid fa-bag-shopping"></i></div>
+                            <span class="metric-title" data-i18n="dashboard.metricas.produtosAtivos">
+                                Produtos Ativos
+                            </span>
+
+                            <div class="metric-icon products">
+                                <i class="fa-solid fa-bag-shopping"></i>
+                            </div>
                         </div>
+
                         <span id="produtos-ativos" class="metric-value">0</span>
                     </div>
 
                     <div class="metric-card">
                         <div class="metric-header">
-                            <span class="metric-title">Total de Vendas</span>
-                            <div class="metric-icon sales"><i class="fa-solid fa-users"></i></div>
+                            <span class="metric-title" data-i18n="dashboard.metricas.totalVendas">
+                                Total de Vendas
+                            </span>
+
+                            <div class="metric-icon sales">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
                         </div>
+
                         <span id="total-vendas" class="metric-value">0</span>
                     </div>
                 </div>
 
                 <div class="content-row">
                     <div class="recent-sales-card">
-                        <h3>Vendas Recentes</h3>
+                        <h3 data-i18n="dashboard.vendasRecentes.titulo">Vendas Recentes</h3>
+
                         <div id="lista-vendas-recentes">
                             <div id="mensagem-sem-vendas" class="no-sales-message">
-                                <p>Nenhuma venda ainda</p>
+                                <p data-i18n="dashboard.vendasRecentes.vazio">
+                                    Nenhuma venda ainda
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -106,46 +191,88 @@
                     <div class="quick-actions-container">
                         <div class="balance-card">
                             <div class="balance-header">
-                                <span class="balance-title">Saldo Disponível</span>
+                                <span class="balance-title" data-i18n="dashboard.saldo.titulo">
+                                    Saldo Disponível
+                                </span>
                             </div>
 
                             <span id="saldo-disponivel" class="balance-value">R$ 0,00</span>
 
                             <div class="balance-details">
                                 <div class="detail green">
-                                    <i class="fa-solid fa-arrow-down"></i> Entradas<br>
+                                    <i class="fa-solid fa-arrow-down"></i>
+                                    <span data-i18n="dashboard.saldo.entradas">Entradas</span>
+                                    <br>
                                     <span id="total-entradas">R$ 0,00</span>
                                 </div>
 
                                 <div class="detail red">
-                                    <i class="fa-solid fa-arrow-up"></i> Saídas<br>
+                                    <i class="fa-solid fa-arrow-up"></i>
+                                    <span data-i18n="dashboard.saldo.saidas">Saídas</span>
+                                    <br>
                                     <span id="total-saidas">R$ 0,00</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="quick-actions-card">
-                            <h3>Ações rápidas</h3>
+                            <h3 data-i18n="dashboard.acoesRapidas.titulo">Ações rápidas</h3>
+
                             <div class="action-grid">
                                 <div id="acao-novo-produto" class="action-item">
-                                    <div class="action-icon cyan"><i class="fa-solid fa-plus"></i></div>
-                                    <span class="action-label">Novo Produto</span>
-                                    <span class="action-desc">Cadastre um produto digital</span>
+                                    <div class="action-icon cyan">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </div>
+
+                                    <span class="action-label" data-i18n="dashboard.acoesRapidas.novoProduto">
+                                        Novo Produto
+                                    </span>
+
+                                    <span class="action-desc" data-i18n="dashboard.acoesRapidas.novoProdutoDescricao">
+                                        Cadastre um produto digital
+                                    </span>
                                 </div>
+
                                 <div id="acao-gerar-link" class="action-item">
-                                    <div class="action-icon orange"><i class="fa-solid fa-link"></i></div>
-                                    <span class="action-label">Gerar Link</span>
-                                    <span class="action-desc">Criar link de afiliado</span>
+                                    <div class="action-icon orange">
+                                        <i class="fa-solid fa-link"></i>
+                                    </div>
+
+                                    <span class="action-label" data-i18n="dashboard.acoesRapidas.gerarLink">
+                                        Gerar Link
+                                    </span>
+
+                                    <span class="action-desc" data-i18n="dashboard.acoesRapidas.gerarLinkDescricao">
+                                        Criar link de afiliado
+                                    </span>
                                 </div>
+
                                 <div id="acao-novo-contrato" class="action-item">
-                                    <div class="action-icon purple"><i class="fa-solid fa-file-contract"></i></div>
-                                    <span class="action-label">Novo Contrato</span>
-                                    <span class="action-desc">Adicionar contrato</span>
+                                    <div class="action-icon purple">
+                                        <i class="fa-solid fa-file-contract"></i>
+                                    </div>
+
+                                    <span class="action-label" data-i18n="dashboard.acoesRapidas.novoContrato">
+                                        Novo Contrato
+                                    </span>
+
+                                    <span class="action-desc" data-i18n="dashboard.acoesRapidas.novoContratoDescricao">
+                                        Adicionar contrato
+                                    </span>
                                 </div>
+
                                 <div id="acao-mensagens" class="action-item">
-                                    <div class="action-icon pink"><i class="fa-solid fa-comment-dots"></i></div>
-                                    <span class="action-label">Mensagens</span>
-                                    <span class="action-desc">Ver conversas</span>
+                                    <div class="action-icon pink">
+                                        <i class="fa-solid fa-comment-dots"></i>
+                                    </div>
+
+                                    <span class="action-label" data-i18n="dashboard.acoesRapidas.mensagens">
+                                        Mensagens
+                                    </span>
+
+                                    <span class="action-desc" data-i18n="dashboard.acoesRapidas.mensagensDescricao">
+                                        Ver conversas
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -154,8 +281,10 @@
             </div>
         </main>
     </div>
+
     <script src="js/ia-btn.js"></script>
-    <script src="js/dashboard.js"></script>
     <script src="js/perfil-global.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>

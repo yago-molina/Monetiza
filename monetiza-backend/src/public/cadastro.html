@@ -3,54 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monetiza - Cadastro</title>
+    <title data-i18n="cadastro.tituloDocumento">Monetiza - Cadastro</title>
     <link rel="icon" type="image/png" href="image/icon_monetiza.png">
     <link rel="stylesheet" href="css/cadastro.css">
 </head>
 <body>
-
     <div class="auth-container">
         <div class="brand-header">
             <img id="logo_monetiza" src="image/icon_monetiza.png" alt="Logo Monetiza">
         </div>
-        
+
         <section id="tela-cadastro" class="auth-box">
-            <h2>Criar uma nova conta</h2>
-            <p class="auth-subtitle">ou <a href="/" id="link-ir-login">Entrar em uma conta existente</a></p>
+            <h2 data-i18n="cadastro.titulo">Criar uma nova conta</h2>
+
+            <p class="auth-subtitle">
+                <span data-i18n="cadastro.ou">ou</span>
+                <a href="/" id="link-ir-login" data-i18n="cadastro.entrarConta">
+                    Entrar em uma conta existente
+                </a>
+            </p>
 
             <div class="input-group">
-                <label for="cadastro-nome">Nome</label>
-                <input id="cadastro-nome" type="text" placeholder="Digite seu nome" required>
+                <label for="cadastro-nome" data-i18n="cadastro.nome">Nome</label>
+                <input
+                    id="cadastro-nome"
+                    type="text"
+                    placeholder="Digite seu nome"
+                    data-i18n-placeholder="cadastro.nomePlaceholder"
+                    required
+                >
             </div>
 
             <div class="input-group">
-                <label for="cadastro-email">E-mail</label>
-                <input id="cadastro-email" type="email" placeholder="seu@email.com">
-            </div>
-            
-            <div class="input-group">
-                <label for="cadastro-senha">Senha</label>
-                <input id="cadastro-senha" type="password" placeholder="Mínimo 8 caracteres">
+                <label for="cadastro-email" data-i18n="cadastro.email">E-mail</label>
+                <input
+                    id="cadastro-email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    data-i18n-placeholder="cadastro.emailPlaceholder"
+                >
             </div>
 
             <div class="input-group">
-                <label for="cadastro-rep-senha">Repetir Senha</label>
-                <input id="cadastro-rep-senha" type="password" placeholder="••••••••">
+                <label for="cadastro-senha" data-i18n="cadastro.senha">Senha</label>
+                <input
+                    id="cadastro-senha"
+                    type="password"
+                    placeholder="Mínimo 8 caracteres"
+                    data-i18n-placeholder="cadastro.senhaPlaceholder"
+                >
             </div>
-            
+
+            <div class="input-group">
+                <label for="cadastro-rep-senha" data-i18n="cadastro.repetirSenha">Repetir Senha</label>
+                <input
+                    id="cadastro-rep-senha"
+                    type="password"
+                    placeholder="••••••••"
+                    data-i18n-placeholder="cadastro.repetirSenhaPlaceholder"
+                >
+            </div>
+
             <div class="termos-container">
                 <input class="termos-checkbox" type="checkbox" id="termos">
-                <label for="termos" class="termos-text">
+
+                <label for="termos" class="termos-text" data-i18n="cadastro.termos">
                     Li e aceito os termos de uso, termos de licença de uso e software, política de conteúdo do Monetiza
                 </label>
             </div>
-            
+
             <div class="btn-container">
-                <button type="button" class="btn-primary" id="btn-cadastrar">Criar Conta</button>
+                <button
+                    type="button"
+                    class="btn-primary"
+                    id="btn-cadastrar"
+                    data-i18n="cadastro.criarConta"
+                >
+                    Criar Conta
+                </button>
             </div>
         </section>
     </div>
 
+    <script src="js/i18n.js"></script>
     <script src="js/cadastro.js"></script>
 </body>
 </html>

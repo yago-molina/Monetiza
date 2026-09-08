@@ -769,3 +769,72 @@ input:checked + .slider:before {
     overflow: hidden;
     border-radius: 50%;
 }
+
+/* ================= IDIOMA ================= */
+
+.idiomas-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.idioma-opcao {
+    width: 100%;
+    background-color: #121214;
+    border: 1px solid #2c2c2e;
+    border-radius: 10px;
+    padding: 16px 18px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.idioma-opcao:hover {
+    background-color: #18181b;
+    border-color: #3a3a3c;
+}
+
+.idioma-opcao.active {
+    border-color: #4d4dff;
+    background-color: rgba(77, 77, 255, 0.08);
+}
+
+.idioma-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+}
+
+.idioma-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.idioma-info strong {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.idioma-info span:not(.idioma-bandeira) {
+    font-size: 12px;
+    color: #7c7c8a;
+}
+
+.idioma-bandeira {
+    font-size: 28px;
+}
+
+.idioma-check {
+    color: #4d4dff;
+    font-size: 20px;
+    opacity: 0;
+}
+
+.idioma-opcao.active .idioma-check {
+    opacity: 1;
+}

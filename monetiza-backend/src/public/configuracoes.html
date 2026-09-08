@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurações - Monetiza</title>
+    <title data-i18n="configuracoes.tituloDocumento">Configurações - Monetiza</title>
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/configuracoes.css">
@@ -11,7 +11,6 @@
 <body>
 
     <div class="container">
-        <!-- Sidebar Padrão -->
         <aside class="sidebar">
             <div class="logo-area">
                 <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
@@ -20,14 +19,61 @@
 
             <nav class="menu-nav">
                 <ul>
-                    <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
-                    <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
-                    <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
-                    <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
-                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
-                    <li class="active"><a id="configuracoes" href="landing"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                    <li>
+                        <a id="dashboard" href="dashboard">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span data-i18n="sidebar.dashboard">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="produto" href="produto">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span data-i18n="sidebar.produtos">Produtos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="minhasVendas" href="minhasVendas">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span data-i18n="sidebar.minhasVendas">Minhas Vendas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="afiliados" href="afiliados">
+                            <i class="fa-solid fa-users"></i>
+                            <span data-i18n="sidebar.afiliados">Afiliados</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="financeiro" href="financeiro">
+                            <i class="fa-solid fa-wallet"></i>
+                            <span data-i18n="sidebar.financeiro">Financeiro</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="contratos" href="contratos">
+                            <i class="fa-solid fa-file-contract"></i>
+                            <span data-i18n="sidebar.contratos">Contratos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="mensagens" href="mensagens">
+                            <i class="fa-solid fa-comment-dots"></i>
+                            <span data-i18n="sidebar.mensagens">Mensagens</span>
+                        </a>
+                    </li>
+
+                    <li class="active">
+                        <a id="configuracoes" href="landing">
+                            <i class="fa-solid fa-gear"></i>
+                            <span data-i18n="sidebar.configuracoes">Configurações</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
@@ -36,6 +82,7 @@
                     <i class="fa-solid fa-circle-user" id="icone-avatar-menu"></i>
                     <img id="foto-perfil-menu" class="foto-perfil-menu hidden" src="" alt="Foto de perfil">
                 </div>
+
                 <div class="user-info">
                     <span id="nome-usuario" class="user-name">Username</span>
                     <span id="email-usuario" class="user-email">email@gmail.com</span>
@@ -43,75 +90,73 @@
             </div>
         </aside>
 
-        <!-- Conteúdo Principal -->
         <main class="main-content">
-            <!-- Top Bar -->
             <div class="top-bar">
-                <span class="page-title">Configurações</span>
+                <span class="page-title" data-i18n="configuracoes.tituloPagina">Configurações</span>
+
                 <div class="top-bar-right">
-                    <a href="/vitrine" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="/vitrine" class="vitrine-link">
+                        <span data-i18n="topo.verVitrine">Ver Vitrine</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
                     <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
                     <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
                 </div>
             </div>
 
-            <!-- Título e Subtítulo -->
             <div class="page-header-text">
-                <h2>Configurações</h2>
-                <p>Gerencie seu perfil e preferências</p>
+                <h2 data-i18n="configuracoes.tituloPagina">Configurações</h2>
+                <p data-i18n="configuracoes.subtituloPagina">Gerencie seu perfil e preferências</p>
             </div>
 
-            <!-- Navegação por Abas (Tabs) -->
             <div class="tabs-container">
                 <button class="tab-btn active" data-tab="perfil">
-                    <i class="fa-regular fa-user"></i> Meu Perfil
+                    <i class="fa-regular fa-user"></i>
+                    <span data-i18n="configuracoes.abas.perfil">Meu Perfil</span>
                 </button>
+
                 <button class="tab-btn" data-tab="notificacoes">
-                    <i class="fa-regular fa-bell"></i> Notificações
+                    <i class="fa-regular fa-bell"></i>
+                    <span data-i18n="configuracoes.abas.notificacoes">Notificações</span>
                 </button>
+
                 <button class="tab-btn" data-tab="seguranca">
-                    <i class="fa-solid fa-shield-halved"></i> Segurança
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span data-i18n="configuracoes.abas.seguranca">Segurança</span>
                 </button>
+
                 <button class="tab-btn" data-tab="pagamento">
-                    <i class="fa-solid fa-wallet"></i> Pagamento
+                    <i class="fa-solid fa-wallet"></i>
+                    <span data-i18n="configuracoes.abas.pagamento">Pagamento</span>
+                </button>
+
+                <button class="tab-btn" data-tab="idioma">
+                    <i class="fa-solid fa-language"></i>
+                    <span data-i18n="configuracoes.abas.idioma">Idioma</span>
                 </button>
             </div>
 
-            <!-- Card Único de Conteúdo das Abas -->
             <div class="settings-card">
-                
-                <!-- Aba 1: Meu Perfil -->
+
+                <!-- Perfil -->
                 <div class="tab-content active" id="tab-perfil">
                     <div class="settings-section-header">
-                        <h3>Informações do Perfil</h3>
-                        <p>Atualize suas informações pessoais</p>
+                        <h3 data-i18n="configuracoes.perfil.titulo">Informações do Perfil</h3>
+                        <p data-i18n="configuracoes.perfil.subtitulo">Atualize suas informações pessoais</p>
                     </div>
 
                     <div class="avatar-upload-row">
                         <div class="profile-avatar-large" id="avatar-perfil">
                             <i class="fa-solid fa-circle-user" id="icone-avatar-perfil"></i>
-                            <img
-                                id="foto-perfil"
-                                class="foto-perfil hidden"
-                                src=""
-                                alt="Foto de perfil"
-                            >
+                            <img id="foto-perfil" class="foto-perfil hidden" src="" alt="Foto de perfil">
                         </div>
 
-                        <input
-                            type="file"
-                            id="input-foto-perfil"
-                            accept="image/jpeg,image/png,image/webp"
-                            hidden
-                        >
+                        <input type="file" id="input-foto-perfil" accept="image/jpeg,image/png,image/webp" hidden>
 
-                        <button
-                            type="button"
-                            class="btn-secondary"
-                            id="btn-alterar-foto"
-                        >
+                        <button type="button" class="btn-secondary" id="btn-alterar-foto">
                             <i class="fa-solid fa-camera"></i>
-                            Alterar foto
+                            <span data-i18n="configuracoes.perfil.alterarFoto">Alterar foto</span>
                         </button>
                     </div>
 
@@ -119,23 +164,35 @@
 
                     <form id="form-perfil" class="settings-form">
                         <div class="form-group">
-                            <label for="input-nome">Nome Completo</label>
-                            <input type="text" id="input-nome" placeholder="Nome">
+                            <label for="input-nome" data-i18n="configuracoes.perfil.nome">Nome Completo</label>
+                            <input
+                                type="text"
+                                id="input-nome"
+                                placeholder="Nome"
+                                data-i18n-placeholder="configuracoes.perfil.nomePlaceholder"
+                            >
                         </div>
 
                         <div class="form-group">
-                            <label for="input-email">Email</label>
+                            <label for="input-email" data-i18n="configuracoes.perfil.email">Email</label>
                             <input type="email" id="input-email" placeholder="email@gmail.com" disabled class="input-disabled">
-                            <span class="field-hint">O email não pode ser alterado</span>
+                            <span class="field-hint" data-i18n="configuracoes.perfil.emailBloqueado">
+                                O email não pode ser alterado
+                            </span>
                         </div>
 
                         <div class="form-group">
-                            <label for="input-bio">Bio</label>
-                            <textarea id="input-bio" rows="3" placeholder="Conte um pouco sobre você..."></textarea>
+                            <label for="input-bio" data-i18n="configuracoes.perfil.bio">Bio</label>
+                            <textarea
+                                id="input-bio"
+                                rows="3"
+                                placeholder="Conte um pouco sobre você..."
+                                data-i18n-placeholder="configuracoes.perfil.bioPlaceholder"
+                            ></textarea>
                         </div>
 
                         <div class="form-group">
-                            <label for="input-telefone">Telefone</label>
+                            <label for="input-telefone" data-i18n="configuracoes.perfil.telefone">Telefone</label>
                             <input
                                 type="text"
                                 id="input-telefone"
@@ -145,26 +202,31 @@
                         </div>
 
                         <div class="settings-footer">
-                            <button type="submit" class="btn-save-preferences">
+                            <button type="submit" class="btn-save-preferences" data-i18n="configuracoes.perfil.salvar">
                                 Salvar Alterações
                             </button>
                         </div>
                     </form>
                 </div>
 
-                <!-- Aba 2: Notificações -->
+                <!-- Notificações -->
                 <div class="tab-content" id="tab-notificacoes">
                     <div class="settings-section-header">
-                        <h3>Notificações</h3>
-                        <p>Configure como você deseja ser notificado</p>
+                        <h3 data-i18n="configuracoes.notificacoes.titulo">Notificações</h3>
+                        <p data-i18n="configuracoes.notificacoes.subtitulo">
+                            Configure como você deseja ser notificado
+                        </p>
                     </div>
 
                     <div class="settings-list">
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Vendas</h4>
-                                <p>Notificar quando uma venda for realizada</p>
+                                <h4 data-i18n="configuracoes.notificacoes.vendas">Vendas</h4>
+                                <p data-i18n="configuracoes.notificacoes.vendasDescricao">
+                                    Notificar quando uma venda for realizada
+                                </p>
                             </div>
+
                             <label class="switch">
                                 <input type="checkbox" id="notif-vendas" checked>
                                 <span class="slider"></span>
@@ -173,9 +235,12 @@
 
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Comissões</h4>
-                                <p>Notificar quando ganhar uma comissão</p>
+                                <h4 data-i18n="configuracoes.notificacoes.comissoes">Comissões</h4>
+                                <p data-i18n="configuracoes.notificacoes.comissoesDescricao">
+                                    Notificar quando ganhar uma comissão
+                                </p>
                             </div>
+
                             <label class="switch">
                                 <input type="checkbox" id="notif-comissoes" checked>
                                 <span class="slider"></span>
@@ -184,9 +249,12 @@
 
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Mensagens</h4>
-                                <p>Notificar ao receber novas mensagens</p>
+                                <h4 data-i18n="configuracoes.notificacoes.mensagens">Mensagens</h4>
+                                <p data-i18n="configuracoes.notificacoes.mensagensDescricao">
+                                    Notificar ao receber novas mensagens
+                                </p>
                             </div>
+
                             <label class="switch">
                                 <input type="checkbox" id="notif-mensagens" checked>
                                 <span class="slider"></span>
@@ -195,9 +263,12 @@
 
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Email</h4>
-                                <p>Receber notificações por email</p>
+                                <h4 data-i18n="configuracoes.notificacoes.email">Email</h4>
+                                <p data-i18n="configuracoes.notificacoes.emailDescricao">
+                                    Receber notificações por email
+                                </p>
                             </div>
+
                             <label class="switch">
                                 <input type="checkbox" id="notif-email">
                                 <span class="slider"></span>
@@ -206,9 +277,12 @@
 
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Contratos</h4>
-                                <p>Notificar sobre atualizações em contratos</p>
+                                <h4 data-i18n="configuracoes.notificacoes.contratos">Contratos</h4>
+                                <p data-i18n="configuracoes.notificacoes.contratosDescricao">
+                                    Notificar sobre atualizações em contratos
+                                </p>
                             </div>
+
                             <label class="switch">
                                 <input type="checkbox" id="notif-contratos" checked>
                                 <span class="slider"></span>
@@ -217,9 +291,12 @@
 
                         <div class="setting-item">
                             <div class="setting-info">
-                                <h4>Afiliações</h4>
-                                <p>Notificar sobre solicitações e alterações de afiliação</p>
+                                <h4 data-i18n="configuracoes.notificacoes.afiliacoes">Afiliações</h4>
+                                <p data-i18n="configuracoes.notificacoes.afiliacoesDescricao">
+                                    Notificar sobre solicitações e alterações de afiliação
+                                </p>
                             </div>
+
                             <label class="switch">
                                 <input type="checkbox" id="notif-afiliacoes" checked>
                                 <span class="slider"></span>
@@ -228,50 +305,69 @@
                     </div>
 
                     <div class="settings-footer">
-                        <button class="btn-save-preferences" id="btn-salvar-preferencias">
+                        <button
+                            class="btn-save-preferences"
+                            id="btn-salvar-preferencias"
+                            data-i18n="configuracoes.notificacoes.salvar"
+                        >
                             Salvar Preferências
                         </button>
                     </div>
                 </div>
 
-                <!-- Aba 3: Segurança -->
+                <!-- Segurança -->
                 <div class="tab-content" id="tab-seguranca">
                     <div class="settings-section-header">
-                        <h3>Segurança</h3>
-                        <p>Altere sua senha para manter sua conta protegida</p>
+                        <h3 data-i18n="configuracoes.seguranca.titulo">Segurança</h3>
+                        <p data-i18n="configuracoes.seguranca.subtitulo">
+                            Altere sua senha para manter sua conta protegida
+                        </p>
                     </div>
 
                     <form id="form-seguranca" class="settings-form">
                         <div class="form-group">
-                            <label for="senha-atual">Senha Atual</label>
+                            <label for="senha-atual" data-i18n="configuracoes.seguranca.senhaAtual">
+                                Senha Atual
+                            </label>
+
                             <input
                                 type="password"
                                 id="senha-atual"
                                 placeholder="Digite sua senha atual"
+                                data-i18n-placeholder="configuracoes.seguranca.senhaAtualPlaceholder"
                                 required
                             >
                         </div>
 
                         <div class="form-group">
-                            <label for="nova-senha">Nova Senha</label>
+                            <label for="nova-senha" data-i18n="configuracoes.seguranca.novaSenha">
+                                Nova Senha
+                            </label>
+
                             <input
                                 type="password"
                                 id="nova-senha"
                                 placeholder="Digite a nova senha"
+                                data-i18n-placeholder="configuracoes.seguranca.novaSenhaPlaceholder"
                                 minlength="6"
                                 required
                             >
-                            <span class="field-hint">
+
+                            <span class="field-hint" data-i18n="configuracoes.seguranca.dicaSenha">
                                 A senha deve ter pelo menos 6 caracteres
                             </span>
                         </div>
 
                         <div class="form-group">
-                            <label for="confirmar-senha">Confirmar Nova Senha</label>
+                            <label for="confirmar-senha" data-i18n="configuracoes.seguranca.confirmarSenha">
+                                Confirmar Nova Senha
+                            </label>
+
                             <input
                                 type="password"
                                 id="confirmar-senha"
                                 placeholder="Digite novamente a nova senha"
+                                data-i18n-placeholder="configuracoes.seguranca.confirmarSenhaPlaceholder"
                                 minlength="6"
                                 required
                             >
@@ -282,6 +378,7 @@
                                 type="submit"
                                 class="btn-save-preferences"
                                 id="btn-salvar-seguranca"
+                                data-i18n="configuracoes.seguranca.alterarSenha"
                             >
                                 Alterar Senha
                             </button>
@@ -289,52 +386,44 @@
                     </form>
                 </div>
 
-                <!-- Aba 4: Pagamento -->
+                <!-- Pagamento -->
                 <div class="tab-content" id="tab-pagamento">
                     <div class="settings-section-header">
-                        <h3>Dados de Pagamento</h3>
-                        <p>Gerencie as chaves PIX usadas para receber vendas e comissões</p>
+                        <h3 data-i18n="configuracoes.pagamento.titulo">Dados de Pagamento</h3>
+                        <p data-i18n="configuracoes.pagamento.subtitulo">
+                            Gerencie as chaves PIX usadas para receber vendas e comissões
+                        </p>
                     </div>
 
                     <div id="pagamentos-area">
                         <div class="pagamentos-header">
-                            <h4>Chaves cadastradas</h4>
+                            <h4 data-i18n="configuracoes.pagamento.chavesCadastradas">Chaves cadastradas</h4>
 
-                            <button
-                                type="button"
-                                class="btn-secondary"
-                                id="btn-adicionar-pagamento"
-                            >
+                            <button type="button" class="btn-secondary" id="btn-adicionar-pagamento">
                                 <i class="fa-solid fa-plus"></i>
-                                Adicionar chave PIX
+                                <span data-i18n="configuracoes.pagamento.adicionarPix">Adicionar chave PIX</span>
                             </button>
                         </div>
 
-                        <div id="lista-pagamentos" class="lista-pagamentos">
-                            <!-- As formas de pagamento serão inseridas pelo JavaScript -->
-                        </div>
+                        <div id="lista-pagamentos" class="lista-pagamentos"></div>
 
-                        <div
-                            id="pagamentos-vazio"
-                            class="pagamentos-vazio hidden"
-                        >
+                        <div id="pagamentos-vazio" class="pagamentos-vazio hidden">
                             <i class="fa-solid fa-wallet"></i>
-                            <p>Nenhuma chave PIX cadastrada</p>
+                            <p data-i18n="configuracoes.pagamento.nenhumaChave">
+                                Nenhuma chave PIX cadastrada
+                            </p>
                         </div>
                     </div>
 
-                    <form
-                        id="form-pagamento"
-                        class="settings-form hidden"
-                    >
+                    <form id="form-pagamento" class="settings-form hidden">
                         <div class="settings-section-header form-pagamento-header">
-                            <h4 id="titulo-form-pagamento">
+                            <h4 id="titulo-form-pagamento" data-i18n="configuracoes.pagamento.adicionarPix">
                                 Adicionar chave PIX
                             </h4>
                         </div>
 
                         <div class="form-group">
-                            <label for="nome-titular">
+                            <label for="nome-titular" data-i18n="configuracoes.pagamento.nomeTitular">
                                 Nome do Titular
                             </label>
 
@@ -342,29 +431,30 @@
                                 type="text"
                                 id="nome-titular"
                                 placeholder="Nome completo do titular"
+                                data-i18n-placeholder="configuracoes.pagamento.nomeTitularPlaceholder"
                                 required
                             >
                         </div>
 
                         <div class="form-group">
-                            <label for="tipo-chave-pix">
+                            <label for="tipo-chave-pix" data-i18n="configuracoes.pagamento.tipoChave">
                                 Tipo da Chave PIX
                             </label>
 
                             <select id="tipo-chave-pix" required>
-                                <option value="">Selecione</option>
+                                <option value="" data-i18n="configuracoes.pagamento.selecione">Selecione</option>
                                 <option value="CPF">CPF</option>
                                 <option value="CNPJ">CNPJ</option>
                                 <option value="Email">Email</option>
-                                <option value="Telefone">Telefone</option>
-                                <option value="Aleatoria">
+                                <option value="Telefone" data-i18n="configuracoes.perfil.telefone">Telefone</option>
+                                <option value="Aleatoria" data-i18n="configuracoes.pagamento.chaveAleatoria">
                                     Chave Aleatória
                                 </option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="chave-pix">
+                            <label for="chave-pix" data-i18n="configuracoes.pagamento.chavePix">
                                 Chave PIX
                             </label>
 
@@ -372,10 +462,11 @@
                                 type="text"
                                 id="chave-pix"
                                 placeholder="Digite sua chave PIX"
+                                data-i18n-placeholder="configuracoes.pagamento.chavePixPlaceholder"
                                 required
                             >
 
-                            <span class="input-help-text">
+                            <span class="input-help-text" data-i18n="configuracoes.pagamento.ajudaPix">
                                 Usado para receber pagamentos de vendas e comissões
                             </span>
                         </div>
@@ -385,6 +476,7 @@
                                 type="button"
                                 class="btn-secondary"
                                 id="btn-cancelar-pagamento"
+                                data-i18n="configuracoes.pagamento.cancelar"
                             >
                                 Cancelar
                             </button>
@@ -393,6 +485,7 @@
                                 type="submit"
                                 class="btn-save-preferences"
                                 id="btn-salvar-pagamento"
+                                data-i18n="configuracoes.pagamento.salvar"
                             >
                                 Salvar
                             </button>
@@ -400,11 +493,71 @@
                     </form>
                 </div>
 
+                <!-- Idioma -->
+                <div class="tab-content" id="tab-idioma">
+                    <div class="settings-section-header">
+                        <h3 data-i18n="configuracoes.idioma.titulo">Idioma da Plataforma</h3>
+                        <p data-i18n="configuracoes.idioma.subtitulo">
+                            Escolha o idioma que deseja utilizar no Monetiza
+                        </p>
+                    </div>
+
+                    <div class="idiomas-lista">
+                        <button type="button" class="idioma-opcao" data-idioma="pt-BR">
+                            <div class="idioma-info">
+                                <span class="idioma-bandeira">🇧🇷</span>
+                                <div>
+                                    <strong data-i18n="configuracoes.idioma.portugues">Português</strong>
+                                    <span>Português (Brasil)</span>
+                                </div>
+                            </div>
+
+                            <i class="fa-solid fa-circle-check idioma-check"></i>
+                        </button>
+
+                        <button type="button" class="idioma-opcao" data-idioma="en">
+                            <div class="idioma-info">
+                                <span class="idioma-bandeira">🇺🇸</span>
+                                <div>
+                                    <strong data-i18n="configuracoes.idioma.ingles">English</strong>
+                                    <span>English</span>
+                                </div>
+                            </div>
+
+                            <i class="fa-solid fa-circle-check idioma-check"></i>
+                        </button>
+
+                        <button type="button" class="idioma-opcao" data-idioma="es">
+                            <div class="idioma-info">
+                                <span class="idioma-bandeira">🇪🇸</span>
+                                <div>
+                                    <strong data-i18n="configuracoes.idioma.espanhol">Español</strong>
+                                    <span>Español</span>
+                                </div>
+                            </div>
+
+                            <i class="fa-solid fa-circle-check idioma-check"></i>
+                        </button>
+                    </div>
+
+                    <div class="settings-footer">
+                        <button
+                            type="button"
+                            class="btn-save-preferences"
+                            id="btn-salvar-idioma"
+                            data-i18n="configuracoes.idioma.salvar"
+                        >
+                            Salvar Idioma
+                        </button>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
+
     <script src="js/ia-btn.js"></script>
-    <script src="js/configuracoes.js"></script>
     <script src="js/perfil-global.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/configuracoes.js"></script>
 </body>
 </html>
