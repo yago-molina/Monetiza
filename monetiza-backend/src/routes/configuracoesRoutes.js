@@ -5,7 +5,10 @@ const {
     buscarConfiguracoes,
     atualizarPerfil,
     atualizarPreferencias,
-    salvarPagamento,
+    listarPagamentos,
+    adicionarPagamento,
+    editarPagamento,
+    excluirPagamento,
     alterarSenha
 } = require('../controllers/configuracoesController')
 
@@ -29,9 +32,24 @@ router.put(
     atualizarPreferencias
 )
 
+router.get(
+    '/pagamentos',
+    listarPagamentos
+)
+
+router.post(
+    '/pagamentos',
+    adicionarPagamento
+)
+
 router.put(
-    '/pagamento',
-    salvarPagamento
+    '/pagamentos/:id',
+    editarPagamento
+)
+
+router.delete(
+    '/pagamentos/:id',
+    excluirPagamento
 )
 
 router.put(

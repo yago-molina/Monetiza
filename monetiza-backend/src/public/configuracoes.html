@@ -266,37 +266,107 @@
                 <div class="tab-content" id="tab-pagamento">
                     <div class="settings-section-header">
                         <h3>Dados de Pagamento</h3>
-                        <p>Configure como deseja receber seus pagamentos</p>
+                        <p>Gerencie as chaves PIX usadas para receber vendas e comissões</p>
                     </div>
 
-                    <form id="form-pagamento" class="settings-form">
-                        <div class="form-group">
-                            <label for="nome-titular">Nome do Titular</label>
-                            <input type="text" id="nome-titular" placeholder="Nome completo do titular" required>
+                    <div id="pagamentos-area">
+                        <div class="pagamentos-header">
+                            <h4>Chaves cadastradas</h4>
+
+                            <button
+                                type="button"
+                                class="btn-secondary"
+                                id="btn-adicionar-pagamento"
+                            >
+                                <i class="fa-solid fa-plus"></i>
+                                Adicionar chave PIX
+                            </button>
+                        </div>
+
+                        <div id="lista-pagamentos" class="lista-pagamentos">
+                            <!-- As formas de pagamento serão inseridas pelo JavaScript -->
+                        </div>
+
+                        <div
+                            id="pagamentos-vazio"
+                            class="pagamentos-vazio hidden"
+                        >
+                            <i class="fa-solid fa-wallet"></i>
+                            <p>Nenhuma chave PIX cadastrada</p>
+                        </div>
+                    </div>
+
+                    <form
+                        id="form-pagamento"
+                        class="settings-form hidden"
+                    >
+                        <div class="settings-section-header form-pagamento-header">
+                            <h4 id="titulo-form-pagamento">
+                                Adicionar chave PIX
+                            </h4>
                         </div>
 
                         <div class="form-group">
-                            <label for="tipo-chave-pix">Tipo da Chave PIX</label>
+                            <label for="nome-titular">
+                                Nome do Titular
+                            </label>
+
+                            <input
+                                type="text"
+                                id="nome-titular"
+                                placeholder="Nome completo do titular"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tipo-chave-pix">
+                                Tipo da Chave PIX
+                            </label>
+
                             <select id="tipo-chave-pix" required>
                                 <option value="">Selecione</option>
                                 <option value="CPF">CPF</option>
                                 <option value="CNPJ">CNPJ</option>
                                 <option value="Email">Email</option>
                                 <option value="Telefone">Telefone</option>
-                                <option value="Aleatoria">Chave Aleatória</option>
+                                <option value="Aleatoria">
+                                    Chave Aleatória
+                                </option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="chave-pix">Chave PIX</label>
-                            <input type="text" id="chave-pix" placeholder="Digite sua chave PIX" required>
+                            <label for="chave-pix">
+                                Chave PIX
+                            </label>
+
+                            <input
+                                type="text"
+                                id="chave-pix"
+                                placeholder="Digite sua chave PIX"
+                                required
+                            >
+
                             <span class="input-help-text">
                                 Usado para receber pagamentos de vendas e comissões
                             </span>
                         </div>
 
                         <div class="settings-footer">
-                            <button type="submit" class="btn-save-preferences" id="btn-salvar-pagamento">
+                            <button
+                                type="button"
+                                class="btn-secondary"
+                                id="btn-cancelar-pagamento"
+                            >
+                                Cancelar
+                            </button>
+
+                            <button
+                                type="submit"
+                                class="btn-save-preferences"
+                                id="btn-salvar-pagamento"
+                            >
                                 Salvar
                             </button>
                         </div>

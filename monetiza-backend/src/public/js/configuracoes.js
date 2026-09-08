@@ -4,10 +4,41 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tabButtons = document.querySelectorAll('.tab-btn')
     const tabContents = document.querySelectorAll('.tab-content')
 
-    const formPerfil = document.getElementById('form-perfil')
-    const formPagamento = document.getElementById('form-pagamento')
-    const btnPreferencias = document.getElementById('btn-salvar-preferencias')
-    const formSeguranca = document.getElementById('form-seguranca')
+    const formPerfil =
+        document.getElementById('form-perfil')
+
+    const formPagamento =
+        document.getElementById('form-pagamento')
+
+    const formSeguranca =
+        document.getElementById('form-seguranca')
+
+    const btnPreferencias =
+        document.getElementById('btn-salvar-preferencias')
+
+    const tipoChavePix =
+        document.getElementById('tipo-chave-pix')
+
+    const chavePix =
+        document.getElementById('chave-pix')
+
+    const listaPagamentos =
+        document.getElementById('lista-pagamentos')
+
+    const pagamentosVazio =
+        document.getElementById('pagamentos-vazio')
+
+    const btnAdicionarPagamento =
+        document.getElementById('btn-adicionar-pagamento')
+
+    const btnCancelarPagamento =
+        document.getElementById('btn-cancelar-pagamento')
+
+    const tituloFormPagamento =
+        document.getElementById('titulo-form-pagamento')
+
+    let pagamentos = []
+    let pagamentoEditandoId = null
 
     if (!token) {
         alert('Acesso negado. Faça login primeiro.')
@@ -54,6 +85,342 @@ document.addEventListener('DOMContentLoaded', async () => {
         return dados
     }
 
+    function escaparHtml(valor) {
+        return String(valor ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;')
+    }
+
+    function formatarCPF(valor) {
+        return String(valor || '')
+            .replace(/\D/g, '')
+            .slice(0, 11)
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+    }
+
+    function formatarCNPJ(valor) {
+        return String(valor || '')
+            .replace(/\D/g, '')
+            .slice(0, 14)
+            .replace(/^(\d{2})(\d)/, '$1.$2')
+            .replace(
+                /^(\d{2})\.(\d{3})(\d)/,
+                '$1.$2.$3'
+            )
+            .replace(/\.(\d{3})(\d)/, '.$1/$2')
+            .replace(/(\d{4})(\d)/, '$1-$2')
+    }
+
+    function formatarTelefone(valor) {
+        const numeros = String(valor || '')
+            .replace(/\D/g, '')
+            .slice(0, 11)
+
+        if (numeros.length <= 10) {
+            return numeros
+                .replace(/^(\d{2})(\d)/, '($1) $2')
+                .replace(/(\d{4})(\d)/, '$1-$2')
+        }
+
+        return numeros
+            .replace(/^(\d{2})(\d)/, '($1) $2')
+            .replace(/(\d{5})(\d)/, '$1-$2')
+    }
+
+    function formatarValorPix(tipo, valor) {
+        if (tipo === 'CPF') {
+            return formatarCPF(valor)
+        }
+
+        if (tipo === 'CNPJ') {
+            return formatarCNPJ(valor)
+        }
+
+        if (tipo === 'Telefone') {
+            return formatarTelefone(valor)
+        }
+
+        return valor || ''
+    }
+
+    function atualizarPlaceholderPix() {
+        if (!tipoChavePix || !chavePix) return
+
+        if (tipoChavePix.value === 'CPF') {
+            chavePix.placeholder = '000.000.000-00'
+        } else if (tipoChavePix.value === 'CNPJ') {
+            chavePix.placeholder =
+                '00.000.000/0000-00'
+        } else if (tipoChavePix.value === 'Email') {
+            chavePix.placeholder =
+                'email@exemplo.com'
+        } else if (
+            tipoChavePix.value === 'Telefone'
+        ) {
+            chavePix.placeholder =
+                '(11) 99999-9999'
+        } else if (
+            tipoChavePix.value === 'Aleatoria'
+        ) {
+            chavePix.placeholder =
+                'Digite sua chave aleatória'
+        } else {
+            chavePix.placeholder =
+                'Digite sua chave PIX'
+        }
+    }
+
+    function formatarChavePix() {
+        if (!tipoChavePix || !chavePix) return
+
+        chavePix.value =
+            formatarValorPix(
+                tipoChavePix.value,
+                chavePix.value
+            )
+    }
+
+    function validarChavePix(tipo, chave) {
+        const valor = chave.trim()
+
+        if (!tipo) {
+            return 'Selecione o tipo da chave PIX'
+        }
+
+        if (!valor) {
+            return 'Informe sua chave PIX'
+        }
+
+        if (tipo === 'CPF') {
+            const numeros =
+                valor.replace(/\D/g, '')
+
+            if (numeros.length !== 11) {
+                return 'CPF deve ter 11 dígitos'
+            }
+        }
+
+        if (tipo === 'CNPJ') {
+            const numeros =
+                valor.replace(/\D/g, '')
+
+            if (numeros.length !== 14) {
+                return 'CNPJ deve ter 14 dígitos'
+            }
+        }
+
+        if (tipo === 'Email') {
+            const emailValido =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+            if (!emailValido.test(valor)) {
+                return 'Informe um email válido'
+            }
+        }
+
+        if (tipo === 'Telefone') {
+            const numeros =
+                valor.replace(/\D/g, '')
+
+            if (
+                numeros.length !== 10 &&
+                numeros.length !== 11
+            ) {
+                return 'Informe um telefone válido'
+            }
+        }
+
+        return null
+    }
+
+    function mostrarFormularioPagamento() {
+        formPagamento.classList.remove('hidden')
+        btnAdicionarPagamento.classList.add('hidden')
+    }
+
+    function esconderFormularioPagamento() {
+        formPagamento.classList.add('hidden')
+        btnAdicionarPagamento.classList.remove('hidden')
+
+        formPagamento.reset()
+        pagamentoEditandoId = null
+
+        tituloFormPagamento.textContent =
+            'Adicionar chave PIX'
+
+        atualizarPlaceholderPix()
+    }
+
+    function abrirNovoPagamento() {
+        pagamentoEditandoId = null
+
+        formPagamento.reset()
+
+        tituloFormPagamento.textContent =
+            'Adicionar chave PIX'
+
+        atualizarPlaceholderPix()
+
+        mostrarFormularioPagamento()
+    }
+
+    function editarPagamento(id) {
+        const pagamento = pagamentos.find(
+            item => Number(item.id) === Number(id)
+        )
+
+        if (!pagamento) return
+
+        pagamentoEditandoId =
+            Number(pagamento.id)
+
+        document.getElementById(
+            'nome-titular'
+        ).value =
+            pagamento.nome_titular || ''
+
+        tipoChavePix.value =
+            pagamento.tipo_chave_pix || ''
+
+        chavePix.value =
+            formatarValorPix(
+                pagamento.tipo_chave_pix,
+                pagamento.chave_pix
+            )
+
+        tituloFormPagamento.textContent =
+            'Editar chave PIX'
+
+        atualizarPlaceholderPix()
+        mostrarFormularioPagamento()
+    }
+
+    function renderizarPagamentos() {
+        if (!listaPagamentos) return
+
+        listaPagamentos.innerHTML = ''
+
+        if (!pagamentos.length) {
+            pagamentosVazio.classList.remove(
+                'hidden'
+            )
+
+            return
+        }
+
+        pagamentosVazio.classList.add(
+            'hidden'
+        )
+
+        listaPagamentos.innerHTML =
+            pagamentos.map(pagamento => {
+                const chaveFormatada =
+                    formatarValorPix(
+                        pagamento.tipo_chave_pix,
+                        pagamento.chave_pix
+                    )
+
+                return `
+                    <div class="pagamento-card">
+                        <div class="pagamento-card-info">
+                            <div class="pagamento-tipo">
+                                <i class="fa-solid fa-money-bill-transfer"></i>
+                                <strong>
+                                    ${escaparHtml(
+                                        pagamento.tipo_chave_pix
+                                    )}
+                                </strong>
+                            </div>
+
+                            <span class="pagamento-titular">
+                                ${escaparHtml(
+                                    pagamento.nome_titular
+                                )}
+                            </span>
+
+                            <span class="pagamento-chave">
+                                ${escaparHtml(
+                                    chaveFormatada
+                                )}
+                            </span>
+                        </div>
+
+                        <div class="pagamento-acoes">
+                            <button
+                                type="button"
+                                class="btn-editar-pagamento"
+                                data-id="${pagamento.id}"
+                            >
+                                <i class="fa-solid fa-pen"></i>
+                                Editar
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn-excluir-pagamento"
+                                data-id="${pagamento.id}"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                                Excluir
+                            </button>
+                        </div>
+                    </div>
+                `
+            }).join('')
+
+        document
+            .querySelectorAll(
+                '.btn-editar-pagamento'
+            )
+            .forEach(button => {
+                button.addEventListener(
+                    'click',
+                    () => {
+                        editarPagamento(
+                            button.dataset.id
+                        )
+                    }
+                )
+            })
+
+        document
+            .querySelectorAll(
+                '.btn-excluir-pagamento'
+            )
+            .forEach(button => {
+                button.addEventListener(
+                    'click',
+                    () => {
+                        excluirPagamento(
+                            button.dataset.id
+                        )
+                    }
+                )
+            })
+    }
+
+    async function carregarPagamentos() {
+        const resposta = await fetch(
+            '/configuracoes-api/pagamentos',
+            {
+                headers: headers()
+            }
+        )
+
+        const dados =
+            await verificarResposta(resposta)
+
+        pagamentos =
+            dados.pagamentos || []
+
+        renderizarPagamentos()
+    }
+
     async function carregarConfiguracoes() {
         const resposta = await fetch(
             '/configuracoes-api',
@@ -62,88 +429,131 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         )
 
-        const dados = await verificarResposta(resposta)
+        const dados =
+            await verificarResposta(resposta)
+
         const usuario = dados.usuario
 
-        document.getElementById('input-nome').value =
+        document.getElementById(
+            'input-nome'
+        ).value =
             usuario.nome || ''
 
-        document.getElementById('input-email').value =
+        document.getElementById(
+            'input-email'
+        ).value =
             usuario.email || ''
 
-        document.getElementById('input-bio').value =
+        document.getElementById(
+            'input-bio'
+        ).value =
             usuario.bio || ''
 
-        document.getElementById('input-telefone').value =
+        document.getElementById(
+            'input-telefone'
+        ).value =
             usuario.telefone || ''
 
         const nomeMenu =
-            document.getElementById('nome-usuario')
+            document.getElementById(
+                'nome-usuario'
+            )
 
         const emailMenu =
-            document.getElementById('email-usuario')
+            document.getElementById(
+                'email-usuario'
+            )
 
         if (nomeMenu) {
-            nomeMenu.textContent = usuario.nome
+            nomeMenu.textContent =
+                usuario.nome
         }
 
         if (emailMenu) {
-            emailMenu.textContent = usuario.email
+            emailMenu.textContent =
+                usuario.email
         }
 
-        const preferencias = dados.preferencias
+        const preferencias =
+            dados.preferencias
 
-        document.getElementById('notif-vendas').checked =
-            Boolean(preferencias.notificar_vendas)
+        document.getElementById(
+            'notif-vendas'
+        ).checked =
+            Boolean(
+                preferencias.notificar_vendas
+            )
 
-        document.getElementById('notif-comissoes').checked =
-            Boolean(preferencias.notificar_comissoes)
+        document.getElementById(
+            'notif-comissoes'
+        ).checked =
+            Boolean(
+                preferencias.notificar_comissoes
+            )
 
-        document.getElementById('notif-mensagens').checked =
-            Boolean(preferencias.notificar_mensagens)
+        document.getElementById(
+            'notif-mensagens'
+        ).checked =
+            Boolean(
+                preferencias.notificar_mensagens
+            )
 
-        document.getElementById('notif-email').checked =
-            Boolean(preferencias.notificar_email)
+        document.getElementById(
+            'notif-email'
+        ).checked =
+            Boolean(
+                preferencias.notificar_email
+            )
 
         const notifContratos =
-            document.getElementById('notif-contratos')
+            document.getElementById(
+                'notif-contratos'
+            )
 
         if (notifContratos) {
             notifContratos.checked =
-                Boolean(preferencias.notificar_contratos)
+                Boolean(
+                    preferencias
+                        .notificar_contratos
+                )
         }
 
         const notifAfiliacoes =
-            document.getElementById('notif-afiliacoes')
+            document.getElementById(
+                'notif-afiliacoes'
+            )
 
         if (notifAfiliacoes) {
             notifAfiliacoes.checked =
-                Boolean(preferencias.notificar_afiliacoes)
+                Boolean(
+                    preferencias
+                        .notificar_afiliacoes
+                )
         }
 
-        if (dados.pagamento) {
-            document.getElementById('nome-titular').value =
-                dados.pagamento.nome_titular || ''
+        pagamentos =
+            dados.pagamentos || []
 
-            document.getElementById('tipo-chave-pix').value =
-                dados.pagamento.tipo_chave_pix || ''
-
-            document.getElementById('chave-pix').value =
-                dados.pagamento.chave_pix || ''
-        }
+        renderizarPagamentos()
     }
 
     async function salvarPerfil(evento) {
         evento.preventDefault()
 
         const nome =
-            document.getElementById('input-nome').value
+            document.getElementById(
+                'input-nome'
+            ).value
 
         const bio =
-            document.getElementById('input-bio').value
+            document.getElementById(
+                'input-bio'
+            ).value
 
         const telefone =
-            document.getElementById('input-telefone').value
+            document.getElementById(
+                'input-telefone'
+            ).value
 
         try {
             const resposta = await fetch(
@@ -151,6 +561,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 {
                     method: 'PUT',
                     headers: headers(),
+
                     body: JSON.stringify({
                         nome,
                         bio,
@@ -159,7 +570,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             )
 
-            const dados = await verificarResposta(resposta)
+            const dados =
+                await verificarResposta(
+                    resposta
+                )
 
             alert(dados.mensagem)
 
@@ -171,10 +585,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function salvarPreferencias() {
         const notifContratos =
-            document.getElementById('notif-contratos')
+            document.getElementById(
+                'notif-contratos'
+            )
 
         const notifAfiliacoes =
-            document.getElementById('notif-afiliacoes')
+            document.getElementById(
+                'notif-afiliacoes'
+            )
 
         try {
             const resposta = await fetch(
@@ -217,7 +635,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             )
 
-            const dados = await verificarResposta(resposta)
+            const dados =
+                await verificarResposta(
+                    resposta
+                )
 
             alert(dados.mensagem)
         } catch (erro) {
@@ -231,23 +652,49 @@ document.addEventListener('DOMContentLoaded', async () => {
         const nome_titular =
             document.getElementById(
                 'nome-titular'
-            ).value
+            ).value.trim()
 
         const tipo_chave_pix =
-            document.getElementById(
-                'tipo-chave-pix'
-            ).value
+            tipoChavePix.value
 
         const chave_pix =
-            document.getElementById(
-                'chave-pix'
-            ).value
+            chavePix.value
+
+        if (!nome_titular) {
+            alert(
+                'Informe o nome do titular'
+            )
+            return
+        }
+
+        const erroChave =
+            validarChavePix(
+                tipo_chave_pix,
+                chave_pix
+            )
+
+        if (erroChave) {
+            alert(erroChave)
+            return
+        }
 
         try {
+            let url =
+                '/configuracoes-api/pagamentos'
+
+            let metodo = 'POST'
+
+            if (pagamentoEditandoId) {
+                url =
+                    `/configuracoes-api/pagamentos/${pagamentoEditandoId}`
+
+                metodo = 'PUT'
+            }
+
             const resposta = await fetch(
-                '/configuracoes-api/pagamento',
+                url,
                 {
-                    method: 'PUT',
+                    method: metodo,
                     headers: headers(),
 
                     body: JSON.stringify({
@@ -258,53 +705,91 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             )
 
-            const dados = await verificarResposta(resposta)
+            const dados =
+                await verificarResposta(
+                    resposta
+                )
 
             alert(dados.mensagem)
 
-            await carregarConfiguracoes()
+            esconderFormularioPagamento()
+
+            await carregarPagamentos()
         } catch (erro) {
             alert(erro.message)
         }
     }
 
-    tabButtons.forEach(button => {
-        button.addEventListener(
-            'click',
-            () => {
-                const aba = button.dataset.tab
-
-                tabButtons.forEach(btn => {
-                    btn.classList.remove('active')
-                })
-
-                tabContents.forEach(content => {
-                    content.classList.remove('active')
-                })
-
-                button.classList.add('active')
-
-                document.getElementById(
-                    `tab-${aba}`
-                )?.classList.add('active')
-            }
+    async function excluirPagamento(id) {
+        const pagamento = pagamentos.find(
+            item => Number(item.id) === Number(id)
         )
-    })
+
+        if (!pagamento) return
+
+        const confirmar = confirm(
+            `Deseja excluir a chave PIX ${formatarValorPix(
+                pagamento.tipo_chave_pix,
+                pagamento.chave_pix
+            )}?`
+        )
+
+        if (!confirmar) return
+
+        try {
+            const resposta = await fetch(
+                `/configuracoes-api/pagamentos/${id}`,
+                {
+                    method: 'DELETE',
+                    headers: headers()
+                }
+            )
+
+            const dados =
+                await verificarResposta(
+                    resposta
+                )
+
+            alert(dados.mensagem)
+
+            if (
+                Number(pagamentoEditandoId) ===
+                Number(id)
+            ) {
+                esconderFormularioPagamento()
+            }
+
+            await carregarPagamentos()
+        } catch (erro) {
+            alert(erro.message)
+        }
+    }
 
     async function salvarSeguranca(evento) {
         evento.preventDefault()
 
         const senha_atual =
-            document.getElementById('senha-atual').value
+            document.getElementById(
+                'senha-atual'
+            ).value
 
         const nova_senha =
-            document.getElementById('nova-senha').value
+            document.getElementById(
+                'nova-senha'
+            ).value
 
         const confirmar_senha =
-            document.getElementById('confirmar-senha').value
+            document.getElementById(
+                'confirmar-senha'
+            ).value
 
-        if (nova_senha !== confirmar_senha) {
-            alert('As novas senhas não coincidem.')
+        if (
+            nova_senha !==
+            confirmar_senha
+        ) {
+            alert(
+                'As novas senhas não coincidem.'
+            )
             return
         }
 
@@ -314,6 +799,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 {
                     method: 'PUT',
                     headers: headers(),
+
                     body: JSON.stringify({
                         senha_atual,
                         nova_senha,
@@ -322,7 +808,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             )
 
-            const dados = await verificarResposta(resposta)
+            const dados =
+                await verificarResposta(
+                    resposta
+                )
 
             alert(dados.mensagem)
 
@@ -330,6 +819,71 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (erro) {
             alert(erro.message)
         }
+    }
+
+    tabButtons.forEach(button => {
+        button.addEventListener(
+            'click',
+            () => {
+                const aba =
+                    button.dataset.tab
+
+                tabButtons.forEach(btn => {
+                    btn.classList.remove(
+                        'active'
+                    )
+                })
+
+                tabContents.forEach(
+                    content => {
+                        content.classList.remove(
+                            'active'
+                        )
+                    }
+                )
+
+                button.classList.add(
+                    'active'
+                )
+
+                document.getElementById(
+                    `tab-${aba}`
+                )?.classList.add(
+                    'active'
+                )
+            }
+        )
+    })
+
+    if (tipoChavePix) {
+        tipoChavePix.addEventListener(
+            'change',
+            () => {
+                chavePix.value = ''
+                atualizarPlaceholderPix()
+            }
+        )
+    }
+
+    if (chavePix) {
+        chavePix.addEventListener(
+            'input',
+            formatarChavePix
+        )
+    }
+
+    if (btnAdicionarPagamento) {
+        btnAdicionarPagamento.addEventListener(
+            'click',
+            abrirNovoPagamento
+        )
+    }
+
+    if (btnCancelarPagamento) {
+        btnCancelarPagamento.addEventListener(
+            'click',
+            esconderFormularioPagamento
+        )
     }
 
     if (formPerfil) {
