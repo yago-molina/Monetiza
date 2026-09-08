@@ -24,6 +24,7 @@ const financeiroRoutes = require('./routes/financeiroRoutes')
 const configuracoesRoutes = require('./routes/configuracoesRoutes')
 const vitrineRoutes = require('./routes/vitrineRoutes')
 const contratosRoutes = require('./routes/contratosRoutes')
+const mensagensRoutes = require('./routes/mensagensRoutes')
 
 app.use('/auth', authRoutes)
 app.use('/usuario', usuarioRoutes)
@@ -35,6 +36,7 @@ app.use('/financeiro-api', financeiroRoutes)
 app.use('/configuracoes-api', configuracoesRoutes)
 app.use('/vitrine-api', vitrineRoutes)
 app.use('/contratos-api', contratosRoutes)
+app.use('/mensagens-api', mensagensRoutes)
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'))

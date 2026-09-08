@@ -150,6 +150,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const form = document.getElementById('form-checkout-modal');
         const btnComprar = document.getElementById('btn-ir-checkout');
 
+        const btnFalarVendedor = document.getElementById('btn-falar-vendedor');
+
         // Evento do Botão "Comprar Agora"
         if (btnComprar) {
             btnComprar.addEventListener('click', (e) => {
@@ -158,6 +160,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
+        if (btnFalarVendedor) {
+            btnFalarVendedor.addEventListener('click', event => {
+                event.preventDefault()
+                falarComVendedor()
+            })
+        }
+        
         const fecharModal = () => {
             if (modal) modal.classList.remove('ativo');
         };
@@ -227,6 +236,80 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                 }
             });
+        }
+    }
+
+    async function falarComVendedor() {
+        if (!token) {
+            alert('Você precisa estar logado para falar com o vendedor.')
+            window.location.href = '/'
+            return
+        }
+
+        if (!produtoAtual) {
+            alert('Aguarde o produto ser carregado.')
+            return
+        }
+
+        const btnFalar = document.getElementById('btn-falar-vendedor')
+
+        if (btnFalar) {
+            btnFalar.disabled = true
+            btnFalar.innerHTML =
+                '<i class="fa-solid fa-spinner fa-spin"></i> Abrindo conversa...'
+        }
+
+        try {
+            const resposta = await fetch('/mensagens-api/produto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    produto_id: Number(produtoAtual.id)
+                })
+            })
+
+            if (resposta.status === 401) {
+                localStorage.removeItem('token')
+                localStorage.removeItem('usuarioLogado')
+
+                alert('Sua sessão expirou. Faça login novamente.')
+                window.location.href = '/'
+                return
+            }
+
+            const dados = await resposta.json()
+
+            if (!resposta.ok) {
+                throw new Error(
+                    dados.erro ||
+                    'Erro ao iniciar conversa com o vendedor'
+                )
+            }
+
+            if (!dados.conversa_id) {
+                throw new Error(
+                    'Não foi possível identificar a conversa'
+                )
+            }
+
+            window.location.href =
+                `/mensagens?conversa=${dados.conversa_id}`
+        } catch (erro) {
+            console.error(
+                'Erro ao falar com vendedor:',
+                erro
+            )
+
+            alert(erro.message)
+        } finally {
+            if (btnFalar) {
+                btnFalar.disabled = false
+                btnFalar.innerHTML =
+                    '<i class="fa-solid fa-comment-dots"></i> Falar com o vendedor'
+            }
         }
     }
 

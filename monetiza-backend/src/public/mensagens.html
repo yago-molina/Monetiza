@@ -10,78 +10,180 @@
 </head>
 <body>
 
-    <div class="container">
-        <!-- Sidebar Padrão -->
-        <aside class="sidebar">
-            <div class="logo-area">
-                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
-                <span class="brand-name">Monetiza</span>
+<div class="container">
+    <aside class="sidebar">
+        <div class="logo-area">
+            <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
+            <span class="brand-name">Monetiza</span>
+        </div>
+
+        <nav class="menu-nav">
+            <ul>
+                <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+                <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
+                <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
+                <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
+                <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
+                <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
+                <li class="active"><a id="mensagens" href="landing"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
+                <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-profile">
+            <div class="avatar-fallback">
+                <i class="fa-solid fa-circle-user"></i>
             </div>
 
-            <nav class="menu-nav">
-                <ul>
-                    <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
-                    <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
-                    <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
-                    <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
-                    <li class="active"><a id="mensagens" href="landing"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
-                    <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
-                </ul>
-            </nav>
-
-            <div class="user-profile">
-                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
-                <div class="user-info">
-                    <span id="nome-usuario" class="user-name">Username</span>
-                    <span id="email-usuario" class="user-email">email@gmail.com</span>
-                </div>
+            <div class="user-info">
+                <span id="nome-usuario" class="user-name">Username</span>
+                <span id="email-usuario" class="user-email">email@gmail.com</span>
             </div>
-        </aside>
+        </div>
+    </aside>
 
-        <!-- Conteúdo Principal -->
-        <main class="main-content">
-            <!-- Top Bar -->
-            <div class="top-bar">
-                <span class="page-title">Mensagem</span>
-                <div class="top-bar-right">
-                    <a href="/vitrine" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
-                    <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
-                    <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
-                </div>
+    <main class="main-content">
+        <div class="top-bar">
+            <span class="page-title">Mensagens</span>
+
+            <div class="top-bar-right">
+                <a href="/vitrine" class="vitrine-link">
+                    Ver Vitrine
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+                <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
+                <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
             </div>
+        </div>
 
-            <!-- Chat Layout Grid -->
-            <div class="chat-container">
-                <!-- Coluna da Esquerda: Lista de Conversas -->
-                <aside class="chat-sidebar">
-                    <div class="chat-header">
+        <div class="chat-container">
+
+            <aside class="chat-sidebar">
+                <div class="chat-header">
+                    <div class="chat-header-top">
                         <h2>Mensagens</h2>
-                        <div class="search-box">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="Buscar conversas...">
+
+                        <button
+                            type="button"
+                            class="btn-nova-conversa"
+                            id="btn-nova-conversa"
+                            title="Nova conversa"
+                        >
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                            type="text"
+                            id="busca-conversas"
+                            placeholder="Buscar conversas..."
+                        >
+                    </div>
+                </div>
+
+                <div class="conversations-section">
+                    <span class="section-label">CONVERSAS</span>
+
+                    <div id="lista-conversas" class="lista-conversas">
+                        <div class="conversa-vazia">
+                            Nenhuma conversa ainda
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="chat-main-area">
+
+                <div id="estado-chat-vazio" class="empty-chat-state">
+                    <div class="chat-icon-bg">
+                        <i class="fa-regular fa-comment-dots"></i>
+                    </div>
+
+                    <p>Selecione uma conversa</p>
+                </div>
+
+                <div id="chat-ativo" class="chat-ativo hidden">
+
+                    <div class="chat-active-header">
+                        <div class="chat-user">
+                            <div class="chat-avatar">
+                                <i class="fa-solid fa-circle-user"></i>
+                            </div>
+
+                            <div class="chat-user-info">
+                                <span id="chat-usuario-nome" class="chat-user-name">
+                                    Usuário
+                                </span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="conversations-section">
-                        <span class="section-label">INICIAR CONVERSA</span>
+                    <div id="lista-mensagens" class="lista-mensagens">
                     </div>
-                </aside>
 
-                <!-- Coluna da Direita: Área do Chat Vazia -->
-                <section class="chat-main-area">
-                    <div class="empty-chat-state">
-                        <div class="chat-icon-bg">
-                            <i class="fa-regular fa-comment-dots"></i>
-                        </div>
-                        <p>Selecionar uma Conversa</p>
-                    </div>
-                </section>
-            </div>
-        </main>
+                    <form id="form-mensagem" class="message-form">
+                        <textarea
+                            id="input-mensagem"
+                            rows="1"
+                            placeholder="Digite uma mensagem..."
+                            maxlength="2000"
+                            required
+                        ></textarea>
+
+                        <button
+                            type="submit"
+                            id="btn-enviar-mensagem"
+                            class="btn-enviar-mensagem"
+                            title="Enviar mensagem"
+                        >
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </form>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<div id="modal-nova-conversa" class="modal-overlay">
+    <div class="modal-container">
+        <button
+            type="button"
+            class="modal-close"
+            id="btn-fechar-modal-conversa"
+        >
+            &times;
+        </button>
+
+        <h2 class="modal-title">
+            Nova Conversa
+        </h2>
+
+        <div class="search-box modal-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="busca-usuarios"
+                placeholder="Buscar usuário..."
+            >
+        </div>
+
+        <div id="lista-usuarios" class="lista-usuarios">
+            <p class="usuarios-vazio">
+                Carregando usuários...
+            </p>
+        </div>
     </div>
-    <script src="js/ia-btn.js"></script>
-    <script src="js/mensagens.js"></script>
+</div>
+
+<script src="js/ia-btn.js"></script>
+<script src="js/mensagens.js"></script>
 </body>
 </html>
