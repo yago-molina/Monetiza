@@ -4,13 +4,12 @@
     <base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Produto - Monetiza</title>
+    <title data-i18n="paginaProduto.tituloDocumento">Detalhes do Produto - Monetiza</title>
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/paginaDoProduto.css">
 </head>
 <body>
-
     <div class="container">
         <aside class="sidebar">
             <div class="logo-area">
@@ -20,19 +19,69 @@
 
             <nav class="menu-nav">
                 <ul>
-                    <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
-                    <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
-                    <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
-                    <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
-                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
-                    <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                    <li>
+                        <a id="dashboard" href="dashboard">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span data-i18n="sidebar.dashboard">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="produto" href="produto">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span data-i18n="sidebar.produtos">Produtos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="minhasVendas" href="minhasVendas">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span data-i18n="sidebar.minhasVendas">Minhas Vendas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="afiliados" href="afiliados">
+                            <i class="fa-solid fa-users"></i>
+                            <span data-i18n="sidebar.afiliados">Afiliados</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="financeiro" href="financeiro">
+                            <i class="fa-solid fa-wallet"></i>
+                            <span data-i18n="sidebar.financeiro">Financeiro</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="contratos" href="contratos">
+                            <i class="fa-solid fa-file-contract"></i>
+                            <span data-i18n="sidebar.contratos">Contratos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="mensagens" href="mensagens">
+                            <i class="fa-solid fa-comment-dots"></i>
+                            <span data-i18n="sidebar.mensagens">Mensagens</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="configuracoes" href="configuracoes">
+                            <i class="fa-solid fa-gear"></i>
+                            <span data-i18n="sidebar.configuracoes">Configurações</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
             <div class="user-profile">
-                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="avatar-fallback">
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+
                 <div class="user-info">
                     <span id="nome-usuario" class="user-name">Username</span>
                     <span id="email-usuario" class="user-email">email@gmail.com</span>
@@ -44,121 +93,241 @@
             <div class="top-bar">
                 <div class="search-bar-container">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" placeholder="O que você está buscando..." class="search-input">
+
+                    <input
+                        type="text"
+                        placeholder="O que você está buscando..."
+                        data-i18n-placeholder="paginaProduto.buscaPlaceholder"
+                        class="search-input"
+                    >
                 </div>
+
                 <div class="top-bar-actions">
-                    <a href="/vitrine" class="vitrine-link">Ver Vitrine <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="/vitrine" class="vitrine-link">
+                        <span data-i18n="topo.verVitrine">Ver Vitrine</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
                     <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
                     <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
                 </div>
             </div>
+
             <div class="product-detail-layout" id="produto-container">
-                <!-- Coluna da Esquerda: Imagem e Descrição Completa -->
                 <div class="product-main-info">
                     <div class="cover-wrapper">
-                        <img id="detalhe-capa" src="image/placeholder.png" alt="Capa do Produto">
+                        <img
+                            id="detalhe-capa"
+                            src="image/placeholder.png"
+                            alt="Capa do Produto"
+                        >
                     </div>
 
                     <div class="content-block">
-                        <h2>Sobre este produto</h2>
-                        <p id="detalhe-descricao">Carregando informações do produto...</p>
+                        <h2 data-i18n="paginaProduto.sobre.titulo">
+                            Sobre este produto
+                        </h2>
+
+                        <p id="detalhe-descricao" data-i18n="paginaProduto.carregando">
+                            Carregando informações do produto...
+                        </p>
                     </div>
 
                     <div class="content-block">
-                        <h2>O que você vai receber</h2>
+                        <h2 data-i18n="paginaProduto.receber.titulo">
+                            O que você vai receber
+                        </h2>
+
                         <ul class="features-list">
-                            <li><i class="fa-solid fa-circle-check"></i> Acesso imediato após a confirmação do pagamento</li>
-                            <li><i class="fa-solid fa-circle-check"></i> Suporte direto com o produtor</li>
-                            <li><i class="fa-solid fa-circle-check"></i> Conteúdo 100% digital e atualizado</li>
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span data-i18n="paginaProduto.receber.acessoImediato">
+                                    Acesso imediato após a confirmação do pagamento
+                                </span>
+                            </li>
+
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span data-i18n="paginaProduto.receber.suporte">
+                                    Suporte direto com o produtor
+                                </span>
+                            </li>
+
+                            <li>
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span data-i18n="paginaProduto.receber.conteudoDigital">
+                                    Conteúdo 100% digital e atualizado
+                                </span>
+                            </li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Coluna da Direita: Card de Compra (Sticky) -->
                 <div class="product-action-card">
-                    <span id="detalhe-categoria" class="badge-categoria">Categoria</span>
+                    <span id="detalhe-categoria" class="badge-categoria">
+                        Categoria
+                    </span>
+
                     <h1 id="detalhe-titulo">Nome do Produto</h1>
-                    <p class="producer-text">Criado por: <strong id="detalhe-produtor">Produtor</strong></p>
+
+                    <p class="producer-text">
+                        <span data-i18n="paginaProduto.produto.criadoPor">Criado por:</span>
+                        <strong id="detalhe-produtor">Produtor</strong>
+                    </p>
 
                     <div class="price-box">
-                        <span class="price-label">Preço:</span>
-                        <span id="detalhe-preco" class="price-value">R$ 0,00</span>
+                        <span class="price-label" data-i18n="paginaProduto.produto.preco">
+                            Preço:
+                        </span>
+
+                        <span id="detalhe-preco" class="price-value">
+                            R$ 0,00
+                        </span>
                     </div>
 
                     <button id="btn-ir-checkout" class="btn-comprar-agora">
-                        <i class="fa-solid fa-cart-shopping"></i> Comprar Agora
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span data-i18n="paginaProduto.produto.comprarAgora">
+                            Comprar Agora
+                        </span>
                     </button>
 
                     <button id="btn-falar-vendedor" class="btn-falar-vendedor">
-                        <i class="fa-solid fa-comment-dots"></i> Falar com o vendedor
+                        <i class="fa-solid fa-comment-dots"></i>
+                        <span data-i18n="paginaProduto.produto.falarVendedor">
+                            Falar com o vendedor
+                        </span>
                     </button>
 
                     <div class="guarantees-container">
                         <div class="guarantee-item">
                             <i class="fa-solid fa-shield-halved"></i>
-                            <span>Pagamento 100% Seguro</span>
+                            <span data-i18n="paginaProduto.garantias.pagamentoSeguro">
+                                Pagamento 100% Seguro
+                            </span>
                         </div>
+
                         <div class="guarantee-item">
                             <i class="fa-solid fa-rotate-left"></i>
-                            <span>Garantia de 7 Dias</span>
+                            <span data-i18n="paginaProduto.garantias.garantia">
+                                Garantia de 7 Dias
+                            </span>
                         </div>
+
                         <div class="guarantee-item">
                             <i class="fa-solid fa-bolt"></i>
-                            <span>Acesso Imediato</span>
+                            <span data-i18n="paginaProduto.garantias.acesso">
+                                Acesso Imediato
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-                <!-- Modal de Checkout Pop-up -->
-<div id="modal-checkout" class="modal-overlay">
-    <div class="modal-card">
-        <button class="modal-fechar" id="fechar-modal-checkout">&times;</button>
-        
-        <h2>Finalizar Compra</h2>
+            <div id="modal-checkout" class="modal-overlay">
+                <div class="modal-card">
+                    <button class="modal-fechar" id="fechar-modal-checkout">
+                        &times;
+                    </button>
 
-        <div class="product-summary-modal">
-            <img id="modal-checkout-img" src="image/placeholder.png" alt="Capa">
-            <div>
-                <h4 id="modal-checkout-titulo">Nome do Produto</h4>
-                <span id="modal-checkout-preco" class="price-green">R$ 0,00</span>
-            </div>
-        </div>
+                    <h2 data-i18n="paginaProduto.checkout.titulo">
+                        Finalizar Compra
+                    </h2>
 
-        <form id="form-checkout-modal">
-            <div class="input-group">
-                <label for="modal-nome">Nome Completo</label>
-                <input type="text" id="modal-nome" placeholder="Digite seu nome completo" required>
-            </div>
+                    <div class="product-summary-modal">
+                        <img
+                            id="modal-checkout-img"
+                            src="image/placeholder.png"
+                            alt="Capa"
+                        >
 
-            <div class="input-group">
-                <label for="modal-email">E-mail para entrega</label>
-                <input type="email" id="modal-email" placeholder="seu@email.com" required>
-            </div>
+                        <div>
+                            <h4 id="modal-checkout-titulo">
+                                Nome do Produto
+                            </h4>
 
-            <div class="payment-methods">
-                <label>Forma de Pagamento</label>
-                <div class="options">
-                    <label class="option-btn">
-                        <input type="radio" name="pagamento" value="pix" checked>
-                        <i class="fa-brands fa-pix"></i> Pix
-                    </label>
-                    <label class="option-btn">
-                        <input type="radio" name="pagamento" value="cartao">
-                        <i class="fa-solid fa-credit-card"></i> Cartão
-                    </label>
+                            <span id="modal-checkout-preco" class="price-green">
+                                R$ 0,00
+                            </span>
+                        </div>
+                    </div>
+
+                    <form id="form-checkout-modal">
+                        <div class="input-group">
+                            <label for="modal-nome" data-i18n="paginaProduto.checkout.nomeCompleto">
+                                Nome Completo
+                            </label>
+
+                            <input
+                                type="text"
+                                id="modal-nome"
+                                placeholder="Digite seu nome completo"
+                                data-i18n-placeholder="paginaProduto.checkout.nomePlaceholder"
+                                required
+                            >
+                        </div>
+
+                        <div class="input-group">
+                            <label for="modal-email" data-i18n="paginaProduto.checkout.emailEntrega">
+                                E-mail para entrega
+                            </label>
+
+                            <input
+                                type="email"
+                                id="modal-email"
+                                placeholder="seu@email.com"
+                                data-i18n-placeholder="paginaProduto.checkout.emailPlaceholder"
+                                required
+                            >
+                        </div>
+
+                        <div class="payment-methods">
+                            <label data-i18n="paginaProduto.checkout.formaPagamento">
+                                Forma de Pagamento
+                            </label>
+
+                            <div class="options">
+                                <label class="option-btn">
+                                    <input
+                                        type="radio"
+                                        name="pagamento"
+                                        value="pix"
+                                        checked
+                                    >
+
+                                    <i class="fa-brands fa-pix"></i>
+                                    Pix
+                                </label>
+
+                                <label class="option-btn">
+                                    <input
+                                        type="radio"
+                                        name="pagamento"
+                                        value="cartao"
+                                    >
+
+                                    <i class="fa-solid fa-credit-card"></i>
+                                    <span data-i18n="paginaProduto.checkout.cartao">
+                                        Cartão
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn-confirmar-modal"
+                            id="btn-finalizar-modal"
+                            data-i18n="paginaProduto.checkout.confirmarPagamento"
+                        >
+                            Confirmar Pagamento
+                        </button>
+                    </form>
                 </div>
             </div>
-
-            <button type="submit" class="btn-confirmar-modal" id="btn-finalizar-modal">
-                Confirmar Pagamento
-            </button>
-        </form>
-    </div>
-</div>
-
         </main>
     </div>
+
     <script src="js/perfil-global.js"></script>
     <script src="js/i18n.js"></script>
     <script src="js/paginaDoProduto.js"></script>

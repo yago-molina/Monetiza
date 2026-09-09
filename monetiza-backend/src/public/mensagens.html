@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mensagens - Monetiza</title>
+    <title data-i18n="mensagens.tituloDocumento">Mensagens - Monetiza</title>
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/mensagens.css">
@@ -19,14 +19,61 @@
 
         <nav class="menu-nav">
             <ul>
-                <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
-                <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
-                <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
-                <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
-                <li class="active"><a id="mensagens" href="landing"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
-                <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                <li>
+                    <a id="dashboard" href="dashboard">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span data-i18n="sidebar.dashboard">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="produto" href="produto">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span data-i18n="sidebar.produtos">Produtos</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="minhasVendas" href="minhasVendas">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span data-i18n="sidebar.minhasVendas">Minhas Vendas</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="afiliados" href="afiliados">
+                        <i class="fa-solid fa-users"></i>
+                        <span data-i18n="sidebar.afiliados">Afiliados</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="financeiro" href="financeiro">
+                        <i class="fa-solid fa-wallet"></i>
+                        <span data-i18n="sidebar.financeiro">Financeiro</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="contratos" href="contratos">
+                        <i class="fa-solid fa-file-contract"></i>
+                        <span data-i18n="sidebar.contratos">Contratos</span>
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a id="mensagens" href="landing">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        <span data-i18n="sidebar.mensagens">Mensagens</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a id="configuracoes" href="configuracoes">
+                        <i class="fa-solid fa-gear"></i>
+                        <span data-i18n="sidebar.configuracoes">Configurações</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 
@@ -44,11 +91,11 @@
 
     <main class="main-content">
         <div class="top-bar">
-            <span class="page-title">Mensagens</span>
+            <span class="page-title" data-i18n="mensagens.tituloPagina">Mensagens</span>
 
             <div class="top-bar-right">
                 <a href="/vitrine" class="vitrine-link">
-                    Ver Vitrine
+                    <span data-i18n="topo.verVitrine">Ver Vitrine</span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
 
@@ -58,17 +105,17 @@
         </div>
 
         <div class="chat-container">
-
             <aside class="chat-sidebar">
                 <div class="chat-header">
                     <div class="chat-header-top">
-                        <h2>Mensagens</h2>
+                        <h2 data-i18n="mensagens.chat.titulo">Mensagens</h2>
 
                         <button
                             type="button"
                             class="btn-nova-conversa"
                             id="btn-nova-conversa"
                             title="Nova conversa"
+                            data-i18n-title="mensagens.chat.novaConversa"
                         >
                             <i class="fa-solid fa-plus"></i>
                         </button>
@@ -81,15 +128,18 @@
                             type="text"
                             id="busca-conversas"
                             placeholder="Buscar conversas..."
+                            data-i18n-placeholder="mensagens.chat.buscarConversas"
                         >
                     </div>
                 </div>
 
                 <div class="conversations-section">
-                    <span class="section-label">CONVERSAS</span>
+                    <span class="section-label" data-i18n="mensagens.chat.conversas">
+                        CONVERSAS
+                    </span>
 
                     <div id="lista-conversas" class="lista-conversas">
-                        <div class="conversa-vazia">
+                        <div class="conversa-vazia" data-i18n="mensagens.chat.nenhumaConversa">
                             Nenhuma conversa ainda
                         </div>
                     </div>
@@ -97,17 +147,17 @@
             </aside>
 
             <section class="chat-main-area">
-
                 <div id="estado-chat-vazio" class="empty-chat-state">
                     <div class="chat-icon-bg">
                         <i class="fa-regular fa-comment-dots"></i>
                     </div>
 
-                    <p>Selecione uma conversa</p>
+                    <p data-i18n="mensagens.chat.selecioneConversa">
+                        Selecione uma conversa
+                    </p>
                 </div>
 
                 <div id="chat-ativo" class="chat-ativo hidden">
-
                     <div class="chat-active-header">
                         <div class="chat-user">
                             <div class="chat-avatar" id="chat-avatar">
@@ -115,24 +165,21 @@
                             </div>
 
                             <div class="chat-user-info">
-                                <span
-                                    id="chat-usuario-nome"
-                                    class="chat-user-name"
-                                >
+                                <span id="chat-usuario-nome" class="chat-user-name">
                                     Usuário
                                 </span>
                             </div>
                         </div>
                     </div>
 
-                    <div id="lista-mensagens" class="lista-mensagens">
-                    </div>
+                    <div id="lista-mensagens" class="lista-mensagens"></div>
 
                     <form id="form-mensagem" class="message-form">
                         <textarea
                             id="input-mensagem"
                             rows="1"
                             placeholder="Digite uma mensagem..."
+                            data-i18n-placeholder="mensagens.chat.digiteMensagem"
                             maxlength="2000"
                             required
                         ></textarea>
@@ -142,14 +189,13 @@
                             id="btn-enviar-mensagem"
                             class="btn-enviar-mensagem"
                             title="Enviar mensagem"
+                            data-i18n-title="mensagens.chat.enviarMensagem"
                         >
                             <i class="fa-solid fa-paper-plane"></i>
                         </button>
                     </form>
-
                 </div>
             </section>
-
         </div>
     </main>
 </div>
@@ -164,7 +210,7 @@
             &times;
         </button>
 
-        <h2 class="modal-title">
+        <h2 class="modal-title" data-i18n="mensagens.modal.titulo">
             Nova Conversa
         </h2>
 
@@ -175,20 +221,22 @@
                 type="text"
                 id="busca-usuarios"
                 placeholder="Buscar usuário..."
+                data-i18n-placeholder="mensagens.modal.buscarUsuario"
             >
         </div>
 
         <div id="lista-usuarios" class="lista-usuarios">
-            <p class="usuarios-vazio">
+            <p class="usuarios-vazio" data-i18n="mensagens.modal.carregandoUsuarios">
                 Carregando usuários...
             </p>
         </div>
     </div>
 </div>
 
-    <script src="js/ia-btn.js"></script>
-    <script src="js/perfil-global.js"></script>
-    <script src="js/i18n.js"></script>
-    <script src="js/mensagens.js"></script>
+<script src="js/ia-btn.js"></script>
+<script src="js/perfil-global.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/mensagens.js"></script>
+
 </body>
 </html>

@@ -300,6 +300,221 @@ const traducoes = {
             }
         },
 
+        login: {
+            tituloDocumento: 'Monetiza - Login',
+            titulo: 'Entrar na sua conta',
+            ou: 'ou',
+            criarConta: 'Criar uma nova conta',
+            email: 'E-mail',
+            emailPlaceholder: 'seu@email.com',
+            senha: 'Senha',
+            senhaPlaceholder: '••••••••',
+            esqueceuSenha: 'Esqueceu a senha?',
+            entrar: 'Entrar'
+        },
+
+        mensagens: {
+            tituloDocumento: 'Mensagens - Monetiza',
+            tituloPagina: 'Mensagens',
+
+            chat: {
+                titulo: 'Mensagens',
+                novaConversa: 'Nova conversa',
+                buscarConversas: 'Buscar conversas...',
+                conversas: 'CONVERSAS',
+                nenhumaConversa: 'Nenhuma conversa ainda',
+                selecioneConversa: 'Selecione uma conversa',
+                digiteMensagem: 'Digite uma mensagem...',
+                enviarMensagem: 'Enviar mensagem'
+            },
+
+            modal: {
+                titulo: 'Nova Conversa',
+                buscarUsuario: 'Buscar usuário...',
+                carregandoUsuarios: 'Carregando usuários...'
+            }
+        },
+
+        minhasVendas: {
+            tituloDocumento: 'Minhas Vendas - Monetiza',
+            tituloPagina: 'Minhas Vendas',
+
+            cabecalho: {
+                titulo: 'Minhas Vendas',
+                subtitulo: 'Acompanhe suas vendas e comissões'
+            },
+
+            metricas: {
+                totalVendas: 'Total de Vendas',
+                comissoesGanhas: 'Comissões Ganhas',
+                vendasVendedor: 'Vendas como Vendedor',
+                vendasAfiliado: 'Vendas como Afiliados'
+            },
+
+            abas: {
+                vendas: 'Minhas Vendas',
+                comissoes: 'Comissões'
+            },
+
+            tabela: {
+                produto: 'Produto',
+                comprador: 'Comprador',
+                data: 'Data',
+                status: 'Status',
+                valor: 'Valor'
+            },
+
+            vazio: 'Nenhuma venda encontrada'
+        },
+
+        paginaProduto: {
+            tituloDocumento: 'Detalhes do Produto - Monetiza',
+            buscaPlaceholder: 'O que você está buscando...',
+            carregando: 'Carregando informações do produto...',
+
+            sobre: {
+                titulo: 'Sobre este produto'
+            },
+
+            receber: {
+                titulo: 'O que você vai receber',
+                acessoImediato: 'Acesso imediato após a confirmação do pagamento',
+                suporte: 'Suporte direto com o produtor',
+                conteudoDigital: 'Conteúdo 100% digital e atualizado'
+            },
+
+            produto: {
+                criadoPor: 'Criado por:',
+                preco: 'Preço:',
+                comprarAgora: 'Comprar Agora',
+                falarVendedor: 'Falar com o vendedor'
+            },
+
+            garantias: {
+                pagamentoSeguro: 'Pagamento 100% Seguro',
+                garantia: 'Garantia de 7 Dias',
+                acesso: 'Acesso Imediato'
+            },
+
+            checkout: {
+                titulo: 'Finalizar Compra',
+                nomeCompleto: 'Nome Completo',
+                nomePlaceholder: 'Digite seu nome completo',
+                emailEntrega: 'E-mail para entrega',
+                emailPlaceholder: 'seu@email.com',
+                formaPagamento: 'Forma de Pagamento',
+                cartao: 'Cartão',
+                confirmarPagamento: 'Confirmar Pagamento'
+            }
+        },
+
+        produto: {
+            tituloDocumento: 'Produtos - Monetiza',
+            tituloPagina: 'Produtos',
+            buscaPlaceholder: 'Buscar produtos...',
+
+            cabecalho: {
+                titulo: 'Meus Produtos',
+                subtitulo: 'Gerencie seus produtos digitais',
+                novoProduto: 'Novo Produto'
+            },
+
+            vazio: {
+                titulo: 'Nenhum produto ainda',
+                subtitulo: 'Crie seu primeiro produto digital',
+                criarProduto: 'Criar Produto'
+            },
+
+            escolha: {
+                titulo: 'Criar Novo Produto',
+                subtitulo: 'Como você prefere cadastrar seu produto?',
+                manualTitulo: 'Criar Manualmente',
+                manualDescricao: 'Preencha os campos, preços e descrições do seu jeito.',
+                iaTitulo: 'Criar com IA',
+                novo: 'Novo',
+                iaDescricao: 'Gere título, descrição e copys automaticamente em segundos.'
+            },
+
+            novo: {
+                tituloModal: 'Novo Produto'
+            },
+
+            editar: {
+                tituloModal: 'Editar Produto',
+                salvarAlteracoes: 'Salvar Alterações'
+            },
+
+            excluir: {
+                tituloModal: 'Excluir Produto',
+                confirmacao: 'Tem certeza que deseja excluir',
+                aviso: 'Essa ação não poderá ser desfeita.',
+                excluirProduto: 'Excluir Produto'
+            },
+
+            form: {
+                titulo: 'Título',
+                tituloPlaceholder: 'Nome do produto',
+                descricaoCurta: 'Descrição Curta',
+                descricaoCurtaPlaceholder: 'Uma linha sobre o produto',
+                descricaoCompleta: 'Descrição Completa',
+                descricaoCompletaPlaceholder: 'Descreva seu produto em detalhes',
+                preco: 'Preço (R$)',
+                categoria: 'Categoria',
+                comissao: 'Comissão de Afiliado (%)',
+                status: 'Status',
+                imagemCapa: 'Imagem de Capa',
+                linkProduto: 'Link do Produto',
+                cancelar: 'Cancelar',
+                salvarProduto: 'Salvar Produto'
+            },
+
+            categorias: {
+                curso: 'Curso',
+                mentoria: 'Mentoria'
+            },
+
+            status: {
+                ativo: 'Ativo',
+                rascunho: 'Rascunho',
+                inativo: 'Inativo'
+            }
+        },
+
+        vitrine: {
+            tituloDocumento: 'Vitrine - Monetiza',
+            buscaTopo: 'O que você está buscando...',
+            buscarProdutos: 'Buscar produtos...',
+            areaVendedor: 'Área do Vendedor',
+            maisVendidos: 'Mais Vendidos',
+            nenhumProduto: 'Nenhum produto encontrado.',
+            rodape: 'Plataforma de produtos digitais com sistema de afiliados',
+
+            usuario: {
+                visitante: 'Visitante',
+                subtitulo: 'Vitrine Monetiza'
+            },
+
+            hero: {
+                titulo: 'Produtos Digitais de Alta Qualidade',
+                subtitulo: 'Encontre cursos, e-books, templates e muito mais. Comece a aprender ou vender hoje!'
+            },
+
+            filtros: {
+                titulo: 'Filtros:',
+                todas: 'Todas',
+                cursos: 'Cursos',
+                templates: 'Templates',
+                mentorias: 'Mentorias'
+            },
+
+            ordenacao: {
+                maisVendidos: 'Mais Vendidos',
+                recentes: 'Mais Recentes',
+                menorPreco: 'Menor Preço',
+                maiorPreco: 'Maior Preço'
+            }
+        },
+
         configuracoes: {
             tituloDocumento: 'Configurações - Monetiza',
             tituloPagina: 'Configurações',
@@ -688,6 +903,221 @@ const traducoes = {
             }
         },
 
+        login: {
+            tituloDocumento: 'Monetiza - Login',
+            titulo: 'Sign in to your account',
+            ou: 'or',
+            criarConta: 'Create a new account',
+            email: 'Email',
+            emailPlaceholder: 'your@email.com',
+            senha: 'Password',
+            senhaPlaceholder: '••••••••',
+            esqueceuSenha: 'Forgot your password?',
+            entrar: 'Sign In'
+        },
+
+        mensagens: {
+            tituloDocumento: 'Messages - Monetiza',
+            tituloPagina: 'Messages',
+
+            chat: {
+                titulo: 'Messages',
+                novaConversa: 'New conversation',
+                buscarConversas: 'Search conversations...',
+                conversas: 'CONVERSATIONS',
+                nenhumaConversa: 'No conversations yet',
+                selecioneConversa: 'Select a conversation',
+                digiteMensagem: 'Type a message...',
+                enviarMensagem: 'Send message'
+            },
+
+            modal: {
+                titulo: 'New Conversation',
+                buscarUsuario: 'Search user...',
+                carregandoUsuarios: 'Loading users...'
+            }
+        },
+
+        minhasVendas: {
+            tituloDocumento: 'My Sales - Monetiza',
+            tituloPagina: 'My Sales',
+
+            cabecalho: {
+                titulo: 'My Sales',
+                subtitulo: 'Track your sales and commissions'
+            },
+
+            metricas: {
+                totalVendas: 'Total Sales',
+                comissoesGanhas: 'Commissions Earned',
+                vendasVendedor: 'Sales as Seller',
+                vendasAfiliado: 'Sales as Affiliate'
+            },
+
+            abas: {
+                vendas: 'My Sales',
+                comissoes: 'Commissions'
+            },
+
+            tabela: {
+                produto: 'Product',
+                comprador: 'Buyer',
+                data: 'Date',
+                status: 'Status',
+                valor: 'Amount'
+            },
+
+            vazio: 'No sales found'
+        },
+
+        paginaProduto: {
+            tituloDocumento: 'Product Details - Monetiza',
+            buscaPlaceholder: 'What are you looking for...',
+            carregando: 'Loading product information...',
+
+            sobre: {
+                titulo: 'About this product'
+            },
+
+            receber: {
+                titulo: 'What you will receive',
+                acessoImediato: 'Immediate access after payment confirmation',
+                suporte: 'Direct support from the producer',
+                conteudoDigital: '100% digital and updated content'
+            },
+
+            produto: {
+                criadoPor: 'Created by:',
+                preco: 'Price:',
+                comprarAgora: 'Buy Now',
+                falarVendedor: 'Talk to the seller'
+            },
+
+            garantias: {
+                pagamentoSeguro: '100% Secure Payment',
+                garantia: '7-Day Guarantee',
+                acesso: 'Immediate Access'
+            },
+
+            checkout: {
+                titulo: 'Complete Purchase',
+                nomeCompleto: 'Full Name',
+                nomePlaceholder: 'Enter your full name',
+                emailEntrega: 'Delivery Email',
+                emailPlaceholder: 'your@email.com',
+                formaPagamento: 'Payment Method',
+                cartao: 'Card',
+                confirmarPagamento: 'Confirm Payment'
+            }
+        },
+
+        produto: {
+            tituloDocumento: 'Products - Monetiza',
+            tituloPagina: 'Products',
+            buscaPlaceholder: 'Search products...',
+
+            cabecalho: {
+                titulo: 'My Products',
+                subtitulo: 'Manage your digital products',
+                novoProduto: 'New Product'
+            },
+
+            vazio: {
+                titulo: 'No products yet',
+                subtitulo: 'Create your first digital product',
+                criarProduto: 'Create Product'
+            },
+
+            escolha: {
+                titulo: 'Create New Product',
+                subtitulo: 'How would you like to create your product?',
+                manualTitulo: 'Create Manually',
+                manualDescricao: 'Fill in the fields, prices and descriptions your way.',
+                iaTitulo: 'Create with AI',
+                novo: 'New',
+                iaDescricao: 'Generate titles, descriptions and copy automatically in seconds.'
+            },
+
+            novo: {
+                tituloModal: 'New Product'
+            },
+
+            editar: {
+                tituloModal: 'Edit Product',
+                salvarAlteracoes: 'Save Changes'
+            },
+
+            excluir: {
+                tituloModal: 'Delete Product',
+                confirmacao: 'Are you sure you want to delete',
+                aviso: 'This action cannot be undone.',
+                excluirProduto: 'Delete Product'
+            },
+
+            form: {
+                titulo: 'Title',
+                tituloPlaceholder: 'Product name',
+                descricaoCurta: 'Short Description',
+                descricaoCurtaPlaceholder: 'One line about the product',
+                descricaoCompleta: 'Full Description',
+                descricaoCompletaPlaceholder: 'Describe your product in detail',
+                preco: 'Price (R$)',
+                categoria: 'Category',
+                comissao: 'Affiliate Commission (%)',
+                status: 'Status',
+                imagemCapa: 'Cover Image',
+                linkProduto: 'Product Link',
+                cancelar: 'Cancel',
+                salvarProduto: 'Save Product'
+            },
+
+            categorias: {
+                curso: 'Course',
+                mentoria: 'Mentoring'
+            },
+
+            status: {
+                ativo: 'Active',
+                rascunho: 'Draft',
+                inativo: 'Inactive'
+            }
+        },
+
+        vitrine: {
+            tituloDocumento: 'Marketplace - Monetiza',
+            buscaTopo: 'What are you looking for...',
+            buscarProdutos: 'Search products...',
+            areaVendedor: 'Seller Area',
+            maisVendidos: 'Best Sellers',
+            nenhumProduto: 'No products found.',
+            rodape: 'Digital products platform with an affiliate system',
+
+            usuario: {
+                visitante: 'Visitor',
+                subtitulo: 'Monetiza Marketplace'
+            },
+
+            hero: {
+                titulo: 'High-Quality Digital Products',
+                subtitulo: 'Find courses, e-books, templates and much more. Start learning or selling today!'
+            },
+
+            filtros: {
+                titulo: 'Filters:',
+                todas: 'All',
+                cursos: 'Courses',
+                templates: 'Templates',
+                mentorias: 'Mentoring'
+            },
+
+            ordenacao: {
+                maisVendidos: 'Best Sellers',
+                recentes: 'Most Recent',
+                menorPreco: 'Lowest Price',
+                maiorPreco: 'Highest Price'
+            }
+        },
+
         configuracoes: {
             tituloDocumento: 'Settings - Monetiza',
             tituloPagina: 'Settings',
@@ -1073,6 +1503,221 @@ const traducoes = {
                 gestaoDescricao: 'Administra productos digitales, controla tus ganancias y fortalece alianzas con herramientas integradas.',
                 relatoriosTitulo: 'Informes',
                 relatoriosDescricao: 'Sigue tus métricas de rendimiento en tiempo real con gráficos intuitivos.'
+            }
+        },
+
+        login: {
+            tituloDocumento: 'Monetiza - Inicio de Sesión',
+            titulo: 'Inicia sesión en tu cuenta',
+            ou: 'o',
+            criarConta: 'Crear una nueva cuenta',
+            email: 'Correo electrónico',
+            emailPlaceholder: 'tu@email.com',
+            senha: 'Contraseña',
+            senhaPlaceholder: '••••••••',
+            esqueceuSenha: '¿Olvidaste tu contraseña?',
+            entrar: 'Entrar'
+        },
+
+        mensagens: {
+            tituloDocumento: 'Mensajes - Monetiza',
+            tituloPagina: 'Mensajes',
+
+            chat: {
+                titulo: 'Mensajes',
+                novaConversa: 'Nueva conversación',
+                buscarConversas: 'Buscar conversaciones...',
+                conversas: 'CONVERSACIONES',
+                nenhumaConversa: 'Aún no hay conversaciones',
+                selecioneConversa: 'Selecciona una conversación',
+                digiteMensagem: 'Escribe un mensaje...',
+                enviarMensagem: 'Enviar mensaje'
+            },
+
+            modal: {
+                titulo: 'Nueva Conversación',
+                buscarUsuario: 'Buscar usuario...',
+                carregandoUsuarios: 'Cargando usuarios...'
+            }
+        },
+
+        minhasVendas: {
+            tituloDocumento: 'Mis Ventas - Monetiza',
+            tituloPagina: 'Mis Ventas',
+
+            cabecalho: {
+                titulo: 'Mis Ventas',
+                subtitulo: 'Acompaña tus ventas y comisiones'
+            },
+
+            metricas: {
+                totalVendas: 'Total de Ventas',
+                comissoesGanhas: 'Comisiones Ganadas',
+                vendasVendedor: 'Ventas como Vendedor',
+                vendasAfiliado: 'Ventas como Afiliado'
+            },
+
+            abas: {
+                vendas: 'Mis Ventas',
+                comissoes: 'Comisiones'
+            },
+
+            tabela: {
+                produto: 'Producto',
+                comprador: 'Comprador',
+                data: 'Fecha',
+                status: 'Estado',
+                valor: 'Valor'
+            },
+
+            vazio: 'No se encontraron ventas'
+        },
+
+        paginaProduto: {
+            tituloDocumento: 'Detalles del Producto - Monetiza',
+            buscaPlaceholder: '¿Qué estás buscando...',
+            carregando: 'Cargando información del producto...',
+
+            sobre: {
+                titulo: 'Sobre este producto'
+            },
+
+            receber: {
+                titulo: 'Lo que recibirás',
+                acessoImediato: 'Acceso inmediato después de la confirmación del pago',
+                suporte: 'Soporte directo con el productor',
+                conteudoDigital: 'Contenido 100% digital y actualizado'
+            },
+
+            produto: {
+                criadoPor: 'Creado por:',
+                preco: 'Precio:',
+                comprarAgora: 'Comprar Ahora',
+                falarVendedor: 'Hablar con el vendedor'
+            },
+
+            garantias: {
+                pagamentoSeguro: 'Pago 100% Seguro',
+                garantia: 'Garantía de 7 Días',
+                acesso: 'Acceso Inmediato'
+            },
+
+            checkout: {
+                titulo: 'Finalizar Compra',
+                nomeCompleto: 'Nombre Completo',
+                nomePlaceholder: 'Ingresa tu nombre completo',
+                emailEntrega: 'Correo para entrega',
+                emailPlaceholder: 'tu@email.com',
+                formaPagamento: 'Forma de Pago',
+                cartao: 'Tarjeta',
+                confirmarPagamento: 'Confirmar Pago'
+            }
+        },
+
+        produto: {
+            tituloDocumento: 'Productos - Monetiza',
+            tituloPagina: 'Productos',
+            buscaPlaceholder: 'Buscar productos...',
+
+            cabecalho: {
+                titulo: 'Mis Productos',
+                subtitulo: 'Administra tus productos digitales',
+                novoProduto: 'Nuevo Producto'
+            },
+
+            vazio: {
+                titulo: 'Aún no hay productos',
+                subtitulo: 'Crea tu primer producto digital',
+                criarProduto: 'Crear Producto'
+            },
+
+            escolha: {
+                titulo: 'Crear Nuevo Producto',
+                subtitulo: '¿Cómo prefieres registrar tu producto?',
+                manualTitulo: 'Crear Manualmente',
+                manualDescricao: 'Completa los campos, precios y descripciones a tu manera.',
+                iaTitulo: 'Crear con IA',
+                novo: 'Nuevo',
+                iaDescricao: 'Genera títulos, descripciones y textos automáticamente en segundos.'
+            },
+
+            novo: {
+                tituloModal: 'Nuevo Producto'
+            },
+
+            editar: {
+                tituloModal: 'Editar Producto',
+                salvarAlteracoes: 'Guardar Cambios'
+            },
+
+            excluir: {
+                tituloModal: 'Eliminar Producto',
+                confirmacao: '¿Estás seguro de que deseas eliminar',
+                aviso: 'Esta acción no se puede deshacer.',
+                excluirProduto: 'Eliminar Producto'
+            },
+
+            form: {
+                titulo: 'Título',
+                tituloPlaceholder: 'Nombre del producto',
+                descricaoCurta: 'Descripción Corta',
+                descricaoCurtaPlaceholder: 'Una línea sobre el producto',
+                descricaoCompleta: 'Descripción Completa',
+                descricaoCompletaPlaceholder: 'Describe tu producto en detalle',
+                preco: 'Precio (R$)',
+                categoria: 'Categoría',
+                comissao: 'Comisión de Afiliado (%)',
+                status: 'Estado',
+                imagemCapa: 'Imagen de Portada',
+                linkProduto: 'Enlace del Producto',
+                cancelar: 'Cancelar',
+                salvarProduto: 'Guardar Producto'
+            },
+
+            categorias: {
+                curso: 'Curso',
+                mentoria: 'Mentoría'
+            },
+
+            status: {
+                ativo: 'Activo',
+                rascunho: 'Borrador',
+                inativo: 'Inactivo'
+            }
+        },
+
+        vitrine: {
+            tituloDocumento: 'Tienda - Monetiza',
+            buscaTopo: '¿Qué estás buscando...',
+            buscarProdutos: 'Buscar productos...',
+            areaVendedor: 'Área del Vendedor',
+            maisVendidos: 'Más Vendidos',
+            nenhumProduto: 'No se encontraron productos.',
+            rodape: 'Plataforma de productos digitales con sistema de afiliados',
+
+            usuario: {
+                visitante: 'Visitante',
+                subtitulo: 'Tienda Monetiza'
+            },
+
+            hero: {
+                titulo: 'Productos Digitales de Alta Calidad',
+                subtitulo: 'Encuentra cursos, e-books, plantillas y mucho más. ¡Empieza a aprender o vender hoy!'
+            },
+
+            filtros: {
+                titulo: 'Filtros:',
+                todas: 'Todas',
+                cursos: 'Cursos',
+                templates: 'Plantillas',
+                mentorias: 'Mentorías'
+            },
+
+            ordenacao: {
+                maisVendidos: 'Más Vendidos',
+                recentes: 'Más Recientes',
+                menorPreco: 'Menor Precio',
+                maiorPreco: 'Mayor Precio'
             }
         },
 

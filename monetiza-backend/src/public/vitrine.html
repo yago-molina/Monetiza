@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vitrine - Monetiza</title>
+    <title data-i18n="vitrine.tituloDocumento">Vitrine - Monetiza</title>
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/vitrine.css">
 </head>
 <body>
+
     <div class="container">
         <aside class="sidebar">
             <div class="logo-area">
@@ -21,22 +22,72 @@
 
             <nav class="menu-nav">
                 <ul>
-                    <li><a id="dashboard" href="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-                    <li><a id="produto" href="produto"><i class="fa-solid fa-bag-shopping"></i> Produtos</a></li>
-                    <li><a id="minhasVendas" href="minhasVendas"><i class="fa-solid fa-chart-line"></i> Minhas Vendas</a></li>
-                    <li><a id="afiliados" href="afiliados"><i class="fa-solid fa-users"></i> Afiliados</a></li>
-                    <li><a id="financeiro" href="financeiro"><i class="fa-solid fa-wallet"></i> Financeiro</a></li>
-                    <li><a id="contratos" href="contratos"><i class="fa-solid fa-file-contract"></i> Contratos</a></li>
-                    <li><a id="mensagens" href="mensagens"><i class="fa-solid fa-comment-dots"></i> Mensagens</a></li>
-                    <li><a id="configuracoes" href="configuracoes"><i class="fa-solid fa-gear"></i> Configurações</a></li>
+                    <li>
+                        <a id="dashboard" href="dashboard">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span data-i18n="sidebar.dashboard">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="produto" href="produto">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span data-i18n="sidebar.produtos">Produtos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="minhasVendas" href="minhasVendas">
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span data-i18n="sidebar.minhasVendas">Minhas Vendas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="afiliados" href="afiliados">
+                            <i class="fa-solid fa-users"></i>
+                            <span data-i18n="sidebar.afiliados">Afiliados</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="financeiro" href="financeiro">
+                            <i class="fa-solid fa-wallet"></i>
+                            <span data-i18n="sidebar.financeiro">Financeiro</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="contratos" href="contratos">
+                            <i class="fa-solid fa-file-contract"></i>
+                            <span data-i18n="sidebar.contratos">Contratos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="mensagens" href="mensagens">
+                            <i class="fa-solid fa-comment-dots"></i>
+                            <span data-i18n="sidebar.mensagens">Mensagens</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="configuracoes" href="configuracoes">
+                            <i class="fa-solid fa-gear"></i>
+                            <span data-i18n="sidebar.configuracoes">Configurações</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
             <div class="user-profile">
-                <div class="avatar-fallback"><i class="fa-solid fa-circle-user"></i></div>
+                <div class="avatar-fallback">
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+
                 <div class="user-info">
-                    <span id="nome-usuario" class="user-name">Visitante</span>
-                    <span id="email-usuario" class="user-email">Vitrine Monetiza</span>
+                    <span id="nome-usuario" class="user-name" data-i18n="vitrine.usuario.visitante">Visitante</span>
+                    <span id="email-usuario" class="user-email" data-i18n="vitrine.usuario.subtitulo">Vitrine Monetiza</span>
                 </div>
             </div>
         </aside>
@@ -45,11 +96,22 @@
             <div class="top-bar">
                 <div class="search-bar-container">
                     <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="busca-topo" placeholder="O que você está buscando..." class="search-input">
+
+                    <input
+                        type="text"
+                        id="busca-topo"
+                        placeholder="O que você está buscando..."
+                        data-i18n-placeholder="vitrine.buscaTopo"
+                        class="search-input"
+                    >
                 </div>
 
                 <div class="top-bar-actions">
-                    <a href="landing" class="vitrine-link">Área do Vendedor <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="landing" class="vitrine-link">
+                        <span data-i18n="vitrine.areaVendedor">Área do Vendedor</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
                     <li><a><i class="fa-solid fa-bell fa-lg"></i></a></li>
                     <li><a><i class="fa-solid fa-circle-user fa-3x"></i></a></li>
                 </div>
@@ -57,12 +119,23 @@
 
             <div class="banner-wrapper">
                 <header class="hero-banner vitrine-hero">
-                    <h1 class="hero-title">Produtos Digitais de Alta Qualidade</h1>
-                    <p class="hero-subtitle">Encontre cursos, e-books, templates e muito mais. Comece a aprender ou vender hoje!</p>
+                    <h1 class="hero-title" data-i18n="vitrine.hero.titulo">
+                        Produtos Digitais de Alta Qualidade
+                    </h1>
+
+                    <p class="hero-subtitle" data-i18n="vitrine.hero.subtitulo">
+                        Encontre cursos, e-books, templates e muito mais. Comece a aprender ou vender hoje!
+                    </p>
 
                     <div class="vitrine-search-box">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="busca-produtos" placeholder="Buscar produtos...">
+
+                        <input
+                            type="text"
+                            id="busca-produtos"
+                            placeholder="Buscar produtos..."
+                            data-i18n-placeholder="vitrine.buscarProdutos"
+                        >
                     </div>
                 </header>
             </div>
@@ -70,28 +143,61 @@
             <section class="products-section">
                 <div class="section-header">
                     <i class="fa-solid fa-arrow-trend-up section-icon"></i>
-                    <h2>Mais Vendidos</h2>
+                    <h2 data-i18n="vitrine.maisVendidos">Mais Vendidos</h2>
                 </div>
+
                 <div class="products-grid-3" id="mais-vendidos"></div>
             </section>
 
             <div class="filter-bar">
                 <div class="filter-pills">
-                    <span class="filter-label"><i class="fa-solid fa-filter"></i> Filtros:</span>
-                    <button class="pill-btn active" data-categoria="Todas">Todas</button>
-                    <button class="pill-btn" data-categoria="Curso">Cursos</button>
-                    <button class="pill-btn" data-categoria="E-book">E-books</button>
-                    <button class="pill-btn" data-categoria="Template">Templates</button>
-                    <button class="pill-btn" data-categoria="Software / SaaS">Software</button>
-                    <button class="pill-btn" data-categoria="Mentoria">Mentorias</button>
+                    <span class="filter-label">
+                        <i class="fa-solid fa-filter"></i>
+                        <span data-i18n="vitrine.filtros.titulo">Filtros:</span>
+                    </span>
+
+                    <button class="pill-btn active" data-categoria="Todas" data-i18n="vitrine.filtros.todas">
+                        Todas
+                    </button>
+
+                    <button class="pill-btn" data-categoria="Curso" data-i18n="vitrine.filtros.cursos">
+                        Cursos
+                    </button>
+
+                    <button class="pill-btn" data-categoria="E-book">
+                        E-books
+                    </button>
+
+                    <button class="pill-btn" data-categoria="Template" data-i18n="vitrine.filtros.templates">
+                        Templates
+                    </button>
+
+                    <button class="pill-btn" data-categoria="Software / SaaS">
+                        Software
+                    </button>
+
+                    <button class="pill-btn" data-categoria="Mentoria" data-i18n="vitrine.filtros.mentorias">
+                        Mentorias
+                    </button>
                 </div>
 
                 <div class="sort-container">
                     <select class="sort-select" id="ordenacao">
-                        <option value="mais-vendidos">Mais Vendidos</option>
-                        <option value="recentes">Mais Recentes</option>
-                        <option value="menor-preco">Menor Preço</option>
-                        <option value="maior-preco">Maior Preço</option>
+                        <option value="mais-vendidos" data-i18n="vitrine.ordenacao.maisVendidos">
+                            Mais Vendidos
+                        </option>
+
+                        <option value="recentes" data-i18n="vitrine.ordenacao.recentes">
+                            Mais Recentes
+                        </option>
+
+                        <option value="menor-preco" data-i18n="vitrine.ordenacao.menorPreco">
+                            Menor Preço
+                        </option>
+
+                        <option value="maior-preco" data-i18n="vitrine.ordenacao.maiorPreco">
+                            Maior Preço
+                        </option>
                     </select>
                 </div>
             </div>
@@ -100,13 +206,18 @@
                 <div class="products-grid-4" id="lista-produtos"></div>
 
                 <div id="nenhum-produto" style="display:none;text-align:center;padding:40px;">
-                    <p>Nenhum produto encontrado.</p>
+                    <p data-i18n="vitrine.nenhumProduto">
+                        Nenhum produto encontrado.
+                    </p>
                 </div>
             </section>
 
             <footer class="vitrine-footer">
                 <img src="image/icon_monetiza.png" alt="Monetiza" class="footer-logo">
-                <p>Plataforma de produtos digitais com sistema de afiliados</p>
+
+                <p data-i18n="vitrine.rodape">
+                    Plataforma sde produtos digitais com sistema de afiliados
+                </p>
             </footer>
         </main>
     </div>

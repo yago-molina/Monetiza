@@ -3,39 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monetiza - Login</title>
+    <title data-i18n="login.tituloDocumento">Monetiza - Login</title>
     <link rel="icon" type="image/png" href="image/icon_monetiza.png">
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
-
     <div class="auth-container">
         <div class="brand-header">
             <img id="logo_monetiza" src="image/icon_monetiza.png" alt="Logo Monetiza">
         </div>
-        
+
         <section id="tela-login" class="auth-box">
-            <h2>Entrar na sua conta</h2>
-            <p class="auth-subtitle">ou <a href="/cadastro" id="link-ir-cadastro">Criar uma nova conta</a></p>
-            
+            <h2 data-i18n="login.titulo">Entrar na sua conta</h2>
+
+            <p class="auth-subtitle">
+                <span data-i18n="login.ou">ou</span>
+                <a href="/cadastro" id="link-ir-cadastro" data-i18n="login.criarConta">
+                    Criar uma nova conta
+                </a>
+            </p>
+
             <div class="input-group">
-                <label for="login-email">E-mail</label>
-                <input id="login-email" type="email" placeholder="seu@email.com">
+                <label for="login-email" data-i18n="login.email">E-mail</label>
+
+                <input
+                    id="login-email"
+                    type="email"
+                    placeholder="seu@email.com"
+                    data-i18n-placeholder="login.emailPlaceholder"
+                >
             </div>
-            
+
             <div class="input-group">
-                <label for="login-senha">Senha</label>
-                <input id="login-senha" type="password" placeholder="••••••••">
+                <label for="login-senha" data-i18n="login.senha">Senha</label>
+
+                <input
+                    id="login-senha"
+                    type="password"
+                    placeholder="••••••••"
+                    data-i18n-placeholder="login.senhaPlaceholder"
+                >
+
                 <div class="forgot-password-container">
-                    <a href="#" id="link-esqueci-senha">Esqueceu a senha?</a>
+                    <a
+                        href="#"
+                        id="link-esqueci-senha"
+                        data-i18n="login.esqueceuSenha"
+                    >
+                        Esqueceu a senha?
+                    </a>
                 </div>
             </div>
-            
+
             <div class="btn-container">
-                <button type="button" class="btn-primary" id="btn-entrar">Entrar</button>
+                <button
+                    type="button"
+                    class="btn-primary"
+                    id="btn-entrar"
+                    data-i18n="login.entrar"
+                >
+                    Entrar
+                </button>
             </div>
         </section>
     </div>
+
     <script src="js/ia-btn.js"></script>
     <script src="js/i18n.js"></script>
     <script src="js/login.js"></script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos - Monetiza</title>
+    <title data-i18n="produto.tituloDocumento">Produtos - Monetiza</title>
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/produto.css">
@@ -23,49 +23,57 @@
                 <ul>
                     <li>
                         <a id="dashboard" href="dashboard">
-                            <i class="fa-solid fa-chart-pie"></i> Dashboard
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span data-i18n="sidebar.dashboard">Dashboard</span>
                         </a>
                     </li>
 
                     <li class="active">
                         <a id="produto" href="landing">
-                            <i class="fa-solid fa-bag-shopping"></i> Produtos
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            <span data-i18n="sidebar.produtos">Produtos</span>
                         </a>
                     </li>
 
                     <li>
                         <a id="minhasVendas" href="minhasVendas">
-                            <i class="fa-solid fa-chart-line"></i> Minhas Vendas
+                            <i class="fa-solid fa-chart-line"></i>
+                            <span data-i18n="sidebar.minhasVendas">Minhas Vendas</span>
                         </a>
                     </li>
 
                     <li>
                         <a id="afiliados" href="afiliados">
-                            <i class="fa-solid fa-users"></i> Afiliados
+                            <i class="fa-solid fa-users"></i>
+                            <span data-i18n="sidebar.afiliados">Afiliados</span>
                         </a>
                     </li>
 
                     <li>
                         <a id="financeiro" href="financeiro">
-                            <i class="fa-solid fa-wallet"></i> Financeiro
+                            <i class="fa-solid fa-wallet"></i>
+                            <span data-i18n="sidebar.financeiro">Financeiro</span>
                         </a>
                     </li>
 
                     <li>
                         <a id="contratos" href="contratos">
-                            <i class="fa-solid fa-file-contract"></i> Contratos
+                            <i class="fa-solid fa-file-contract"></i>
+                            <span data-i18n="sidebar.contratos">Contratos</span>
                         </a>
                     </li>
 
                     <li>
                         <a id="mensagens" href="mensagens">
-                            <i class="fa-solid fa-comment-dots"></i> Mensagens
+                            <i class="fa-solid fa-comment-dots"></i>
+                            <span data-i18n="sidebar.mensagens">Mensagens</span>
                         </a>
                     </li>
 
                     <li>
                         <a id="configuracoes" href="configuracoes">
-                            <i class="fa-solid fa-gear"></i> Configurações
+                            <i class="fa-solid fa-gear"></i>
+                            <span data-i18n="sidebar.configuracoes">Configurações</span>
                         </a>
                     </li>
                 </ul>
@@ -78,9 +86,7 @@
 
                 <div class="user-info">
                     <span id="nome-usuario" class="user-name">Username</span>
-                    <span id="email-usuario" class="user-email">
-                        email@gmail.com
-                    </span>
+                    <span id="email-usuario" class="user-email">email@gmail.com</span>
                 </div>
             </div>
         </aside>
@@ -90,11 +96,11 @@
 
             <!-- Barra Superior -->
             <div class="top-bar">
-                <span class="page-title">Produtos</span>
+                <span class="page-title" data-i18n="produto.tituloPagina">Produtos</span>
 
                 <div class="top-bar-right">
                     <a href="/vitrine" class="vitrine-link">
-                        Ver Vitrine
+                        <span data-i18n="topo.verVitrine">Ver Vitrine</span>
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
 
@@ -115,8 +121,8 @@
             <!-- Cabeçalho de Produtos -->
             <div class="header-action-row">
                 <div class="page-header-text">
-                    <h2>Meus Produtos</h2>
-                    <p>Gerencie seus produtos digitais</p>
+                    <h2 data-i18n="produto.cabecalho.titulo">Meus Produtos</h2>
+                    <p data-i18n="produto.cabecalho.subtitulo">Gerencie seus produtos digitais</p>
                 </div>
 
                 <button
@@ -125,7 +131,7 @@
                     id="btn-novo-produto"
                 >
                     <i class="fa-solid fa-plus"></i>
-                    Novo Produto
+                    <span data-i18n="produto.cabecalho.novoProduto">Novo Produto</span>
                 </button>
             </div>
 
@@ -137,6 +143,7 @@
                     type="text"
                     id="busca-produto"
                     placeholder="Buscar produtos..."
+                    data-i18n-placeholder="produto.buscaPlaceholder"
                     class="search-input"
                 >
             </div>
@@ -144,8 +151,8 @@
             <!-- Estado Vazio -->
             <div id="estado-vazio" class="empty-state-card">
                 <div class="empty-state-content">
-                    <h3>Nenhum produto ainda</h3>
-                    <p>Crie seu primeiro produto digital</p>
+                    <h3 data-i18n="produto.vazio.titulo">Nenhum produto ainda</h3>
+                    <p data-i18n="produto.vazio.subtitulo">Crie seu primeiro produto digital</p>
 
                     <button
                         type="button"
@@ -153,16 +160,12 @@
                         class="btn-primary btn-large"
                     >
                         <i class="fa-solid fa-plus"></i>
-                        Criar Produto
+                        <span data-i18n="produto.vazio.criarProduto">Criar Produto</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Produtos são renderizados pelo produto.js -->
-            <div
-                id="lista-produtos"
-                class="lista-produtos"
-            ></div>
+            <div id="lista-produtos" class="lista-produtos"></div>
 
         </main>
     </div>
@@ -175,7 +178,7 @@
         <div class="modal-card modal-card-sm">
 
             <div class="modal-header">
-                <h2>Criar Novo Produto</h2>
+                <h2 data-i18n="produto.escolha.titulo">Criar Novo Produto</h2>
 
                 <button
                     type="button"
@@ -186,13 +189,12 @@
                 </button>
             </div>
 
-            <p class="modal-subtitle">
+            <p class="modal-subtitle" data-i18n="produto.escolha.subtitulo">
                 Como você prefere cadastrar seu produto?
             </p>
 
             <div class="creation-options">
 
-                <!-- Opção Manual -->
                 <button
                     type="button"
                     id="btn-opcao-manual"
@@ -203,8 +205,11 @@
                     </div>
 
                     <div class="option-info">
-                        <h3>Criar Manualmente</h3>
-                        <p>
+                        <h3 data-i18n="produto.escolha.manualTitulo">
+                            Criar Manualmente
+                        </h3>
+
+                        <p data-i18n="produto.escolha.manualDescricao">
                             Preencha os campos, preços e descrições do seu jeito.
                         </p>
                     </div>
@@ -212,7 +217,6 @@
                     <i class="fa-solid fa-chevron-right arrow-icon"></i>
                 </button>
 
-                <!-- Opção com IA -->
                 <button
                     type="button"
                     id="btn-opcao-ia"
@@ -224,11 +228,11 @@
 
                     <div class="option-info">
                         <h3>
-                            Criar com IA
-                            <span class="badge-ia">Novo</span>
+                            <span data-i18n="produto.escolha.iaTitulo">Criar com IA</span>
+                            <span class="badge-ia" data-i18n="produto.escolha.novo">Novo</span>
                         </h3>
 
-                        <p>
+                        <p data-i18n="produto.escolha.iaDescricao">
                             Gere título, descrição e copys automaticamente em segundos.
                         </p>
                     </div>
@@ -248,7 +252,7 @@
         <div class="modal-card">
 
             <div class="modal-header">
-                <h2>Novo Produto</h2>
+                <h2 data-i18n="produto.novo.tituloModal">Novo Produto</h2>
 
                 <button
                     type="button"
@@ -266,19 +270,20 @@
 
                 <div class="input-group">
                     <label for="prod-titulo">
-                        Título *
+                        <span data-i18n="produto.form.titulo">Título</span> *
                     </label>
 
                     <input
                         type="text"
                         id="prod-titulo"
                         placeholder="Nome do produto"
+                        data-i18n-placeholder="produto.form.tituloPlaceholder"
                         required
                     >
                 </div>
 
                 <div class="input-group">
-                    <label for="prod-desc-curta">
+                    <label for="prod-desc-curta" data-i18n="produto.form.descricaoCurta">
                         Descrição Curta
                     </label>
 
@@ -286,11 +291,12 @@
                         type="text"
                         id="prod-desc-curta"
                         placeholder="Uma linha sobre o produto"
+                        data-i18n-placeholder="produto.form.descricaoCurtaPlaceholder"
                     >
                 </div>
 
                 <div class="input-group">
-                    <label for="prod-desc-completa">
+                    <label for="prod-desc-completa" data-i18n="produto.form.descricaoCompleta">
                         Descrição Completa
                     </label>
 
@@ -298,6 +304,7 @@
                         id="prod-desc-completa"
                         rows="3"
                         placeholder="Descreva seu produto em detalhes"
+                        data-i18n-placeholder="produto.form.descricaoCompletaPlaceholder"
                     ></textarea>
                 </div>
 
@@ -305,7 +312,7 @@
 
                     <div class="input-group">
                         <label for="prod-preco">
-                            Preço (R$) *
+                            <span data-i18n="produto.form.preco">Preço (R$)</span> *
                         </label>
 
                         <input
@@ -320,14 +327,14 @@
 
                     <div class="input-group">
                         <label for="prod-categoria">
-                            Categoria *
+                            <span data-i18n="produto.form.categoria">Categoria</span> *
                         </label>
 
                         <select id="prod-categoria" required>
-                            <option value="Curso">Curso</option>
+                            <option value="Curso" data-i18n="produto.categorias.curso">Curso</option>
                             <option value="E-book">E-book</option>
                             <option value="Software / SaaS">Software / SaaS</option>
-                            <option value="Mentoria">Mentoria</option>
+                            <option value="Mentoria" data-i18n="produto.categorias.mentoria">Mentoria</option>
                         </select>
                     </div>
 
@@ -336,7 +343,7 @@
                 <div class="input-row">
 
                     <div class="input-group">
-                        <label for="prod-comissao">
+                        <label for="prod-comissao" data-i18n="produto.form.comissao">
                             Comissão de Afiliado (%)
                         </label>
 
@@ -351,20 +358,20 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="prod-status">
+                        <label for="prod-status" data-i18n="produto.form.status">
                             Status
                         </label>
 
                         <select id="prod-status">
-                            <option value="Ativo">
+                            <option value="Ativo" data-i18n="produto.status.ativo">
                                 Ativo
                             </option>
 
-                            <option value="Rascunho">
+                            <option value="Rascunho" data-i18n="produto.status.rascunho">
                                 Rascunho
                             </option>
 
-                            <option value="Inativo">
+                            <option value="Inativo" data-i18n="produto.status.inativo">
                                 Inativo
                             </option>
                         </select>
@@ -374,7 +381,7 @@
 
                 <div class="input-group file-group">
                     <label for="prod-imagem">
-                        Imagem de Capa *
+                        <span data-i18n="produto.form.imagemCapa">Imagem de Capa</span> *
                     </label>
 
                     <div class="file-input-wrapper">
@@ -389,7 +396,7 @@
 
                 <div class="input-group file-group">
                     <label for="prod-arquivo">
-                        Link do Produto *
+                        <span data-i18n="produto.form.linkProduto">Link do Produto</span> *
                     </label>
 
                     <div class="file-input-wrapper">
@@ -407,6 +414,7 @@
                         type="button"
                         id="btn-cancelar"
                         class="btn-secondary"
+                        data-i18n="produto.form.cancelar"
                     >
                         Cancelar
                     </button>
@@ -414,6 +422,7 @@
                     <button
                         type="submit"
                         class="btn-primary"
+                        data-i18n="produto.form.salvarProduto"
                     >
                         Salvar Produto
                     </button>
@@ -431,7 +440,7 @@
         <div class="modal-card">
 
             <div class="modal-header">
-                <h2>Editar Produto</h2>
+                <h2 data-i18n="produto.editar.tituloModal">Editar Produto</h2>
 
                 <button
                     type="button"
@@ -447,7 +456,6 @@
                 class="modal-body"
             >
 
-                <!-- ID do produto que está sendo editado -->
                 <input
                     type="hidden"
                     id="edit-prod-id"
@@ -455,7 +463,7 @@
 
                 <div class="input-group">
                     <label for="edit-prod-titulo">
-                        Título *
+                        <span data-i18n="produto.form.titulo">Título</span> *
                     </label>
 
                     <input
@@ -466,7 +474,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="edit-prod-desc-curta">
+                    <label for="edit-prod-desc-curta" data-i18n="produto.form.descricaoCurta">
                         Descrição Curta
                     </label>
 
@@ -477,7 +485,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="edit-prod-desc-completa">
+                    <label for="edit-prod-desc-completa" data-i18n="produto.form.descricaoCompleta">
                         Descrição Completa
                     </label>
 
@@ -491,7 +499,7 @@
 
                     <div class="input-group">
                         <label for="edit-prod-preco">
-                            Preço (R$) *
+                            <span data-i18n="produto.form.preco">Preço (R$)</span> *
                         </label>
 
                         <input
@@ -505,14 +513,14 @@
 
                     <div class="input-group">
                         <label for="edit-prod-categoria">
-                            Categoria *
+                            <span data-i18n="produto.form.categoria">Categoria</span> *
                         </label>
 
                         <select id="edit-prod-categoria" required>
-                            <option value="Curso">Curso</option>
+                            <option value="Curso" data-i18n="produto.categorias.curso">Curso</option>
                             <option value="E-book">E-book</option>
                             <option value="Software / SaaS">Software / SaaS</option>
-                            <option value="Mentoria">Mentoria</option>
+                            <option value="Mentoria" data-i18n="produto.categorias.mentoria">Mentoria</option>
                         </select>
                     </div>
 
@@ -521,7 +529,7 @@
                 <div class="input-row">
 
                     <div class="input-group">
-                        <label for="edit-prod-comissao">
+                        <label for="edit-prod-comissao" data-i18n="produto.form.comissao">
                             Comissão de Afiliado (%)
                         </label>
 
@@ -535,20 +543,20 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="edit-prod-status">
+                        <label for="edit-prod-status" data-i18n="produto.form.status">
                             Status
                         </label>
 
                         <select id="edit-prod-status">
-                            <option value="Ativo">
+                            <option value="Ativo" data-i18n="produto.status.ativo">
                                 Ativo
                             </option>
 
-                            <option value="Rascunho">
+                            <option value="Rascunho" data-i18n="produto.status.rascunho">
                                 Rascunho
                             </option>
 
-                            <option value="Inativo">
+                            <option value="Inativo" data-i18n="produto.status.inativo">
                                 Inativo
                             </option>
                         </select>
@@ -558,7 +566,7 @@
 
                 <div class="input-group file-group">
                     <label for="edit-prod-imagem">
-                        Imagem de Capa *
+                        <span data-i18n="produto.form.imagemCapa">Imagem de Capa</span> *
                     </label>
 
                     <div class="file-input-wrapper">
@@ -572,7 +580,7 @@
 
                 <div class="input-group file-group">
                     <label for="edit-prod-arquivo">
-                        Link do Produto *
+                        <span data-i18n="produto.form.linkProduto">Link do Produto</span> *
                     </label>
 
                     <div class="file-input-wrapper">
@@ -590,6 +598,7 @@
                         type="button"
                         id="btn-cancelar-edicao"
                         class="btn-secondary"
+                        data-i18n="produto.form.cancelar"
                     >
                         Cancelar
                     </button>
@@ -597,6 +606,7 @@
                     <button
                         type="submit"
                         class="btn-primary"
+                        data-i18n="produto.editar.salvarAlteracoes"
                     >
                         Salvar Alterações
                     </button>
@@ -615,7 +625,7 @@
         <div class="modal-card modal-card-sm">
 
             <div class="modal-header">
-                <h2>Excluir Produto</h2>
+                <h2 data-i18n="produto.excluir.tituloModal">Excluir Produto</h2>
 
                 <button
                     type="button"
@@ -629,11 +639,13 @@
             <div class="modal-body">
 
                 <p>
-                    Tem certeza que deseja excluir
+                    <span data-i18n="produto.excluir.confirmacao">
+                        Tem certeza que deseja excluir
+                    </span>
                     <strong id="nome-produto-excluir"></strong>?
                 </p>
 
-                <p>
+                <p data-i18n="produto.excluir.aviso">
                     Essa ação não poderá ser desfeita.
                 </p>
 
@@ -648,6 +660,7 @@
                         type="button"
                         id="btn-cancelar-exclusao"
                         class="btn-secondary"
+                        data-i18n="produto.form.cancelar"
                     >
                         Cancelar
                     </button>
@@ -658,7 +671,9 @@
                         class="btn-primary"
                     >
                         <i class="fa-solid fa-trash"></i>
-                        Excluir Produto
+                        <span data-i18n="produto.excluir.excluirProduto">
+                            Excluir Produto
+                        </span>
                     </button>
 
                 </div>
@@ -666,6 +681,7 @@
             </div>
         </div>
     </div>
+
     <script src="js/ia-btn.js"></script>
     <script src="js/perfil-global.js"></script>
     <script src="js/i18n.js"></script>
