@@ -2913,7 +2913,7 @@ function obterIdiomaAtual(){
     return localStorage.getItem('idioma')||'pt-BR'
 }
 
-function t(chave,idioma=obterIdiomaAtual()){
+function traduzir(chave,idioma=obterIdiomaAtual()){
     const idiomaValido=traducoes[idioma]?idioma:'pt-BR'
     return obterTraducao(traducoes[idiomaValido],chave)??chave
 }
@@ -2929,7 +2929,7 @@ function aplicarIdioma(idioma){
             :idiomaValido
 
     document.querySelectorAll('[data-i18n]').forEach(elemento=>{
-        const texto=t(elemento.dataset.i18n,idiomaValido)
+        const texto=traduzir(elemento.dataset.i18n,idiomaValido)
 
         if(texto!==elemento.dataset.i18n){
             elemento.textContent=texto
@@ -2937,7 +2937,7 @@ function aplicarIdioma(idioma){
     })
 
     document.querySelectorAll('[data-i18n-placeholder]').forEach(elemento=>{
-        const texto=t(
+        const texto=traduzir(
             elemento.dataset.i18nPlaceholder,
             idiomaValido
         )
@@ -2948,7 +2948,7 @@ function aplicarIdioma(idioma){
     })
 
     document.querySelectorAll('[data-i18n-title]').forEach(elemento=>{
-        const texto=t(
+        const texto=traduzir(
             elemento.dataset.i18nTitle,
             idiomaValido
         )
@@ -2959,7 +2959,7 @@ function aplicarIdioma(idioma){
     })
 
     document.querySelectorAll('[data-i18n-aria-label]').forEach(elemento=>{
-        const texto=t(
+        const texto=traduzir(
             elemento.dataset.i18nAriaLabel,
             idiomaValido
         )
@@ -2976,7 +2976,7 @@ function aplicarIdioma(idioma){
 window.i18n={
     aplicarIdioma,
     obterIdiomaAtual,
-    t
+    t:traduzir
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
