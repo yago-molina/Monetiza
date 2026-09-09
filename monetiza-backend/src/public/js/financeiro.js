@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token')
     const email = localStorage.getItem('usuarioLogado')
+    const t = chave => window.i18n?.t(chave) ?? chave
 
     const tabButtons = document.querySelectorAll('.tab-btn')
     const tabContents = document.querySelectorAll('.tab-content')
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let comissoes = []
 
     if (!token) {
-        alert('Acesso negado. Faça login primeiro.')
+        alert(t('financeiro.js.acessoNegado'))
         window.location.href = '/'
         return
     }
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert('Sua sessão expirou. Faça login novamente.')
+        alert(t('financeiro.js.sessaoExpirada'))
         window.location.href = '/'
     }
 
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!resposta.ok) {
             throw new Error(
                 dados.erro ||
-                'Não foi possível completar a operação'
+                t('financeiro.js.erroOperacao')
             )
         }
 
@@ -83,6 +84,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         return new Date(data).toLocaleDateString(
             'pt-BR'
         )
+    }
+
+    function traduzirTipo(tipo) {
+        if (tipo === 'Entrada') {
+            return t('financeiro.js.tipo.entrada')
+        }
+
+        if (tipo === 'Saida') {
+            return t('financeiro.js.tipo.saida')
+        }
+
+        return tipo
+    }
+
+    function traduzirPapel(papel) {
+        if (papel === 'Produtor') {
+            return t('financeiro.js.papel.produtor')
+        }
+
+        if (papel === 'Afiliado') {
+            return t('financeiro.js.papel.afiliado')
+        }
+
+        return papel
+    }
+
+    function traduzirStatus(status) {
+        const statusMap = {
+            Liberado: 'liberado',
+            Pendente: 'pendente',
+            Cancelado: 'cancelado'
+        }
+
+        const chave = statusMap[status]
+
+        if (!chave) {
+            return status
+        }
+
+        return t(`financeiro.js.status.${chave}`)
     }
 
     async function carregarPerfil() {
@@ -218,7 +259,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tipo =
             document.createElement('span')
 
-        tipo.textContent = transacao.tipo
+        tipo.textContent =
+            traduzirTipo(transacao.tipo)
 
         const descricao =
             document.createElement('span')
@@ -275,7 +317,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.createElement('span')
 
         papel.textContent =
-            comissao.papel
+            traduzirPapel(comissao.papel)
 
         const data =
             document.createElement('span')
@@ -289,7 +331,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.createElement('span')
 
         status.textContent =
-            comissao.status
+            traduzirStatus(comissao.status)
 
         const valor =
             document.createElement('span')
@@ -513,7 +555,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function novaTransacao() {
         const tipo = window.prompt(
-            'Digite o tipo da transação: Entrada ou Saida'
+            t('financeiro.js.promptTipo')
         )
 
         if (!tipo) {
@@ -523,23 +565,31 @@ document.addEventListener('DOMContentLoaded', async () => {
         let tipoFormatado =
             tipo.trim().toLowerCase()
 
-        if (tipoFormatado === 'entrada') {
+        if (
+            tipoFormatado === 'entrada' ||
+            tipoFormatado ===
+                t('financeiro.js.tipo.entrada')
+                    .toLowerCase()
+        ) {
             tipoFormatado = 'Entrada'
         } else if (
             tipoFormatado === 'saida' ||
-            tipoFormatado === 'saída'
+            tipoFormatado === 'saída' ||
+            tipoFormatado ===
+                t('financeiro.js.tipo.saida')
+                    .toLowerCase()
         ) {
             tipoFormatado = 'Saida'
         } else {
             alert(
-                'Digite Entrada ou Saida.'
+                t('financeiro.js.tipoInvalido')
             )
             return
         }
 
         const descricao =
             window.prompt(
-                'Digite a descrição da transação:'
+                t('financeiro.js.promptDescricao')
             )
 
         if (!descricao) {
@@ -549,7 +599,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const valor =
             Number(
                 window.prompt(
-                    'Digite o valor da transação:'
+                    t('financeiro.js.promptValor')
                 )
             )
 
@@ -557,7 +607,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             !Number.isFinite(valor) ||
             valor <= 0
         ) {
-            alert('Valor inválido.')
+            alert(t('financeiro.js.valorInvalido'))
             return
         }
 

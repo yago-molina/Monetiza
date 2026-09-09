@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
+    const t = chave => window.i18n?.t(chave) ?? chave
     const params = new URLSearchParams(window.location.search);
     const codigoAfiliado = params.get('ref');
 
@@ -18,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!produtoId || Number.isNaN(produtoId)) {
         console.error('ID do produto não identificado na URL.');
-        alert('Produto não especificado.');
+        alert(t('paginaProduto.js.produtoNaoEspecificado'));
         window.location.href = '/vitrine';
         return;
     }
@@ -49,10 +50,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const resposta = await fetch(`/vitrine-api/produtos/${produtoId}`);
         const dados = await resposta.json();
 
-        console.log('Resposta da API:', dados); // Abra o F12 e veja o que aparece aqui!
+        console.log('Resposta da API:', dados);
 
         if (!resposta.ok) {
-            throw new Error(dados.erro || 'Erro ao carregar dados do produto');
+            throw new Error(
+                dados.erro ||
+                t('paginaProduto.js.erroCarregarDados')
+            );
         }
 
         // Trata retorno caso venha em Array [ {...} ], Objeto { produto: {...} } ou Objeto Direto { ... }
@@ -66,11 +70,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         produtoAtual = produto;
 
         if (!produto) {
-            throw new Error('Produto não encontrado.');
+            throw new Error(
+                t('paginaProduto.js.produtoNaoEncontrado')
+            );
         }
 
         // Atualiza Título, Categoria, Produtor e Preço
-        document.title = `${produto.titulo || 'Produto'} - Monetiza`;
+        document.title = `${produto.titulo || t('paginaProduto.js.produto')} - Monetiza`;
 
         const elTitulo = document.getElementById('detalhe-titulo');
         const elCategoria = document.getElementById('detalhe-categoria');
@@ -79,8 +85,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const elCapa = document.getElementById('detalhe-capa');
         const elDescricao = document.getElementById('detalhe-descricao');
 
-        if (elTitulo) elTitulo.textContent = produto.titulo || 'Sem título';
-        if (elCategoria) elCategoria.textContent = produto.categoria || 'Geral';
+        if (elTitulo) elTitulo.textContent = produto.titulo || t('paginaProduto.js.semTitulo');
+        if (elCategoria) elCategoria.textContent = produto.categoria || t('paginaProduto.js.geral');
         if (elProdutor) elProdutor.textContent = produto.produtor || 'Monetiza';
         if (elPreco) elPreco.textContent = formatarDinheiro(produto.preco);
 
@@ -95,7 +101,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Caso esteja nulo ou seja string vazia, usa fallbacks
         if (!textoDescricao || String(textoDescricao).trim() === '') {
-            textoDescricao = produto.descricao || produto.descricao_curta || 'Nenhuma descrição detalhada informada.';
+            textoDescricao =
+                produto.descricao ||
+                produto.descricao_curta ||
+                t('paginaProduto.js.semDescricao');
         }
 
         if (elDescricao) {
@@ -108,32 +117,36 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Erro ao carregar produto:', erro);
         const elDescricao = document.getElementById('detalhe-descricao');
         if (elDescricao) {
-            elDescricao.textContent = 'Erro ao carregar informações do produto.';
+            elDescricao.textContent =
+                t('paginaProduto.js.erroCarregarInformacoes');
         }
     }
 }
 
     function abrirModalCheckout() {
         if (!token) {
-            alert('Você precisa estar logado para realizar uma compra.');
+            alert(t('paginaProduto.js.loginCompra'));
             window.location.href = '/';
             return;
         }
 
         const modal = document.getElementById('modal-checkout');
         if (!modal) {
-            alert('Erro: Modal de checkout não encontrado no HTML.');
+            alert(t('paginaProduto.js.modalNaoEncontrado'));
             console.error('Certifique-se de colar a estrutura HTML do modal no final da página.');
             return;
         }
 
         if (!produtoAtual) {
-            alert('Aguarde os dados do produto serem carregados.');
+            alert(t('paginaProduto.js.aguardeProduto'));
             return;
         }
 
-        document.getElementById('modal-checkout-titulo').textContent = produtoAtual.titulo || 'Produto';
-        document.getElementById('modal-checkout-preco').textContent = formatarDinheiro(produtoAtual.preco);
+        document.getElementById('modal-checkout-titulo').textContent =
+            produtoAtual.titulo || t('paginaProduto.js.produto');
+
+        document.getElementById('modal-checkout-preco').textContent =
+            formatarDinheiro(produtoAtual.preco);
 
         const imgModal = document.getElementById('modal-checkout-img');
         const urlCapa = produtoAtual.capa || produtoAtual.imagem || produtoAtual.foto || produtoAtual.img;
@@ -166,7 +179,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 falarComVendedor()
             })
         }
-        
+
         const fecharModal = () => {
             if (modal) modal.classList.remove('ativo');
         };
@@ -188,7 +201,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const btnSubmit = document.getElementById('btn-finalizar-modal');
                 if (btnSubmit) {
                     btnSubmit.disabled = true;
-                    btnSubmit.textContent = 'Processando...';
+                    btnSubmit.textContent =
+                        t('paginaProduto.js.processando');
                 }
 
                 try {
@@ -208,16 +222,22 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     if (resposta.status === 401) {
                         localStorage.clear();
-                        alert('Sua sessão expirou.');
+                        alert(t('paginaProduto.js.sessaoExpiradaCurta'));
                         window.location.href = '/';
                         return;
                     }
 
                     if (!resposta.ok) {
-                        throw new Error(dados.erro || 'Falha ao processar o pagamento.');
+                        throw new Error(
+                            dados.erro ||
+                            t('paginaProduto.js.falhaPagamento')
+                        );
                     }
 
-                    alert(`Compra de "${dados.venda?.produto || produtoAtual.titulo}" realizada com sucesso!`);
+                    alert(
+                        `${t('paginaProduto.js.compraDe')} "${dados.venda?.produto || produtoAtual.titulo}" ${t('paginaProduto.js.compraSucesso')}`
+                    );
+
                     fecharModal();
 
                     if (dados.acesso_produto) {
@@ -232,7 +252,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } finally {
                     if (btnSubmit) {
                         btnSubmit.disabled = false;
-                        btnSubmit.textContent = 'Confirmar Pagamento';
+                        btnSubmit.textContent =
+                            t('paginaProduto.js.confirmarPagamento');
                     }
                 }
             });
@@ -241,13 +262,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function falarComVendedor() {
         if (!token) {
-            alert('Você precisa estar logado para falar com o vendedor.')
+            alert(t('paginaProduto.js.loginVendedor'))
             window.location.href = '/'
             return
         }
 
         if (!produtoAtual) {
-            alert('Aguarde o produto ser carregado.')
+            alert(t('paginaProduto.js.aguardeProdutoCarregado'))
             return
         }
 
@@ -256,7 +277,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (btnFalar) {
             btnFalar.disabled = true
             btnFalar.innerHTML =
-                '<i class="fa-solid fa-spinner fa-spin"></i> Abrindo conversa...'
+                `<i class="fa-solid fa-spinner fa-spin"></i> ${t('paginaProduto.js.abrindoConversa')}`
         }
 
         try {
@@ -275,7 +296,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 localStorage.removeItem('token')
                 localStorage.removeItem('usuarioLogado')
 
-                alert('Sua sessão expirou. Faça login novamente.')
+                alert(t('paginaProduto.js.sessaoExpirada'))
                 window.location.href = '/'
                 return
             }
@@ -285,13 +306,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!resposta.ok) {
                 throw new Error(
                     dados.erro ||
-                    'Erro ao iniciar conversa com o vendedor'
+                    t('paginaProduto.js.erroIniciarConversa')
                 )
             }
 
             if (!dados.conversa_id) {
                 throw new Error(
-                    'Não foi possível identificar a conversa'
+                    t('paginaProduto.js.conversaNaoIdentificada')
                 )
             }
 
@@ -308,7 +329,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (btnFalar) {
                 btnFalar.disabled = false
                 btnFalar.innerHTML =
-                    '<i class="fa-solid fa-comment-dots"></i> Falar com o vendedor'
+                    `<i class="fa-solid fa-comment-dots"></i> ${t('paginaProduto.js.falarVendedor')}`
             }
         }
     }
@@ -323,7 +344,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Erro geral na página:', erro);
         const elDescricao = document.getElementById('detalhe-descricao');
         if (elDescricao) {
-            elDescricao.textContent = 'Erro ao carregar informações do produto.';
+            elDescricao.textContent =
+                t('paginaProduto.js.erroCarregarInformacoes');
         }
     }
 });

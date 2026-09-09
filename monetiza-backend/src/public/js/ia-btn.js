@@ -1,8 +1,13 @@
 (function () {
+
+  const t = chave => window.i18n?.t(chave) ?? chave
+
   function criarBotaoIA() {
+
     if (document.getElementById('btn-ia-floating')) return;
 
     const style = document.createElement('style');
+
     style.textContent = `
       #btn-ia-floating {
         position: fixed !important;
@@ -23,9 +28,11 @@
         background-color: #ffffff !important;
         transition: transform 0.2s ease !important;
       }
+
       #btn-ia-floating:hover {
         transform: scale(1.1) !important;
       }
+
       #btn-ia-floating img {
         width: 100% !important;
         height: 100% !important;
@@ -33,29 +40,44 @@
         display: block !important;
       }
     `;
+
     document.head.appendChild(style);
 
     const btnIA = document.createElement('button');
+
     btnIA.id = 'btn-ia-floating';
-    btnIA.title = 'Assistente IA';
+
+    btnIA.title = t('iaBtn.assistente');
 
     // Rota relativa à raiz do servidor público
-    btnIA.innerHTML = `<img src="/image/ruby-logo.png" alt="Assistente IA">`;
+    btnIA.innerHTML = `<img src="/image/ruby-logo.png" alt="${t('iaBtn.assistente')}">`;
 
     btnIA.addEventListener('click', () => {
+
       if (typeof abrirChatIA === 'function') {
+
         abrirChatIA();
+
       } else {
-        alert('Assistente IA acionado!');
+
+        alert(t('iaBtn.acionado'));
+
       }
+
     });
 
     document.body.appendChild(btnIA);
+
   }
 
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
+
     criarBotaoIA();
+
   } else {
+
     document.addEventListener('DOMContentLoaded', criarBotaoIA);
+
   }
+
 })();

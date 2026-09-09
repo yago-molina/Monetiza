@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token')
 
+    const t = chave => window.i18n?.t(chave) ?? chave
+
     const tabButtons = document.querySelectorAll('.tab-btn')
     const tabContents = document.querySelectorAll('.tab-content')
 
@@ -70,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let pagamentoEditandoId = null
 
     if (!token) {
-        alert('Acesso negado. Faça login primeiro.')
+        alert(t('configuracoes.js.acessoNegado'))
         window.location.href = '/'
         return
     }
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert('Sua sessão expirou. Faça login novamente.')
+        alert(t('configuracoes.js.sessaoExpirada'))
         window.location.href = '/'
     }
 
@@ -118,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!resposta.ok) {
             throw new Error(
                 dados.erro ||
-                'Não foi possível completar a operação'
+                t('configuracoes.js.erroOperacao')
             )
         }
 
@@ -208,10 +210,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             tipoChavePix.value === 'Aleatoria'
         ) {
             chavePix.placeholder =
-                'Digite sua chave aleatória'
+                t('configuracoes.js.pix.placeholderAleatoria')
         } else {
             chavePix.placeholder =
-                'Digite sua chave PIX'
+                t('configuracoes.js.pix.placeholderPix')
         }
     }
 
@@ -229,11 +231,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const valor = chave.trim()
 
         if (!tipo) {
-            return 'Selecione o tipo da chave PIX'
+            return t('configuracoes.js.pix.selecioneTipo')
         }
 
         if (!valor) {
-            return 'Informe sua chave PIX'
+            return t('configuracoes.js.pix.informeChave')
         }
 
         if (tipo === 'CPF') {
@@ -241,7 +243,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 valor.replace(/\D/g, '')
 
             if (numeros.length !== 11) {
-                return 'CPF deve ter 11 dígitos'
+                return t('configuracoes.js.pix.cpfInvalido')
             }
         }
 
@@ -250,7 +252,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 valor.replace(/\D/g, '')
 
             if (numeros.length !== 14) {
-                return 'CNPJ deve ter 14 dígitos'
+                return t('configuracoes.js.pix.cnpjInvalido')
             }
         }
 
@@ -259,7 +261,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
             if (!emailValido.test(valor)) {
-                return 'Informe um email válido'
+                return t('configuracoes.js.pix.emailInvalido')
             }
         }
 
@@ -271,7 +273,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 numeros.length !== 10 &&
                 numeros.length !== 11
             ) {
-                return 'Informe um telefone válido'
+                return t('configuracoes.js.pix.telefoneInvalido')
             }
         }
 
@@ -307,7 +309,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         pagamentoEditandoId = null
 
         tituloFormPagamento.textContent =
-            'Adicionar chave PIX'
+            t('configuracoes.js.pix.adicionarChave')
 
         atualizarPlaceholderPix()
     }
@@ -318,7 +320,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         formPagamento.reset()
 
         tituloFormPagamento.textContent =
-            'Adicionar chave PIX'
+            t('configuracoes.js.pix.adicionarChave')
 
         atualizarPlaceholderPix()
 
@@ -350,7 +352,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             )
 
         tituloFormPagamento.textContent =
-            'Editar chave PIX'
+            t('configuracoes.js.pix.editarChave')
 
         atualizarPlaceholderPix()
         mostrarFormularioPagamento()
@@ -413,7 +415,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 data-id="${pagamento.id}"
                             >
                                 <i class="fa-solid fa-pen"></i>
-                                Editar
+                                ${t('configuracoes.js.editar')}
                             </button>
 
                             <button
@@ -422,7 +424,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 data-id="${pagamento.id}"
                             >
                                 <i class="fa-solid fa-trash"></i>
-                                Excluir
+                                ${t('configuracoes.js.excluir')}
                             </button>
                         </div>
                     </div>
@@ -756,6 +758,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 'idioma',
                 idiomaSelecionado
             )
+
             if (window.i18n) {
                 window.i18n.aplicarIdioma(
                     idiomaSelecionado
@@ -784,7 +787,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!nome_titular) {
             alert(
-                'Informe o nome do titular'
+                t('configuracoes.js.pix.informeTitular')
             )
             return
         }
@@ -850,7 +853,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!pagamento) return
 
         const confirmar = confirm(
-            `Deseja excluir a chave PIX ${formatarValorPix(
+            `${t('configuracoes.js.pix.confirmarExclusao')} ${formatarValorPix(
                 pagamento.tipo_chave_pix,
                 pagamento.chave_pix
             )}?`
@@ -910,7 +913,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             confirmar_senha
         ) {
             alert(
-                'As novas senhas não coincidem.'
+                t('configuracoes.js.senhasNaoCoincidem')
             )
             return
         }
@@ -987,12 +990,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         ]
 
         if (!tiposPermitidos.includes(arquivo.type)) {
-            alert('Selecione uma imagem JPG, PNG ou WEBP')
+            alert(t('configuracoes.js.foto.formatoInvalido'))
             return
         }
 
         if (arquivo.size > 5 * 1024 * 1024) {
-            alert('A imagem deve ter no máximo 5MB')
+            alert(t('configuracoes.js.foto.tamanhoMaximo'))
             return
         }
 
@@ -1136,12 +1139,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
     })
 
-if (btnSalvarIdioma) {
-    btnSalvarIdioma.addEventListener(
-        'click',
-        salvarIdioma
-    )
-}
+    if (btnSalvarIdioma) {
+        btnSalvarIdioma.addEventListener(
+            'click',
+            salvarIdioma
+        )
+    }
 
     try {
         await carregarConfiguracoes()

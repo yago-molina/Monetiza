@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
+
     const token = localStorage.getItem('token')
+    const t = chave => window.i18n?.t(chave) ?? chave
 
     if (!token) return
 
     try {
+
         const response = await fetch(
             '/configuracoes-api',
             {
@@ -14,14 +17,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
 
         if (!response.ok) {
+
             console.error(
                 'Erro ao carregar perfil global:',
                 response.status
             )
+
             return
+
         }
 
         const dados = await response.json()
+
         const usuario = dados.usuario
 
         if (!usuario) return
@@ -33,13 +40,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('email-usuario')
 
         if (nomeUsuario) {
+
             nomeUsuario.textContent =
-                usuario.nome || 'Usuário'
+                usuario.nome || t('perfilGlobal.usuario')
+
         }
 
         if (emailUsuario) {
+
             emailUsuario.textContent =
                 usuario.email || ''
+
         }
 
         const foto = usuario.foto_perfil
@@ -57,13 +68,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             )
 
         avataresSidebar.forEach(avatar => {
+
             avatar.innerHTML = `
                 <img
                     src="${foto}"
-                    alt="Foto de perfil"
+                    alt="${t('perfilGlobal.fotoPerfil')}"
                     class="foto-usuario-global"
                 >
             `
+
         })
 
         const iconesTopo =
@@ -72,6 +85,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             )
 
         iconesTopo.forEach(icone => {
+
             const pai = icone.parentElement
 
             if (!pai) return
@@ -79,15 +93,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             pai.innerHTML = `
                 <img
                     src="${foto}"
-                    alt="Foto de perfil"
+                    alt="${t('perfilGlobal.fotoPerfil')}"
                     class="foto-usuario-topo"
                 >
             `
+
         })
+
     } catch (erro) {
+
         console.error(
             'Erro ao carregar perfil global:',
             erro
         )
+
     }
+
 })

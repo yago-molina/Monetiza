@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token')
     const email = localStorage.getItem('usuarioLogado')
 
+    const t = chave => window.i18n?.t(chave) ?? chave
+
     const btnNovoLink = document.getElementById('btn-novo-link')
     const btnPrimeiroLink = document.getElementById('btn-primeiro-link')
 
@@ -17,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const listaSolicitacoes = document.getElementById('lista-solicitacoes')
 
     if (!token) {
-        alert('Acesso negado. Faça login primeiro.')
+        alert(t('afiliados.js.acessoNegado'))
         window.location.href = '/'
         return
     }
@@ -33,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert('Sua sessão expirou. Faça login novamente.')
+        alert(t('afiliados.js.sessaoExpirada'))
         window.location.href = '/'
     }
 
@@ -60,6 +62,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             .replace(/\s+/g, '-')
     }
 
+    function traduzirStatus(status) {
+        const traducoesStatus = {
+            Ativa: 'ativa',
+            Pendente: 'pendente',
+            Rejeitada: 'rejeitada',
+            Encerrada: 'encerrada'
+        }
+
+        const chave = traducoesStatus[status]
+
+        if (!chave) {
+            return status
+        }
+
+        return t(`afiliados.js.status.${chave}`)
+    }
+
     async function verificarResposta(resposta) {
         if (resposta.status === 401) {
             encerrarSessao()
@@ -76,7 +95,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!resposta.ok) {
             throw new Error(
-                dados.erro || 'Não foi possível completar a operação'
+                dados.erro || t('afiliados.js.erroOperacao')
             )
         }
 
@@ -123,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
 
                 <p class="empty-text">
-                    Você ainda não tem links de afiliado
+                    ${t('afiliados.js.semLinks')}
                 </p>
 
                 <button
@@ -132,7 +151,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     id="btn-vazio-link"
                 >
                     <i class="fa-solid fa-plus"></i>
-                    Nova Conexão de Afiliado
+                    ${t('afiliados.js.novaConexao')}
                 </button>
             </div>
         `
@@ -148,7 +167,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         listaSolicitacoes.innerHTML = `
             <div class="empty-state-container">
                 <p class="empty-text">
-                    Nenhuma solicitação recebida
+                    ${t('afiliados.js.semSolicitacoes')}
                 </p>
             </div>
         `
@@ -159,7 +178,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         linha.className = 'afiliacao-row'
 
         const produto = document.createElement('span')
-        produto.textContent = afiliacao.produto || 'Produto'
+        produto.textContent =
+            afiliacao.produto || t('afiliados.js.produto')
 
         const cliques = document.createElement('span')
         cliques.textContent = afiliacao.cliques ?? 0
@@ -177,7 +197,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 afiliacao.status_afiliacao
             )}`
 
-        status.textContent = afiliacao.status_afiliacao
+        status.textContent =
+            traduzirStatus(afiliacao.status_afiliacao)
 
         const acoes = document.createElement('div')
         acoes.className = 'acoes-afiliacao'
@@ -190,7 +211,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             btnCopiar.innerHTML = `
                 <i class="fa-regular fa-copy"></i>
-                Copiar
+                ${t('afiliados.js.copiar')}
             `
 
             btnCopiar.addEventListener('click', () => {
@@ -204,7 +225,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             btnEncerrar.innerHTML = `
                 <i class="fa-solid fa-ban"></i>
-                Encerrar
+                ${t('afiliados.js.encerrar')}
             `
 
             btnEncerrar.addEventListener('click', () => {
@@ -221,7 +242,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         ) {
             const aguardando = document.createElement('span')
             aguardando.className = 'acao-indisponivel'
-            aguardando.textContent = 'Aguardando aprovação'
+            aguardando.textContent =
+                t('afiliados.js.aguardandoAprovacao')
 
             acoes.appendChild(aguardando)
         } else if (
@@ -236,7 +258,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             btnSolicitarNovamente.innerHTML = `
                 <i class="fa-solid fa-rotate-right"></i>
-                Solicitar novamente
+                ${t('afiliados.js.solicitarNovamente')}
             `
 
             btnSolicitarNovamente.addEventListener(
@@ -262,10 +284,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         linha.className = 'solicitacao-row'
 
         const produto = document.createElement('span')
-        produto.textContent = solicitacao.produto || 'Produto'
+        produto.textContent =
+            solicitacao.produto || t('afiliados.js.produto')
 
         const afiliado = document.createElement('span')
-        afiliado.textContent = solicitacao.afiliado || 'Afiliado'
+        afiliado.textContent =
+            solicitacao.afiliado || t('afiliados.js.afiliado')
 
         const comissao = document.createElement('span')
 
@@ -279,7 +303,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 solicitacao.status_afiliacao
             )}`
 
-        status.textContent = solicitacao.status_afiliacao
+        status.textContent =
+            traduzirStatus(solicitacao.status_afiliacao)
 
         const acoes = document.createElement('div')
         acoes.className = 'acoes-afiliacao'
@@ -292,7 +317,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             btnAprovar.innerHTML = `
                 <i class="fa-solid fa-check"></i>
-                Aprovar
+                ${t('afiliados.js.aprovar')}
             `
 
             btnAprovar.addEventListener('click', () => {
@@ -309,7 +334,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             btnRejeitar.innerHTML = `
                 <i class="fa-solid fa-xmark"></i>
-                Rejeitar
+                ${t('afiliados.js.rejeitar')}
             `
 
             btnRejeitar.addEventListener('click', () => {
@@ -331,7 +356,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             btnEncerrar.innerHTML = `
                 <i class="fa-solid fa-ban"></i>
-                Encerrar
+                ${t('afiliados.js.encerrar')}
             `
 
             btnEncerrar.addEventListener('click', () => {
@@ -362,7 +387,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function copiarLink(codigo, produtoId) {
         if (!codigo || !produtoId) {
-            alert('Este link de afiliado não está disponível.')
+            alert(t('afiliados.js.linkIndisponivel'))
             return
         }
 
@@ -370,9 +395,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             await navigator.clipboard.writeText(link)
-            alert('Link de afiliado copiado!')
+            alert(t('afiliados.js.linkCopiado'))
         } catch {
-            window.prompt('Copie seu link de afiliado:', link)
+            window.prompt(
+                t('afiliados.js.copieLink'),
+                link
+            )
         }
     }
 
@@ -455,7 +483,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function carregarProdutosDisponiveis() {
         selectProduto.innerHTML = `
             <option value="">
-                Carregando produtos...
+                ${t('afiliados.js.carregandoProdutos')}
             </option>
         `
 
@@ -480,7 +508,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             opcao.value = ''
             opcao.textContent =
-                'Nenhum produto disponível'
+                t('afiliados.js.nenhumProduto')
 
             selectProduto.appendChild(opcao)
             selectProduto.disabled = true
@@ -493,7 +521,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         opcaoInicial.value = ''
         opcaoInicial.textContent =
-            'Selecione um produto'
+            t('afiliados.js.selecioneProduto')
 
         selectProduto.appendChild(opcaoInicial)
 
@@ -506,7 +534,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             opcao.textContent =
                 `${produto.titulo} — ` +
                 `${produto.produtor} — ` +
-                `${Number(produto.comissao || 0)}% de comissão`
+                `${Number(produto.comissao || 0)}% ${t('afiliados.js.deComissao')}`
 
             selectProduto.appendChild(opcao)
         })
@@ -520,7 +548,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const produto_id = Number(selectProduto.value)
 
         if (!produto_id) {
-            alert('Selecione um produto.')
+            alert(t('afiliados.js.selecioneProdutoAlerta'))
             return
         }
 
@@ -531,7 +559,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             botaoSalvar.disabled = true
-            botaoSalvar.textContent = 'Enviando...'
+            botaoSalvar.textContent =
+                t('afiliados.js.enviando')
 
             const resposta = await fetch(
                 '/afiliacoes',
@@ -565,13 +594,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         } finally {
             botaoSalvar.disabled = false
             botaoSalvar.textContent =
-                'Solicitar Afiliação'
+                t('afiliados.modal.solicitar')
         }
     }
 
     async function solicitarNovamente(produto_id) {
         const confirmar = confirm(
-            'Deseja solicitar afiliação novamente para este produto?'
+            t('afiliados.js.confirmarNovaSolicitacao')
         )
 
         if (!confirmar) {
@@ -612,13 +641,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function atualizarStatus(id, status) {
         const confirmacoes = {
             Ativa:
-                'Deseja aprovar esta solicitação?',
+                t('afiliados.js.confirmarAprovacao'),
 
             Rejeitada:
-                'Deseja rejeitar esta solicitação?',
+                t('afiliados.js.confirmarRejeicao'),
 
             Encerrada:
-                'Deseja encerrar esta afiliação?'
+                t('afiliados.js.confirmarEncerramento')
         }
 
         if (!confirm(confirmacoes[status])) {

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token')
     const email = localStorage.getItem('usuarioLogado')
+    const t = chave => window.i18n?.t(chave) ?? chave
 
     const modalEscolha = document.getElementById('modal-escolha-criacao')
     const modalProduto = document.getElementById('modal-novo-produto')
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let produtos = []
 
     if (!token) {
-        alert('Acesso negado. Faça login primeiro.')
+        alert(t('produto.js.acessoNegado'))
         window.location.href = '/'
         return
     }
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert('Sua sessão expirou. Faça login novamente.')
+        alert(t('produto.js.sessaoExpirada'))
         window.location.href = '/'
     }
 
@@ -86,7 +87,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!resposta.ok) {
                 throw new Error(
-                    dados.erro || 'Não foi possível carregar o usuário'
+                    dados.erro ||
+                    t('produto.js.erroCarregarUsuario')
                 )
             }
 
@@ -132,6 +134,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         return elemento.innerHTML
     }
 
+    function traduzirStatus(status) {
+        const mapa = {
+            Ativo: 'ativo',
+            Inativo: 'inativo',
+            Rascunho: 'rascunho'
+        }
+
+        const chave = mapa[status]
+
+        if (!chave) {
+            return status
+        }
+
+        return t(`produto.js.status.${chave}`)
+    }
+
     function renderizarProdutos(lista) {
         listaProdutos.innerHTML = ''
 
@@ -157,7 +175,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <img
                                 class="produto-card-capa"
                                 src="${escaparHTML(produto.capa)}"
-                                alt="Capa de ${escaparHTML(produto.titulo)}"
+                                alt="${t('produto.js.capaDe')} ${escaparHTML(produto.titulo)}"
                             >
                             `
                             : ''
@@ -166,7 +184,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="produto-card-informacoes">
 
                         <span class="produto-status">
-                            ${escaparHTML(produto.status_produto)}
+                            ${escaparHTML(traduzirStatus(produto.status_produto))}
                         </span>
 
                         <h3>
@@ -176,7 +194,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <p>
                             ${escaparHTML(
                                 produto.descricao_curta ||
-                                'Produto sem descrição curta'
+                                t('produto.js.semDescricaoCurta')
                             )}
                         </p>
 
@@ -196,7 +214,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 data-id="${produto.id}"
                             >
                                 <i class="fa-solid fa-pen"></i>
-                                Editar
+                                ${t('produto.js.editar')}
                             </button>
 
                             <button
@@ -205,7 +223,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 data-id="${produto.id}"
                             >
                                 <i class="fa-solid fa-trash"></i>
-                                Excluir
+                                ${t('produto.js.excluir')}
                             </button>
 
                         </div>
@@ -235,7 +253,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!resposta.ok) {
                 throw new Error(
-                    dados.erro || 'Não foi possível carregar os produtos'
+                    dados.erro ||
+                    t('produto.js.erroCarregarProdutos')
                 )
             }
 
@@ -305,14 +324,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             !produto.produto_arquivo
         ) {
             alert(
-                'Preencha o título, preço, categoria, imagem e link do produto.'
+                t('produto.js.camposObrigatorios')
             )
             return
         }
 
         try {
             botaoSalvar.disabled = true
-            botaoSalvar.textContent = 'Salvando...'
+            botaoSalvar.textContent =
+                t('produto.js.salvando')
 
             const resposta = await fetch('/produtos', {
                 method: 'POST',
@@ -329,7 +349,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!resposta.ok) {
                 throw new Error(
-                    dados.erro || 'Não foi possível cadastrar o produto'
+                    dados.erro ||
+                    t('produto.js.erroCadastrarProduto')
                 )
             }
 
@@ -345,7 +366,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert(erro.message)
         } finally {
             botaoSalvar.disabled = false
-            botaoSalvar.textContent = 'Salvar Produto'
+            botaoSalvar.textContent =
+                t('produto.js.salvarProduto')
         }
     }
 
@@ -366,7 +388,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!resposta.ok) {
                 throw new Error(
-                    produto.erro || 'Não foi possível carregar o produto'
+                    produto.erro ||
+                    t('produto.js.erroCarregarProduto')
                 )
             }
 
@@ -467,14 +490,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             !produto.produto_arquivo
         ) {
             alert(
-                'Preencha o título, preço, categoria, imagem e link do produto.'
+                t('produto.js.camposObrigatorios')
             )
             return
         }
 
         try {
             botaoSalvar.disabled = true
-            botaoSalvar.textContent = 'Salvando...'
+            botaoSalvar.textContent =
+                t('produto.js.salvando')
 
             const resposta = await fetch(`/produtos/${id}`, {
                 method: 'PUT',
@@ -491,7 +515,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!resposta.ok) {
                 throw new Error(
-                    dados.erro || 'Não foi possível atualizar o produto'
+                    dados.erro ||
+                    t('produto.js.erroAtualizarProduto')
                 )
             }
 
@@ -505,7 +530,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert(erro.message)
         } finally {
             botaoSalvar.disabled = false
-            botaoSalvar.textContent = 'Salvar Alterações'
+            botaoSalvar.textContent =
+                t('produto.js.salvarAlteracoes')
         }
     }
 
@@ -515,7 +541,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
 
         if (!produto) {
-            alert('Produto não encontrado.')
+            alert(t('produto.js.produtoNaoEncontrado'))
             return
         }
 
@@ -541,7 +567,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnConfirmarExclusao.disabled = true
             btnConfirmarExclusao.innerHTML = `
                 <i class="fa-solid fa-spinner fa-spin"></i>
-                Excluindo...
+                ${t('produto.js.excluindo')}
             `
 
             const resposta = await fetch(`/produtos/${id}`, {
@@ -560,7 +586,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (!resposta.ok) {
                 throw new Error(
-                    dados.erro || 'Não foi possível excluir o produto'
+                    dados.erro ||
+                    t('produto.js.erroExcluirProduto')
                 )
             }
 
@@ -576,7 +603,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btnConfirmarExclusao.disabled = false
             btnConfirmarExclusao.innerHTML = `
                 <i class="fa-solid fa-trash"></i>
-                Excluir Produto
+                ${t('produto.js.excluirProduto')}
             `
         }
     }
@@ -633,11 +660,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     )
 
     btnOpcaoIA.addEventListener('click', () => {
-    fecharTodosModais()
+        fecharTodosModais()
 
-    window.location.href =
-        '/ia-produtos'
-})
+        window.location.href =
+            '/ia-produtos'
+    })
 
     btnFecharEscolha.addEventListener(
         'click',

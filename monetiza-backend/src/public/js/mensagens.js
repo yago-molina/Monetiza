@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token')
+    const t = chave => window.i18n?.t(chave) ?? chave
     let usuarioLogado = {}
     const emailLogado = localStorage.getItem('usuarioLogado')
 
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('usuarioLogado')
-            alert('Sua sessão expirou. Faça login novamente.')
+            alert(t('mensagens.js.sessaoExpirada'))
             window.location.href = '/'
             return false
         }
@@ -67,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <img
                     src="${escaparHtml(foto)}"
                     class="avatar-conversa-img"
-                    alt="Foto de perfil"
+                    alt="${t('mensagens.js.fotoPerfil')}"
                 >
             `
         }
@@ -139,7 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 throw new Error(
-                    dados.erro || 'Erro ao carregar usuário'
+                    dados.erro ||
+                    t('mensagens.js.erroCarregarUsuario')
                 )
             }
 
@@ -147,7 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (nomeUsuario) {
                 nomeUsuario.textContent =
-                    usuarioLogado.nome || 'Usuário'
+                    usuarioLogado.nome ||
+                    t('mensagens.js.usuario')
             }
 
             if (emailUsuario) {
@@ -174,7 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 throw new Error(
-                    dados.erro || 'Erro ao carregar contatos'
+                    dados.erro ||
+                    t('mensagens.js.erroCarregarContatos')
                 )
             }
 
@@ -186,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (listaUsuarios) {
                 listaUsuarios.innerHTML = `
                     <p class="usuarios-vazio">
-                        Erro ao carregar contatos
+                        ${t('mensagens.js.erroCarregarContatos')}
                     </p>
                 `
             }
@@ -201,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!lista.length) {
             listaUsuarios.innerHTML = `
                 <p class="usuarios-vazio">
-                    Nenhum contato disponível
+                    ${t('mensagens.js.nenhumContato')}
                 </p>
             `
             return
@@ -254,7 +258,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 throw new Error(
-                    resultado.erro || 'Erro ao criar conversa'
+                    resultado.erro ||
+                    t('mensagens.js.erroCriarConversa')
                 )
             }
 
@@ -285,7 +290,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 throw new Error(
-                    dados.erro || 'Erro ao carregar conversas'
+                    dados.erro ||
+                    t('mensagens.js.erroCarregarConversas')
                 )
             }
 
@@ -297,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (listaConversas) {
                 listaConversas.innerHTML = `
                     <div class="conversa-vazia">
-                        Erro ao carregar conversas
+                        ${t('mensagens.js.erroCarregarConversas')}
                     </div>
                 `
             }
@@ -312,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!lista.length) {
             listaConversas.innerHTML = `
                 <div class="conversa-vazia">
-                    Nenhuma conversa ainda
+                    ${t('mensagens.js.nenhumaConversa')}
                 </div>
             `
             return
@@ -333,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const ultimaMensagem =
                 conversa.ultima_mensagem ||
-                'Conversa iniciada'
+                t('mensagens.js.conversaIniciada')
 
             const naoLidas =
                 Number(conversa.nao_lidas || 0)
@@ -419,7 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(
                     dados.erro ||
-                    'Erro ao carregar mensagens'
+                    t('mensagens.js.erroCarregarMensagens')
                 )
             }
 
@@ -468,8 +474,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!mensagens.length) {
             listaMensagens.innerHTML = `
                 <div class="mensagens-vazio">
-                    Nenhuma mensagem ainda.
-                    Envie a primeira mensagem.
+                    ${t('mensagens.js.nenhumaMensagem')}
+                    ${t('mensagens.js.enviePrimeiraMensagem')}
                 </div>
             `
             return
@@ -515,7 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault()
 
         if (!conversaAtualId) {
-            alert('Selecione uma conversa.')
+            alert(t('mensagens.js.selecioneConversa'))
             return
         }
 
@@ -550,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(
                     resultado.erro ||
-                    'Erro ao enviar mensagem'
+                    t('mensagens.js.erroEnviarMensagem')
                 )
             }
 
@@ -595,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 throw new Error(
                     resultado.erro ||
-                    'Erro ao marcar mensagens como lidas'
+                    t('mensagens.js.erroMarcarLidas')
                 )
             }
         } catch (erro) {

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token')
     const email = localStorage.getItem('usuarioLogado')
+    const t = chave => window.i18n?.t(chave) ?? chave
 
     const botoesAba = document.querySelectorAll('.tab-btn')
     const tabela = document.getElementById('lista-vendas')
@@ -8,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const estadoVazio = document.querySelector('.empty-sales-state')
 
     if (!token) {
-        alert('Acesso negado. Faça login primeiro.')
+        alert(t('minhasVendas.js.acessoNegado'))
         window.location.href = '/'
         return
     }
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert('Sua sessão expirou. Faça login novamente.')
+        alert(t('minhasVendas.js.sessaoExpirada'))
         window.location.href = '/'
     }
 
@@ -45,10 +46,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function formatarStatus(status) {
         const mapa = {
-            pago: 'Pago',
-            pendente: 'Pendente',
-            cancelado: 'Cancelado',
-            reembolsado: 'Reembolsado'
+            pago: t('minhasVendas.js.status.pago'),
+            pendente: t('minhasVendas.js.status.pendente'),
+            cancelado: t('minhasVendas.js.status.cancelado'),
+            reembolsado: t('minhasVendas.js.status.reembolsado')
         }
 
         return mapa[status] || status
@@ -74,7 +75,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!resposta.ok) {
             throw new Error(
-                dados.erro || 'Não foi possível completar a operação'
+                dados.erro ||
+                t('minhasVendas.js.erroOperacao')
             )
         }
 
@@ -150,21 +152,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function configurarCabecalhoVendas() {
         cabecalhoTabela.innerHTML = `
-            <span>Produto</span>
-            <span>Comprador</span>
-            <span>Data</span>
-            <span>Status</span>
-            <span class="text-right">Valor</span>
+            <span>${t('minhasVendas.js.produto')}</span>
+            <span>${t('minhasVendas.js.comprador')}</span>
+            <span>${t('minhasVendas.js.data')}</span>
+            <span>${t('minhasVendas.js.statusTitulo')}</span>
+            <span class="text-right">${t('minhasVendas.js.valor')}</span>
         `
     }
 
     function configurarCabecalhoComissoes() {
         cabecalhoTabela.innerHTML = `
-            <span>Produto</span>
-            <span>Comprador</span>
-            <span>Data</span>
-            <span>Status</span>
-            <span class="text-right">Comissão</span>
+            <span>${t('minhasVendas.js.produto')}</span>
+            <span>${t('minhasVendas.js.comprador')}</span>
+            <span>${t('minhasVendas.js.data')}</span>
+            <span>${t('minhasVendas.js.statusTitulo')}</span>
+            <span class="text-right">${t('minhasVendas.js.comissao')}</span>
         `
     }
 
@@ -247,12 +249,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (botaoVendas) {
             botaoVendas.textContent =
-                `Minhas Vendas (${vendas.length})`
+                `${t('minhasVendas.js.minhasVendas')} (${vendas.length})`
         }
 
         if (vendas.length === 0) {
             mostrarEstadoVazio(
-                'Nenhuma venda encontrada'
+                t('minhasVendas.js.nenhumaVenda')
             )
 
             return
@@ -286,12 +288,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (botaoComissoes) {
             botaoComissoes.textContent =
-                `Comissões (${comissoes.length})`
+                `${t('minhasVendas.js.comissoes')} (${comissoes.length})`
         }
 
         if (comissoes.length === 0) {
             mostrarEstadoVazio(
-                'Nenhuma comissão encontrada'
+                t('minhasVendas.js.nenhumaComissao')
             )
 
             return
@@ -381,12 +383,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (botaoVendas) {
             botaoVendas.textContent =
-                `Minhas Vendas (${vendas.length})`
+                `${t('minhasVendas.js.minhasVendas')} (${vendas.length})`
         }
 
         if (botaoComissoes) {
             botaoComissoes.textContent =
-                `Comissões (${comissoes.length})`
+                `${t('minhasVendas.js.comissoes')} (${comissoes.length})`
         }
 
         configurarCabecalhoVendas()
@@ -394,7 +396,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (vendas.length === 0) {
             mostrarEstadoVazio(
-                'Nenhuma venda encontrada'
+                t('minhasVendas.js.nenhumaVenda')
             )
         } else {
             esconderEstadoVazio()

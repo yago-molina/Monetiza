@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token')
     const email = localStorage.getItem('usuarioLogado')
+    const t = chave => window.i18n?.t(chave) ?? chave
 
     if (!token) {
-        alert('Acesso negado. Faça login primeiro.')
+        alert(t('dashboard.js.acessoNegado'))
         window.location.href = '/'
         return
     }
@@ -12,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert('Sua sessão expirou. Faça login novamente.')
+        alert(t('dashboard.js.sessaoExpirada'))
         window.location.href = '/'
     }
 
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!resposta.ok) {
             throw new Error(
-                dados.erro || 'Não foi possível carregar o usuário'
+                dados.erro || t('dashboard.js.erroCarregarUsuario')
             )
         }
 
@@ -77,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         titulo.textContent = venda.produto
 
         const comprador = document.createElement('span')
-        comprador.textContent = `Comprador: ${venda.comprador}`
+        comprador.textContent = `${t('dashboard.js.comprador')}: ${venda.comprador}`
 
         const detalhes = document.createElement('span')
 
@@ -86,7 +87,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             `${venda.forma_pagamento} • ${venda.status_venda}`
 
         if (Number(venda.comissao_afiliado || 0) > 0) {
-            textoDetalhes += ` • Venda por afiliado`
+            textoDetalhes += ` • ${t('dashboard.js.vendaAfiliado')}`
         }
 
         detalhes.textContent = textoDetalhes
@@ -118,11 +119,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!vendas || vendas.length === 0) {
             const mensagem = document.createElement('div')
+
             mensagem.id = 'mensagem-sem-vendas'
             mensagem.className = 'no-sales-message'
 
             const texto = document.createElement('p')
-            texto.textContent = 'Nenhuma venda ainda'
+            texto.textContent = t('dashboard.js.nenhumaVenda')
 
             mensagem.appendChild(texto)
             lista.appendChild(mensagem)
@@ -151,7 +153,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (!resposta.ok) {
             throw new Error(
-                dados.erro || 'Não foi possível carregar o Dashboard'
+                dados.erro || t('dashboard.js.erroCarregarDashboard')
             )
         }
 
@@ -243,6 +245,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (usuarioCarregado) {
             await carregarResumo()
         }
+
     } catch (erro) {
         console.error('Erro ao carregar o Dashboard:', erro)
         alert(erro.message)

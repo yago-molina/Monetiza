@@ -27,7 +27,6 @@ const fluxoPromptBuilder =
 const fluxoProduto =
     document.querySelector('#fluxo-produto');
 
-
 const produtoPreview =
     document.querySelector('#produto-preview');
 
@@ -48,6 +47,8 @@ const botaoPublicarProduto =
 
 const token =
     localStorage.getItem('token')
+
+const t = chave => window.i18n?.t(chave) ?? chave
 
 if (!token) {
     window.location.href = '/'
@@ -139,13 +140,13 @@ function formatarProdutoMarkdown(produto) {
 
     const capitulos = detalhes.capitulos
         .map((capitulo) => {
-            return `### ${capitulo.numero}. ${capitulo.titulo}\n\n**Objetivo:** ${capitulo.objetivo}\n\n${capitulo.resumo}`
+            return `### ${capitulo.numero}. ${capitulo.titulo}\n\n**${t('iaProdutos.js.objetivo')}:** ${capitulo.objetivo}\n\n${capitulo.resumo}`
         })
         .join('\n\n')
 
     const criativos = produto.criativos
         .map((criativo, indice) => {
-            return `### Criativo ${indice + 1} — ${criativo.canal}\n\n**Formato:** ${criativo.formato}\n\n**Headline:** ${criativo.headline}\n\n**Copy:** ${criativo.copy}\n\n**CTA:** ${criativo.cta}\n\n**Prompt de imagem:** ${criativo.prompt_imagem}`
+            return `### ${t('iaProdutos.js.criativo')} ${indice + 1} — ${criativo.canal}\n\n**${t('iaProdutos.js.formato')}:** ${criativo.formato}\n\n**Headline:** ${criativo.headline}\n\n**Copy:** ${criativo.copy}\n\n**CTA:** ${criativo.cta}\n\n**${t('iaProdutos.js.promptImagem')}:** ${criativo.prompt_imagem}`
         })
         .join('\n\n')
 
@@ -153,36 +154,36 @@ function formatarProdutoMarkdown(produto) {
 
 ${detalhes.subtitulo}
 
-- **Categoria:** ${cadastro.categoria}
-- **Formato original:** ${detalhes.tipo_original}
-- **Preço sugerido:** ${preco}
-- **Comissão sugerida:** ${cadastro.comissao}%
+- **${t('iaProdutos.js.categoria')}:** ${cadastro.categoria}
+- **${t('iaProdutos.js.formatoOriginal')}:** ${detalhes.tipo_original}
+- **${t('iaProdutos.js.precoSugerido')}:** ${preco}
+- **${t('iaProdutos.js.comissaoSugerida')}:** ${cadastro.comissao}%
 
-## Público-alvo
+## ${t('iaProdutos.js.publicoAlvo')}
 
 ${detalhes.publico_alvo}
 
-## Problema principal
+## ${t('iaProdutos.js.problemaPrincipal')}
 
 ${detalhes.problema_principal}
 
-## Proposta de valor
+## ${t('iaProdutos.js.propostaValor')}
 
 ${detalhes.proposta_valor}
 
-## Benefícios
+## ${t('iaProdutos.js.beneficios')}
 
 ${beneficios}
 
-## Diferenciais
+## ${t('iaProdutos.js.diferenciais')}
 
 ${diferenciais}
 
-## Estrutura do produto
+## ${t('iaProdutos.js.estruturaProduto')}
 
 ${capitulos}
 
-## Ideias de criativos
+## ${t('iaProdutos.js.ideiasCriativos')}
 
 ${criativos}`
 }
@@ -250,7 +251,7 @@ function adicionarMensagemUsuario(texto) {
         <div class="mensagem-corpo">
 
             <span class="autor">
-                Você
+                ${t('iaProdutos.js.voce')}
             </span>
 
             <div class="mensagem-balao">
@@ -310,7 +311,7 @@ function adicionarMensagemIA(texto) {
                 </span>
 
                 <button class="btn-copiar">
-                    📋 Copiar
+                    📋 ${t('iaProdutos.js.copiar')}
                 </button>
 
             </div>
@@ -354,14 +355,14 @@ function adicionarMensagemIA(texto) {
 
 
                 botaoCopiar.innerText =
-                    '✓ Copiado';
+                    `✓ ${t('iaProdutos.js.copiado')}`;
 
 
                 setTimeout(
                     function () {
 
                         botaoCopiar.innerText =
-                            '📋 Copiar';
+                            `📋 ${t('iaProdutos.js.copiar')}`;
 
                     },
                     2000
@@ -377,14 +378,14 @@ function adicionarMensagemIA(texto) {
 
 
                 botaoCopiar.innerText =
-                    'Erro ao copiar';
+                    t('iaProdutos.js.erroCopiar');
 
 
                 setTimeout(
                     function () {
 
                         botaoCopiar.innerText =
-                            '📋 Copiar';
+                            `📋 ${t('iaProdutos.js.copiar')}`;
 
                     },
                     2000
@@ -438,7 +439,7 @@ function adicionarCarregamento() {
             </span>
 
             <div class="mensagem-balao">
-                Pensando...
+                ${t('iaProdutos.js.pensando')}
             </div>
 
         </div>
@@ -543,11 +544,11 @@ function atualizarVisualEtapa() {
 
 
         modoAtualTexto.innerText =
-            'Consultor de produtos digitais';
+            t('iaProdutos.js.modoConsultor');
 
 
         prompt.placeholder =
-            'Ex: Quero criar um produto digital, mas ainda não sei o que vender.';
+            t('iaProdutos.js.placeholderConsultor');
 
     }
 
@@ -575,7 +576,7 @@ function atualizarVisualEtapa() {
 
 
         prompt.placeholder =
-            'Ex: Quero criar um ebook para iniciantes em academia.';
+            t('iaProdutos.js.placeholderPromptBuilder');
 
     }
 
@@ -599,11 +600,11 @@ function atualizarVisualEtapa() {
 
 
         modoAtualTexto.innerText =
-            'Gerador de produtos digitais';
+            t('iaProdutos.js.modoGeradorProduto');
 
 
         prompt.placeholder =
-            'Cole aqui o prompt detalhado do produto...';
+            t('iaProdutos.js.placeholderProduto');
 
     }
 
@@ -624,24 +625,24 @@ function mudarParaConsultor() {
 
 
     status.innerText =
-        'Modo atual: Consultor';
+        t('iaProdutos.js.statusConsultor');
 
 
     adicionarMensagemIA(`
-## 💡 Consultor
+## 💡 ${t('iaProdutos.js.consultorTitulo')}
 
-Conte um pouco sobre o que você gostaria de criar.
+${t('iaProdutos.js.consultorTexto1')}
 
-Você pode informar, por exemplo:
+${t('iaProdutos.js.consultorTexto2')}
 
-- um nicho que você conhece;
-- algo que gosta;
-- um público que gostaria de atingir;
-- um problema que gostaria de ajudar a resolver.
+- ${t('iaProdutos.js.consultorItem1')}
+- ${t('iaProdutos.js.consultorItem2')}
+- ${t('iaProdutos.js.consultorItem3')}
+- ${t('iaProdutos.js.consultorItem4')}
 
-Se ainda não tiver nenhuma ideia, também pode simplesmente dizer:
+${t('iaProdutos.js.consultorTexto3')}
 
-> Não sei o que criar.
+> ${t('iaProdutos.js.consultorExemplo')}
 `);
 
 }
@@ -661,19 +662,19 @@ function mudarParaPromptBuilder() {
 
 
     status.innerText =
-        'Modo atual: Prompt Builder';
+        t('iaProdutos.js.statusPromptBuilder');
 
 
     adicionarMensagemIA(`
 ## ✨ Prompt Builder
 
-Envie uma ideia de produto, mesmo que ainda esteja simples.
+${t('iaProdutos.js.promptBuilderTexto1')}
 
-Eu vou transformá-la em um **prompt detalhado e profissional** para ser usado pelo Gerador de Produtos.
+${t('iaProdutos.js.promptBuilderTexto2')}
 
-Exemplo:
+${t('iaProdutos.js.exemplo')}:
 
-> Quero criar um ebook para pessoas que começaram academia recentemente.
+> ${t('iaProdutos.js.promptBuilderExemplo')}
 `);
 
 }
@@ -693,15 +694,15 @@ function mudarParaGeradorProduto() {
 
 
     status.innerText =
-        'Modo atual: Gerador de Produto';
+        t('iaProdutos.js.statusGeradorProduto');
 
 
     adicionarMensagemIA(`
-## 📦 Gerador de Produto
+## 📦 ${t('iaProdutos.js.geradorTitulo')}
 
-Envie um prompt detalhado contendo as especificações do produto.
+${t('iaProdutos.js.geradorTexto1')}
 
-A Monetiza IA irá transformar esse prompt em uma estrutura completa de produto digital.
+${t('iaProdutos.js.geradorTexto2')}
 `);
 
 }
@@ -714,7 +715,7 @@ A Monetiza IA irá transformar esse prompt em uma estrutura completa de produto 
 async function carregarModelos() {
     try {
         status.innerText =
-            'Verificando conexão com a IA...'
+            t('iaProdutos.js.verificandoConexao')
 
         const requisicao = await fetch(
             '/ia/produtos/status',
@@ -738,7 +739,7 @@ async function carregarModelos() {
         if (!requisicao.ok) {
             throw new Error(
                 dados.erro ||
-                'A IA está indisponível.'
+                t('iaProdutos.js.iaIndisponivel')
             )
         }
 
@@ -754,13 +755,13 @@ async function carregarModelos() {
         modelo.disabled = true
 
         status.innerText =
-            'Groq conectada com sucesso.'
+            t('iaProdutos.js.groqConectada')
     } catch (erro) {
         console.error(erro)
 
         modelo.innerHTML = `
             <option value="">
-                IA indisponível
+                ${t('iaProdutos.js.iaIndisponivelCurto')}
             </option>
         `
 
@@ -809,7 +810,7 @@ async function chamarGroq(
         dados = await requisicao.json()
     } catch {
         throw new Error(
-            'O servidor retornou uma resposta inválida.'
+            t('iaProdutos.js.respostaInvalida')
         )
     }
 
@@ -819,20 +820,20 @@ async function chamarGroq(
         window.location.href = '/'
 
         throw new Error(
-            'Sua sessão expirou.'
+            t('iaProdutos.js.sessaoExpirada')
         )
     }
 
     if (!requisicao.ok) {
         throw new Error(
             dados.erro ||
-            'Erro ao acessar a IA.'
+            t('iaProdutos.js.erroAcessarIA')
         )
     }
 
     if (!dados.resposta) {
         throw new Error(
-            'A IA não retornou conteúdo.'
+            t('iaProdutos.js.semConteudo')
         )
     }
 
@@ -865,7 +866,7 @@ async function usarConsultor(
 ) {
 
     status.innerText =
-        'Consultor analisando sua mensagem...';
+        t('iaProdutos.js.consultorAnalisando');
 
 
     const resultado =
@@ -889,7 +890,7 @@ async function usarPromptBuilder(
 ) {
 
     status.innerText =
-        'Prompt Builder estruturando sua ideia...';
+        t('iaProdutos.js.promptBuilderEstruturando');
 
 
     ideiaEscolhida =
@@ -921,7 +922,7 @@ async function usarGeradorProduto(
 ) {
 
     status.innerText =
-        'Gerando produto digital...';
+        t('iaProdutos.js.gerandoProduto');
 
 
     const resultado =
@@ -950,7 +951,7 @@ async function enviarMensagem() {
 
     if (!modelo.value) {
         alert(
-            'A IA ainda não está disponível.'
+            t('iaProdutos.js.iaAindaIndisponivel')
         )
 
         return
@@ -958,7 +959,7 @@ async function enviarMensagem() {
 
     if (!mensagem) {
         alert(
-            'Digite uma mensagem.'
+            t('iaProdutos.js.digiteMensagem')
         )
 
         prompt.focus()
@@ -995,7 +996,7 @@ async function enviarMensagem() {
                 await usarGeradorProduto(mensagem)
         } else {
             throw new Error(
-                'Etapa da IA inválida.'
+                t('iaProdutos.js.etapaInvalida')
             )
         }
 
@@ -1021,7 +1022,7 @@ async function enviarMensagem() {
                 .toFixed(2)
 
         status.innerText =
-            `Modelo: ${modelo.value} • Tempo: ${tempo}s`
+            `${t('iaProdutos.js.modelo')}: ${modelo.value} • ${t('iaProdutos.js.tempo')}: ${tempo}s`
     } catch (erro) {
         removerCarregamento(carregamento)
 
@@ -1031,13 +1032,13 @@ async function enviarMensagem() {
         )
 
         adicionarMensagemIA(`
-## ❌ Não foi possível gerar a resposta
+## ❌ ${t('iaProdutos.js.naoFoiPossivelGerar')}
 
 ${erro.message}
         `)
 
         status.innerText =
-            'Erro ao conversar com a IA.'
+            t('iaProdutos.js.erroConversarIA')
     } finally {
         botao.disabled = false
         prompt.focus()
@@ -1149,7 +1150,7 @@ async function gerarProdutoCompleto(
 
 
         status.innerText =
-            'Criando prompt profissional...';
+            t('iaProdutos.js.criandoPrompt');
 
 
         const promptFinal =
@@ -1159,7 +1160,7 @@ async function gerarProdutoCompleto(
 
 
         adicionarMensagemIA(`
-## ✨ Prompt criado
+## ✨ ${t('iaProdutos.js.promptCriado')}
 
 ${promptFinal}
 `);
@@ -1174,7 +1175,7 @@ ${promptFinal}
 
 
         status.innerText =
-            'Prompt criado. Gerando produto...';
+            t('iaProdutos.js.promptCriadoGerando');
 
 
         const produto =
@@ -1202,7 +1203,7 @@ ${promptFinal}
 
 
         status.innerText =
-            `Produto criado em ${tempo}s`;
+            `${t('iaProdutos.js.produtoCriadoEm')} ${tempo}s`;
 
 
         return produto;
@@ -1214,14 +1215,14 @@ ${promptFinal}
 
 
         adicionarMensagemIA(`
-## ❌ Erro
+## ❌ ${t('iaProdutos.js.erro')}
 
 ${erro.message}
 `);
 
 
         status.innerText =
-            'Erro ao gerar produto.';
+            t('iaProdutos.js.erroGerarProduto');
 
     }
     finally {
@@ -1242,7 +1243,7 @@ if (botaoEditarProduto) {
         function () {
 
             alert(
-                'A edição do produto será implementada na próxima etapa.'
+                t('iaProdutos.js.edicaoFutura')
             );
 
         }
@@ -1259,7 +1260,7 @@ if (botaoGerarPdf) {
         function () {
 
             alert(
-                'A geração de PDF será implementada depois do produto em JSON.'
+                t('iaProdutos.js.pdfFuturo')
             );
 
         }
@@ -1276,7 +1277,7 @@ if (botaoPublicarProduto) {
         function () {
 
             alert(
-                'A publicação será implementada depois da geração do arquivo e da capa.'
+                t('iaProdutos.js.publicacaoFutura')
             );
 
         }

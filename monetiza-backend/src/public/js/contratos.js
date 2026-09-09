@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('contratos.js carregado')
 
     const token = localStorage.getItem('token')
+    const t = chave => window.i18n?.t(chave) ?? chave
 
     let usuarioLogado = {}
 
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('token')
             localStorage.removeItem('usuarioLogado')
 
-            alert('Sua sessão expirou. Faça login novamente.')
+            alert(t('contratos.js.sessaoExpirada'))
 
             window.location.href = '/'
 
@@ -105,11 +106,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (tituloModal) {
-            tituloModal.textContent = 'Novo Contrato'
+            tituloModal.textContent =
+                t('contratos.js.novoContrato')
         }
 
         if (btnSalvar) {
-            btnSalvar.textContent = 'Salvar'
+            btnSalvar.textContent =
+                t('contratos.js.salvar')
             btnSalvar.disabled = false
         }
 
@@ -160,12 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 throw new Error(
-                    dados.erro || 'Erro ao carregar afiliações'
+                    dados.erro ||
+                    t('contratos.js.erroCarregarAfiliacoes')
                 )
             }
 
             selectAfiliacao.innerHTML =
-                '<option value="">Selecione uma afiliação</option>'
+                `<option value="">${t('contratos.js.selecioneAfiliacao')}</option>`
 
             dados.forEach(afiliacao => {
                 const option = document.createElement('option')
@@ -194,7 +198,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 throw new Error(
-                    dados.erro || 'Erro ao carregar contratos'
+                    dados.erro ||
+                    t('contratos.js.erroCarregarContratos')
                 )
             }
 
@@ -208,8 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 listaContratos.innerHTML = `
                     <div class="empty-card">
                         <div class="empty-content">
-                            <h3>Erro ao carregar contratos</h3>
-                            <p>Tente novamente mais tarde.</p>
+                            <h3>${t('contratos.js.erroCarregarContratos')}</h3>
+                            <p>${t('contratos.js.tenteNovamente')}</p>
                         </div>
                     </div>
                 `
@@ -228,6 +233,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         return `${partes[2]}/${partes[1]}/${partes[0]}`
+    }
+
+    function traduzirStatus(status) {
+        const statusMap = {
+            Pendente: 'pendente',
+            Ativo: 'ativo',
+            Encerrado: 'encerrado',
+            Cancelado: 'cancelado'
+        }
+
+        const chave = statusMap[status]
+
+        if (!chave) {
+            return status
+        }
+
+        return t(`contratos.js.status.${chave}`)
     }
 
     function renderizarContratos(lista) {
@@ -255,13 +277,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const produtorAceitou =
                 contrato.aceito_produtor_em
-                    ? 'Aceito'
-                    : 'Aguardando'
+                    ? t('contratos.js.aceito')
+                    : t('contratos.js.aguardando')
 
             const afiliadoAceitou =
                 contrato.aceito_afiliado_em
-                    ? 'Aceito'
-                    : 'Aguardando'
+                    ? t('contratos.js.aceito')
+                    : t('contratos.js.aguardando')
 
             card.innerHTML = `
                 <div class="contrato-header">
@@ -271,35 +293,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
 
                     <span class="contrato-status">
-                        ${contrato.status_contrato}
+                        ${traduzirStatus(contrato.status_contrato)}
                     </span>
                 </div>
 
                 <div class="contrato-info">
                     <p>
-                        <strong>Produtor:</strong>
+                        <strong>${t('contratos.js.produtor')}:</strong>
                         ${contrato.produtor}
                     </p>
 
                     <p>
-                        <strong>Afiliado:</strong>
+                        <strong>${t('contratos.js.afiliado')}:</strong>
                         ${contrato.afiliado}
                     </p>
 
                     <p>
-                        <strong>Período:</strong>
+                        <strong>${t('contratos.js.periodo')}:</strong>
                         ${formatarData(contrato.data_inicio)}
-                        até
+                        ${t('contratos.js.ate')}
                         ${formatarData(contrato.data_fim)}
                     </p>
 
                     <p>
-                        <strong>Aceite do produtor:</strong>
+                        <strong>${t('contratos.js.aceiteProdutor')}:</strong>
                         ${produtorAceitou}
                     </p>
 
                     <p>
-                        <strong>Aceite do afiliado:</strong>
+                        <strong>${t('contratos.js.aceiteAfiliado')}:</strong>
                         ${afiliadoAceitou}
                     </p>
 
@@ -307,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         contrato.observacoes
                             ? `
                                 <p>
-                                    <strong>Observações:</strong>
+                                    <strong>${t('contratos.js.observacoes')}:</strong>
                                     ${contrato.observacoes}
                                 </p>
                             `
@@ -323,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         class="btn-contrato"
                     >
                         <i class="fa-solid fa-file-pdf"></i>
-                        Ver PDF
+                        ${t('contratos.js.verPdf')}
                     </a>
 
                     ${
@@ -335,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     data-id="${contrato.id}"
                                 >
                                     <i class="fa-solid fa-check"></i>
-                                    Aceitar
+                                    ${t('contratos.js.aceitar')}
                                 </button>
                             `
                             : ''
@@ -350,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     data-id="${contrato.id}"
                                 >
                                     <i class="fa-solid fa-pen"></i>
-                                    Editar
+                                    ${t('contratos.js.editar')}
                                 </button>
 
                                 <button
@@ -359,7 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     data-id="${contrato.id}"
                                 >
                                     <i class="fa-solid fa-xmark"></i>
-                                    Cancelar
+                                    ${t('contratos.js.cancelar')}
                                 </button>
                             `
                             : ''
@@ -407,24 +429,24 @@ document.addEventListener('DOMContentLoaded', () => {
             !inputDataFim ||
             !inputObservacoes
         ) {
-            alert('Erro ao acessar os campos do formulário.')
+            alert(t('contratos.js.erroCamposFormulario'))
             return
         }
 
         const arquivo = inputArquivo.files[0]
 
         if (!contratoEditando && !selectAfiliacao.value) {
-            alert('Selecione uma afiliação.')
+            alert(t('contratos.js.selecioneAfiliacaoAlerta'))
             return
         }
 
         if (!inputTitulo.value.trim()) {
-            alert('Informe o título do contrato.')
+            alert(t('contratos.js.informeTitulo'))
             return
         }
 
         if (!contratoEditando && !arquivo) {
-            alert('Selecione um arquivo PDF.')
+            alert(t('contratos.js.selecionePdf'))
             return
         }
 
@@ -435,18 +457,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 !arquivo.name.toLowerCase().endsWith('.pdf')
             )
         ) {
-            alert('Selecione um arquivo PDF válido.')
+            alert(t('contratos.js.pdfInvalido'))
             return
         }
 
         if (!inputDataInicio.value || !inputDataFim.value) {
-            alert('Informe as datas do contrato.')
+            alert(t('contratos.js.informeDatas'))
             return
         }
 
         if (inputDataFim.value < inputDataInicio.value) {
             alert(
-                'A data final não pode ser anterior à data inicial.'
+                t('contratos.js.dataFinalInvalida')
             )
             return
         }
@@ -492,8 +514,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             btnSalvar.textContent =
                 contratoEditando
-                    ? 'Salvando...'
-                    : 'Criando...'
+                    ? t('contratos.js.salvando')
+                    : t('contratos.js.criando')
         }
 
         try {
@@ -520,7 +542,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(
                     resultado.erro ||
-                    'Erro ao salvar contrato'
+                    t('contratos.js.erroSalvarContrato')
                 )
             }
 
@@ -542,8 +564,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 btnSalvar.textContent =
                     contratoEditando
-                        ? 'Salvar Alterações'
-                        : 'Salvar'
+                        ? t('contratos.js.salvarAlteracoes')
+                        : t('contratos.js.salvar')
             }
         }
     }
@@ -564,7 +586,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(
                     contrato.erro ||
-                    'Erro ao carregar contrato'
+                    t('contratos.js.erroCarregarContrato')
                 )
             }
 
@@ -614,12 +636,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 arquivoAtual.innerHTML =
                     contrato.arquivo_pdf
                         ? `
-                            PDF atual:
+                            ${t('contratos.js.pdfAtual')}:
                             <a
                                 href="${contrato.arquivo_pdf}"
                                 target="_blank"
                             >
-                                Visualizar
+                                ${t('contratos.js.visualizar')}
                             </a>
                         `
                         : ''
@@ -627,12 +649,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (tituloModal) {
                 tituloModal.textContent =
-                    'Editar Contrato'
+                    t('contratos.js.editarContrato')
             }
 
             if (btnSalvar) {
                 btnSalvar.textContent =
-                    'Salvar Alterações'
+                    t('contratos.js.salvarAlteracoes')
             }
 
             if (modal) {
@@ -651,7 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function aceitarContrato(id) {
         if (!confirm(
-            'Deseja aceitar este contrato?'
+            t('contratos.js.confirmarAceite')
         )) {
             return
         }
@@ -673,7 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(
                     resultado.erro ||
-                    'Erro ao aceitar contrato'
+                    t('contratos.js.erroAceitarContrato')
                 )
             }
 
@@ -692,7 +714,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function cancelarContrato(id) {
         if (!confirm(
-            'Tem certeza que deseja cancelar este contrato?'
+            t('contratos.js.confirmarCancelamento')
         )) {
             return
         }
@@ -716,7 +738,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error(
                     resultado.erro ||
-                    'Erro ao cancelar contrato'
+                    t('contratos.js.erroCancelarContrato')
                 )
             }
 
