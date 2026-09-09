@@ -159,52 +159,6 @@ body {
 
 .btn-explorar:hover {
     transform: translateY(-2px);
-}
-
-.resumo {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-    margin-bottom: 40px;
-}
-
-.resumo-item {
-    background: #151518;
-    border: 1px solid #29292d;
-    border-radius: 13px;
-    padding: 18px 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.resumo-icone {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #a78bfa;
-    background: rgba(124, 58, 237, 0.13);
-    font-size: 18px;
-}
-
-.resumo-item div:last-child {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.resumo-item span {
-    color: #8f8f98;
-    font-size: 12px;
-}
-
-.resumo-item strong {
-    font-size: 15px;
-    font-weight: 600;
-}
 
 .titulo-lista {
     margin-bottom: 20px;

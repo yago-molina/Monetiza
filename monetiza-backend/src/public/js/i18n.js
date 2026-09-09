@@ -451,13 +451,6 @@ const traducoes = {
             subtitulo: 'Acompanhe os produtos adquiridos e acesse seus conteúdos digitais.',
             explorarVitrine: 'Explorar Vitrine',
 
-            resumo: {
-                seusProdutos: 'Seus produtos',
-                comprasRealizadas: 'Compras realizadas',
-                acesso: 'Acesso',
-                produtosDisponiveis: 'Produtos pagos disponíveis'
-            },
-
             produtosAdquiridos: 'Produtos adquiridos',
             produtosDescricao: 'Todos os produtos vinculados à sua conta aparecerão abaixo.',
 
@@ -1179,13 +1172,6 @@ const traducoes = {
             subtitulo: 'View your purchased products and access your digital content.',
             explorarVitrine: 'Explore Store',
 
-            resumo: {
-                seusProdutos: 'Your products',
-                comprasRealizadas: 'Completed purchases',
-                acesso: 'Access',
-                produtosDisponiveis: 'Paid products available'
-            },
-
             produtosAdquiridos: 'Purchased products',
             produtosDescricao: 'All products linked to your account will appear below.',
 
@@ -1906,13 +1892,6 @@ const traducoes = {
             titulo: 'Mis Compras',
             subtitulo: 'Consulta los productos adquiridos y accede a tus contenidos digitales.',
             explorarVitrine: 'Explorar Tienda',
-
-            resumo: {
-                seusProdutos: 'Tus productos',
-                comprasRealizadas: 'Compras realizadas',
-                acesso: 'Acceso',
-                produtosDisponiveis: 'Productos pagados disponibles'
-            },
 
             produtosAdquiridos: 'Productos adquiridos',
             produtosDescricao: 'Todos los productos vinculados a tu cuenta aparecerán a continuación.',
