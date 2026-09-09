@@ -66,6 +66,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnSalvarIdioma =
         document.getElementById('btn-salvar-idioma')
 
+    const modalExcluirPix =
+        document.getElementById('modal-excluir-pix')
+
+    const btnCancelarExclusaoPix =
+        document.getElementById('btn-cancelar-exclusao-pix')
+
+    const btnConfirmarExclusaoPix =
+        document.getElementById('btn-confirmar-exclusao-pix')
+
+    let pagamentoParaExcluirId = null
+
     let idiomaSelecionado = 'pt-BR'
 
     let pagamentos = []
@@ -661,12 +672,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             )
 
-            const dados =
-                await verificarResposta(
-                    resposta
-                )
-
-            alert(dados.mensagem)
+            await verificarResposta(
+                resposta
+            )
 
             await carregarConfiguracoes()
         } catch (erro) {
@@ -726,12 +734,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             )
 
-            const dados =
-                await verificarResposta(
-                    resposta
-                )
+            await verificarResposta(
+                resposta
+            )
 
-            alert(dados.mensagem)
         } catch (erro) {
             alert(erro.message)
         }
@@ -751,8 +757,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             )
 
-            const dados =
-                await verificarResposta(resposta)
+            await verificarResposta(resposta)
 
             localStorage.setItem(
                 'idioma',
@@ -764,8 +769,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     idiomaSelecionado
                 )
             }
-
-            alert(dados.mensagem)
         } catch (erro) {
             alert(erro.message)
         }
@@ -830,12 +833,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             )
 
-            const dados =
-                await verificarResposta(
-                    resposta
-                )
-
-            alert(dados.mensagem)
+            await verificarResposta(
+                resposta
+            )
 
             esconderFormularioPagamento()
 
@@ -845,23 +845,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    async function excluirPagamento(id) {
+    function excluirPagamento(id) {
         const pagamento = pagamentos.find(
             item => Number(item.id) === Number(id)
         )
 
         if (!pagamento) return
 
-        const confirmar = confirm(
-            `${t('configuracoes.js.pix.confirmarExclusao')} ${formatarValorPix(
-                pagamento.tipo_chave_pix,
-                pagamento.chave_pix
-            )}?`
-        )
+        pagamentoParaExcluirId = Number(id)
 
-        if (!confirmar) return
+        modalExcluirPix.classList.remove('hidden')
+    }
+
+    async function confirmarExclusaoPagamento() {
+        if (!pagamentoParaExcluirId) return
+
+        const id = pagamentoParaExcluirId
 
         try {
+            btnConfirmarExclusaoPix.disabled = true
+            btnConfirmarExclusaoPix.textContent =
+                t('configuracoes.js.pix.excluindo')
+
             const resposta = await fetch(
                 `/configuracoes-api/pagamentos/${id}`,
                 {
@@ -870,12 +875,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             )
 
-            const dados =
-                await verificarResposta(
-                    resposta
-                )
-
-            alert(dados.mensagem)
+            await verificarResposta(resposta)
 
             if (
                 Number(pagamentoEditandoId) ===
@@ -884,9 +884,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 esconderFormularioPagamento()
             }
 
+            modalExcluirPix.classList.add('hidden')
+            pagamentoParaExcluirId = null
+
             await carregarPagamentos()
         } catch (erro) {
             alert(erro.message)
+        } finally {
+            btnConfirmarExclusaoPix.disabled = false
+            btnConfirmarExclusaoPix.textContent =
+                t('configuracoes.pagamento.excluir')
         }
     }
 
@@ -933,12 +940,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             )
 
-            const dados =
-                await verificarResposta(
-                    resposta
-                )
-
-            alert(dados.mensagem)
+            await verificarResposta(
+                resposta
+            )
 
             formSeguranca.reset()
         } catch (erro) {
@@ -1027,8 +1031,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             atualizarFotoNaTela(
                 dados.foto_perfil
             )
-
-            alert(dados.mensagem)
 
             inputFotoPerfil.value = ''
         } catch (erro) {
@@ -1161,4 +1163,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             alert(erro.message)
         }
     }
+
+    btnCancelarExclusaoPix?.addEventListener(
+        'click',
+        () => {
+            modalExcluirPix.classList.add('hidden')
+            pagamentoParaExcluirId = null
+        }
+    )
+
+    btnConfirmarExclusaoPix?.addEventListener(
+        'click',
+        confirmarExclusaoPagamento
+    )
+
+    modalExcluirPix?.addEventListener(
+        'click',
+        evento => {
+            if (evento.target === modalExcluirPix) {
+                modalExcluirPix.classList.add('hidden')
+                pagamentoParaExcluirId = null
+            }
+        }
+    )
 })

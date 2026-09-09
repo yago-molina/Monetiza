@@ -624,7 +624,10 @@ const traducoes = {
                 chavePixPlaceholder: 'Digite sua chave PIX',
                 ajudaPix: 'Usado para receber pagamentos de vendas e comissões',
                 cancelar: 'Cancelar',
-                salvar: 'Salvar'
+                salvar: 'Salvar',
+                excluirTitulo: 'Excluir chave PIX?',
+                excluirDescricao: 'Tem certeza que deseja excluir esta chave PIX? Essa ação não poderá ser desfeita.',
+                excluir: 'Excluir'
             },
 
             idioma: {
@@ -1263,7 +1266,10 @@ const traducoes = {
                 chavePixPlaceholder: 'Enter your PIX key',
                 ajudaPix: 'Used to receive sales and commission payments',
                 cancelar: 'Cancel',
-                salvar: 'Save'
+                salvar: 'Save',
+                excluirTitulo: 'Delete PIX key?',
+                excluirDescricao: 'Are you sure you want to delete this PIX key? This action cannot be undone.',
+                excluir: 'Delete'
             },
 
             idioma: {
@@ -1902,7 +1908,10 @@ const traducoes = {
                 chavePixPlaceholder: 'Ingresa tu clave PIX',
                 ajudaPix: 'Utilizado para recibir pagos de ventas y comisiones',
                 cancelar: 'Cancelar',
-                salvar: 'Guardar'
+                salvar: 'Guardar',
+                excluirTitulo: '¿Eliminar clave PIX?',
+                excluirDescricao: '¿Estás seguro de que deseas eliminar esta clave PIX? Esta acción no se puede deshacer.',
+                excluir: 'Eliminar',
             },
 
             idioma: {
@@ -1950,7 +1959,8 @@ traducoes['pt-BR'].configuracoes.js = {
         adicionarChave: 'Adicionar chave PIX',
         editarChave: 'Editar chave PIX',
         informeTitular: 'Informe o nome do titular',
-        confirmarExclusao: 'Deseja excluir a chave PIX'
+        confirmarExclusao: 'Deseja excluir a chave PIX',
+        excluindo: 'Excluindo...'
     },
     foto: {
         formatoInvalido: 'Selecione uma imagem JPG, PNG ou WEBP',
@@ -2278,7 +2288,8 @@ traducoes.en.configuracoes.js = {
         adicionarChave: 'Add PIX key',
         editarChave: 'Edit PIX key',
         informeTitular: 'Enter the account holder name',
-        confirmarExclusao: 'Do you want to delete the PIX key'
+        confirmarExclusao: 'Do you want to delete the PIX key',
+        excluindo: 'Deleting...'
     },
     foto: {
         formatoInvalido: 'Select a JPG, PNG or WEBP image',
@@ -2606,7 +2617,8 @@ traducoes.es.configuracoes.js = {
         adicionarChave: 'Agregar clave PIX',
         editarChave: 'Editar clave PIX',
         informeTitular: 'Ingresa el nombre del titular',
-        confirmarExclusao: '¿Deseas eliminar la clave PIX'
+        confirmarExclusao: '¿Deseas eliminar la clave PIX',
+        excluindo: 'Eliminando...'
     },
     foto: {
         formatoInvalido: 'Selecciona una imagen JPG, PNG o WEBP',
