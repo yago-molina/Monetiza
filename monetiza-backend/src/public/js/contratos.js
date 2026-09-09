@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (!token) {
-        window.location.href = '/'
+        window.location.href = '/login'
         return
     }
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             alert(t('contratos.js.sessaoExpirada'))
 
-            window.location.href = '/'
+            window.location.href = '/login'
 
             return false
         }

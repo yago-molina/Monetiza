@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailLogado = localStorage.getItem('usuarioLogado')
 
     if (!token) {
-        window.location.href = '/'
+        window.location.href = '/login'
         return
     }
 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('token')
             localStorage.removeItem('usuarioLogado')
             alert(t('mensagens.js.sessaoExpirada'))
-            window.location.href = '/'
+            window.location.href = '/login'
             return false
         }
 

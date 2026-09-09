@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!token) {
         alert(t('afiliados.js.acessoNegado'))
-        window.location.href = '/'
+        window.location.href = '/login'
         return
     }
 
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('usuarioLogado')
 
         alert(t('afiliados.js.sessaoExpirada'))
-        window.location.href = '/'
+        window.location.href = '/login'
     }
 
     function formatarDinheiro(valor) {

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monetiza</title>
+
+    <!-- Import Map para carregar os módulos do Three.js -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <!-- Fontes e Ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="icon" type="image/png" href="image/icon_monetiza.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <a href="#" class="logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
+            Monetiza
+        </a>
+
+        <ul class="nav-menu">
+            <li>
+                <a href="/vitrine" class="nav-link">
+                    <i class="fa-solid fa-store"></i>
+                    Ver vitrine
+                </a>
+            </li>
+
+            <li>
+                <a href="#recursos" class="nav-link">
+                    Recursos
+                </a>
+            </li>
+
+            <li>
+                <a href="#para-quem-e" class="nav-link">
+                    Para quem é
+                </a>
+            </li>
+
+            <li>
+                <a href="#depoimentos" class="nav-link">
+                    Depoimentos
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-auth">
+            <span class="nav-divider"></span>
+
+            <a href="/cadastro" class="btn-outline">
+                Criar conta
+            </a>
+
+            <a href="/login" class="btn-filled">
+                Entrar
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <main class="hero">
+
+        <!-- LEFT COLUMN -->
+        <div class="hero-left">
+            <h1 class="hero-title">
+                Bem-vindo ao
+                <span class="gradient-text">Monetiza</span>
+            </h1>
+
+            <p class="hero-description">
+                Uma plataforma completa para criadores de produtos digitais,
+                afiliados e empreendedores que buscam organizar suas vendas,
+                finanças e crescer de forma simples e inteligente.
+            </p>
+
+            <div class="cta-group">
+                <a href="/cadastro" class="btn-cta-primary">
+                    Começar agora
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <div class="trust-list">
+                <div class="trust-item">
+                    <i class="fa-solid fa-circle-check"></i>
+                    Gratuito para começar
+                </div>
+
+                <div class="trust-item">
+                    <i class="fa-solid fa-bolt"></i>
+                    Simples e intuitivo
+                </div>
+
+                <div class="trust-item">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Seus dados seguros
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="hero-right">
+
+            <!-- Canvas Interativo 3D -->
+            <canvas id="webgl-canvas"></canvas>
+
+            <!-- CARD MAIS VENDAS -->
+            <div class="glass-card card-mais-vendas">
+                <div class="card-icon">
+                    <i class="fa-solid fa-chart-column"></i>
+                </div>
+
+                <div class="card-info">
+                    <span class="card-label">
+                        Mais Vendas
+                    </span>
+
+                    <span class="card-value">
+                        +128% ↗
+                    </span>
+                </div>
+            </div>
+
+            <!-- CARD AFILIADOS -->
+            <div class="glass-card card-afiliados">
+                <div class="card-icon">
+                    <i class="fa-solid fa-user-group"></i>
+                </div>
+
+                <div class="card-info">
+                    <span class="card-label">
+                        Afiliados
+                    </span>
+
+                    <span class="card-value">
+                        +2.4K
+                    </span>
+
+                    <span class="card-subtext">
+                        parceiros ativos
+                    </span>
+                </div>
+            </div>
+
+            <!-- CARD PRODUTOS -->
+            <div class="glass-card card-produtos">
+                <div class="card-icon">
+                    <i class="fa-solid fa-box-open"></i>
+                </div>
+
+                <div class="card-info">
+                    <span class="card-label">
+                        Produtos Digitais
+                    </span>
+
+                    <span class="card-value">
+                        +320
+                    </span>
+
+                    <span class="card-subtext">
+                        produtos na vitrine
+                    </span>
+                </div>
+            </div>
+
+            <!-- CARD FINANÇAS -->
+            <div class="glass-card card-financas">
+                <div class="card-icon">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+
+                <div class="card-info">
+                    <span class="card-label">
+                        Finanças Organizadas
+                    </span>
+
+                    <span class="card-value">
+                        100%
+                    </span>
+
+                    <span class="card-subtext">
+                        no seu controle
+                    </span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+
+                <span>
+                    Monetiza
+                </span>
+            </div>
+
+            <div class="footer-links">
+                <a href="#">
+                    Termos de Uso
+                </a>
+
+                <a href="#">
+                    Política de Privacidade
+                </a>
+
+                <a href="#">
+                    Suporte
+                </a>
+            </div>
+
+            <p class="footer-copy">
+                © 2026 Monetiza. Todos os direitos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/inicio.js"></script>
+
+</body>
+</html>

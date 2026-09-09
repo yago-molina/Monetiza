@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         alert(t('landing.js.acessoNegado'));
 
-        window.location.href = '/';
+        window.location.href = '/login';
 
         return;
 
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             alert(t('landing.js.sessaoExpirada'));
 
-            window.location.href = '/';
+            window.location.href = '/login';
 
             return;
 
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
                 alert(t('landing.js.loginDashboard'));
 
-                window.location.href = '/';
+                window.location.href = '/login';
 
             }
 

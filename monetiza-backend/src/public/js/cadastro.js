@@ -77,7 +77,7 @@ botaoCadastrar.addEventListener('click', async function (evento) {
         alert(dados.mensagem);
 
         // Depois do cadastro, envia para o login
-        window.location.href = '/';
+        window.location.href = '/login';
 
     } catch (erro) {
 

@@ -39,6 +39,10 @@ app.use('/contratos-api', contratosRoutes)
 app.use('/mensagens-api', mensagensRoutes)
 
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'inicio.html'))
+})
+
+app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'))
 })
 

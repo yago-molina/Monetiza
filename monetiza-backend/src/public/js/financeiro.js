@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!token) {
         alert(t('financeiro.js.acessoNegado'))
-        window.location.href = '/'
+        window.location.href = '/login'
         return
     }
 
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('usuarioLogado')
 
         alert(t('financeiro.js.sessaoExpirada'))
-        window.location.href = '/'
+        window.location.href = '/login'
     }
 
     async function verificarResposta(resposta) {

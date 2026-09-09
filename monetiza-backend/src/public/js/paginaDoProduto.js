@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function abrirModalCheckout() {
         if (!token) {
             alert(t('paginaProduto.js.loginCompra'));
-            window.location.href = '/';
+            window.location.href = '/login';
             return;
         }
 
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (resposta.status === 401) {
                         localStorage.clear();
                         alert(t('paginaProduto.js.sessaoExpiradaCurta'));
-                        window.location.href = '/';
+                        window.location.href = '/login';
                         return;
                     }
 
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function falarComVendedor() {
         if (!token) {
             alert(t('paginaProduto.js.loginVendedor'))
-            window.location.href = '/'
+            window.location.href = '/login'
             return
         }
 
@@ -297,7 +297,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 localStorage.removeItem('usuarioLogado')
 
                 alert(t('paginaProduto.js.sessaoExpirada'))
-                window.location.href = '/'
+                window.location.href = '/login'
                 return
             }
 

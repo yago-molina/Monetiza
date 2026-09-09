@@ -51,7 +51,7 @@ const token =
 const t = chave => window.i18n?.t(chave) ?? chave
 
 if (!token) {
-    window.location.href = '/'
+    window.location.href = '/login'
 }
 
 const historicos = {
@@ -732,7 +732,7 @@ async function carregarModelos() {
 
         if (requisicao.status === 401) {
             localStorage.removeItem('token')
-            window.location.href = '/'
+            window.location.href = '/login'
             return
         }
 
@@ -817,7 +817,7 @@ async function chamarGroq(
     if (requisicao.status === 401) {
         localStorage.removeItem('token')
 
-        window.location.href = '/'
+        window.location.href = '/login'
 
         throw new Error(
             t('iaProdutos.js.sessaoExpirada')

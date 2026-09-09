@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!token) {
         alert(t('minhasVendas.js.acessoNegado'))
-        window.location.href = '/'
+        window.location.href = '/login'
         return
     }
 
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('usuarioLogado')
 
         alert(t('minhasVendas.js.sessaoExpirada'))
-        window.location.href = '/'
+        window.location.href = '/login'
     }
 
     function formatarDinheiro(valor) {

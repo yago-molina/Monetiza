@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!token) {
         alert(t('produto.js.acessoNegado'))
-        window.location.href = '/'
+        window.location.href = '/login'
         return
     }
 
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('usuarioLogado')
 
         alert(t('produto.js.sessaoExpirada'))
-        window.location.href = '/'
+        window.location.href = '/login'
     }
 
     function abrirModal(modal) {
