@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monetiza</title>
+    <title data-i18n="inicio.tituloDocumento">Monetiza</title>
 
-    <!-- Import Map para carregar os módulos do Three.js -->
     <script type="importmap">
     {
         "imports": {
@@ -15,7 +14,6 @@
     }
     </script>
 
-    <!-- Fontes e Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/inicio.css">
     <link rel="icon" type="image/png" href="image/icon_monetiza.png">
@@ -26,9 +24,8 @@
 
 <body>
 
-    <!-- NAVBAR -->
     <header>
-        <a href="#" class="logo">
+        <a href="/" class="logo">
             <div class="logo-icon">
                 <i class="fa-solid fa-chart-line"></i>
             </div>
@@ -39,25 +36,25 @@
             <li>
                 <a href="/vitrine" class="nav-link">
                     <i class="fa-solid fa-store"></i>
-                    Ver vitrine
+                    <span data-i18n="inicio.nav.verVitrine">Ver vitrine</span>
                 </a>
             </li>
 
             <li>
                 <a href="#recursos" class="nav-link">
-                    Recursos
+                    <span data-i18n="inicio.nav.recursos">Recursos</span>
                 </a>
             </li>
 
             <li>
                 <a href="#para-quem-e" class="nav-link">
-                    Para quem é
+                    <span data-i18n="inicio.nav.paraQuemE">Para quem é</span>
                 </a>
             </li>
 
             <li>
                 <a href="#depoimentos" class="nav-link">
-                    Depoimentos
+                    <span data-i18n="inicio.nav.depoimentos">Depoimentos</span>
                 </a>
             </li>
         </ul>
@@ -66,26 +63,23 @@
             <span class="nav-divider"></span>
 
             <a href="/cadastro" class="btn-outline">
-                Criar conta
+                <span data-i18n="inicio.nav.criarConta">Criar conta</span>
             </a>
 
             <a href="/login" class="btn-filled">
-                Entrar
+                <span data-i18n="inicio.nav.entrar">Entrar</span>
             </a>
         </div>
     </header>
 
-    <!-- HERO SECTION -->
     <main class="hero">
-
-        <!-- LEFT COLUMN -->
         <div class="hero-left">
             <h1 class="hero-title">
-                Bem-vindo ao
+                <span data-i18n="inicio.hero.bemVindo">Bem-vindo ao</span>
                 <span class="gradient-text">Monetiza</span>
             </h1>
 
-            <p class="hero-description">
+            <p class="hero-description" data-i18n="inicio.hero.descricao">
                 Uma plataforma completa para criadores de produtos digitais,
                 afiliados e empreendedores que buscam organizar suas vendas,
                 finanças e crescer de forma simples e inteligente.
@@ -93,7 +87,7 @@
 
             <div class="cta-group">
                 <a href="/cadastro" class="btn-cta-primary">
-                    Começar agora
+                    <span data-i18n="inicio.hero.comecarAgora">Começar agora</span>
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
@@ -101,35 +95,31 @@
             <div class="trust-list">
                 <div class="trust-item">
                     <i class="fa-solid fa-circle-check"></i>
-                    Gratuito para começar
+                    <span data-i18n="inicio.hero.gratuito">Gratuito para começar</span>
                 </div>
 
                 <div class="trust-item">
                     <i class="fa-solid fa-bolt"></i>
-                    Simples e intuitivo
+                    <span data-i18n="inicio.hero.simples">Simples e intuitivo</span>
                 </div>
 
                 <div class="trust-item">
                     <i class="fa-solid fa-shield-halved"></i>
-                    Seus dados seguros
+                    <span data-i18n="inicio.hero.seguro">Seus dados seguros</span>
                 </div>
             </div>
         </div>
 
-        <!-- RIGHT COLUMN -->
         <div class="hero-right">
-
-            <!-- Canvas Interativo 3D -->
             <canvas id="webgl-canvas"></canvas>
 
-            <!-- CARD MAIS VENDAS -->
             <div class="glass-card card-mais-vendas">
                 <div class="card-icon">
                     <i class="fa-solid fa-chart-column"></i>
                 </div>
 
                 <div class="card-info">
-                    <span class="card-label">
+                    <span class="card-label" data-i18n="inicio.cards.maisVendas">
                         Mais Vendas
                     </span>
 
@@ -139,14 +129,13 @@
                 </div>
             </div>
 
-            <!-- CARD AFILIADOS -->
             <div class="glass-card card-afiliados">
                 <div class="card-icon">
                     <i class="fa-solid fa-user-group"></i>
                 </div>
 
                 <div class="card-info">
-                    <span class="card-label">
+                    <span class="card-label" data-i18n="inicio.cards.afiliados">
                         Afiliados
                     </span>
 
@@ -154,20 +143,19 @@
                         +2.4K
                     </span>
 
-                    <span class="card-subtext">
+                    <span class="card-subtext" data-i18n="inicio.cards.parceirosAtivos">
                         parceiros ativos
                     </span>
                 </div>
             </div>
 
-            <!-- CARD PRODUTOS -->
             <div class="glass-card card-produtos">
                 <div class="card-icon">
                     <i class="fa-solid fa-box-open"></i>
                 </div>
 
                 <div class="card-info">
-                    <span class="card-label">
+                    <span class="card-label" data-i18n="inicio.cards.produtosDigitais">
                         Produtos Digitais
                     </span>
 
@@ -175,20 +163,19 @@
                         +320
                     </span>
 
-                    <span class="card-subtext">
+                    <span class="card-subtext" data-i18n="inicio.cards.produtosVitrine">
                         produtos na vitrine
                     </span>
                 </div>
             </div>
 
-            <!-- CARD FINANÇAS -->
             <div class="glass-card card-financas">
                 <div class="card-icon">
                     <i class="fa-solid fa-chart-pie"></i>
                 </div>
 
                 <div class="card-info">
-                    <span class="card-label">
+                    <span class="card-label" data-i18n="inicio.cards.financasOrganizadas">
                         Finanças Organizadas
                     </span>
 
@@ -196,7 +183,7 @@
                         100%
                     </span>
 
-                    <span class="card-subtext">
+                    <span class="card-subtext" data-i18n="inicio.cards.seuControle">
                         no seu controle
                     </span>
                 </div>
@@ -204,41 +191,37 @@
         </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-content">
-
             <div class="footer-brand">
                 <div class="footer-logo">
                     <i class="fa-solid fa-chart-line"></i>
                 </div>
 
-                <span>
-                    Monetiza
-                </span>
+                <span>Monetiza</span>
             </div>
 
             <div class="footer-links">
-                <a href="#">
+                <a href="#" data-i18n="inicio.footer.termos">
                     Termos de Uso
                 </a>
 
-                <a href="#">
+                <a href="#" data-i18n="inicio.footer.privacidade">
                     Política de Privacidade
                 </a>
 
-                <a href="#">
+                <a href="#" data-i18n="inicio.footer.suporte">
                     Suporte
                 </a>
             </div>
 
-            <p class="footer-copy">
+            <p class="footer-copy" data-i18n="inicio.footer.direitos">
                 © 2026 Monetiza. Todos os direitos reservados.
             </p>
         </div>
     </footer>
 
+    <script src="js/i18n.js"></script>
     <script type="module" src="js/inicio.js"></script>
-
 </body>
 </html>

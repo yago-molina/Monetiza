@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="minhasCompras.tituloDocumento">Minhas Compras - Monetiza</title>
+
+    <link rel="icon" type="image/png" href="image/logo_monetiza.png">
+    <link rel="stylesheet" href="css/minhasCompras.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="topo">
+        <a href="/landing" class="logo">
+            <img src="image/icon_monetiza.png" alt="Monetiza">
+            <span>Monetiza</span>
+        </a>
+
+        <div class="topo-acoes">
+            <a href="/vitrine" class="btn-vitrine">
+                <i class="fa-solid fa-store"></i>
+                <span data-i18n="minhasCompras.verVitrine">Ver Vitrine</span>
+            </a>
+
+            <div class="top-bar-actions">
+                <button
+                    class="btn-perfil"
+                    type="button"
+                    aria-label="Perfil"
+                    data-i18n-aria-label="minhasCompras.perfil"
+                >
+                    <i class="fa-solid fa-circle-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="conteudo">
+
+        <section class="cabecalho-pagina">
+            <div>
+                <span class="cabecalho-etiqueta">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span data-i18n="minhasCompras.areaComprador">
+                        Área do comprador
+                    </span>
+                </span>
+
+                <h1 data-i18n="minhasCompras.titulo">
+                    Minhas Compras
+                </h1>
+
+                <p data-i18n="minhasCompras.subtitulo">
+                    Acompanhe os produtos adquiridos e acesse seus conteúdos digitais.
+                </p>
+            </div>
+
+            <a href="/vitrine" class="btn-explorar">
+                <i class="fa-solid fa-store"></i>
+                <span data-i18n="minhasCompras.explorarVitrine">
+                    Explorar Vitrine
+                </span>
+            </a>
+        </section>
+
+        <section>
+            <div class="titulo-lista">
+                <div>
+                    <h2 data-i18n="minhasCompras.produtosAdquiridos">
+                        Produtos adquiridos
+                    </h2>
+
+                    <p data-i18n="minhasCompras.produtosDescricao">
+                        Todos os produtos vinculados à sua conta aparecerão abaixo.
+                    </p>
+                </div>
+            </div>
+
+            <div id="lista-compras" class="lista-compras"></div>
+
+            <div id="compras-vazio" class="estado-vazio hidden">
+                <div class="icone-vazio">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+
+                <h2 data-i18n="minhasCompras.vazio.titulo">
+                    Nenhuma compra ainda
+                </h2>
+
+                <p data-i18n="minhasCompras.vazio.descricao">
+                    Quando você comprar um produto na vitrine, ele aparecerá aqui para você acessar.
+                </p>
+
+                <a href="/vitrine" class="btn-ir-vitrine">
+                    <i class="fa-solid fa-store"></i>
+                    <span data-i18n="minhasCompras.vazio.irVitrine">
+                        Ir para a Vitrine
+                    </span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/i18n.js"></script>
+    <script src="js/perfil-global.js"></script>
+    <script src="js/minhasCompras.js"></script>
+
+</body>
+</html>

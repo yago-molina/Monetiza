@@ -15,6 +15,45 @@ const traducoes = {
             verVitrine: 'Ver Vitrine'
         },
 
+        inicio: {
+            tituloDocumento: 'Monetiza',
+
+            nav: {
+                verVitrine: 'Ver vitrine',
+                recursos: 'Recursos',
+                paraQuemE: 'Para quem é',
+                depoimentos: 'Depoimentos',
+                criarConta: 'Criar conta',
+                entrar: 'Entrar'
+            },
+
+            hero: {
+                bemVindo: 'Bem-vindo ao',
+                descricao: 'Uma plataforma completa para criadores de produtos digitais, afiliados e empreendedores que buscam organizar suas vendas, finanças e crescer de forma simples e inteligente.',
+                comecarAgora: 'Começar agora',
+                gratuito: 'Gratuito para começar',
+                simples: 'Simples e intuitivo',
+                seguro: 'Seus dados seguros'
+            },
+
+            cards: {
+                maisVendas: 'Mais Vendas',
+                afiliados: 'Afiliados',
+                parceirosAtivos: 'parceiros ativos',
+                produtosDigitais: 'Produtos Digitais',
+                produtosVitrine: 'produtos na vitrine',
+                financasOrganizadas: 'Finanças Organizadas',
+                seuControle: 'no seu controle'
+            },
+
+            footer: {
+                termos: 'Termos de Uso',
+                privacidade: 'Política de Privacidade',
+                suporte: 'Suporte',
+                direitos: '© 2026 Monetiza. Todos os direitos reservados.'
+            }
+        },
+
         cadastro: {
             tituloDocumento: 'Monetiza - Cadastro',
             titulo: 'Criar uma nova conta',
@@ -403,6 +442,53 @@ const traducoes = {
             vazio: 'Nenhuma venda encontrada'
         },
 
+        minhasCompras: {
+            tituloDocumento: 'Minhas Compras - Monetiza',
+            verVitrine: 'Ver Vitrine',
+            perfil: 'Perfil',
+            areaComprador: 'Área do comprador',
+            titulo: 'Minhas Compras',
+            subtitulo: 'Acompanhe os produtos adquiridos e acesse seus conteúdos digitais.',
+            explorarVitrine: 'Explorar Vitrine',
+
+            resumo: {
+                seusProdutos: 'Seus produtos',
+                comprasRealizadas: 'Compras realizadas',
+                acesso: 'Acesso',
+                produtosDisponiveis: 'Produtos pagos disponíveis'
+            },
+
+            produtosAdquiridos: 'Produtos adquiridos',
+            produtosDescricao: 'Todos os produtos vinculados à sua conta aparecerão abaixo.',
+
+            produtor: 'Produtor',
+            dataCompra: 'Data da compra',
+            pagamento: 'Forma de pagamento',
+            totalPago: 'Total pago',
+            acessarProduto: 'Acessar produto',
+            erroCarregar: 'Erro ao carregar compras',
+
+            vazio: {
+                titulo: 'Nenhuma compra ainda',
+                descricao: 'Quando você comprar um produto na vitrine, ele aparecerá aqui para você acessar.',
+                irVitrine: 'Ir para a Vitrine'
+            },
+
+            status: {
+                pago: 'Pago',
+                pendente: 'Pendente',
+                cancelado: 'Cancelado',
+                reembolsado: 'Reembolsado'
+            },
+
+            formaPagamento: {
+                simulado: 'Simulado',
+                pix: 'PIX',
+                cartao: 'Cartão',
+                boleto: 'Boleto'
+            }
+        },
+
         paginaProduto: {
             tituloDocumento: 'Detalhes do Produto - Monetiza',
             buscaPlaceholder: 'O que você está buscando...',
@@ -655,6 +741,45 @@ const traducoes = {
 
         topo: {
             verVitrine: 'View Store'
+        },
+
+        inicio: {
+            tituloDocumento: 'Monetiza',
+
+            nav: {
+                verVitrine: 'View Store',
+                recursos: 'Features',
+                paraQuemE: 'Who it is for',
+                depoimentos: 'Testimonials',
+                criarConta: 'Create account',
+                entrar: 'Sign in'
+            },
+
+            hero: {
+                bemVindo: 'Welcome to',
+                descricao: 'A complete platform for digital product creators, affiliates and entrepreneurs who want to organize their sales, finances and grow in a simple and intelligent way.',
+                comecarAgora: 'Get started',
+                gratuito: 'Free to get started',
+                simples: 'Simple and intuitive',
+                seguro: 'Your data is secure'
+            },
+
+            cards: {
+                maisVendas: 'More Sales',
+                afiliados: 'Affiliates',
+                parceirosAtivos: 'active partners',
+                produtosDigitais: 'Digital Products',
+                produtosVitrine: 'products in the store',
+                financasOrganizadas: 'Organized Finances',
+                seuControle: 'under your control'
+            },
+
+            footer: {
+                termos: 'Terms of Use',
+                privacidade: 'Privacy Policy',
+                suporte: 'Support',
+                direitos: '© 2026 Monetiza. All rights reserved.'
+            }
         },
 
         cadastro: {
@@ -1045,6 +1170,53 @@ const traducoes = {
             vazio: 'No sales found'
         },
 
+        minhasCompras: {
+            tituloDocumento: 'My Purchases - Monetiza',
+            verVitrine: 'View Store',
+            perfil: 'Profile',
+            areaComprador: 'Buyer Area',
+            titulo: 'My Purchases',
+            subtitulo: 'View your purchased products and access your digital content.',
+            explorarVitrine: 'Explore Store',
+
+            resumo: {
+                seusProdutos: 'Your products',
+                comprasRealizadas: 'Completed purchases',
+                acesso: 'Access',
+                produtosDisponiveis: 'Paid products available'
+            },
+
+            produtosAdquiridos: 'Purchased products',
+            produtosDescricao: 'All products linked to your account will appear below.',
+
+            produtor: 'Producer',
+            dataCompra: 'Purchase date',
+            pagamento: 'Payment method',
+            totalPago: 'Total paid',
+            acessarProduto: 'Access product',
+            erroCarregar: 'Error loading purchases',
+
+            vazio: {
+                titulo: 'No purchases yet',
+                descricao: 'When you purchase a product from the store, it will appear here for you to access.',
+                irVitrine: 'Go to Store'
+            },
+
+            status: {
+                pago: 'Paid',
+                pendente: 'Pending',
+                cancelado: 'Cancelled',
+                reembolsado: 'Refunded'
+            },
+
+            formaPagamento: {
+                simulado: 'Simulated',
+                pix: 'PIX',
+                cartao: 'Card',
+                boleto: 'Bank slip'
+            }
+        },
+
         paginaProduto: {
             tituloDocumento: 'Product Details - Monetiza',
             buscaPlaceholder: 'What are you looking for...',
@@ -1297,6 +1469,45 @@ const traducoes = {
 
         topo: {
             verVitrine: 'Ver Vitrina'
+        },
+
+        inicio: {
+            tituloDocumento: 'Monetiza',
+
+            nav: {
+                verVitrine: 'Ver tienda',
+                recursos: 'Recursos',
+                paraQuemE: 'Para quién es',
+                depoimentos: 'Testimonios',
+                criarConta: 'Crear cuenta',
+                entrar: 'Iniciar sesión'
+            },
+
+            hero: {
+                bemVindo: 'Bienvenido a',
+                descricao: 'Una plataforma completa para creadores de productos digitales, afiliados y emprendedores que buscan organizar sus ventas, finanzas y crecer de forma simple e inteligente.',
+                comecarAgora: 'Comenzar ahora',
+                gratuito: 'Gratis para comenzar',
+                simples: 'Simple e intuitivo',
+                seguro: 'Tus datos están seguros'
+            },
+
+            cards: {
+                maisVendas: 'Más Ventas',
+                afiliados: 'Afiliados',
+                parceirosAtivos: 'socios activos',
+                produtosDigitais: 'Productos Digitales',
+                produtosVitrine: 'productos en la tienda',
+                financasOrganizadas: 'Finanzas Organizadas',
+                seuControle: 'bajo tu control'
+            },
+
+            footer: {
+                termos: 'Términos de Uso',
+                privacidade: 'Política de Privacidad',
+                suporte: 'Soporte',
+                direitos: '© 2026 Monetiza. Todos los derechos reservados.'
+            }
         },
 
         cadastro: {
@@ -1685,6 +1896,53 @@ const traducoes = {
             },
 
             vazio: 'No se encontraron ventas'
+        },
+
+        minhasCompras: {
+            tituloDocumento: 'Mis Compras - Monetiza',
+            verVitrine: 'Ver Tienda',
+            perfil: 'Perfil',
+            areaComprador: 'Área del comprador',
+            titulo: 'Mis Compras',
+            subtitulo: 'Consulta los productos adquiridos y accede a tus contenidos digitales.',
+            explorarVitrine: 'Explorar Tienda',
+
+            resumo: {
+                seusProdutos: 'Tus productos',
+                comprasRealizadas: 'Compras realizadas',
+                acesso: 'Acceso',
+                produtosDisponiveis: 'Productos pagados disponibles'
+            },
+
+            produtosAdquiridos: 'Productos adquiridos',
+            produtosDescricao: 'Todos los productos vinculados a tu cuenta aparecerán a continuación.',
+
+            produtor: 'Productor',
+            dataCompra: 'Fecha de compra',
+            pagamento: 'Forma de pago',
+            totalPago: 'Total pagado',
+            acessarProduto: 'Acceder al producto',
+            erroCarregar: 'Error al cargar las compras',
+
+            vazio: {
+                titulo: 'Aún no hay compras',
+                descricao: 'Cuando compres un producto en la tienda, aparecerá aquí para que puedas acceder.',
+                irVitrine: 'Ir a la Tienda'
+            },
+
+            status: {
+                pago: 'Pagado',
+                pendente: 'Pendiente',
+                cancelado: 'Cancelado',
+                reembolsado: 'Reembolsado'
+            },
+
+            formaPagamento: {
+                simulado: 'Simulado',
+                pix: 'PIX',
+                cartao: 'Tarjeta',
+                boleto: 'Boleto'
+            }
         },
 
         paginaProduto: {
@@ -2251,7 +2509,9 @@ traducoes['pt-BR'].iaBtn = {
 
 traducoes['pt-BR'].perfilGlobal = {
     usuario: 'Usuário',
-    fotoPerfil: 'Foto de perfil'
+    fotoPerfil: 'Foto de perfil',
+    minhasCompras: 'Minhas compras',
+    sair: 'Sair'
 }
 
 
@@ -2580,7 +2840,9 @@ traducoes.en.iaBtn = {
 
 traducoes.en.perfilGlobal = {
     usuario: 'User',
-    fotoPerfil: 'Profile picture'
+    fotoPerfil: 'Profile picture',
+    minhasCompras: 'My purchases',
+    sair: 'Sign out'
 }
 
 
@@ -2909,7 +3171,9 @@ traducoes.es.iaBtn = {
 
 traducoes.es.perfilGlobal = {
     usuario: 'Usuario',
-    fotoPerfil: 'Foto de perfil'
+    fotoPerfil: 'Foto de perfil',
+    minhasCompras: 'Mis compras',
+    sair: 'Cerrar sesión'
 }
 
 

@@ -84,7 +84,7 @@ async function fazerLogin(evento) {
 
         alert(dados.mensagem || t('login.js.sucesso'));
 
-        window.location.href = '/landing';
+        window.location.href = '/dashboard';
 
     } catch (erro) {
 

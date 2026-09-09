@@ -21,16 +21,20 @@ body {
         radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.1) 0%, transparent 40%);
 }
 
+main {
+    flex: 1;
+}
+
 /* ================= HEADER / NAVBAR ================= */
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 60px;
-    max-width: 1400px;
+    padding: 16px 4vw;
     width: 100%;
-    margin: 0 auto;
+    max-width: none;
+    margin: 0;
 }
 
 .logo {
@@ -64,19 +68,19 @@ header {
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 32px;
+    gap: 42px;
     list-style: none;
 }
 
 .nav-link {
     color: #a1a1aa;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     transition: color 0.2s;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
 }
 
 .nav-link:hover {
@@ -93,16 +97,16 @@ header {
 .nav-auth {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
 }
 
 .btn-outline {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.25);
     color: #ffffff;
-    padding: 8px 18px;
+    padding: 11px 24px;
     border-radius: 30px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
@@ -118,9 +122,9 @@ header {
     background: linear-gradient(135deg, #6d28d9, #4f46e5);
     border: none;
     color: #ffffff;
-    padding: 8px 22px;
+    padding: 11px 28px;
     border-radius: 30px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
@@ -136,13 +140,13 @@ header {
 /* ================= HERO SECTION ================= */
 
 .hero {
-    max-width: 1400px;
     width: 100%;
-    margin: 0 auto;
-    padding: 0 60px 20px 60px;
+    max-width: none;
+    margin: 0;
+    padding: 30px 7vw 40px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    grid-template-columns: 0.95fr 1.25fr;
+    gap: 60px;
     align-items: center;
     flex: 1;
     min-height: 560px;
@@ -152,6 +156,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    transform: translateY(-55px);
 }
 
 .badge {
@@ -171,7 +176,7 @@ header {
 }
 
 .hero-title {
-    font-size: 38px;
+    font-size: 42px;
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 16px;
@@ -183,22 +188,22 @@ header {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: block;
-    font-size: 60px;
+    font-size: 120px;
 }
 
 .hero-description {
     color: #94a3b8;
-    font-size: 15px;
-    line-height: 1.5;
-    margin-bottom: 24px;
-    max-width: 480px;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 34px;
+    max-width: 560px;
 }
 
 .cta-group {
     display: flex;
     align-items: center;
     gap: 24px;
-    margin-bottom: 32px;
+    margin-bottom: 34px;
 }
 
 .btn-cta-primary {
@@ -247,7 +252,7 @@ header {
 .hero-right {
     position: relative;
     width: 100%;
-    height: 480px;
+    height: 520px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -277,12 +282,12 @@ header {
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 14px;
-    padding: 10px 16px;
+    border-radius: 16px;
+    padding: 14px 20px;
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     z-index: 3;
     pointer-events: auto;
     cursor: pointer;
@@ -302,13 +307,13 @@ header {
 }
 
 .card-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .card-info {
@@ -317,27 +322,27 @@ header {
 }
 
 .card-label {
-    font-size: 11px;
+    font-size: 13px;
     color: #94a3b8;
     font-weight: 500;
 }
 
 .card-value {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 800;
     color: #ffffff;
 }
 
 .card-subtext {
-    font-size: 10px;
+    font-size: 12px;
     color: #64748b;
 }
 
 /* ================= POSICIONAMENTO DOS CARDS ================= */
 
 .card-mais-vendas {
-    top: 20px;
-    left: 10px;
+    top: 55px;
+    left: 90px;
 }
 
 .card-mais-vendas .card-icon {
@@ -350,8 +355,8 @@ header {
 }
 
 .card-afiliados {
-    bottom: 60px;
-    left: -10px;
+    bottom: 55px;
+    left: 70px;
 }
 
 .card-afiliados .card-icon {
@@ -360,8 +365,8 @@ header {
 }
 
 .card-produtos {
-    top: 30px;
-    right: 10px;
+    top: 60px;
+    right: 80px;
 }
 
 .card-produtos .card-icon {
@@ -370,8 +375,8 @@ header {
 }
 
 .card-financas {
-    bottom: 100px;
-    right: 0;
+    bottom: 70px;
+    right: 60px;
 }
 
 .card-financas .card-icon {
@@ -403,10 +408,10 @@ header {
 }
 
 .footer-content {
-    max-width: 1400px;
     width: 100%;
-    margin: 0 auto;
-    padding: 18px 60px;
+    max-width: none;
+    margin: 0;
+    padding: 18px 7vw;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -418,14 +423,14 @@ header {
     align-items: center;
     gap: 10px;
     color: #ffffff;
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 700;
 }
 
 .footer-logo {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -435,7 +440,7 @@ header {
 
 .footer-logo i {
     color: #00ff66;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .footer-links {
@@ -447,7 +452,7 @@ header {
 .footer-links a {
     color: #94a3b8;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 14px;
     transition: color 0.2s;
 }
 
@@ -457,7 +462,7 @@ header {
 
 .footer-copy {
     color: #64748b;
-    font-size: 11px;
+    font-size: 13px;
     white-space: nowrap;
 }
 

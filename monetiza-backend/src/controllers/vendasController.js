@@ -150,8 +150,59 @@ const listarComissoes = async (req, res) => {
     }
 }
 
+const listarCompras = async (req, res) => {
+    const usuario_id = req.usuario.id
+
+    try {
+        const [compras] = await db.query(
+            `SELECT
+                vi.id,
+                vi.produto_id,
+                vi.titulo_produto AS produto,
+                vi.preco_unitario,
+                vi.quantidade,
+                vendedor.nome AS produtor,
+                p.capa,
+                p.categoria,
+                p.produto_arquivo,
+                v.codigo_venda,
+                v.data_venda,
+                v.pago_em,
+                v.status_venda,
+                v.forma_pagamento,
+                (vi.preco_unitario * vi.quantidade) AS valor
+            FROM venda_itens vi
+            INNER JOIN vendas v
+                ON v.id = vi.venda_id
+            INNER JOIN usuarios vendedor
+                ON vendedor.id = vi.vendedor_id
+            INNER JOIN produtos p
+                ON p.id = vi.produto_id
+            WHERE v.comprador_id = ?
+            ORDER BY v.data_venda DESC`,
+            [usuario_id]
+        )
+
+        const comprasFormatadas = compras.map(compra => ({
+            ...compra,
+            preco_unitario: Number(compra.preco_unitario || 0),
+            quantidade: Number(compra.quantidade || 1),
+            valor: Number(compra.valor || 0)
+        }))
+
+        return res.json(comprasFormatadas)
+    } catch (erro) {
+        console.error('Erro ao listar compras:', erro)
+
+        return res.status(500).json({
+            erro: 'Erro interno ao listar compras'
+        })
+    }
+}
+
 module.exports = {
     resumo,
     listarVendas,
-    listarComissoes
+    listarComissoes,
+    listarCompras
 }

@@ -95,13 +95,11 @@ app.get('/vitrine/produto/:id', (req, res) => {
 })
 
 app.get('/ia-produtos', (req, res) => {
-    res.sendFile(
-        path.join(
-            __dirname,
-            'public',
-            'ia-produtos.html'
-        )
-    )
+    res.sendFile(path.join(__dirname, 'public', 'ia-produtos.html'))
+})
+
+app.get('/minhasCompras', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'minhasCompras.html'))
 })
 
 module.exports = app
