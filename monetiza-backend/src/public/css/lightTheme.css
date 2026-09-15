@@ -1,0 +1,482 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background-color: #f8fafc;
+    color: #0f172a;
+    height: 100vh;
+    overflow: hidden; /* Mantém a tela sem scroll */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-image: 
+        radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.06) 0%, transparent 45%);
+}
+
+/* ==========================================================================
+   HEADER / NAVBAR
+   ========================================================================== */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 60px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #0f172a;
+    font-weight: 800;
+    font-size: 24px;
+    letter-spacing: -0.5px;
+}
+
+.logo-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #7c3aed, #2563eb);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+}
+
+.logo-icon i {
+    color: #ffffff;
+    font-size: 18px;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+}
+
+.nav-link {
+    color: #475569;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link:hover {
+    color: #0f172a;
+}
+
+.nav-divider {
+    width: 1px;
+    height: 20px;
+    background-color: rgba(15, 23, 42, 0.12);
+    margin: 0 8px;
+}
+
+.nav-auth {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(15, 23, 42, 0.2);
+    color: #0f172a;
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-outline:hover {
+    border-color: #0f172a;
+    background: rgba(15, 23, 42, 0.04);
+}
+
+.btn-filled {
+    background: linear-gradient(135deg, #6d28d9, #4f46e5);
+    border: none;
+    color: #ffffff;
+    padding: 8px 22px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(109, 40, 217, 0.25);
+    transition: all 0.2s;
+}
+
+.btn-filled:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(109, 40, 217, 0.4);
+}
+
+/* ==========================================================================
+   HERO SECTION (CONTEÚDO DA ESQUERDA)
+   ========================================================================== */
+.hero {
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 60px 20px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: center;
+    flex: 1;
+}
+
+.hero-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    color: #6d28d9;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.hero-title {
+    color: #0f172a;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    letter-spacing: -1px;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #6d28d9 0%, #0284c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: block;
+}
+
+.hero-description {
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 24px;
+    max-width: 480px;
+}
+
+.cta-group {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.btn-cta-primary {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: #ffffff;
+    padding: 14px 28px;
+    border-radius: 40px;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 10px 20px rgba(124, 58, 237, 0.25);
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn-cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(124, 58, 237, 0.35);
+}
+
+.trust-list {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.trust-item i {
+    color: #16a34a;
+}
+
+/* ==========================================================================
+   HERO RIGHT (CONTAINER 3D & ESTRUTURA DO PALCO)
+   ========================================================================== */
+.hero-right {
+    position: relative;
+    width: 100%;
+    height: 480px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* PEDESTAL STAGE (MODO CLARO) */
+.stage-container {
+    position: absolute;
+    bottom: 20px;
+    width: 360px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pedestal-glow {
+    position: absolute;
+    width: 340px;
+    height: 45px;
+    background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.35) 0%, rgba(124, 58, 237, 0.2) 50%, transparent 80%);
+    border-radius: 50%;
+    filter: blur(15px);
+}
+
+.pedestal-base {
+    position: absolute;
+    bottom: 10px;
+    width: 320px;
+    height: 40px;
+    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.8), 0 10px 20px rgba(15, 23, 42, 0.08);
+}
+
+/* Canvas Three.js */
+#webgl-canvas {
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+#webgl-canvas:active {
+    cursor: grabbing;
+}
+
+/* ==========================================================================
+   CARDS FLUTUANTES (GLASSMORPHISM MODO CLARO)
+   ========================================================================== */
+.glass-card {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08), 
+                0 2px 6px rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 3;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(124, 58, 237, 0.4);
+    box-shadow: 0 18px 35px rgba(124, 58, 237, 0.15), 
+                0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-label {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+.card-value {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.card-subtext {
+    font-size: 10px;
+    color: #94a3b8;
+}
+
+/* POSICIONAMENTO DOS CARDS */
+.card-mais-vendas { top: 20px; left: 10px; }
+.card-mais-vendas .card-icon { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
+.card-mais-vendas .card-value { color: #16a34a; }
+
+.card-afiliados { bottom: 60px; left: -10px; }
+.card-afiliados .card-icon { background: rgba(124, 58, 237, 0.12); color: #7c3aed; }
+
+.card-produtos { top: 30px; right: 10px; }
+.card-produtos .card-icon { background: rgba(14, 165, 233, 0.12); color: #0284c7; }
+
+.card-financas { bottom: 110px; right: 0px; }
+.card-financas .card-icon { background: rgba(168, 85, 247, 0.12); color: #a855f7; }
+
+.cursive-annotation {
+    position: absolute;
+    bottom: 0px;
+    right: -10px;
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: rgba(15, 23, 42, 0.45);
+    line-height: 1.1;
+    transform: rotate(-8deg);
+    pointer-events: none;
+    user-select: none;
+}
+
+
+/* =========================================================
+   TEMA ESCURO
+   ========================================================= */
+
+html[data-theme="dark"] body {
+    background-color: #0f1117;
+    color: #f8fafc;
+
+    background-image:
+        radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.08) 0%, transparent 45%);
+}
+
+html[data-theme="dark"] .logo {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .nav-link {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .nav-link:hover {
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .nav-divider {
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+html[data-theme="dark"] .btn-outline {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .btn-outline:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="dark"] .hero-title {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .hero-description {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .trust-list {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .glass-card {
+    background: rgba(15, 23, 42, 0.75);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.25),
+        0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme="dark"] .glass-card:hover {
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(124, 58, 237, 0.5);
+
+    box-shadow:
+        0 18px 35px rgba(124, 58, 237, 0.18),
+        0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] .card-label {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .card-value {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .card-subtext {
+    color: #64748b;
+}
+
+html[data-theme="dark"] .cursive-annotation {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+html[data-theme="dark"] .pedestal-base {
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    border-color: #334155;
+
+    box-shadow:
+        inset 0 0 10px rgba(255, 255, 255, 0.05),
+        0 10px 20px rgba(0, 0, 0, 0.3);
+}

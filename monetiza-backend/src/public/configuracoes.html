@@ -7,6 +7,7 @@
     <link rel="icon" type="image/png" href="image/logo_monetiza.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/configuracoes.css">
+    <script src="js/theme.js"></script>
 </head>
 <body>
 
@@ -129,6 +130,11 @@
                 <button class="tab-btn" data-tab="pagamento">
                     <i class="fa-solid fa-wallet"></i>
                     <span data-i18n="configuracoes.abas.pagamento">Pagamento</span>
+                </button>
+
+                <button class="tab-btn" data-tab="tema">
+                    <i class="fa-solid fa-palette"></i>
+                    <span>Tema</span>
                 </button>
 
                 <button class="tab-btn" data-tab="idioma">
@@ -491,6 +497,37 @@
                             </button>
                         </div>
                     </form>
+                </div>
+
+                <!-- Conteúdo da aba (adicione dentro de .settings-card) -->
+                <div id="tab-tema" class="tab-content">
+                    <div class="settings-section-header">
+                        <h3>Aparência</h3>
+                        <p>Escolha o tema de sua preferência para a interface.</p>
+                    </div>
+
+                    <div class="temas-lista">
+                        <button
+                            type="button"
+                            class="tema-opcao"
+                            data-tema-select="light"
+                        >
+                            <i class="fa-solid fa-sun"></i>
+
+                            <span>Claro</span>
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="tema-opcao"
+                            data-tema-select="dark"
+                        >
+                            <i class="fa-solid fa-moon"></i>
+
+                            <span>Escuro</span>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Idioma -->

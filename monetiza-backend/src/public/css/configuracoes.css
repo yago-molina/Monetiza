@@ -931,3 +931,69 @@ input:checked + .slider:before {
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+/* ==========================================================================
+   Aba: Aparência (Seleção Direta sem Botão)
+   ========================================================================== */
+.temas-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.tema-opcao {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: #1e1e24;
+    border: 2px solid #323238;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    color: #e1e1e6;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.tema-opcao:hover {
+    border-color: #4d4d57;
+    background-color: #29292e;
+}
+
+.tema-opcao.ativo,
+.tema-opcao[data-ativo="true"] {
+    border-color: #8257e5;
+}
+
+.tema-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tema-icone {
+    font-size: 1.5rem;
+}
+
+.tema-info strong {
+    display: block;
+    font-size: 0.95rem;
+    color: #ffffff;
+}
+
+.tema-info span {
+    font-size: 0.8rem;
+    color: #8d8d99;
+}
+
+.tema-check {
+    opacity: 0;
+    color: #8257e5;
+    transition: opacity 0.2s;
+}
+
+.tema-opcao.ativo .tema-check,
+.tema-opcao[data-ativo="true"] .tema-check {
+    opacity: 1;
+}
