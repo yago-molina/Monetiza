@@ -640,3 +640,19 @@ body {
     align-items: center;
     gap: 16px;
 }
+
+.main-content {
+    flex: 1;
+    margin-left: 20px;
+    padding: 32px 40px;
+}
+
+.top-bar {
+    margin-top: 0;
+    margin-bottom: 32px;
+}
+
+.header-action-row {
+    margin-top: 0;
+    margin-bottom: 24px;
+}
