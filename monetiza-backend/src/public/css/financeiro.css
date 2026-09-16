@@ -638,7 +638,7 @@ body {
 .top-bar-right {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 40px;
 }
 
 .main-content {
