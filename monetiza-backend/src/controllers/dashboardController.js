@@ -1,5 +1,9 @@
 const db = require('../config/db')
 
+const {
+    calcularResumoFinanceiro
+} = require('../services/financeiroService')
+
 const resumo = async (req, res) => {
     const usuario_id = req.usuario.id
 
@@ -103,11 +107,13 @@ const resumo = async (req, res) => {
         const totalVendas =
             totalVendasVendedor + totalVendasAfiliado
 
-        const totalEntradas =
-            vendasTotais + comissoesRecebidas
+        const financeiro = await calcularResumoFinanceiro(
+            usuario_id
+        )
 
-        const totalSaidas = 0
-        const saldoDisponivel = totalEntradas
+        const totalEntradas = financeiro.total_entradas
+        const totalSaidas = financeiro.total_saidas
+        const saldoDisponivel = financeiro.saldo_disponivel
 
         const vendasFormatadas = vendasRecentes.map(venda => ({
             ...venda,
