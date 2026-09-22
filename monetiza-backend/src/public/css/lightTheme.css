@@ -1,482 +1,3660 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+/* =========================================================
+   DESATIVA TRANSIÇÕES DURANTE CARREGAMENTO/NAVEGAÇÃO
+   ========================================================= */
+
+html,
+html *,
+html *::before,
+html *::after {
+    transition: none !important;
+    animation: none !important;
 }
+/* =========================================================
+   MONETIZA — LIGHT THEME GLOBAL
+   Este arquivo sobrescreve o tema DARK original.
+   ========================================================= */
+
+
+/* =========================================================
+   FUNDO GERAL
+   ========================================================= */
 
 body {
+    background-image:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(124, 58, 237, 0.08) 0%,
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(37, 99, 235, 0.06) 0%,
+            transparent 45%
+        );
+
     background-color: #f8fafc;
     color: #0f172a;
-    height: 100vh;
-    overflow: hidden; /* Mantém a tela sem scroll */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-image: 
-        radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 45%),
-        radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.06) 0%, transparent 45%);
-}
-
-/* ==========================================================================
-   HEADER / NAVBAR
-   ========================================================================== */
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 60px;
-    max-width: 1400px;
-    width: 100%;
-    margin: 0 auto;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: #0f172a;
-    font-weight: 800;
-    font-size: 24px;
-    letter-spacing: -0.5px;
-}
-
-.logo-icon {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(135deg, #7c3aed, #2563eb);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
-}
-
-.logo-icon i {
-    color: #ffffff;
-    font-size: 18px;
-}
-
-.nav-menu {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    list-style: none;
-}
-
-.nav-link {
-    color: #475569;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 600;
-    transition: color 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.nav-link:hover {
-    color: #0f172a;
-}
-
-.nav-divider {
-    width: 1px;
-    height: 20px;
-    background-color: rgba(15, 23, 42, 0.12);
-    margin: 0 8px;
-}
-
-.nav-auth {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.btn-outline {
-    background: transparent;
-    border: 1px solid rgba(15, 23, 42, 0.2);
-    color: #0f172a;
-    padding: 8px 18px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: all 0.2s;
-}
-
-.btn-outline:hover {
-    border-color: #0f172a;
-    background: rgba(15, 23, 42, 0.04);
-}
-
-.btn-filled {
-    background: linear-gradient(135deg, #6d28d9, #4f46e5);
-    border: none;
-    color: #ffffff;
-    padding: 8px 22px;
-    border-radius: 30px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    box-shadow: 0 4px 12px rgba(109, 40, 217, 0.25);
-    transition: all 0.2s;
-}
-
-.btn-filled:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(109, 40, 217, 0.4);
-}
-
-/* ==========================================================================
-   HERO SECTION (CONTEÚDO DA ESQUERDA)
-   ========================================================================== */
-.hero {
-    max-width: 1400px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 60px 20px 60px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    align-items: center;
-    flex: 1;
-}
-
-.hero-left {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    background: rgba(124, 58, 237, 0.08);
-    border: 1px solid rgba(124, 58, 237, 0.2);
-    color: #6d28d9;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-}
-
-.hero-title {
-    color: #0f172a;
-    font-size: 48px;
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 16px;
-    letter-spacing: -1px;
-}
-
-.gradient-text {
-    background: linear-gradient(135deg, #6d28d9 0%, #0284c7 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: block;
-}
-
-.hero-description {
-    color: #475569;
-    font-size: 15px;
-    line-height: 1.5;
-    margin-bottom: 24px;
-    max-width: 480px;
-}
-
-.cta-group {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    margin-bottom: 32px;
-}
-
-.btn-cta-primary {
-    background: linear-gradient(135deg, #7c3aed, #4f46e5);
-    color: #ffffff;
-    padding: 14px 28px;
-    border-radius: 40px;
-    font-size: 15px;
-    font-weight: 700;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 10px 20px rgba(124, 58, 237, 0.25);
-    transition: all 0.2s;
-    text-decoration: none;
-}
-
-.btn-cta-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 28px rgba(124, 58, 237, 0.35);
-}
-
-.trust-list {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-size: 13px;
-    color: #64748b;
-    font-weight: 600;
-}
-
-.trust-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.trust-item i {
-    color: #16a34a;
-}
-
-/* ==========================================================================
-   HERO RIGHT (CONTAINER 3D & ESTRUTURA DO PALCO)
-   ========================================================================== */
-.hero-right {
-    position: relative;
-    width: 100%;
-    height: 480px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* PEDESTAL STAGE (MODO CLARO) */
-.stage-container {
-    position: absolute;
-    bottom: 20px;
-    width: 360px;
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.pedestal-glow {
-    position: absolute;
-    width: 340px;
-    height: 45px;
-    background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.35) 0%, rgba(124, 58, 237, 0.2) 50%, transparent 80%);
-    border-radius: 50%;
-    filter: blur(15px);
-}
-
-.pedestal-base {
-    position: absolute;
-    bottom: 10px;
-    width: 320px;
-    height: 40px;
-    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
-    border-radius: 50%;
-    border: 2px solid #cbd5e1;
-    box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.8), 0 10px 20px rgba(15, 23, 42, 0.08);
-}
-
-/* Canvas Three.js */
-#webgl-canvas {
-    width: 100%;
-    height: 100%;
-    cursor: grab;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-}
-
-#webgl-canvas:active {
-    cursor: grabbing;
-}
-
-/* ==========================================================================
-   CARDS FLUTUANTES (GLASSMORPHISM MODO CLARO)
-   ========================================================================== */
-.glass-card {
-    position: absolute;
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.9);
-    border-radius: 14px;
-    padding: 10px 16px;
-    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08), 
-                0 2px 6px rgba(0, 0, 0, 0.04);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    z-index: 3;
-    pointer-events: auto;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-}
-
-.glass-card:hover {
-    transform: translateY(-6px) scale(1.03);
-    background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(124, 58, 237, 0.4);
-    box-shadow: 0 18px 35px rgba(124, 58, 237, 0.15), 
-                0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.card-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-}
-
-.card-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.card-label {
-    font-size: 11px;
-    color: #64748b;
-    font-weight: 600;
-}
-
-.card-value {
-    font-size: 14px;
-    font-weight: 800;
-    color: #0f172a;
-}
-
-.card-subtext {
-    font-size: 10px;
-    color: #94a3b8;
-}
-
-/* POSICIONAMENTO DOS CARDS */
-.card-mais-vendas { top: 20px; left: 10px; }
-.card-mais-vendas .card-icon { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
-.card-mais-vendas .card-value { color: #16a34a; }
-
-.card-afiliados { bottom: 60px; left: -10px; }
-.card-afiliados .card-icon { background: rgba(124, 58, 237, 0.12); color: #7c3aed; }
-
-.card-produtos { top: 30px; right: 10px; }
-.card-produtos .card-icon { background: rgba(14, 165, 233, 0.12); color: #0284c7; }
-
-.card-financas { bottom: 110px; right: 0px; }
-.card-financas .card-icon { background: rgba(168, 85, 247, 0.12); color: #a855f7; }
-
-.cursive-annotation {
-    position: absolute;
-    bottom: 0px;
-    right: -10px;
-    font-family: 'Caveat', cursive;
-    font-size: 22px;
-    color: rgba(15, 23, 42, 0.45);
-    line-height: 1.1;
-    transform: rotate(-8deg);
-    pointer-events: none;
-    user-select: none;
 }
 
 
 /* =========================================================
-   TEMA ESCURO
+   SIDEBAR
    ========================================================= */
 
-html[data-theme="dark"] body {
-    background-color: #0f1117;
-    color: #f8fafc;
-
-    background-image:
-        radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.12) 0%, transparent 45%),
-        radial-gradient(circle at 20% 80%, rgba(37, 99, 235, 0.08) 0%, transparent 45%);
+.sidebar {
+    background-color: #ffffff;
+    border-right-color: #e2e8f0;
 }
 
-html[data-theme="dark"] .logo {
-    color: #f8fafc;
+.brand-name {
+    color: #0f172a;
 }
 
-html[data-theme="dark"] .nav-link {
-    color: #94a3b8;
+.logo-area {
+    color: #0f172a;
 }
 
-html[data-theme="dark"] .nav-link:hover {
-    color: #ffffff;
-}
 
-html[data-theme="dark"] .nav-divider {
-    background-color: rgba(255, 255, 255, 0.12);
-}
+/* =========================================================
+   MENU LATERAL
+   ========================================================= */
 
-html[data-theme="dark"] .btn-outline {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: #f8fafc;
-}
-
-html[data-theme="dark"] .btn-outline:hover {
-    border-color: #ffffff;
-    background: rgba(255, 255, 255, 0.06);
-}
-
-html[data-theme="dark"] .hero-title {
-    color: #f8fafc;
-}
-
-html[data-theme="dark"] .hero-description {
-    color: #94a3b8;
-}
-
-html[data-theme="dark"] .trust-list {
-    color: #94a3b8;
-}
-
-html[data-theme="dark"] .glass-card {
-    background: rgba(15, 23, 42, 0.75);
-    border-color: rgba(255, 255, 255, 0.1);
-
-    box-shadow:
-        0 10px 25px rgba(0, 0, 0, 0.25),
-        0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-html[data-theme="dark"] .glass-card:hover {
-    background: rgba(30, 41, 59, 0.9);
-    border-color: rgba(124, 58, 237, 0.5);
-
-    box-shadow:
-        0 18px 35px rgba(124, 58, 237, 0.18),
-        0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-html[data-theme="dark"] .card-label {
-    color: #94a3b8;
-}
-
-html[data-theme="dark"] .card-value {
-    color: #f8fafc;
-}
-
-html[data-theme="dark"] .card-subtext {
+.menu-nav ul li a {
     color: #64748b;
 }
 
-html[data-theme="dark"] .cursive-annotation {
-    color: rgba(255, 255, 255, 0.45);
+.menu-nav ul li a:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
 }
 
-html[data-theme="dark"] .pedestal-base {
-    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-    border-color: #334155;
+.menu-nav ul li a:hover i {
+    color: #0f172a;
+}
+
+.menu-nav ul li.active a {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+.menu-nav ul li.active a i {
+    color: #4d4dff;
+}
+
+
+/* =========================================================
+   PERFIL DA SIDEBAR
+   ========================================================= */
+
+.user-profile {
+    border-top-color: #e2e8f0;
+}
+
+.avatar-fallback {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+.avatar-fallback-mini {
+    background-color: #4d4dff;
+    color: #ffffff;
+}
+
+.user-name {
+    color: #0f172a;
+}
+
+.user-email {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================= */
+
+.main-content {
+    color: #0f172a;
+}
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.top-bar {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+}
+
+.page-title {
+    color: #0f172a;
+}
+
+.vitrine-link {
+    color: #4d4dff;
+}
+
+.vitrine-link:hover {
+    color: #3737d9;
+}
+
+.notification-dot-container {
+    color: #64748b;
+}
+
+#btn-notificacoes {
+    color: #64748b;
+}
+
+#btn-notificacoes:hover {
+    color: #0f172a;
+}
+
+
+/* =========================================================
+   TEXTOS
+   ========================================================= */
+
+.text-muted {
+    color: #64748b;
+}
+
+.welcome-section h2 {
+    color: #0f172a;
+}
+
+.welcome-section p {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   CARDS DE MÉTRICAS
+   ========================================================= */
+
+.metric-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
 
     box-shadow:
-        inset 0 0 10px rgba(255, 255, 255, 0.05),
-        0 10px 20px rgba(0, 0, 0, 0.3);
+        0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.metric-title {
+    color: #64748b;
+}
+
+.metric-value {
+    color: #0f172a;
+}
+
+.change-period {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   ÍCONES DAS MÉTRICAS
+   ========================================================= */
+
+.metric-icon.dollar {
+    background-color: rgba(0, 193, 154, 0.10);
+}
+
+.metric-icon.commission {
+    background-color: rgba(77, 77, 255, 0.10);
+}
+
+.metric-icon.products {
+    background-color: rgba(193, 63, 0, 0.10);
+}
+
+.metric-icon.sales {
+    background-color: rgba(219, 39, 119, 0.10);
+}
+
+
+/* =========================================================
+   VENDAS RECENTES
+   ========================================================= */
+
+.recent-sales-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.quick-actions-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.quick-actions-card h3,
+.recent-sales-card h3 {
+    color: #0f172a;
+}
+
+.no-sales-message {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   BALANCE CARD
+   ========================================================= */
+
+.balance-card {
+    background:
+        linear-gradient(
+            135deg,
+            #c78ed8 0%,
+            #0000c1 100%
+        );
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   BALANCE DETAILS
+   ========================================================= */
+
+.balance-details {
+    background-color: rgba(255, 255, 255, 0.20);
+}
+
+
+/* =========================================================
+   AÇÕES RÁPIDAS
+   ========================================================= */
+
+.action-item {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+.action-item:hover {
+    background-color: #ffffff;
+    border-color: #4d4dff;
+    box-shadow: 0 5px 15px rgba(77, 77, 255, 0.08);
+}
+
+.action-label {
+    color: #0f172a;
+}
+
+.action-desc {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   VENDAS RECENTES — LISTA
+   ========================================================= */
+
+.venda-recente {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+.venda-recente-informacoes strong {
+    color: #0f172a;
+}
+
+.venda-recente-informacoes span {
+    color: #64748b;
+}
+
+.venda-recente-valor {
+    color: #059669;
+}
+
+
+/* =========================================================
+   NOTIFICAÇÕES
+   ========================================================= */
+
+.menu-notificacoes {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+
+    box-shadow:
+        0 15px 40px rgba(15, 23, 42, 0.15);
+}
+
+.notificacoes-cabecalho {
+    border-bottom-color: #e2e8f0;
+}
+
+.notificacoes-cabecalho strong {
+    color: #0f172a;
+}
+
+.notificacoes-cabecalho button {
+    color: #4d4dff;
+}
+
+.notificacoes-cabecalho button:hover {
+    color: #3737d9;
+}
+
+.notificacoes-vazio {
+    color: #64748b;
+}
+
+.notificacoes-vazio i {
+    color: #94a3b8;
+}
+
+.notificacao-item {
+    border-bottom-color: #e2e8f0;
+}
+
+.notificacao-item:hover {
+    background-color: #f8fafc;
+}
+
+.notificacao-item.nao-lida {
+    background-color: rgba(77, 77, 255, 0.06);
+}
+
+.notificacao-icone {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+.notificacao-titulo {
+    color: #0f172a;
+}
+
+.notificacao-mensagem {
+    color: #64748b;
+}
+
+.notificacao-data {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+.lista-notificacoes::-webkit-scrollbar {
+    width: 8px;
+}
+
+.lista-notificacoes::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.lista-notificacoes::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.lista-notificacoes::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+/* =========================================================
+   TRANSIÇÃO
+   ========================================================= */
+
+body,
+.sidebar,
+.top-bar,
+.metric-card,
+.recent-sales-card,
+.quick-actions-card,
+.action-item,
+.venda-recente,
+.menu-notificacoes {
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   MONETIZA — LIGHT THEME
+   PÁGINA: BANNER / OFERTAS / CARROSSÉIS
+   ========================================================= */
+
+html[data-theme="light"] body {
+    background-image:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(124, 58, 237, 0.06) 0%,
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(37, 99, 235, 0.04) 0%,
+            transparent 45%
+        );
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+html[data-theme="light"] .sidebar {
+    background-color: #ffffff;
+    border-right-color: #e2e8f0;
+}
+
+html[data-theme="light"] .brand-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a {
+    color: #64748b;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover i {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a i {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .user-profile {
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .avatar-fallback {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+html[data-theme="light"] .avatar-fallback-mini {
+    background-color: #4d4dff;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .user-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .user-email {
+    color: #64748b;
+}
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================= */
+
+html[data-theme="light"] .main-content {
+    color: #0f172a;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+html[data-theme="light"] .top-bar {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .search-bar-container .search-icon {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-input {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .search-input::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-input:focus {
+    border-color: #4d4dff;
+    background-color: #ffffff;
+}
+
+html[data-theme="light"] .vitrine-link {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .vitrine-link:hover {
+    color: #3737d9;
+}
+
+html[data-theme="light"] .notification-dot-container {
+    color: #64748b;
+}
+
+html[data-theme="light"] .notification-dot-container:hover {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .text-muted {
+    color: #64748b;
+}
+
+/* =========================================================
+   BANNER PRINCIPAL
+   ========================================================= */
+
+html[data-theme="light"] .hero-banner {
+    background: linear-gradient(
+        135deg,
+        #0000c1 0%,
+        #000066 100%
+    );
+    border-color: #dbeafe;
+}
+
+html[data-theme="light"] .hero-divider {
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+html[data-theme="light"] .hero-link {
+    color: #ffffff;
+}
+
+html[data-theme="light"] .hero-link:hover {
+    opacity: 0.8;
+}
+
+html[data-theme="light"] .hero-icon {
+    color: #a5b4fc;
+}
+
+/* =========================================================
+   ÁREA DE OFERTAS
+   ========================================================= */
+
+html[data-theme="light"] .carousel-wrapper {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .card-content {
+    color: #334155;
+}
+
+html[data-theme="light"] .card-content .card-icon {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .card-content h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .card-content p {
+    color: #64748b;
+}
+
+/* =========================================================
+   SWIPER / CARROSSEL
+   ========================================================= */
+
+html[data-theme="light"] .swiper-button-next,
+html[data-theme="light"] .swiper-button-prev {
+    color: #4d4dff !important;
+}
+
+html[data-theme="light"] .swiper-button-next:hover,
+html[data-theme="light"] .swiper-button-prev:hover {
+    color: #3737d9 !important;
+}
+
+/* =========================================================
+   FOTOS / AVATARES
+   ========================================================= */
+
+html[data-theme="light"] .foto-usuario-global,
+html[data-theme="light"] .foto-usuario-topo {
+    border-color: #e2e8f0;
+}
+
+/* =========================================================
+   TRANSIÇÕES
+   ========================================================= */
+
+html[data-theme="light"] .sidebar,
+html[data-theme="light"] .top-bar,
+html[data-theme="light"] .search-input,
+html[data-theme="light"] .carousel-wrapper,
+html[data-theme="light"] .card-content,
+html[data-theme="light"] .menu-nav ul li a {
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   MONETIZA — LIGHT THEME
+   PÁGINA: PRODUTOS / CRIAÇÃO / LISTA DE PRODUTOS
+   ========================================================= */
+
+html[data-theme="light"] body {
+    background-image:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(124, 58, 237, 0.06) 0%,
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(37, 99, 235, 0.04) 0%,
+            transparent 45%
+        );
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+html[data-theme="light"] .sidebar {
+    background-color: #ffffff;
+    border-right-color: #e2e8f0;
+}
+
+html[data-theme="light"] .brand-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a {
+    color: #64748b;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover i {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a i {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .user-profile {
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .avatar-fallback {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+html[data-theme="light"] .user-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .user-email {
+    color: #64748b;
+}
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================= */
+
+html[data-theme="light"] .main-content {
+    color: #0f172a;
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+html[data-theme="light"] .top-bar {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .page-title {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .vitrine-link {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .vitrine-link:hover {
+    color: #3737d9;
+}
+
+html[data-theme="light"] .notification-dot-container {
+    color: #64748b;
+}
+
+html[data-theme="light"] .notification-dot-container:hover {
+    color: #0f172a;
+}
+
+/* =========================================================
+   CABEÇALHO
+   ========================================================= */
+
+html[data-theme="light"] .page-header-text h2 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .page-header-text p {
+    color: #64748b;
+}
+
+html[data-theme="light"] .btn-primary {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-primary:hover {
+    background-color: #3b3bff;
+}
+
+/* =========================================================
+   BUSCA
+   ========================================================= */
+
+html[data-theme="light"] .search-icon {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-container:focus-within .search-icon {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .search-input {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .search-input::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-input:focus {
+    border-color: #4d4dff;
+    box-shadow: 0 0 0 3px rgba(77, 77, 255, 0.10);
+}
+
+/* =========================================================
+   ESTADO VAZIO
+   ========================================================= */
+
+html[data-theme="light"] .empty-state-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .empty-state-card:hover {
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .empty-state-content h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .empty-state-content p {
+    color: #64748b;
+}
+
+/* =========================================================
+   MODAIS
+   ========================================================= */
+
+html[data-theme="light"] .modal-overlay {
+    background-color: rgba(15, 23, 42, 0.45);
+}
+
+html[data-theme="light"] .modal-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.18);
+    color: #0f172a;
+}
+
+html[data-theme="light"] .modal-header h2 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .btn-close {
+    color: #64748b;
+}
+
+html[data-theme="light"] .btn-close:hover {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .modal-subtitle {
+    color: #64748b;
+}
+
+/* =========================================================
+   FORMULÁRIOS
+   ========================================================= */
+
+html[data-theme="light"] .input-group label {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .input-group input,
+html[data-theme="light"] .input-group textarea,
+html[data-theme="light"] .input-group select {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .input-group input::placeholder,
+html[data-theme="light"] .input-group textarea::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .input-group input:focus,
+html[data-theme="light"] .input-group textarea:focus,
+html[data-theme="light"] .input-group select:focus {
+    border-color: #4d4dff;
+    box-shadow: 0 0 0 3px rgba(77, 77, 255, 0.08);
+}
+
+html[data-theme="light"] .input-group select option {
+    background-color: #ffffff;
+    color: #0f172a;
+}
+
+/* =========================================================
+   UPLOAD
+   ========================================================= */
+
+html[data-theme="light"] .btn-upload {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .btn-upload:hover {
+    background-color: #e2e8f0;
+}
+
+/* =========================================================
+   BOTÕES DO MODAL
+   ========================================================= */
+
+html[data-theme="light"] .btn-secondary {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .btn-secondary:hover {
+    background-color: #e2e8f0;
+}
+
+html[data-theme="light"] .modal-footer .btn-primary {
+    background-color: #0000d1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .modal-footer .btn-primary:hover {
+    background-color: #2626ff;
+}
+
+/* =========================================================
+   OPÇÕES DE CRIAÇÃO
+   ========================================================= */
+
+html[data-theme="light"] .option-card {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .option-card:hover {
+    background-color: #f1f5f9;
+    border-color: #4d4dff;
+}
+
+html[data-theme="light"] .option-icon {
+    background-color: #e2e8f0;
+    color: #475569;
+}
+
+html[data-theme="light"] .option-info h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .option-info p {
+    color: #64748b;
+}
+
+html[data-theme="light"] .arrow-icon {
+    color: #64748b;
+}
+
+html[data-theme="light"] .option-ia .option-icon {
+    background: linear-gradient(
+        135deg,
+        #6366f1 0%,
+        #a855f7 100%
+    );
+    color: #ffffff;
+}
+
+html[data-theme="light"] .badge-ia {
+    color: #ffffff;
+}
+
+/* =========================================================
+   LISTA DE PRODUTOS
+   ========================================================= */
+
+html[data-theme="light"] .produto-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .produto-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .produto-card-capa {
+    background-color: #f1f5f9;
+}
+
+html[data-theme="light"] .produto-card-informacoes h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .produto-card-informacoes p {
+    color: #64748b;
+}
+
+html[data-theme="light"] .produto-card-informacoes strong {
+    color: #0f172a;
+}
+
+/* =========================================================
+   STATUS E CATEGORIA
+   ========================================================= */
+
+html[data-theme="light"] .produto-status {
+    background-color: #e2e8f0;
+    color: #475569;
+}
+
+html[data-theme="light"] .produto-categoria {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+/* =========================================================
+   AÇÕES DOS PRODUTOS
+   ========================================================= */
+
+html[data-theme="light"] .btn-editar-produto {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .btn-editar-produto:hover {
+    background-color: #e2e8f0;
+    border-color: #94a3b8;
+}
+
+html[data-theme="light"] .btn-excluir-produto {
+    background-color: rgba(239, 68, 68, 0.08);
+    color: #dc2626;
+    border-color: rgba(239, 68, 68, 0.20);
+}
+
+html[data-theme="light"] .btn-excluir-produto:hover {
+    background-color: rgba(239, 68, 68, 0.14);
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+/* =========================================================
+   BOTÕES DESABILITADOS
+   ========================================================= */
+
+html[data-theme="light"] .btn-primary:disabled,
+html[data-theme="light"] .btn-editar-produto:disabled,
+html[data-theme="light"] .btn-excluir-produto:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* =========================================================
+   MODAL DE EXCLUSÃO
+   ========================================================= */
+
+html[data-theme="light"] #modal-excluir-produto .modal-body p {
+    color: #64748b;
+}
+
+html[data-theme="light"] #modal-excluir-produto .modal-body strong {
+    color: #0f172a;
+}
+
+/* =========================================================
+   AVATARES
+   ========================================================= */
+
+html[data-theme="light"] .foto-usuario-global,
+html[data-theme="light"] .foto-usuario-topo {
+    border-color: #e2e8f0;
+}
+
+/* =========================================================
+   TRANSIÇÕES
+   ========================================================= */
+
+html[data-theme="light"] .sidebar,
+html[data-theme="light"] .top-bar,
+html[data-theme="light"] .search-input,
+html[data-theme="light"] .empty-state-card,
+html[data-theme="light"] .modal-card,
+html[data-theme="light"] .option-card,
+html[data-theme="light"] .produto-card,
+html[data-theme="light"] .btn-secondary,
+html[data-theme="light"] .btn-editar-produto,
+html[data-theme="light"] .btn-excluir-produto {
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   MONETIZA — LIGHT THEME
+   PÁGINA: DETALHE DO PRODUTO
+   ========================================================= */
+
+/* FUNDO */
+html[data-theme="light"] body {
+    background-image:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(124, 58, 237, 0.06) 0%,
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(37, 99, 235, 0.04) 0%,
+            transparent 45%
+        );
+
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+html[data-theme="light"] .sidebar {
+    background-color: #ffffff;
+    border-right-color: #e2e8f0;
+}
+
+html[data-theme="light"] .brand-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a {
+    color: #64748b;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover i {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a i {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .user-profile {
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .avatar-fallback {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+html[data-theme="light"] .avatar-fallback-mini {
+    background-color: #4d4dff;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .user-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .user-email {
+    color: #64748b;
+}
+
+/* =========================================================
+   CONTEÚDO / TOP BAR
+   ========================================================= */
+
+html[data-theme="light"] .main-content {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .top-bar {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .search-bar-container .search-icon {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-input {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .search-input::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-input:focus {
+    background-color: #ffffff;
+    border-color: #4d4dff;
+}
+
+html[data-theme="light"] .vitrine-link {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .vitrine-link:hover {
+    color: #3737d9;
+}
+
+html[data-theme="light"] .notification-dot-container {
+    color: #64748b;
+}
+
+html[data-theme="light"] .btn-voltar {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .btn-voltar:hover {
+    color: #3737d9;
+}
+
+/* =========================================================
+   ÁREA PRINCIPAL DO PRODUTO
+   ========================================================= */
+
+html[data-theme="light"] .cover-wrapper {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .content-block {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .content-block h2 {
+    color: #0f172a;
+    border-bottom-color: #e2e8f0;
+}
+
+html[data-theme="light"] .content-block p {
+    color: #475569;
+}
+
+html[data-theme="light"] .features-list li {
+    color: #475569;
+}
+
+html[data-theme="light"] .features-list i {
+    color: #16a34a;
+}
+
+/* =========================================================
+   CARD LATERAL
+   ========================================================= */
+
+html[data-theme="light"] .product-action-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .badge-categoria {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .producer-text {
+    color: #64748b;
+}
+
+html[data-theme="light"] .producer-text strong {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .price-label {
+    color: #64748b;
+}
+
+html[data-theme="light"] .price-value {
+    color: #16a34a;
+}
+
+html[data-theme="light"] .btn-comprar-agora {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-comprar-agora:hover {
+    background-color: #0000a0;
+}
+
+html[data-theme="light"] .guarantees-container {
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .guarantee-item {
+    color: #64748b;
+}
+
+html[data-theme="light"] .guarantee-item i {
+    color: #4d4dff;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+html[data-theme="light"] .modal-overlay {
+    background: rgba(15, 23, 42, 0.45);
+}
+
+html[data-theme="light"] .modal-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    color: #0f172a;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+}
+
+html[data-theme="light"] .modal-fechar {
+    color: #64748b;
+}
+
+html[data-theme="light"] .modal-fechar:hover {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .modal-card h2 {
+    color: #0f172a;
+    border-bottom-color: #e2e8f0;
+}
+
+/* =========================================================
+   RESUMO DO PRODUTO NO MODAL
+   ========================================================= */
+
+html[data-theme="light"] .product-summary-modal {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+html[data-theme="light"] .price-green {
+    color: #16a34a;
+}
+
+/* =========================================================
+   FORMULÁRIO
+   ========================================================= */
+
+html[data-theme="light"] .input-group label,
+html[data-theme="light"] .payment-methods label {
+    color: #475569;
+}
+
+html[data-theme="light"] .input-group input {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .input-group input::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .input-group input:focus {
+    border-color: #4d4dff;
+    background-color: #ffffff;
+}
+
+/* =========================================================
+   OPÇÕES DE PAGAMENTO
+   ========================================================= */
+
+html[data-theme="light"] .option-btn {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .option-btn:hover {
+    background-color: #f1f5f9;
+    border-color: #4d4dff;
+}
+
+html[data-theme="light"] .btn-confirmar-modal {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-confirmar-modal:hover {
+    background-color: #0000a0;
+}
+
+html[data-theme="light"] .btn-falar-vendedor {
+    background-color: transparent;
+    border-color: #4f46e5;
+    color: #4f46e5;
+}
+
+html[data-theme="light"] .btn-falar-vendedor:hover {
+    background-color: #4f46e5;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-falar-vendedor:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* =========================================================
+   DESCRIÇÃO
+   ========================================================= */
+
+html[data-theme="light"] #detalhe-descricao {
+    color: #475569;
+}
+
+/* =========================================================
+   FOTOS DE USUÁRIO
+   ========================================================= */
+
+html[data-theme="light"] .foto-usuario-global,
+html[data-theme="light"] .foto-usuario-topo {
+    border-color: #e2e8f0;
+}
+
+/* =========================================================
+   MONETIZA — LIGHT THEME GLOBAL
+   MÉTRICAS / AFILIAÇÕES / SOLICITAÇÕES
+   ========================================================= */
+
+/* FUNDO */
+html[data-theme="light"] body {
+    background-image:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(124, 58, 237, 0.06) 0%,
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(37, 99, 235, 0.04) 0%,
+            transparent 45%
+        );
+
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+html[data-theme="light"] .sidebar {
+    background-color: #ffffff;
+    border-right-color: #e2e8f0;
+}
+
+html[data-theme="light"] .brand-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a {
+    color: #64748b;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover i {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a i {
+    color: #4d4dff;
+}
+
+/* PERFIL */
+html[data-theme="light"] .user-profile {
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .avatar-fallback {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+html[data-theme="light"] .user-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .user-email {
+    color: #64748b;
+}
+
+/* =========================================================
+   CONTEÚDO / TOP BAR
+   ========================================================= */
+
+html[data-theme="light"] .main-content {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .top-bar {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+}
+
+html[data-theme="light"] .page-title {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .vitrine-link {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .vitrine-link:hover {
+    color: #3737d9;
+}
+
+html[data-theme="light"] .notification-dot-container {
+    color: #64748b;
+}
+
+html[data-theme="light"] .notification-dot-container:hover {
+    color: #0f172a;
+}
+
+/* CABEÇALHO */
+html[data-theme="light"] .page-header-text h2 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .page-header-text p {
+    color: #64748b;
+}
+
+/* =========================================================
+   BOTÃO PRINCIPAL
+   ========================================================= */
+
+html[data-theme="light"] .btn-primary {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-primary:hover {
+    background-color: #3b3bff;
+}
+
+/* =========================================================
+   CARDS DE MÉTRICAS
+   ========================================================= */
+
+html[data-theme="light"] .metric-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .metric-card:hover {
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .metric-title {
+    color: #64748b;
+}
+
+html[data-theme="light"] .metric-value {
+    color: #0f172a;
+}
+
+/* ÍCONES */
+html[data-theme="light"] .metric-icon.purple {
+    background-color: rgba(147, 51, 234, 0.10);
+    color: #9333ea;
+}
+
+html[data-theme="light"] .metric-icon.pink {
+    background-color: rgba(219, 39, 119, 0.10);
+    color: #db2777;
+}
+
+html[data-theme="light"] .metric-icon.cyan {
+    background-color: rgba(0, 193, 154, 0.10);
+    color: #00a982;
+}
+
+/* =========================================================
+   TABELA
+   ========================================================= */
+
+html[data-theme="light"] .table-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .table-card-header {
+    border-bottom-color: #e2e8f0;
+}
+
+html[data-theme="light"] .table-card-header h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .table-header {
+    background-color: #f8fafc;
+    border-bottom-color: #e2e8f0;
+    color: #64748b;
+}
+
+/* ESTADO VAZIO */
+html[data-theme="light"] .link-icon-bg {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+html[data-theme="light"] .empty-text {
+    color: #64748b;
+}
+
+/* BOTÃO SECUNDÁRIO */
+html[data-theme="light"] .btn-secondary {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .btn-secondary:hover {
+    background-color: #f1f5f9;
+    border-color: #4d4dff;
+    color: #4d4dff;
+}
+
+/* =========================================================
+   AFILIAÇÕES / SOLICITAÇÕES
+   ========================================================= */
+
+html[data-theme="light"] .afiliacao-row,
+html[data-theme="light"] .solicitacao-row {
+    border-bottom-color: #e2e8f0;
+    color: #475569;
+}
+
+html[data-theme="light"] .afiliacao-row:hover,
+html[data-theme="light"] .solicitacao-row:hover {
+    background-color: #f8fafc;
+}
+
+/* BOTÕES DE AÇÃO */
+html[data-theme="light"] .btn-acao {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .btn-acao:hover {
+    background-color: #f1f5f9;
+    border-color: #4d4dff;
+    color: #4d4dff;
+}
+
+/* STATUS */
+html[data-theme="light"] .status-ativa {
+    color: #16a34a;
+}
+
+html[data-theme="light"] .status-pendente {
+    color: #a16207;
+}
+
+html[data-theme="light"] .status-rejeitada,
+html[data-theme="light"] .status-encerrada {
+    color: #dc2626;
+}
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+html[data-theme="light"] .modal-overlay {
+    background-color: rgba(15, 23, 42, 0.45);
+}
+
+html[data-theme="light"] .modal-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow:
+        0 20px 50px rgba(15, 23, 42, 0.15);
+}
+
+html[data-theme="light"] .modal-header {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .btn-close {
+    color: #64748b;
+}
+
+html[data-theme="light"] .btn-close:hover {
+    color: #0f172a;
+}
+
+/* CAMPOS DO MODAL */
+html[data-theme="light"] .input-group label {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .input-group select {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .input-group select:focus {
+    border-color: #4d4dff;
+    outline: none;
+}
+
+html[data-theme="light"] .input-group select option {
+    background-color: #ffffff;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .modal-aviso {
+    color: #64748b;
+}
+
+/* =========================================================
+   AVATARES
+   ========================================================= */
+
+html[data-theme="light"] .foto-usuario-global,
+html[data-theme="light"] .foto-usuario-topo {
+    border-color: #e2e8f0;
+}
+
+/* =========================================================
+   TRANSIÇÕES
+   ========================================================= */
+
+html[data-theme="light"] .sidebar,
+html[data-theme="light"] .top-bar,
+html[data-theme="light"] .metric-card,
+html[data-theme="light"] .table-card,
+html[data-theme="light"] .table-header,
+html[data-theme="light"] .btn-secondary,
+html[data-theme="light"] .btn-acao,
+html[data-theme="light"] .modal-card,
+html[data-theme="light"] .input-group select,
+html[data-theme="light"] .afiliacao-row,
+html[data-theme="light"] .solicitacao-row {
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   MONETIZA — LIGHT THEME GLOBAL
+   DASHBOARD FINANCEIRO / TRANSAÇÕES / COMISSÕES
+   ========================================================= */
+
+/* FUNDO */
+html[data-theme="light"] body {
+    background-image:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(124, 58, 237, 0.06) 0%,
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(37, 99, 235, 0.04) 0%,
+            transparent 45%
+        );
+
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+/* SIDEBAR */
+html[data-theme="light"] .sidebar {
+    background-color: #ffffff;
+    border-right-color: #e2e8f0;
+}
+
+html[data-theme="light"] .brand-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a {
+    color: #64748b;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover i {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a i {
+    color: #4d4dff;
+}
+
+/* PERFIL DA SIDEBAR */
+html[data-theme="light"] .user-profile {
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .avatar-fallback {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+html[data-theme="light"] .user-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .user-email {
+    color: #64748b;
+}
+
+/* CONTEÚDO */
+html[data-theme="light"] .main-content {
+    color: #0f172a;
+}
+
+/* TOP BAR */
+html[data-theme="light"] .top-bar {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+}
+
+html[data-theme="light"] .page-title {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .vitrine-link {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .vitrine-link:hover {
+    color: #3737d9;
+}
+
+html[data-theme="light"] .notification-dot-container {
+    color: #64748b;
+}
+
+html[data-theme="light"] .notification-dot-container:hover {
+    color: #0f172a;
+}
+
+/* ÍCONES DO TOPO */
+html[data-theme="light"] .top-icon-btn {
+    color: #64748b;
+}
+
+html[data-theme="light"] .top-icon-btn:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+/* CABEÇALHO */
+html[data-theme="light"] .page-header-text h2 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .page-header-text p {
+    color: #64748b;
+}
+
+/* BOTÃO PRINCIPAL */
+html[data-theme="light"] .btn-primary {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-primary:hover {
+    background-color: #3b3bff;
+}
+
+/* =========================================================
+   CARDS FINANCEIROS
+   ========================================================= */
+
+html[data-theme="light"] .card-balance {
+    background: linear-gradient(
+        135deg,
+        #c78ed8 0%,
+        #0000c1 100%
+    );
+
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+html[data-theme="light"] .balance-title-group span,
+html[data-theme="light"] .balance-title-group h2 {
+    color: #ffffff;
+}
+
+html[data-theme="light"] .balance-icon {
+    background-color: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+html[data-theme="light"] .submetric {
+    background-color: rgba(0, 0, 0, 0.20);
+}
+
+html[data-theme="light"] .submetric strong {
+    color: #ffffff;
+}
+
+/* MÉTRICAS */
+html[data-theme="light"] .metric-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .metric-card:hover {
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .metric-title {
+    color: #64748b;
+}
+
+html[data-theme="light"] .metric-value {
+    color: #0f172a;
+}
+
+/* ÍCONES DAS MÉTRICAS */
+html[data-theme="light"] .green-bg {
+    background-color: rgba(34, 197, 94, 0.12);
+    color: #16a34a;
+}
+
+html[data-theme="light"] .red-bg {
+    background-color: rgba(239, 68, 68, 0.12);
+    color: #dc2626;
+}
+
+html[data-theme="light"] .yellow-bg {
+    background-color: rgba(234, 179, 8, 0.12);
+    color: #a16207;
+}
+
+html[data-theme="light"] .blue-bg {
+    background-color: rgba(59, 130, 246, 0.12);
+    color: #2563eb;
+}
+
+/* TEXTOS DE MÉTRICAS */
+html[data-theme="light"] .green-text {
+    color: #16a34a;
+}
+
+html[data-theme="light"] .red-text {
+    color: #dc2626;
+}
+
+html[data-theme="light"] .yellow-text {
+    color: #a16207;
+}
+
+/* =========================================================
+   FILTROS
+   ========================================================= */
+
+html[data-theme="light"] .filters-bar {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .icon-filter {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .custom-select {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .custom-select:focus {
+    border-color: #4d4dff;
+}
+
+html[data-theme="light"] .custom-select option {
+    background-color: #ffffff;
+    color: #0f172a;
+}
+
+/* =========================================================
+   TABELA
+   ========================================================= */
+
+html[data-theme="light"] .table-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .table-card-header {
+    border-bottom-color: #e2e8f0;
+}
+
+html[data-theme="light"] .table-card-header h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .table-header {
+    background-color: #f8fafc;
+    border-bottom-color: #e2e8f0;
+    color: #64748b;
+}
+
+/* ESTADO VAZIO */
+html[data-theme="light"] .wallet-icon-bg {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+html[data-theme="light"] .empty-text {
+    color: #64748b;
+}
+
+/* =========================================================
+   TRANSAÇÕES
+   ========================================================= */
+
+html[data-theme="light"] .transacao-row,
+html[data-theme="light"] .comissao-row {
+    border-bottom-color: #e2e8f0;
+    color: #475569;
+}
+
+html[data-theme="light"] .transacao-row:hover,
+html[data-theme="light"] .comissao-row:hover {
+    background-color: #f8fafc;
+}
+
+html[data-theme="light"] .transacao-row .text-right,
+html[data-theme="light"] .comissao-row .text-right {
+    color: #0f172a;
+}
+
+/* =========================================================
+   ABAS
+   ========================================================= */
+
+html[data-theme="light"] .tabs-container {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .tab-btn {
+    color: #64748b;
+}
+
+html[data-theme="light"] .tab-btn:hover {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .tab-btn.active {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+/* =========================================================
+   AVATARES
+   ========================================================= */
+
+html[data-theme="light"] .foto-usuario-global,
+html[data-theme="light"] .foto-usuario-topo {
+    border-color: #e2e8f0;
+}
+
+/* =========================================================
+   TRANSIÇÕES
+   ========================================================= */
+
+html[data-theme="light"] .sidebar,
+html[data-theme="light"] .top-bar,
+html[data-theme="light"] .metric-card,
+html[data-theme="light"] .filters-bar,
+html[data-theme="light"] .custom-select,
+html[data-theme="light"] .table-card,
+html[data-theme="light"] .table-header,
+html[data-theme="light"] .tabs-container,
+html[data-theme="light"] .tab-btn,
+html[data-theme="light"] .transacao-row,
+html[data-theme="light"] .comissao-row {
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   MONETIZA — LIGHT THEME GLOBAL
+   CONTRATOS
+   ========================================================= */
+
+/* FUNDO DA PÁGINA */
+html[data-theme="light"] body {
+    background-image:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(124, 58, 237, 0.06) 0%,
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(37, 99, 235, 0.04) 0%,
+            transparent 45%
+        );
+
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+/* SIDEBAR */
+html[data-theme="light"] .sidebar {
+    background-color: #ffffff;
+    border-right-color: #e2e8f0;
+}
+
+html[data-theme="light"] .brand-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a {
+    color: #64748b;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover i {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a i {
+    color: #4d4dff;
+}
+
+/* PERFIL */
+html[data-theme="light"] .user-profile {
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .avatar-fallback {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+html[data-theme="light"] .user-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .user-email {
+    color: #64748b;
+}
+
+/* CONTEÚDO PRINCIPAL */
+html[data-theme="light"] .main-content {
+    color: #0f172a;
+}
+
+/* TOP BAR */
+html[data-theme="light"] .top-bar {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+}
+
+html[data-theme="light"] .page-title {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .vitrine-link {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .vitrine-link:hover {
+    color: #3737d9;
+}
+
+html[data-theme="light"] .notification-dot-container {
+    color: #64748b;
+}
+
+html[data-theme="light"] .notification-dot-container:hover {
+    color: #0f172a;
+}
+
+/* CABEÇALHO */
+html[data-theme="light"] .page-header-text h2 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .page-header-text p {
+    color: #64748b;
+}
+
+/* BOTÃO PRINCIPAL */
+html[data-theme="light"] .btn-primary {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-primary:hover {
+    background-color: #3b3bff;
+}
+
+/* PESQUISA */
+html[data-theme="light"] .search-icon {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-input {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .search-input::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-input:focus {
+    border-color: #4d4dff;
+}
+
+/* ESTADO VAZIO */
+html[data-theme="light"] .empty-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .empty-content h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .empty-content p {
+    color: #64748b;
+}
+
+/* =========================================================
+   MODAL — NOVO CONTRATO
+   ========================================================= */
+
+html[data-theme="light"] .modal-overlay {
+    background-color: rgba(15, 23, 42, 0.45);
+}
+
+html[data-theme="light"] .modal-container {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-color: #e2e8f0;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+}
+
+html[data-theme="light"] .modal-close {
+    color: #64748b;
+}
+
+html[data-theme="light"] .modal-close:hover {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .modal-title {
+    color: #0f172a;
+}
+
+/* CAMPOS DO FORMULÁRIO */
+html[data-theme="light"] .form-group label {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .form-group input,
+html[data-theme="light"] .form-group select,
+html[data-theme="light"] .form-group textarea {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .form-group input::placeholder,
+html[data-theme="light"] .form-group textarea::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .form-group input:focus,
+html[data-theme="light"] .form-group select:focus,
+html[data-theme="light"] .form-group textarea:focus {
+    border-color: #4f46e5;
+    background-color: #ffffff;
+}
+
+/* SELECT */
+html[data-theme="light"] .form-group select option {
+    background-color: #ffffff;
+    color: #0f172a;
+}
+
+/* CALENDÁRIO */
+html[data-theme="light"] .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: none;
+}
+
+/* BOTÃO UPLOAD */
+html[data-theme="light"] .btn-upload {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .btn-upload:hover {
+    background-color: #e2e8f0;
+}
+
+/* BOTÃO CANCELAR */
+html[data-theme="light"] .btn-cancel {
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .btn-cancel:hover {
+    background-color: #e2e8f0;
+}
+
+/* BOTÃO SALVAR */
+html[data-theme="light"] .btn-save {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-save:hover {
+    background-color: #3b3bff;
+}
+
+/* UPLOAD DE ARQUIVO */
+html[data-theme="light"] .form-group input[type="file"] {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #64748b;
+}
+
+html[data-theme="light"] .form-group input[type="file"]::file-selector-button {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .form-group input[type="file"]::file-selector-button:hover {
+    background-color: #3b3bff;
+}
+
+html[data-theme="light"] .form-group input[type="file"]:focus {
+    border-color: #4d4dff;
+}
+
+/* =========================================================
+   CARDS DE CONTRATOS
+   ========================================================= */
+
+html[data-theme="light"] .contrato-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .contrato-card:hover {
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .contrato-header {
+    border-bottom-color: #e2e8f0;
+}
+
+html[data-theme="light"] .contrato-header h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .contrato-header p {
+    color: #64748b;
+}
+
+/* STATUS */
+html[data-theme="light"] .contrato-status {
+    background-color: rgba(234, 179, 8, 0.12);
+    color: #a16207;
+    border-color: rgba(234, 179, 8, 0.25);
+}
+
+/* INFORMAÇÕES */
+html[data-theme="light"] .contrato-info p {
+    color: #475569;
+}
+
+html[data-theme="light"] .contrato-info strong {
+    color: #0f172a;
+}
+
+/* AÇÕES */
+html[data-theme="light"] .contrato-actions {
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .btn-contrato {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .btn-contrato:hover {
+    background-color: #e2e8f0;
+}
+
+html[data-theme="light"] .btn-aceitar {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-aceitar:hover {
+    background-color: #3b3bff;
+}
+
+html[data-theme="light"] .btn-editar {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .btn-cancelar-contrato {
+    background-color: rgba(239, 68, 68, 0.10);
+    color: #dc2626;
+    border-color: rgba(239, 68, 68, 0.20);
+}
+
+html[data-theme="light"] .btn-cancelar-contrato:hover {
+    background-color: rgba(239, 68, 68, 0.16);
+}
+
+/* AVATARES */
+html[data-theme="light"] .foto-usuario-global,
+html[data-theme="light"] .foto-usuario-topo {
+    border-color: #e2e8f0;
+}
+
+/* =========================================================
+   TRANSIÇÕES
+   ========================================================= */
+
+html[data-theme="light"] .sidebar,
+html[data-theme="light"] .top-bar,
+html[data-theme="light"] .search-input,
+html[data-theme="light"] .empty-card,
+html[data-theme="light"] .modal-container,
+html[data-theme="light"] .form-group input,
+html[data-theme="light"] .form-group select,
+html[data-theme="light"] .form-group textarea,
+html[data-theme="light"] .btn-upload,
+html[data-theme="light"] .btn-cancel,
+html[data-theme="light"] .contrato-card,
+html[data-theme="light"] .btn-contrato {
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   MONETIZA — LIGHT THEME GLOBAL
+   MENSAGENS / CHAT
+   ========================================================= */
+
+/* =========================================================
+   CHAT PRINCIPAL
+   ========================================================= */
+
+html[data-theme="light"] .chat-container {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+html[data-theme="light"] .chat-sidebar {
+    background-color: #ffffff;
+    border-right-color: #e2e8f0;
+}
+
+html[data-theme="light"] .chat-header {
+    border-bottom-color: #e2e8f0;
+}
+
+html[data-theme="light"] .chat-header h2 {
+    color: #0f172a;
+}
+
+
+/* =========================================================
+   BUSCA
+   ========================================================= */
+
+html[data-theme="light"] .search-box i {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-box input {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .search-box input::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-box input:focus {
+    border-color: #4d4dff;
+}
+
+
+/* =========================================================
+   NOVA CONVERSA
+   ========================================================= */
+
+html[data-theme="light"] .btn-nova-conversa {
+    background-color: #4f46e5;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-nova-conversa:hover {
+    background-color: #6366f1;
+}
+
+
+/* =========================================================
+   LISTA DE CONVERSAS
+   ========================================================= */
+
+html[data-theme="light"] .section-label {
+    color: #64748b;
+}
+
+html[data-theme="light"] .conversa-vazia {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .conversa-item {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .conversa-item:hover {
+    background-color: #f1f5f9;
+}
+
+html[data-theme="light"] .conversa-item.active {
+    background-color: rgba(77, 77, 255, 0.10);
+}
+
+html[data-theme="light"] .conversa-avatar {
+    color: #64748b;
+}
+
+html[data-theme="light"] .conversa-topo strong {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .conversa-topo span {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .conversa-baixo p {
+    color: #64748b;
+}
+
+html[data-theme="light"] .badge-nao-lidas {
+    background-color: #4f46e5;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   CLASSES ANTIGAS
+   ========================================================= */
+
+html[data-theme="light"] .user-chat-item:hover {
+    background-color: #f1f5f9;
+}
+
+html[data-theme="light"] .chat-user-details {
+    color: #0f172a;
+}
+
+
+/* =========================================================
+   ÁREA PRINCIPAL DO CHAT
+   ========================================================= */
+
+html[data-theme="light"] .chat-main-area {
+    background-color: #f8fafc;
+}
+
+html[data-theme="light"] .empty-chat-state {
+    color: #64748b;
+}
+
+html[data-theme="light"] .chat-icon-bg {
+    color: #cbd5e1;
+}
+
+html[data-theme="light"] .empty-chat-state p {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   CABEÇALHO DO CHAT ATIVO
+   ========================================================= */
+
+html[data-theme="light"] .chat-active-header {
+    background-color: #ffffff;
+    border-bottom-color: #e2e8f0;
+}
+
+html[data-theme="light"] .chat-avatar {
+    color: #64748b;
+}
+
+html[data-theme="light"] .chat-user-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .chat-user-email {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   MENSAGENS
+   ========================================================= */
+
+html[data-theme="light"] .lista-mensagens {
+    background-color: #f8fafc;
+}
+
+html[data-theme="light"] .mensagens-vazio {
+    color: #94a3b8;
+}
+
+
+/* MENSAGEM ENVIADA */
+
+html[data-theme="light"] .mensagem-enviada .mensagem-balao {
+    background-color: #4f46e5;
+    color: #ffffff;
+}
+
+
+/* MENSAGEM RECEBIDA */
+
+html[data-theme="light"] .mensagem-recebida .mensagem-balao {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .mensagem-recebida .mensagem-balao p {
+    color: #0f172a;
+}
+
+
+/* HORÁRIO */
+
+html[data-theme="light"] .mensagem-hora {
+    color: inherit;
+}
+
+
+/* =========================================================
+   CAMPO DE ENVIO
+   ========================================================= */
+
+html[data-theme="light"] .message-form {
+    background-color: #ffffff;
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .message-form textarea {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .message-form textarea::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .message-form textarea:focus {
+    border-color: #4d4dff;
+}
+
+html[data-theme="light"] .btn-enviar-mensagem {
+    background-color: #4f46e5;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-enviar-mensagem:hover {
+    background-color: #6366f1;
+}
+
+
+/* =========================================================
+   MODAL — NOVA CONVERSA
+   ========================================================= */
+
+html[data-theme="light"] .modal-overlay {
+    background-color: rgba(15, 23, 42, 0.45);
+}
+
+html[data-theme="light"] .modal-container {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+}
+
+html[data-theme="light"] .modal-title {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .modal-close {
+    color: #64748b;
+}
+
+html[data-theme="light"] .modal-close:hover {
+    color: #0f172a;
+}
+
+
+/* =========================================================
+   USUÁRIOS DO MODAL
+   ========================================================= */
+
+html[data-theme="light"] .usuario-item {
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .usuario-item:hover {
+    background-color: #f1f5f9;
+}
+
+html[data-theme="light"] .usuario-item-avatar {
+    color: #64748b;
+}
+
+html[data-theme="light"] .usuario-item-info strong {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .usuario-item-info span {
+    color: #64748b;
+}
+
+html[data-theme="light"] .usuarios-vazio {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   AVATARES
+   ========================================================= */
+
+html[data-theme="light"] .conversa-avatar,
+html[data-theme="light"] .usuario-item-avatar,
+html[data-theme="light"] .chat-avatar {
+    color: #64748b;
+}
+
+
+/* =========================================================
+   TRANSIÇÕES
+   ========================================================= */
+
+html[data-theme="light"] .chat-container,
+html[data-theme="light"] .chat-sidebar,
+html[data-theme="light"] .chat-header,
+html[data-theme="light"] .chat-main-area,
+html[data-theme="light"] .chat-active-header,
+html[data-theme="light"] .message-form,
+html[data-theme="light"] .conversa-item,
+html[data-theme="light"] .usuario-item,
+html[data-theme="light"] .search-box input,
+html[data-theme="light"] .message-form textarea,
+html[data-theme="light"] .modal-container {
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* =========================================================
+   MONETIZA — LIGHT THEME GLOBAL
+   CONFIGURAÇÕES
+   ========================================================= */
+
+/* CONTEÚDO PRINCIPAL */
+
+html[data-theme="light"] .main-content {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .top-bar {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+}
+
+html[data-theme="light"] .page-title {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .page-header-text h2 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .page-header-text p {
+    color: #64748b;
+}
+
+html[data-theme="light"] .vitrine-link {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .vitrine-link:hover {
+    color: #3737d9;
+}
+
+html[data-theme="light"] .top-icon-btn {
+    background-color: #f1f5f9;
+    color: #64748b;
+}
+
+html[data-theme="light"] .top-icon-btn:hover {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+
+/* ABAS */
+
+html[data-theme="light"] .tabs-container {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .tab-btn {
+    color: #64748b;
+}
+
+html[data-theme="light"] .tab-btn:hover {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .tab-btn.active {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+
+/* CARD PRINCIPAL */
+
+html[data-theme="light"] .settings-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    color: #0f172a;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+
+/* TÍTULOS DAS SEÇÕES */
+
+html[data-theme="light"] .settings-section-header h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .settings-section-header p {
+    color: #64748b;
+}
+
+
+/* PERFIL */
+
+html[data-theme="light"] .profile-avatar-large {
+    color: #64748b;
+}
+
+html[data-theme="light"] .btn-secondary {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .btn-secondary:hover {
+    background-color: #e2e8f0;
+}
+
+html[data-theme="light"] .divider {
+    border-top-color: #e2e8f0;
+}
+
+
+/* FORMULÁRIOS */
+
+html[data-theme="light"] .form-group label {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .form-group input,
+html[data-theme="light"] .form-group textarea {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .form-group input::placeholder,
+html[data-theme="light"] .form-group textarea::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .form-group input:focus,
+html[data-theme="light"] .form-group textarea:focus {
+    border-color: #4d4dff;
+}
+
+html[data-theme="light"] .field-hint,
+html[data-theme="light"] .input-help-text {
+    color: #64748b;
+}
+
+
+/* CONFIGURAÇÕES / TOGGLES */
+
+html[data-theme="light"] .setting-item {
+    border-bottom-color: #e2e8f0;
+}
+
+html[data-theme="light"] .setting-info h4 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .setting-info p {
+    color: #64748b;
+}
+
+html[data-theme="light"] .slider {
+    background-color: #cbd5e1;
+}
+
+html[data-theme="light"] input:checked + .slider {
+    background-color: #4d4dff;
+}
+
+
+/* BOTÃO SALVAR */
+
+html[data-theme="light"] .btn-save-preferences {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .btn-save-preferences:hover {
+    background-color: #3b3bff;
+}
+
+
+/* PIX */
+
+html[data-theme="light"] #tipo-chave-pix {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] #tipo-chave-pix:focus {
+    border-color: #4d4dff;
+}
+
+html[data-theme="light"] #tipo-chave-pix option {
+    background-color: #ffffff;
+    color: #0f172a;
+}
+
+
+/* PAGAMENTOS */
+
+html[data-theme="light"] .pagamentos-header h4 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .pagamento-card {
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] .pagamento-card:hover {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .pagamento-tipo i {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .pagamento-tipo strong {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .pagamento-titular {
+    color: #64748b;
+}
+
+html[data-theme="light"] .pagamento-chave {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .btn-editar-pagamento {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .btn-editar-pagamento:hover {
+    background-color: #e2e8f0;
+}
+
+html[data-theme="light"] .pagamentos-vazio {
+    border-color: #cbd5e1;
+    color: #64748b;
+}
+
+html[data-theme="light"] #form-pagamento {
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .form-pagamento-header h4 {
+    color: #0f172a;
+}
+
+
+/* IDIOMAS */
+
+html[data-theme="light"] .idioma-opcao {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .idioma-opcao:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .idioma-opcao.active {
+    border-color: #4d4dff;
+    background-color: rgba(77, 77, 255, 0.06);
+}
+
+html[data-theme="light"] .idioma-info span:not(.idioma-bandeira) {
+    color: #64748b;
+}
+
+html[data-theme="light"] .idioma-check {
+    color: #4d4dff;
+}
+
+
+/* MODAL */
+
+html[data-theme="light"] .modal-confirmacao {
+    background: rgba(15, 23, 42, 0.45);
+}
+
+html[data-theme="light"] .modal-confirmacao-conteudo {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
+}
+
+html[data-theme="light"] .modal-confirmacao-conteudo h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .modal-confirmacao-conteudo p {
+    color: #64748b;
+}
+
+html[data-theme="light"] .btn-modal-cancelar {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .btn-modal-cancelar:hover {
+    background-color: #e2e8f0;
+}
+
+
+/* APARÊNCIA */
+
+html[data-theme="light"] .tema-opcao {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .tema-opcao:hover {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .tema-opcao.ativo,
+html[data-theme="light"] .tema-opcao[data-ativo="true"],
+html[data-theme="light"] .tema-opcao.active {
+    border-color: #7c3aed;
+    background-color: #faf5ff;
+}
+
+html[data-theme="light"] .tema-info strong {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .tema-info span {
+    color: #64748b;
+}
+
+html[data-theme="light"] .tema-check {
+    color: #7c3aed;
+}
+
+
+/* TRANSIÇÕES */
+
+html[data-theme="light"] .settings-card,
+html[data-theme="light"] .top-bar,
+html[data-theme="light"] .tabs-container,
+html[data-theme="light"] .tab-btn,
+html[data-theme="light"] .btn-secondary,
+html[data-theme="light"] .form-group input,
+html[data-theme="light"] .form-group textarea,
+html[data-theme="light"] .setting-item,
+html[data-theme="light"] .pagamento-card,
+html[data-theme="light"] .idioma-opcao,
+html[data-theme="light"] .tema-opcao,
+html[data-theme="light"] .top-icon-btn {
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   MONETIZA — LIGHT THEME
+   PÁGINA: VITRINE / PRODUTOS / DETALHE
+   ========================================================= */
+
+html[data-theme="light"] body {
+    background-image:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(124, 58, 237, 0.06) 0%,
+            transparent 45%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(37, 99, 235, 0.04) 0%,
+            transparent 45%
+        );
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+html[data-theme="light"] .sidebar {
+    background-color: #ffffff;
+    border-right-color: #e2e8f0;
+}
+
+html[data-theme="light"] .brand-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a {
+    color: #64748b;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li a:hover i {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .menu-nav ul li.active a i {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .user-profile {
+    border-top-color: #e2e8f0;
+}
+
+html[data-theme="light"] .avatar-fallback {
+    background-color: #e2e8f0;
+    color: #64748b;
+}
+
+html[data-theme="light"] .avatar-fallback-mini {
+    background-color: #4d4dff;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .user-name {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .user-email {
+    color: #64748b;
+}
+
+/* =========================================================
+   CONTEÚDO / TOP BAR
+   ========================================================= */
+
+html[data-theme="light"] .main-content {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .top-bar {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .search-bar-container .search-icon {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-input {
+    background-color: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .search-input::placeholder {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .search-input:focus {
+    background-color: #ffffff;
+    border-color: #4d4dff;
+}
+
+html[data-theme="light"] .vitrine-link {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .vitrine-link:hover {
+    color: #3737d9;
+}
+
+html[data-theme="light"] .notification-dot-container {
+    color: #64748b;
+}
+
+html[data-theme="light"] .notification-dot-container:hover {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .text-muted {
+    color: #64748b;
+}
+
+/* =========================================================
+   HERO / BANNER DA VITRINE
+   ========================================================= */
+
+html[data-theme="light"] .hero-banner {
+    background: linear-gradient(
+        135deg,
+        #0000c1 0%,
+        #000066 100%
+    );
+    border-color: #dbeafe;
+}
+
+html[data-theme="light"] .hero-divider {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+html[data-theme="light"] .hero-title {
+    color: #ffffff;
+}
+
+html[data-theme="light"] .hero-subtitle {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+html[data-theme="light"] .hero-link {
+    color: #ffffff;
+}
+
+html[data-theme="light"] .hero-icon {
+    color: #a5b4fc;
+}
+
+html[data-theme="light"] .vitrine-search-box i {
+    color: #94a3b8;
+}
+
+html[data-theme="light"] .vitrine-search-box input {
+    background-color: rgba(255, 255, 255, 0.96);
+    border-color: rgba(255, 255, 255, 0.7);
+    color: #0f172a;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+html[data-theme="light"] .vitrine-search-box input::placeholder {
+    color: #64748b;
+}
+
+html[data-theme="light"] .vitrine-search-box input:focus {
+    background-color: #ffffff;
+    border-color: #a5b4fc;
+    box-shadow: 0 8px 32px rgba(77, 77, 255, 0.20);
+}
+
+/* =========================================================
+   CARROSSÉIS
+   ========================================================= */
+
+html[data-theme="light"] .carousel-wrapper {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .card-content {
+    color: #334155;
+}
+
+html[data-theme="light"] .card-content .card-icon {
+    background-color: rgba(77, 77, 255, 0.10);
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .card-content h3 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .card-content p {
+    color: #64748b;
+}
+
+html[data-theme="light"] .swiper-button-next,
+html[data-theme="light"] .swiper-button-prev {
+    color: #4d4dff !important;
+}
+
+/* =========================================================
+   SEÇÃO DE PRODUTOS
+   ========================================================= */
+
+html[data-theme="light"] .section-header h2 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .section-icon {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .product-card {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .product-card:hover {
+    border-color: #4d4dff;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+}
+
+html[data-theme="light"] .product-image-container {
+    background-color: #f1f5f9;
+    color: #64748b;
+    border-bottom-color: #e2e8f0;
+}
+
+html[data-theme="light"] .product-info {
+    background-color: #ffffff;
+}
+
+html[data-theme="light"] .product-title {
+    color: #0f172a;
+}
+
+/* =========================================================
+   FILTROS
+   ========================================================= */
+
+html[data-theme="light"] .filter-label {
+    color: #64748b;
+}
+
+html[data-theme="light"] .pill-btn {
+    background-color: #ffffff;
+    color: #64748b;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .pill-btn:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .pill-btn.active {
+    background-color: #0000c1;
+    color: #ffffff;
+    border-color: #4d4dff;
+}
+
+html[data-theme="light"] .sort-select {
+    background-color: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .sort-select:focus {
+    border-color: #4d4dff;
+}
+
+html[data-theme="light"] .sort-select option {
+    background-color: #ffffff;
+    color: #0f172a;
+}
+
+/* =========================================================
+   FOOTER DA VITRINE
+   ========================================================= */
+
+html[data-theme="light"] .vitrine-footer {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .vitrine-footer p {
+    color: #64748b;
+}
+
+/* =========================================================
+   DETALHE DO PRODUTO
+   ========================================================= */
+
+html[data-theme="light"] .produto-detalhe {
+    background-color: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+}
+
+html[data-theme="light"] .produto-detalhe-imagem {
+    background-color: #f1f5f9;
+}
+
+html[data-theme="light"] .produto-detalhe-categoria {
+    color: #4d4dff;
+}
+
+html[data-theme="light"] .produto-detalhe-info h1 {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .produto-detalhe-descricao,
+html[data-theme="light"] .produto-detalhe-produtor {
+    color: #64748b;
+}
+
+html[data-theme="light"] .produto-detalhe-preco {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .produto-detalhe .btn-comprar {
+    background-color: #0000c1;
+    color: #ffffff;
+}
+
+html[data-theme="light"] .produto-detalhe .btn-comprar:hover {
+    background-color: #3b3bff;
+}
+
+/* =========================================================
+   AVATARES
+   ========================================================= */
+
+html[data-theme="light"] .foto-usuario-global,
+html[data-theme="light"] .foto-usuario-topo {
+    border-color: #e2e8f0;
+}
+
+/* =========================================================
+   TRANSIÇÕES
+   ========================================================= */
+
+html[data-theme="light"] .sidebar,
+html[data-theme="light"] .top-bar,
+html[data-theme="light"] .search-input,
+html[data-theme="light"] .carousel-wrapper,
+html[data-theme="light"] .product-card,
+html[data-theme="light"] .produto-detalhe,
+html[data-theme="light"] .pill-btn,
+html[data-theme="light"] .sort-select,
+html[data-theme="light"] .vitrine-footer {
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   MONETIZA — LIGHT THEME
+   PERFIL GLOBAL / MENU DO USUÁRIO
+   ========================================================= */
+
+/* BOTÃO DO PERFIL */
+html[data-theme="light"] .perfil-topo-clicavel {
+    cursor: pointer;
+}
+
+/* MENU DO PERFIL */
+html[data-theme="light"] .menu-perfil-global {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+/* LINKS E BOTÕES */
+html[data-theme="light"] .menu-perfil-global a,
+html[data-theme="light"] .menu-perfil-global button {
+    background: transparent;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .menu-perfil-global a:hover,
+html[data-theme="light"] .menu-perfil-global button:hover {
+    background: #f1f5f9;
+}
+
+/* ÍCONES */
+html[data-theme="light"] .menu-perfil-global i {
+    color: #64748b;
+}
+
+/* SAIR */
+html[data-theme="light"] .menu-perfil-global .btn-sair-perfil {
+    color: #dc2626;
+}
+
+html[data-theme="light"] .menu-perfil-global .btn-sair-perfil i {
+    color: #dc2626;
+}
+
+/* DIVISOR */
+html[data-theme="light"] .menu-perfil-divisor {
+    background: #e2e8f0;
+}
+
+/* TRANSIÇÃO */
+html[data-theme="light"] .menu-perfil-global,
+html[data-theme="light"] .menu-perfil-global a,
+html[data-theme="light"] .menu-perfil-global button,
+html[data-theme="light"] .menu-perfil-divisor {
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
 }

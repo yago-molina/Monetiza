@@ -8,14 +8,15 @@ const {
     criar,
     atualizar,
     atualizarStatus,
-    aceitar
+    aceitar,
+    baixarPdf
 } = require('../controllers/contratosController')
 
 const autenticar = require('../middlewares/authMiddleware')
 const uploadContrato = require('../middlewares/uploadContrato')
 
 router.use(autenticar)
-
+router.get('/:id/pdf', baixarPdf)
 router.get('/afiliacoes', listarAfiliacoes)
 router.get('/', listar)
 router.get('/:id', buscarPorId)

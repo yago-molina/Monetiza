@@ -12,6 +12,12 @@ app.use(
 
 require('./config/db')
 
+app.use('/uploads/contratos', (req, res) => {
+    res.status(404).json({
+        erro: 'Arquivo não encontrado'
+    })
+})
+
 app.use(express.static(path.join(__dirname, 'public')))
 
 const authRoutes = require('./routes/authRoutes')

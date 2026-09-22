@@ -1,124 +1,120 @@
-// ======================================================
-// MONETIZA - TEMA GLOBAL
-// ======================================================
+(function () {
 
-(function aplicarTemaInicial() {
+    const STORAGE_KEY = 'monetiza_theme'
+    const LIGHT_THEME_ID = 'light-theme-css'
 
-    let tema = localStorage.getItem('monetiza_theme');
+    // Pega o tema salvo imediatamente
+    let tema = localStorage.getItem(STORAGE_KEY)
 
     if (tema !== 'light' && tema !== 'dark') {
-        tema = 'light';
+        tema = 'dark'
     }
 
-    document.documentElement.setAttribute(
-        'data-theme',
-        tema
-    );
+    // Aplica o atributo ANTES do restante da página carregar
+    document.documentElement.setAttribute('data-theme', tema)
 
-})();
+    function carregarLightTheme() {
 
+        let link = document.getElementById(LIGHT_THEME_ID)
 
-// ======================================================
-// QUANDO A PÁGINA CARREGAR
-// ======================================================
+        if (!link) {
 
-document.addEventListener('DOMContentLoaded', function () {
+            link = document.createElement('link')
 
-    const botoesTema = document.querySelectorAll(
-        '[data-tema-select]'
-    );
+            link.id = LIGHT_THEME_ID
+            link.rel = 'stylesheet'
+            link.href = 'css/lightTheme.css'
 
-    console.log(
-        'Botões de tema encontrados:',
-        botoesTema.length
-    );
+            document.head.appendChild(link)
+        }
 
+        link.disabled = false
+    }
 
-    // ==================================================
-    // MARCAR TEMA ATUAL
-    // ==================================================
+    function removerLightTheme() {
+
+        const link =
+            document.getElementById(LIGHT_THEME_ID)
+
+        if (link) {
+            link.disabled = true
+        }
+    }
 
     function atualizarBotoes() {
 
         const temaAtual =
-            document.documentElement.getAttribute(
-                'data-theme'
-            );
+            document.documentElement.getAttribute('data-theme') || 'dark'
 
-        botoesTema.forEach(function (botao) {
+        document
+            .querySelectorAll('[data-tema-select]')
+            .forEach(botao => {
 
-            const temaBotao =
-                botao.getAttribute(
-                    'data-tema-select'
-                );
+                const temaBotao =
+                    botao.getAttribute('data-tema-select')
 
-            botao.classList.toggle(
-                'active',
-                temaBotao === temaAtual
-            );
+                botao.classList.toggle(
+                    'active',
+                    temaBotao === temaAtual
+                )
 
-        });
-
+            })
     }
 
+    function aplicarTema(novoTema) {
 
-    // ==================================================
-    // CLICAR NO TEMA
-    // ==================================================
+        if (
+            novoTema !== 'light' &&
+            novoTema !== 'dark'
+        ) {
+            novoTema = 'dark'
+        }
 
-    botoesTema.forEach(function (botao) {
+        document.documentElement.setAttribute(
+            'data-theme',
+            novoTema
+        )
 
-        botao.addEventListener('click', function () {
+        localStorage.setItem(
+            STORAGE_KEY,
+            novoTema
+        )
 
-            const tema =
-                botao.getAttribute(
-                    'data-tema-select'
-                );
+        if (novoTema === 'light') {
+            carregarLightTheme()
+        } else {
+            removerLightTheme()
+        }
 
-            console.log(
-                'Botão de tema clicado:',
-                tema
-            );
+        atualizarBotoes()
+    }
 
+    // Ativa o light CSS o mais cedo possível
+    if (tema === 'light') {
+        carregarLightTheme()
+    }
 
-            if (
-                tema !== 'light' &&
-                tema !== 'dark'
-            ) {
-                return;
-            }
+    // Botões de tema
+    document.addEventListener('click', event => {
 
+        const botao =
+            event.target.closest('[data-tema-select]')
 
-            // Aplica no HTML
-            document.documentElement.setAttribute(
-                'data-theme',
-                tema
-            );
+        if (!botao) return
 
+        const novoTema =
+            botao.getAttribute('data-tema-select')
 
-            // Salva
-            localStorage.setItem(
-                'monetiza_theme',
-                tema
-            );
+        aplicarTema(novoTema)
 
+    })
 
-            // Atualiza botão
-            atualizarBotoes();
+    // Atualiza os botões depois que o HTML existir
+    document.addEventListener(
+        'DOMContentLoaded',
+        () => {
+            atualizarBotoes()
+        }
+    )
 
-
-            console.log(
-                'Tema aplicado:',
-                document.documentElement.getAttribute(
-                    'data-theme'
-                )
-            );
-
-        });
-
-    });
-
-
-    atualizarBotoes();
-
-});
+})()

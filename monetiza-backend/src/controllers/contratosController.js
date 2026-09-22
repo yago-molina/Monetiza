@@ -9,16 +9,38 @@ const statusPermitidos = [
     'Cancelado'
 ]
 
-function removerArquivo(caminhoArquivo) {
-    if (!caminhoArquivo) return
+const pastaContratos = path.join(
+    __dirname,
+    '..',
+    'private',
+    'uploads',
+    'contratos'
+)
 
-    const caminhoRelativo = caminhoArquivo.replace(/^\/+/, '')
+function obterNomeArquivo(caminhoArquivo) {
+    if (typeof caminhoArquivo !== 'string') {
+        return null
+    }
+
+    const nome = path.posix.basename(
+        caminhoArquivo.replace(/\\/g, '/')
+    )
+
+    if (!/^[a-zA-Z0-9._-]+\.pdf$/i.test(nome)) {
+        return null
+    }
+
+    return nome
+}
+
+function removerArquivo(caminhoArquivo) {
+    const nome = obterNomeArquivo(caminhoArquivo)
+
+    if (!nome) return
 
     const caminhoCompleto = path.join(
-        __dirname,
-        '..',
-        'public',
-        caminhoRelativo
+        pastaContratos,
+        nome
     )
 
     if (fs.existsSync(caminhoCompleto)) {
@@ -636,6 +658,90 @@ const aceitar = async (req, res) => {
     }
 }
 
+const baixarPdf = async (req, res) => {
+    const contratoId = Number(req.params.id)
+    const usuarioId = req.usuario.id
+
+    if (
+        !Number.isSafeInteger(contratoId) ||
+        contratoId <= 0
+    ) {
+        return res.status(400).json({
+            erro: 'ID do contrato inválido'
+        })
+    }
+
+    try {
+        const [contratos] = await db.query(
+            `SELECT c.arquivo_pdf
+             FROM contratos c
+             INNER JOIN afiliacoes a
+                 ON a.id = c.afiliacao_id
+             INNER JOIN produtos p
+                 ON p.id = a.produto_id
+             WHERE c.id = ?
+               AND (
+                   p.usuario_id = ?
+                   OR a.usuario_id = ?
+               )
+             LIMIT 1`,
+            [contratoId, usuarioId, usuarioId]
+        )
+
+        if (!contratos.length) {
+            return res.status(404).json({
+                erro: 'Contrato não encontrado'
+            })
+        }
+
+        const nome = obterNomeArquivo(
+            contratos[0].arquivo_pdf
+        )
+
+        if (!nome) {
+            return res.status(404).json({
+                erro: 'PDF não encontrado'
+            })
+        }
+
+        res.set({
+            'Cache-Control': 'private, no-store',
+            'X-Content-Type-Options': 'nosniff'
+        })
+
+        return res.download(
+            path.join(pastaContratos, nome),
+            `contrato-${contratoId}.pdf`,
+            erro => {
+                if (!erro) return
+
+                if (res.headersSent) {
+                    res.destroy()
+                    return
+                }
+
+                const naoEncontrado =
+                    erro.code === 'ENOENT' ||
+                    erro.status === 404
+
+                res.status(
+                    naoEncontrado ? 404 : 500
+                ).json({
+                    erro: naoEncontrado
+                        ? 'PDF não encontrado'
+                        : 'Não foi possível baixar o PDF'
+                })
+            }
+        )
+    } catch (erro) {
+        console.error('Erro ao baixar contrato:', erro)
+
+        return res.status(500).json({
+            erro: 'Não foi possível baixar o PDF'
+        })
+    }
+}
+
 module.exports = {
     listarAfiliacoes,
     listar,
@@ -643,5 +749,6 @@ module.exports = {
     criar,
     atualizar,
     atualizarStatus,
-    aceitar
+    aceitar,
+    baixarPdf
 }

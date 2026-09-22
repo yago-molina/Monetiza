@@ -1,109 +1,16 @@
 const db = require('../config/db')
 
+const {
+    calcularResumoFinanceiro
+} = require('../services/financeiroService')
+
 const resumo = async (req, res) => {
-    const usuario_id = req.usuario.id
-
     try {
-        const [[vendas]] = await db.query(
-            `SELECT
-                COALESCE(
-                    SUM(
-                        (vi.preco_unitario * vi.quantidade)
-                        - vi.comissao_afiliado
-                    ),
-                    0
-                ) AS total
-            FROM venda_itens vi
-            INNER JOIN vendas v
-                ON v.id = vi.venda_id
-            WHERE vi.vendedor_id = ?
-              AND v.status_venda = 'pago'`,
-            [usuario_id]
+        const dados = await calcularResumoFinanceiro(
+            req.usuario.id
         )
 
-        const [[comissoes]] = await db.query(
-            `SELECT
-                COALESCE(
-                    SUM(vi.comissao_afiliado),
-                    0
-                ) AS total
-            FROM venda_itens vi
-            INNER JOIN vendas v
-                ON v.id = vi.venda_id
-            WHERE vi.afiliado_id = ?
-              AND v.status_venda = 'pago'`,
-            [usuario_id]
-        )
-
-        const [[ajustesEntrada]] = await db.query(
-            `SELECT
-                COALESCE(SUM(valor), 0) AS total
-            FROM movimentacoes_financeiras
-            WHERE usuario_id = ?
-              AND tipo = 'Entrada'
-              AND categoria = 'Ajuste'
-              AND status_movimentacao = 'Confirmada'`,
-            [usuario_id]
-        )
-
-        const [[ajustesSaida]] = await db.query(
-            `SELECT
-                COALESCE(SUM(valor), 0) AS total
-            FROM movimentacoes_financeiras
-            WHERE usuario_id = ?
-              AND tipo = 'Saida'
-              AND categoria = 'Ajuste'
-              AND status_movimentacao = 'Confirmada'`,
-            [usuario_id]
-        )
-
-        const [[saques]] = await db.query(
-            `SELECT
-                COALESCE(SUM(valor), 0) AS total
-            FROM saques
-            WHERE usuario_id = ?
-              AND status_saque IN (
-                  'Pendente',
-                  'Aprovado',
-                  'Concluido'
-              )`,
-            [usuario_id]
-        )
-
-        const totalVendas =
-            Number(vendas.total || 0)
-
-        const totalComissoes =
-            Number(comissoes.total || 0)
-
-        const totalAjustesEntrada =
-            Number(ajustesEntrada.total || 0)
-
-        const totalAjustesSaida =
-            Number(ajustesSaida.total || 0)
-
-        const totalSaques =
-            Number(saques.total || 0)
-
-        const totalEntradas =
-            totalVendas +
-            totalComissoes +
-            totalAjustesEntrada
-
-        const totalSaidas =
-            totalAjustesSaida +
-            totalSaques
-
-        const saldoDisponivel =
-            totalEntradas - totalSaidas
-
-        return res.json({
-            saldo_disponivel: saldoDisponivel,
-            total_entradas: totalEntradas,
-            total_saidas: totalSaidas,
-            vendas: totalVendas,
-            comissoes: totalComissoes
-        })
+        return res.json(dados)
     } catch (erro) {
         console.error(
             'Erro ao carregar resumo financeiro:',
@@ -238,27 +145,17 @@ const listarTransacoes = async (req, res) => {
 }
 
 const criarTransacao = async (req, res) => {
-    const usuario_id = req.usuario.id
+    const usuarioId = req.usuario.id
+    const { tipo, descricao, valor } = req.body
 
-    const {
-        tipo,
-        descricao,
-        valor
-    } = req.body
-
-    const tiposPermitidos = [
-        'Entrada',
-        'Saida'
-    ]
-
-    if (!tiposPermitidos.includes(tipo)) {
+    if (!['Entrada', 'Saida'].includes(tipo)) {
         return res.status(400).json({
             erro: 'Tipo de transação inválido'
         })
     }
 
     if (
-        !descricao ||
+        typeof descricao !== 'string' ||
         !descricao.trim()
     ) {
         return res.status(400).json({
@@ -266,96 +163,74 @@ const criarTransacao = async (req, res) => {
         })
     }
 
-    const valorNumerico = Number(valor)
-
     if (
-        !Number.isFinite(valorNumerico) ||
-        valorNumerico <= 0
+        !['number', 'string'].includes(typeof valor) ||
+        String(valor).trim() === ''
     ) {
         return res.status(400).json({
             erro: 'Informe um valor válido'
         })
     }
 
+    const valorNumerico = Number(valor)
+    const centavos = Math.round(valorNumerico * 100)
+
+    if (
+        !Number.isFinite(valorNumerico) ||
+        !Number.isSafeInteger(centavos) ||
+        centavos <= 0 ||
+        Math.abs(valorNumerico * 100 - centavos) > 0.000001
+    ) {
+        return res.status(400).json({
+            erro: 'Informe um valor positivo com até duas casas decimais'
+        })
+    }
+
+    let conexao
+
     try {
-        if (tipo === 'Saida') {
-            const [[vendas]] = await db.query(
-                `SELECT
-                    COALESCE(
-                        SUM(
-                            (vi.preco_unitario * vi.quantidade)
-                            - vi.comissao_afiliado
-                        ),
-                        0
-                    ) AS total
-                FROM venda_itens vi
-                INNER JOIN vendas v
-                    ON v.id = vi.venda_id
-                WHERE vi.vendedor_id = ?
-                  AND v.status_venda = 'pago'`,
-                [usuario_id]
-            )
+        conexao = await db.getConnection()
 
-            const [[comissoes]] = await db.query(
-                `SELECT
-                    COALESCE(
-                        SUM(vi.comissao_afiliado),
-                        0
-                    ) AS total
-                FROM venda_itens vi
-                INNER JOIN vendas v
-                    ON v.id = vi.venda_id
-                WHERE vi.afiliado_id = ?
-                  AND v.status_venda = 'pago'`,
-                [usuario_id]
-            )
+        await conexao.beginTransaction()
 
-            const [[movimentacoes]] = await db.query(
-                `SELECT
-                    COALESCE(
-                        SUM(
-                            CASE
-                                WHEN tipo = 'Entrada'
-                                    THEN valor
-                                ELSE -valor
-                            END
-                        ),
-                        0
-                    ) AS saldo
-                FROM movimentacoes_financeiras
-                WHERE usuario_id = ?
-                  AND categoria = 'Ajuste'
-                  AND status_movimentacao = 'Confirmada'`,
-                [usuario_id]
-            )
+        // Serializa as movimentações deste usuário.
+        const [usuarios] = await conexao.query(
+            `SELECT id
+             FROM usuarios
+             WHERE id = ?
+             FOR UPDATE`,
+            [usuarioId]
+        )
 
-            const [[saques]] = await db.query(
-                `SELECT
-                    COALESCE(SUM(valor), 0) AS total
-                FROM saques
-                WHERE usuario_id = ?
-                  AND status_saque IN (
-                      'Pendente',
-                      'Aprovado',
-                      'Concluido'
-                  )`,
-                [usuario_id]
-            )
+        if (!usuarios.length) {
+            await conexao.rollback()
 
-            const saldo =
-                Number(vendas.total || 0) +
-                Number(comissoes.total || 0) +
-                Number(movimentacoes.saldo || 0) -
-                Number(saques.total || 0)
-
-            if (valorNumerico > saldo) {
-                return res.status(400).json({
-                    erro: 'Saldo insuficiente para esta saída'
-                })
-            }
+            return res.status(404).json({
+                erro: 'Usuário não encontrado'
+            })
         }
 
-        const [resultado] = await db.query(
+        const resumo = await calcularResumoFinanceiro(
+            usuarioId,
+            conexao
+        )
+
+        const saldoCentavos = Math.round(
+            resumo.saldo_disponivel * 100
+        )
+
+        if (
+            tipo === 'Saida' &&
+            centavos > saldoCentavos
+        ) {
+            await conexao.rollback()
+
+            return res.status(400).json({
+                erro: 'Saldo simulado insuficiente para esta saída'
+            })
+        }
+
+        const [resultado] = await conexao.query(
             `INSERT INTO movimentacoes_financeiras (
                 usuario_id,
                 tipo,
@@ -363,35 +238,42 @@ const criarTransacao = async (req, res) => {
                 descricao,
                 valor,
                 status_movimentacao
-            ) VALUES (
-                ?,
-                ?,
-                'Ajuste',
-                ?,
-                ?,
-                'Confirmada'
-            )`,
+            ) VALUES (?, ?, 'Ajuste', ?, ?, 'Confirmada')`,
             [
-                usuario_id,
+                usuarioId,
                 tipo,
                 descricao.trim(),
-                valorNumerico
+                (centavos / 100).toFixed(2)
             ]
         )
 
+        await conexao.commit()
+
         return res.status(201).json({
-            mensagem: 'Transação registrada com sucesso!',
+            mensagem: 'Transação simulada registrada com sucesso!',
             id: resultado.insertId
         })
     } catch (erro) {
-        console.error(
-            'Erro ao criar transação:',
-            erro
-        )
+        if (conexao) {
+            try {
+                await conexao.rollback()
+            } catch (erroRollback) {
+                console.error(
+                    'Erro ao desfazer transação:',
+                    erroRollback
+                )
+            }
+        }
+
+        console.error('Erro ao criar transação:', erro)
 
         return res.status(500).json({
             erro: 'Erro interno ao registrar transação'
         })
+    } finally {
+        if (conexao) {
+            conexao.release()
+        }
     }
 }
 

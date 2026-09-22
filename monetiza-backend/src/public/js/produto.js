@@ -129,9 +129,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function escaparHTML(valor) {
-        const elemento = document.createElement('div')
-        elemento.textContent = valor ?? ''
-        return elemento.innerHTML
+        return String(valor ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;')
     }
 
     function traduzirStatus(status) {

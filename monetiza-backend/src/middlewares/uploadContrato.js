@@ -5,7 +5,7 @@ const fs = require('fs')
 const pastaUpload = path.join(
     __dirname,
     '..',
-    'public',
+    'private',
     'uploads',
     'contratos'
 )

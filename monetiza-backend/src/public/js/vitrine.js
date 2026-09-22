@@ -40,13 +40,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function escaparHTML(valor) {
-
-        const div = document.createElement('div')
-
-        div.textContent = valor === null || valor === undefined ? '' : String(valor)
-
-        return div.innerHTML
-
+        return String(valor ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;')
     }
 
     async function carregarPerfil() {

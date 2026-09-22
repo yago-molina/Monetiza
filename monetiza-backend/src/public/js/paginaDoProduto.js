@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (elDescricao) {
-            elDescricao.innerHTML = String(textoDescricao).replace(/\n/g, '<br>');
+            elDescricao.textContent = String(textoDescricao ?? '');
         } else {
             console.error('Elemento HTML com id="detalhe-descricao" não foi encontrado na página.');
         }

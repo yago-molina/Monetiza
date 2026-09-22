@@ -6,3 +6,7 @@ node_modules
 Dump*.sql
 *.dump
 *.sql
+
+
+src/private/uploads/
+src/public/uploads/perfis

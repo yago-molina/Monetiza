@@ -997,3 +997,229 @@ input:checked + .slider:before {
 .tema-opcao[data-ativo="true"] .tema-check {
     opacity: 1;
 }
+
+/* ======================================================
+   MONETIZA - TEMA CLARO
+   ====================================================== */
+
+html[data-theme="light"] body {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+}
+
+
+/* ======================================================
+   MONETIZA - TEMA ESCURO
+   ====================================================== */
+
+html[data-theme="dark"] body {
+    background-color: #0f1117 !important;
+    color: #f8fafc !important;
+}
+
+
+/* ======================================================
+   TEMA ESCURO - ELEMENTOS PRINCIPAIS
+   ====================================================== */
+
+html[data-theme="dark"] .container {
+    background-color: #0f1117;
+}
+
+html[data-theme="dark"] .main-content {
+    background-color: #0f1117;
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .top-bar {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .page-title {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .page-header-text h2 {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .page-header-text p {
+    color: #94a3b8;
+}
+
+
+/* ======================================================
+   SETTINGS CARD
+   ====================================================== */
+
+html[data-theme="dark"] .settings-card {
+    background-color: #18181b;
+    color: #f8fafc;
+    border-color: #2c2c2e;
+}
+
+
+/* ======================================================
+   TEXTOS
+   ====================================================== */
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] label {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] p {
+    color: #94a3b8;
+}
+
+
+/* ======================================================
+   FORMULÁRIOS
+   ====================================================== */
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+    background-color: #1c1c1e;
+    color: #f8fafc;
+    border-color: #2c2c2e;
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder {
+    color: #71717a;
+}
+
+
+/* ======================================================
+   LISTA DE CONFIGURAÇÕES
+   ====================================================== */
+
+html[data-theme="dark"] .setting-item {
+    border-color: #2c2c2e;
+}
+
+html[data-theme="dark"] .setting-info h4 {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .setting-info p {
+    color: #94a3b8;
+}
+
+
+/* ======================================================
+   BOTÕES DE TEMA
+   ====================================================== */
+
+.temas-lista {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.tema-opcao {
+    min-width: 160px;
+    padding: 18px 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+
+    background: #ffffff;
+    color: #0f172a;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.tema-opcao:hover {
+    transform: translateY(-2px);
+}
+
+
+/* Tema selecionado */
+
+.tema-opcao.active {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.15);
+}
+
+
+/* ======================================================
+   BOTÕES DE TEMA - DARK
+   ====================================================== */
+
+html[data-theme="dark"] .tema-opcao {
+    background: #1c1c1e;
+    color: #f8fafc;
+    border-color: #2c2c2e;
+}
+
+html[data-theme="dark"] .tema-opcao:hover {
+    background: #252529;
+}
+
+html[data-theme="dark"] .tema-opcao.active {
+    border-color: #8b5cf6;
+    background: #252529;
+}
+
+
+/* ======================================================
+   SIDEBAR
+   ====================================================== */
+
+html[data-theme="dark"] .sidebar {
+    background-color: #18181b;
+    border-color: #2c2c2e;
+}
+
+html[data-theme="dark"] .brand-name {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .menu-nav a {
+    color: #a1a1aa;
+}
+
+html[data-theme="dark"] .menu-nav a:hover {
+    color: #ffffff;
+    background-color: #27272a;
+}
+
+html[data-theme="dark"] .menu-nav li.active a {
+    color: #ffffff;
+    background-color: #27272a;
+}
+
+
+/* ======================================================
+   TRANSIÇÃO
+   ====================================================== */
+
+body,
+.main-content,
+.sidebar,
+.settings-card,
+.tema-opcao,
+input,
+textarea,
+select {
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        border-color 0.25s ease;
+}

@@ -603,3 +603,8 @@ body {
     object-fit: cover;
     border-radius: 50%;
 }
+
+#detalhe-descricao {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}

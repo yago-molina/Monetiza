@@ -252,6 +252,49 @@ document.addEventListener('DOMContentLoaded', () => {
         return t(`contratos.js.status.${chave}`)
     }
 
+        function escaparHTML(valor) {
+        return String(valor ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;')
+    }
+
+    function obterUrlPdfSegura(caminho) {
+        if (
+            typeof caminho !== 'string' ||
+            !caminho.trim()
+        ) {
+            return ''
+        }
+
+        try {
+            const url = new URL(
+                caminho,
+                window.location.origin
+            )
+
+            const permitido =
+                url.origin === window.location.origin &&
+                url.pathname.startsWith('/uploads/contratos/') &&
+                url.pathname.toLowerCase().endsWith('.pdf')
+
+            return permitido ? url.href : ''
+        } catch {
+            return ''
+        }
+    }
+
+    function escaparHTML(valor) {
+    return String(valor ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+}
+
     function renderizarContratos(lista) {
         if (!listaContratos || !estadoVazio) return
 
@@ -338,15 +381,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
                 <div class="contrato-actions">
-                    <a
-                        href="${contrato.arquivo_pdf}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn-contrato"
-                    >
-                        <i class="fa-solid fa-file-pdf"></i>
-                        ${t('contratos.js.verPdf')}
-                    </a>
+                        <button
+                            type="button"
+                            class="btn-contrato btn-baixar-pdf"
+                            data-id="${escaparHTML(contrato.id)}"
+                        >
+                            <i class="fa-solid fa-file-pdf"></i>
+                            Baixar PDF
+                        </button>
 
                     ${
                         contrato.status_contrato === 'Pendente'
@@ -354,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <button
                                     type="button"
                                     class="btn-contrato btn-aceitar"
-                                    data-id="${contrato.id}"
+                                    data-id="${escaparHTML(contrato.id)}"
                                 >
                                     <i class="fa-solid fa-check"></i>
                                     ${t('contratos.js.aceitar')}
@@ -369,7 +411,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <button
                                     type="button"
                                     class="btn-contrato btn-editar"
-                                    data-id="${contrato.id}"
+                                    data-id="${escaparHTML(contrato.id)}"
                                 >
                                     <i class="fa-solid fa-pen"></i>
                                     ${t('contratos.js.editar')}
@@ -378,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <button
                                     type="button"
                                     class="btn-contrato btn-cancelar-contrato"
-                                    data-id="${contrato.id}"
+                                    data-id="${escaparHTML(contrato.id)}"
                                 >
                                     <i class="fa-solid fa-xmark"></i>
                                     ${t('contratos.js.cancelar')}
@@ -394,6 +436,80 @@ document.addEventListener('DOMContentLoaded', () => {
 
         adicionarEventosCards()
     }
+
+    async function baixarPdfContrato(id, botao) {
+    const contratoId = Number(id)
+
+    if (
+        !Number.isSafeInteger(contratoId) ||
+        contratoId <= 0
+    ) {
+        alert('Contrato inválido')
+        return
+    }
+
+    if (botao.disabled) return
+
+    botao.disabled = true
+
+    try {
+        const response = await fetch(
+            `/contratos-api/${contratoId}/pdf`,
+            {
+                headers: headersAuth(),
+                cache: 'no-store'
+            }
+        )
+
+        if (!verificarSessao(response)) return
+
+        if (!response.ok) {
+            const dados = await response.json()
+                .catch(() => ({}))
+
+            throw new Error(
+                dados.erro ||
+                'Não foi possível baixar o PDF'
+            )
+        }
+
+        const arquivo = await response.blob()
+        const urlTemporaria = URL.createObjectURL(arquivo)
+
+        const link = document.createElement('a')
+
+        link.href = urlTemporaria
+        link.download = `contrato-${contratoId}.pdf`
+
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+
+        setTimeout(() => {
+            URL.revokeObjectURL(urlTemporaria)
+        }, 60000)
+    } catch (erro) {
+        console.error('Erro ao baixar PDF:', erro)
+        alert(erro.message)
+    } finally {
+        botao.disabled = false
+    }
+}
+
+document.addEventListener('click', evento => {
+    const botao = evento.target.closest(
+        '.btn-baixar-pdf'
+    )
+
+    if (!botao) return
+
+    evento.preventDefault()
+
+    baixarPdfContrato(
+        botao.dataset.id,
+        botao
+    )
+})
 
     function adicionarEventosCards() {
         document.querySelectorAll('.btn-aceitar')
@@ -637,12 +753,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     contrato.arquivo_pdf
                         ? `
                             ${t('contratos.js.pdfAtual')}:
-                            <a
-                                href="${contrato.arquivo_pdf}"
-                                target="_blank"
-                            >
-                                ${t('contratos.js.visualizar')}
-                            </a>
+                            <button
+                            type="button"
+                            class="btn-contrato btn-baixar-pdf"
+                            data-id="${escaparHTML(contrato.id)}"
+                        >
+                            Baixar PDF
+                        </button>
                         `
                         : ''
             }
