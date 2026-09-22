@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 background: #2c2c2e;
             }
 
+
             .menu-perfil-global i {
                 width: 18px;
                 text-align: center;
@@ -136,62 +137,79 @@ document.addEventListener('DOMContentLoaded', async () => {
                 'perfil-topo-clicavel'
             )
 
+            let timeoutFechar
+
+            const abrirMenu = () => {
+
+                clearTimeout(timeoutFechar)
+
+                const rect =
+                    botao.getBoundingClientRect()
+
+                menu.style.top =
+                    `${rect.bottom + 8}px`
+
+                menu.style.left =
+                    `${Math.max(
+                        10,
+                        rect.right - 190
+                    )}px`
+
+                menu.classList.add('aberto')
+            }
+
+            const fecharMenu = () => {
+
+                timeoutFechar = setTimeout(() => {
+
+                    if (
+                        !botao.matches(':hover') &&
+                        !menu.matches(':hover')
+                    ) {
+                        menu.classList.remove('aberto')
+                    }
+
+                }, 150)
+            }
+
             botao.addEventListener(
-                'click',
-                evento => {
-                    evento.preventDefault()
-                    evento.stopPropagation()
+                'mouseenter',
+                abrirMenu
+            )
 
-                    const rect =
-                        botao.getBoundingClientRect()
+            botao.addEventListener(
+                'mouseleave',
+                fecharMenu
+            )
 
-                    menu.style.top =
-                        `${rect.bottom + 8}px`
-
-                    menu.style.left =
-                        `${Math.max(
-                            10,
-                            rect.right - 190
-                        )}px`
-
-                    menu.classList.toggle(
-                        'aberto'
-                    )
+            menu.addEventListener(
+                'mouseenter',
+                () => {
+                    clearTimeout(timeoutFechar)
                 }
             )
-        })
 
-        document.addEventListener(
-            'click',
-            evento => {
-                if (
-                    !menu.contains(evento.target)
-                ) {
-                    menu.classList.remove(
-                        'aberto'
-                    )
-                }
-            }
-        )
+            menu.addEventListener(
+                'mouseleave',
+                fecharMenu
+            )
+        })
 
         window.addEventListener(
             'resize',
             () => {
-                menu.classList.remove(
-                    'aberto'
-                )
+                menu.classList.remove('aberto')
             }
         )
 
         window.addEventListener(
             'scroll',
             () => {
-                menu.classList.remove(
-                    'aberto'
-                )
+                menu.classList.remove('aberto')
             }
         )
     }
+
 
     try {
 

@@ -50,7 +50,14 @@
     btnIA.title = t('iaBtn.assistente');
 
     // Rota relativa à raiz do servidor público
-    btnIA.innerHTML = `<img src="/image/ruby-logo.png" alt="${t('iaBtn.assistente')}">`;
+    btnIA.innerHTML = `
+    <img 
+        src="/image/ruby-logo.png" 
+        alt="Assistente IA"
+        onerror="console.error('ERRO: não conseguiu carregar ruby-logo.png')"
+        onload="console.log('Imagem carregada com sucesso!')"
+    >
+    `;
 
     btnIA.addEventListener('click', () => {
 
