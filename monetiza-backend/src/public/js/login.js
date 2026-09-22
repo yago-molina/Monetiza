@@ -84,7 +84,14 @@ async function fazerLogin(evento) {
 
         alert(dados.mensagem || t('login.js.sucesso'));
 
-        window.location.href = '/dashboard';
+        const retornoCompra = sessionStorage.getItem('retornoCompra');
+
+        if (retornoCompra) {
+            sessionStorage.removeItem('retornoCompra');
+            window.location.href = retornoCompra;
+        } else {
+            window.location.href = '/dashboard';
+        }
 
     } catch (erro) {
 

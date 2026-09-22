@@ -126,6 +126,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function abrirModalCheckout() {
         if (!token) {
             alert(t('paginaProduto.js.loginCompra'));
+            sessionStorage.setItem('retornoCompra', window.location.href);
             window.location.href = '/login';
             return;
         }
