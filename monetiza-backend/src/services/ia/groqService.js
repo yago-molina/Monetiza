@@ -128,10 +128,60 @@ async function gerarTexto({
         schema: parametros.response_format?.json_schema?.name
     })
 
-    const resposta =
-        await cliente.chat.completions.create(
-            parametros
-        )
+    let resposta
+
+        try {
+            resposta = await cliente.chat.completions.create(parametros)
+        } catch (erro) {
+            const detalhe = erro.error?.error || erro.error || {}
+
+            const falhaJson =
+                erro.status === 400 &&
+                detalhe.code === 'json_validate_failed'
+
+            const ehCapitulo =
+                parametros.response_format?.json_schema?.name ===
+                'capitulo_monetiza_v1'
+
+            if (!falhaJson || !ehCapitulo) {
+                throw erro
+            }
+
+            console.warn(
+                'Falha no JSON do capítulo. ' +
+                'Aguardando 60 segundos antes de uma tentativa alternativa.'
+            )
+
+            // Evita repetir imediatamente com a cota de tokens quase esgotada.
+            await new Promise(resolve => setTimeout(resolve, 60000))
+
+            const schema =
+                parametros.response_format.json_schema.schema
+
+            resposta = await cliente.chat.completions.create({
+                ...parametros,
+
+                temperature: 0.2,
+
+                response_format: {
+                    type: 'json_object'
+                },
+
+                messages: [
+                    {
+                        role: 'system',
+                        content: [
+                            systemPrompt,
+                            'Retorne exclusivamente um objeto JSON válido.',
+                            'Não use blocos de código.',
+                            'Preencha os campos seguindo este JSON Schema:',
+                            JSON.stringify(schema)
+                        ].join('\n\n')
+                    },
+                    ...parametros.messages.slice(1)
+                ]
+            })
+        }
 
     const escolha =
     resposta.choices?.[0]

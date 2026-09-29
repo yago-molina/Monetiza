@@ -1307,7 +1307,7 @@ function limparTextoPdf(texto) {
         .replace(/[\u200B-\u200D\uFEFF]/g, '')
         .replace(/[“”]/g, '"')
         .replace(/[‘’]/g, "'")
-        .replace(/[–—]/g, '-')
+        .replace(/[\u2010-\u2015\u2212\uFE58\uFE63\uFF0D]/g, '-')
         .replace(/…/g, '...')
         .replace(/\*\*([^*]+)\*\*/g, '$1')
         .replace(/^#{1,6}\s+/gm, '')
@@ -1542,43 +1542,179 @@ async function enviarPdf(pdf) {
     return respostaAutenticada(resposta, dados).url
 }
 
+const modalLoadingPdf = document.getElementById('loading-pdf')
+const modalSucessoPdf = document.getElementById('sucesso-pdf')
+const textoEtapaPdf = document.getElementById('loading-pdf-etapa')
+const progressoPdf = document.getElementById('loading-pdf-progresso')
+const nomePdfPronto = document.getElementById('sucesso-pdf-nome')
+const botaoBaixarPdf = document.getElementById('baixar-pdf-pronto')
+
+let geracaoPdfEmAndamento = false
+let arquivoPdfPronto = null
+
+// Impede que Esc esconda o progresso durante a geração.
+modalLoadingPdf.addEventListener('cancel', evento => {
+    evento.preventDefault()
+})
+
+document.getElementById('fechar-sucesso-pdf')
+    .addEventListener('click', () => {
+        modalSucessoPdf.close()
+    })
+
+botaoBaixarPdf.addEventListener('click', () => {
+    if (!arquivoPdfPronto) return
+
+    const url = URL.createObjectURL(arquivoPdfPronto.blob)
+    const link = document.createElement('a')
+
+    link.href = url
+    link.download = arquivoPdfPronto.nome
+
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+
+    // Libera a URL temporária após o navegador iniciar o download.
+    setTimeout(() => URL.revokeObjectURL(url), 60000)
+})
+
+function atualizarProgressoPdf(mensagem, concluido, total) {
+    textoEtapaPdf.textContent = mensagem
+    status.innerText = mensagem
+
+    progressoPdf.max = total
+    progressoPdf.value = concluido
+}
+
 async function gerarPdfProduto() {
+    if (geracaoPdfEmAndamento) return
+
+    const textoOriginal = botaoGerarPdf.textContent
+
     try {
         exigirProduto()
 
         if (typeof window.jspdf?.jsPDF !== 'function') {
             throw new Error(
-                'A biblioteca de PDF não carregou. Atualize a página com Ctrl + F5.'
+                'A biblioteca de PDF não carregou. Atualize com Ctrl + F5.'
             )
         }
 
+        const estruturas = produtoGerado.produto.capitulos
+
+        if (!Array.isArray(estruturas) || estruturas.length === 0) {
+            throw new Error('O produto não possui capítulos para gerar.')
+        }
+
+        geracaoPdfEmAndamento = true
         botaoGerarPdf.disabled = true
+        botaoGerarPdf.textContent = 'Gerando PDF...'
+
+        arquivoPdfPronto = null
+        pdfPublicado = null
+        botaoBaixarPdf.disabled = true
+
+        if (modalSucessoPdf.open) {
+            modalSucessoPdf.close()
+        }
+
+        const animacao = modalLoadingPdf.querySelector('iframe')
+        animacao.src = animacao.dataset.src
+
+        const totalEtapas = estruturas.length + 2
+
+        atualizarProgressoPdf(
+            'Preparando a geração dos capítulos...',
+            0,
+            totalEtapas
+        )
+
+        modalLoadingPdf.showModal()
+
+        // Permite ao navegador exibir a sobreposição.
+        await new Promise(resolve => requestAnimationFrame(resolve))
 
         const capitulos = []
 
-        for (const estrutura of produtoGerado.produto.capitulos) {
-            status.innerText =
-                `Gerando capítulo ${estrutura.numero} de ` +
-                `${produtoGerado.produto.capitulos.length}...`
+        for (let indice = 0; indice < estruturas.length; indice++) {
+            const estrutura = estruturas[indice]
+
+            atualizarProgressoPdf(
+                `Gerando capítulo ${indice + 1} de ${estruturas.length}: ` +
+                estrutura.titulo,
+                indice,
+                totalEtapas
+            )
 
             const capitulo = await desenvolverCapitulo(estrutura.numero)
             capitulos.push(capitulo)
+
+            progressoPdf.value = indice + 1
         }
 
-        status.innerText = 'Montando e salvando PDF...'
+        atualizarProgressoPdf(
+            'Organizando o texto e montando o PDF...',
+            estruturas.length,
+            totalEtapas
+        )
+
+        await new Promise(resolve => requestAnimationFrame(resolve))
 
         const pdf = montarPdf(capitulos)
-        const url = await enviarPdf(pdf)
-        pdfPublicado = url
-        pdf.save(nomeArquivoProduto(produtoGerado.cadastro.titulo))
 
-        status.innerText = 'PDF gerado e salvo. Confira o arquivo antes de publicar.'
+        atualizarProgressoPdf(
+            'Salvando o PDF para publicação...',
+            estruturas.length + 1,
+            totalEtapas
+        )
+
+        const url = await enviarPdf(pdf)
+
+        if (!url) {
+            throw new Error('O servidor não retornou o endereço do PDF.')
+        }
+
+        pdfPublicado = url
+
+        arquivoPdfPronto = {
+            blob: pdf.output('blob'),
+            nome: nomeArquivoProduto(produtoGerado.cadastro.titulo)
+        }
+
+        atualizarProgressoPdf(
+            'PDF gerado e salvo com sucesso!',
+            totalEtapas,
+            totalEtapas
+        )
+
+        modalLoadingPdf.close()
+
+        nomePdfPronto.textContent = arquivoPdfPronto.nome
+        botaoBaixarPdf.disabled = false
+
+        modalSucessoPdf.showModal()
+        botaoBaixarPdf.focus()
     } catch (erro) {
         console.error('Erro ao gerar PDF:', erro)
+
+        if (modalLoadingPdf.open) {
+            modalLoadingPdf.close()
+        }
+
+        status.innerText = erro.message
         alert(erro.message)
-        status.innerText = 'Falha ao gerar PDF. Tente novamente.'
     } finally {
+        if (modalLoadingPdf.open) {
+            modalLoadingPdf.close()
+        }
+
+        // Interrompe a animação quando a sobreposição fecha.
+        modalLoadingPdf.querySelector('iframe').src = 'about:blank'
+
+        geracaoPdfEmAndamento = false
         botaoGerarPdf.disabled = false
+        botaoGerarPdf.textContent = textoOriginal
     }
 }
 

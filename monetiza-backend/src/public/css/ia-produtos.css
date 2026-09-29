@@ -1024,6 +1024,120 @@ body {
     }
 }
 
+#loading-pdf,
+#sucesso-pdf {
+    width: min(520px, calc(100vw - 32px));
+    max-height: 90vh;
+    margin: auto;
+    padding: 0;
+    overflow: auto;
+    color: var(--text, #fff);
+    background: var(--card, #1c1c1e);
+    border: 1px solid var(--border-light, #3f3f46);
+    border-radius: 20px;
+    box-shadow: 0 24px 80px #0008;
+}
+
+#loading-pdf::backdrop,
+#sucesso-pdf::backdrop {
+    background: #080812d9;
+    backdrop-filter: blur(6px);
+}
+
+#loading-pdf iframe {
+    display: block;
+    width: 100%;
+    height: 260px;
+    border: 0;
+    pointer-events: none;
+}
+
+.pdf-modal-conteudo {
+    padding: 28px;
+    text-align: center;
+}
+
+.pdf-modal-conteudo h2 {
+    margin-bottom: 14px;
+    font-size: 23px;
+}
+
+.pdf-modal-conteudo p {
+    margin-bottom: 12px;
+    color: var(--text-secondary, #b3b3bf);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.pdf-modal-conteudo small {
+    display: block;
+    margin-top: 14px;
+    color: var(--text-secondary, #b3b3bf);
+}
+
+#loading-pdf-progresso {
+    width: 100%;
+    height: 10px;
+    margin-top: 12px;
+    accent-color: var(--primary, #4d4dff);
+}
+
+.pdf-sucesso-icone {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #10b98120;
+    color: #34d399;
+    font-size: 32px;
+}
+
+#sucesso-pdf-nome {
+    color: var(--text, #fff);
+    font-weight: 600;
+}
+
+.pdf-modal-acoes {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.pdf-modal-acoes button {
+    min-height: 44px;
+    padding: 12px 20px;
+    border: 1px solid var(--border-light, #3f3f46);
+    border-radius: 10px;
+    color: var(--text, #fff);
+    background: transparent;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pdf-modal-acoes #baixar-pdf-pronto {
+    background: var(--primary, #4d4dff);
+    border-color: transparent;
+}
+
+.pdf-modal-acoes button:focus-visible {
+    outline: 2px solid #a5a5ff;
+    outline-offset: 3px;
+}
+
+.pdf-modal-acoes button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+@media (max-width: 480px) {
+    .pdf-modal-acoes {
+        flex-direction: column-reverse;
+    }
+}
+
 /* Class utilitária para ocultar o preview até ser gerado */
 .oculto {
     display: none !important;

@@ -426,6 +426,48 @@
         </main>
     </div>
 
+    <dialog id="loading-pdf" aria-labelledby="loading-pdf-titulo">
+        <iframe
+            src="about:blank"
+            data-src="/loading/index.html"
+            title="Animação de carregamento"
+            sandbox="allow-scripts"
+            tabindex="-1"
+        ></iframe>
+
+        <div class="pdf-modal-conteudo">
+            <h2 id="loading-pdf-titulo">Preparando seu produto</h2>
+
+            <p id="loading-pdf-etapa" role="status" aria-live="polite">
+                Iniciando...
+            </p>
+
+            <progress id="loading-pdf-progresso" value="0" max="1"></progress>
+
+            <small>Mantenha esta página aberta até terminar.</small>
+        </div>
+    </dialog>
+
+    <dialog id="sucesso-pdf" aria-labelledby="sucesso-pdf-titulo">
+        <div class="pdf-modal-conteudo">
+            <div class="pdf-sucesso-icone" aria-hidden="true">✓</div>
+
+            <h2 id="sucesso-pdf-titulo">PDF gerado com sucesso!</h2>
+
+            <p id="sucesso-pdf-nome"></p>
+            <p>Baixe e confira o material antes de publicar.</p>
+
+            <div class="pdf-modal-acoes">
+                <button type="button" id="fechar-sucesso-pdf">
+                    Fechar
+                </button>
+
+                <button type="button" id="baixar-pdf-pronto">
+                    Baixar PDF
+                </button>
+            </div>
+        </div>
+    </dialog>
         
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
