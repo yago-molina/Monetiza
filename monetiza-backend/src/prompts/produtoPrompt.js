@@ -519,6 +519,20 @@ estruturado da API. Não use Markdown, blocos de código
 ou explicações fora da estrutura solicitada.
 
 Responda sempre em português do Brasil.
+
+REGRAS OBRIGATÓRIAS DO FORMATO:
+
+- beneficios: array de strings com exatamente 5 itens.
+- diferenciais: array de strings com exatamente 3 itens.
+- bonus: array de strings com no máximo 3 itens; use [] quando não houver.
+- tags: array de strings com exatamente 5 itens.
+- capitulos: array com 3 capítulos para esta versão.
+- Numere os capítulos sequencialmente: 1, 2 e 3.
+- criativos: array com exatamente 3 objetos.
+- Nunca substitua um array por um texto.
+- Nenhum item de texto pode estar vazio.
+- categoria deve ser Curso, E-book, Software / SaaS ou Mentoria.
+- Não use a categoria Template.
 `;
 
 const PROMPT_CAPITULO = `
@@ -558,8 +572,14 @@ O capítulo deve:
 O conteúdo deve ter profundidade suficiente
 para fazer parte de um produto comercial.
 
-Procure produzir aproximadamente
-entre 1000 e 1800 palavras.
+Produza aproximadamente entre 450 e 650 palavras no total.
+
+Retorne exatamente 3 seções em secoes.
+Retorne exatamente 3 strings em pontos_chave.
+Preencha introducao, atividade_pratica e conclusao.
+Use versao_schema igual a "1.0".
+Use em numero o número exato do capítulo solicitado.
+Todos os textos devem estar preenchidos.
 
 Não invente:
 

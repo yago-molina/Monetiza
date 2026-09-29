@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Meu Site</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ECRÃ DE CARREGAMENTO (LOADER) -->
+    <div class="loader-container">
+        <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="roxo" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#a43cff"/>
+                    <stop offset="45%" stop-color="#8126ef"/>
+                    <stop offset="100%" stop-color="#4b0eaa"/>
+                </linearGradient>
+
+                <linearGradient id="verde" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#b1ff00"/>
+                    <stop offset="100%" stop-color="#67d900"/>
+                </linearGradient>
+
+                <filter id="sombra" x="-30%" y="-30%" width="160%" height="160%">
+                    <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity=".5"/>
+                </filter>
+            </defs>
+
+            <!-- M -->
+            <path id="m-path" d="M160 400 L160 215 Q160 180 185 180 Q200 180 215 195 L300 280 L385 195 Q400 180 415 180 Q440 180 440 215 L440 275" fill="none" stroke="url(#roxo)" stroke-width="72" stroke-linecap="round" stroke-linejoin="round" filter="url(#sombra)"/>
+
+            <!-- MOEDA -->
+            <g id="moeda" filter="url(#sombra)">
+                <circle cx="300" cy="130" r="67" fill="url(#verde)"/>
+                <circle cx="300" cy="130" r="65" fill="none" stroke="#58b900" stroke-width="3"/>
+                <text x="300" y="159" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-size="92" font-weight="900" fill="#071008">$</text>
+            </g>
+
+            <!-- BARRAS -->
+            <g filter="url(#sombra)">
+                <rect id="barra1" class="barra" x="295" y="420" width="38" height="45" rx="5" fill="url(#roxo)"/>
+                <rect id="barra2" class="barra" x="350" y="385" width="38" height="80" rx="6" fill="url(#roxo)"/>
+                <rect id="barra3" class="barra" x="405" y="340" width="38" height="125" rx="6" fill="url(#roxo)"/>
+                <rect id="barra4" class="barra" x="460" y="285" width="38" height="180" rx="7" fill="url(#roxo)"/>
+            </g>
+
+            <!-- SETA -->
+            <g filter="url(#sombra)">
+                <path id="seta-linha" d="M135 455 L245 365 L300 405 L370 360 L435 305 L505 235" fill="none" stroke="url(#verde)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+                <path id="ponta-seta" d="M465 220 L530 205 L515 270 Z" fill="url(#verde)"/>
+            </g>
+        </svg>
+
+        <div class="loading-info">
+            <div class="status-text" id="statusText">A iniciar sistema...</div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+            <div class="percentage" id="percentageText">0%</div>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO REAL DO TEU SITE (Aparece após o carregamento) -->
+    <div class="main-content" id="mainContent">
+        <h1 class="gradient-text">Bem-vindo ao Monetiza</h1>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

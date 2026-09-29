@@ -68,6 +68,29 @@
         </section>
     </div>
 
+    <dialog id="aviso-login" aria-labelledby="aviso-login-titulo">
+        <h2 id="aviso-login-titulo">Monetiza</h2>
+        <p id="aviso-login-texto"></p>
+
+        <form method="dialog">
+            <button type="submit" autofocus>Entendi</button>
+        </form>
+    </dialog>
+
+    <dialog id="loading-login" aria-labelledby="loading-login-texto">
+        <iframe
+            src="about:blank"
+            data-src="/loading/index.html"
+            title="Carregando Monetiza"
+            sandbox="allow-scripts"
+            tabindex="-1"
+        ></iframe>
+
+        <p id="loading-login-texto" role="status">
+            Login realizado! Abrindo sua conta...
+        </p>
+    </dialog>
+
     <script src="js/ia-btn.js"></script>
     <script src="js/i18n.js"></script>
     <script src="js/login.js"></script>

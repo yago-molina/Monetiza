@@ -311,7 +311,8 @@ function adicionarMensagemIA(texto) {
                 </span>
 
                 <button class="btn-copiar">
-                    📋 ${t('iaProdutos.js.copiar')}
+                    <i class="fa-solid fa-copy"></i>
+                    <span class="btn-copiar-texto">${t('iaProdutos.js.copiar')}</span>
                 </button>
 
             </div>
@@ -343,58 +344,27 @@ function adicionarMensagemIA(texto) {
     // BOTÃO COPIAR
     // ==============================================
 
-    botaoCopiar.addEventListener(
-        'click',
-        async function () {
-
-            try {
-
-                await navigator.clipboard.writeText(
-                    texto
-                );
-
-
-                botaoCopiar.innerText =
-                    `✓ ${t('iaProdutos.js.copiado')}`;
-
-
-                setTimeout(
-                    function () {
-
-                        botaoCopiar.innerText =
-                            `📋 ${t('iaProdutos.js.copiar')}`;
-
-                    },
-                    2000
-                );
-
-            }
-            catch (erro) {
-
-                console.error(
-                    'Erro ao copiar:',
-                    erro
-                );
-
-
-                botaoCopiar.innerText =
-                    t('iaProdutos.js.erroCopiar');
-
-
-                setTimeout(
-                    function () {
-
-                        botaoCopiar.innerText =
-                            `📋 ${t('iaProdutos.js.copiar')}`;
-
-                    },
-                    2000
-                );
-
-            }
-
+    botaoCopiar.addEventListener('click', async function () {
+        try {
+            await navigator.clipboard.writeText(texto);
+            // Feedback de sucesso com ícone do Font Awesome
+            botaoCopiar.innerHTML = `<i class="fa-solid fa-check"></i> <span class="btn-copiar-texto">${t('iaProdutos.js.copiado')}</span>`;
+            
+            setTimeout(() => {
+                // Retorna ao estado original com o fa-copy
+                botaoCopiar.innerHTML = `<i class="fa-solid fa-copy"></i> <span class="btn-copiar-texto">${t('iaProdutos.js.copiar')}</span>`;
+            }, 2000);
+        } catch (erro) {
+            console.error('Erro ao copiar:', erro);
+            // Feedback de erro com ícone do Font Awesome
+            botaoCopiar.innerHTML = `<i class="fa-solid fa-xmark"></i> <span class="btn-copiar-texto">${t('iaProdutos.js.erroCopiar')}</span>`;
+            
+            setTimeout(() => {
+                // Retorna ao estado original com o fa-copy
+                botaoCopiar.innerHTML = `<i class="fa-solid fa-copy"></i> <span class="btn-copiar-texto">${t('iaProdutos.js.copiar')}</span>`;
+            }, 2000);
         }
-    );
+    });
 
 
     chatConteudo.appendChild(
@@ -935,6 +905,7 @@ async function usarGeradorProduto(
     produtoGerado =
         resultado;
 
+    pdfPublicado = null 
 
     return resultado;
 
@@ -1236,54 +1207,641 @@ ${erro.message}
 
 // BOTÃO EDITAR PRODUTO
 
-if (botaoEditarProduto) {
+// Estado do arquivo correspondente à versão atual do produto.
+let pdfPublicado = null
 
-    botaoEditarProduto.addEventListener(
-        'click',
-        function () {
+const editor = document.getElementById('editor-produto')
+const formEditor = document.getElementById('form-editor-produto')
+const campo = id => document.getElementById(id)
 
-            alert(
-                t('iaProdutos.js.edicaoFutura')
-            );
-
-        }
-    );
-
+function exigirProduto() {
+    if (!produtoGerado?.cadastro || !produtoGerado?.produto) {
+        throw new Error('Gere um produto antes de continuar.')
+    }
 }
 
-// BOTÃO GERAR PDF
+function respostaAutenticada(resposta, dados) {
+    if (resposta.status === 401) {
+        localStorage.removeItem('token')
+        window.location.href = '/login'
+        throw new Error('Sua sessão expirou.')
+    }
 
-if (botaoGerarPdf) {
+    if (!resposta.ok) {
+        throw new Error(dados.erro || 'Não foi possível concluir a operação.')
+    }
 
-    botaoGerarPdf.addEventListener(
-        'click',
-        function () {
-
-            alert(
-                t('iaProdutos.js.pdfFuturo')
-            );
-
-        }
-    );
-
+    return dados
 }
 
-// BOTÃO PUBLICAR
+function abrirEditorProduto() {
+    try {
+        exigirProduto()
 
-if (botaoPublicarProduto) {
+        const cadastro = produtoGerado.cadastro
 
-    botaoPublicarProduto.addEventListener(
-        'click',
-        function () {
+        campo('ia-titulo').value = cadastro.titulo
+        campo('ia-descricao-curta').value = cadastro.descricao_curta
+        campo('ia-descricao-completa').value = cadastro.descricao_completa
+        campo('ia-categoria').value = cadastro.categoria
+        campo('ia-preco').value = cadastro.preco
+        campo('ia-comissao').value = cadastro.comissao
+        campo('ia-capa').value = produtoGerado.capa || ''
 
-            alert(
-                t('iaProdutos.js.publicacaoFutura')
-            );
-
-        }
-    );
-
+        editor.showModal()
+    } catch (erro) {
+        alert(erro.message)
+    }
 }
+
+function salvarEdicaoProduto(evento) {
+    evento.preventDefault()
+
+    if (!formEditor.reportValidity()) return
+
+    const cadastro = produtoGerado.cadastro
+
+    cadastro.titulo = campo('ia-titulo').value.trim()
+    cadastro.descricao_curta = campo('ia-descricao-curta').value.trim()
+    cadastro.descricao_completa = campo('ia-descricao-completa').value.trim()
+    cadastro.categoria = campo('ia-categoria').value
+    cadastro.preco = Number(campo('ia-preco').value)
+    cadastro.comissao = Number(campo('ia-comissao').value)
+    produtoGerado.capa = campo('ia-capa').value.trim()
+
+    // Um PDF anterior pode conter um título ou descrição desatualizados.
+    pdfPublicado = null
+
+    mostrarProdutoPreview(produtoGerado)
+    editor.close()
+    status.innerText = 'Alterações salvas. Gere o PDF antes de publicar.'
+}
+
+async function desenvolverCapitulo(numero) {
+    const resposta = await fetch('/ia/produtos/gerar-capitulo', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            produto: {
+                versao_schema: produtoGerado.versao_schema,
+                cadastro: produtoGerado.cadastro,
+                produto: produtoGerado.produto,
+                criativos: produtoGerado.criativos
+            },
+            numero_capitulo: numero
+        })
+    })
+
+    const dados = await resposta.json()
+    return respostaAutenticada(resposta, dados).resposta
+}
+
+function limparTextoPdf(texto) {
+    return String(texto ?? '')
+        .normalize('NFC')
+        .replace(/\r\n?/g, '\n')
+        .replace(/[\u00A0\u2007\u202F]/g, ' ')
+        .replace(/[\u200B-\u200D\uFEFF]/g, '')
+        .replace(/[“”]/g, '"')
+        .replace(/[‘’]/g, "'")
+        .replace(/[\u2010-\u2015\u2212\uFE58\uFE63\uFF0D]/g, '-')
+        .replace(/…/g, '...')
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/^#{1,6}\s+/gm, '')
+        .trim()
+}
+
+function nomeArquivoProduto(titulo) {
+    const nome = limparTextoPdf(titulo)
+        // Usa a parte principal antes do subtítulo.
+        .split(/[:|]|\s+-\s+/)[0]
+        .replace(/[<>:"/\\|?*\u0000-\u001F]/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .split(' ')
+        .slice(0, 7)
+        .join(' ')
+        .slice(0, 80)
+        .replace(/[. ]+$/g, '')
+
+    const seguro = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i.test(nome)
+        ? `Produto ${nome}`
+        : nome
+
+    return `${seguro || 'Meu produto'}.pdf`
+}
+
+function escreverParagrafo(
+    pdf,
+    texto,
+    estado,
+    tamanho = 11,
+    negrito = false,
+    cor = [45, 45, 55]
+) {
+    const conteudo = limparTextoPdf(texto)
+    if (!conteudo) return
+
+    const margem = 22
+    const largura = pdf.internal.pageSize.getWidth() - margem * 2
+    const limite = pdf.internal.pageSize.getHeight() - 25
+
+    pdf.setFont('helvetica', negrito ? 'bold' : 'normal')
+    pdf.setFontSize(tamanho)
+    pdf.setTextColor(...cor)
+    pdf.setCharSpace(0)
+
+    const alturaLinha = tamanho / pdf.internal.scaleFactor * 1.45
+
+    const paragrafos = conteudo.split(/\n\s*\n/)
+
+    for (const paragrafo of paragrafos) {
+        const linhas = pdf.splitTextToSize(
+            paragrafo.replace(/[ \t]+/g, ' '),
+            largura
+        )
+
+        const espacoNecessario = negrito
+            ? linhas.length * alturaLinha + 12
+            : Math.min(linhas.length, 2) * alturaLinha
+
+        if (
+            estado.y + espacoNecessario > limite &&
+            estado.y > 24
+        ) {
+            pdf.addPage()
+            estado.y = 24
+        }
+
+        for (const linha of linhas) {
+            if (estado.y + alturaLinha > limite) {
+                pdf.addPage()
+                estado.y = 24
+            }
+
+            pdf.text(linha, margem, estado.y)
+            estado.y += alturaLinha
+        }
+
+        estado.y += 4
+    }
+
+    if (negrito) estado.y += 1
+}
+
+function montarPdf(capitulos) {
+    const { jsPDF } = window.jspdf
+
+    const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+    })
+
+    const estado = { y: 50 }
+    const roxo = [77, 77, 255]
+
+    pdf.setProperties({
+        title: limparTextoPdf(produtoGerado.cadastro.titulo),
+        subject: limparTextoPdf(produtoGerado.produto.subtitulo),
+        creator: 'Monetiza'
+    })
+
+    pdf.setFillColor(...roxo)
+    pdf.rect(22, 30, 28, 2, 'F')
+
+    escreverParagrafo(
+        pdf,
+        produtoGerado.cadastro.titulo,
+        estado,
+        26,
+        true,
+        [25, 25, 35]
+    )
+
+    estado.y += 5
+
+    escreverParagrafo(
+        pdf,
+        produtoGerado.produto.subtitulo,
+        estado,
+        14,
+        false,
+        [95, 95, 110]
+    )
+
+    for (const capitulo of capitulos) {
+        pdf.addPage()
+        estado.y = 28
+
+        escreverParagrafo(
+            pdf,
+            `CAPÍTULO ${capitulo.numero}`,
+            estado,
+            10,
+            true,
+            roxo
+        )
+
+        escreverParagrafo(
+            pdf,
+            capitulo.titulo,
+            estado,
+            21,
+            true,
+            [25, 25, 35]
+        )
+
+        escreverParagrafo(pdf, capitulo.introducao, estado)
+
+        for (const secao of capitulo.secoes) {
+            estado.y += 3
+
+            escreverParagrafo(
+                pdf,
+                secao.titulo,
+                estado,
+                14,
+                true,
+                roxo
+            )
+
+            escreverParagrafo(pdf, secao.conteudo, estado)
+        }
+
+        escreverParagrafo(
+            pdf, 'Atividade prática', estado, 14, true, roxo
+        )
+
+        escreverParagrafo(
+            pdf, capitulo.atividade_pratica, estado
+        )
+
+        escreverParagrafo(
+            pdf, 'Pontos-chave', estado, 14, true, roxo
+        )
+
+        for (const ponto of capitulo.pontos_chave) {
+            escreverParagrafo(pdf, `- ${ponto}`, estado)
+        }
+
+        escreverParagrafo(
+            pdf, 'Conclusão', estado, 14, true, roxo
+        )
+
+        escreverParagrafo(pdf, capitulo.conclusao, estado)
+    }
+
+    const total = pdf.getNumberOfPages()
+
+    for (let pagina = 1; pagina <= total; pagina++) {
+        pdf.setPage(pagina)
+
+        const largura = pdf.internal.pageSize.getWidth()
+        const altura = pdf.internal.pageSize.getHeight()
+
+        pdf.setDrawColor(225, 225, 235)
+        pdf.setLineWidth(0.2)
+        pdf.line(22, altura - 19, largura - 22, altura - 19)
+
+        pdf.setFont('helvetica', 'normal')
+        pdf.setFontSize(9)
+        pdf.setTextColor(120, 120, 135)
+
+        pdf.text('Monetiza', 22, altura - 12)
+
+        pdf.text(
+            `${pagina} / ${total}`,
+            largura - 22,
+            altura - 12,
+            { align: 'right' }
+        )
+    }
+
+    return pdf
+}
+
+async function enviarPdf(pdf) {
+    const formulario = new FormData()
+    formulario.append(
+        'arquivo',
+        pdf.output('blob'),
+        nomeArquivoProduto(produtoGerado.cadastro.titulo)
+    )
+
+    const resposta = await fetch('/ia/produtos/arquivo', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formulario
+    })
+
+    const dados = await resposta.json()
+    return respostaAutenticada(resposta, dados).url
+}
+
+const modalLoadingPdf = document.getElementById('loading-pdf')
+const modalSucessoPdf = document.getElementById('sucesso-pdf')
+const textoEtapaPdf = document.getElementById('loading-pdf-etapa')
+const progressoPdf = document.getElementById('loading-pdf-progresso')
+const nomePdfPronto = document.getElementById('sucesso-pdf-nome')
+const botaoBaixarPdf = document.getElementById('baixar-pdf-pronto')
+
+let geracaoPdfEmAndamento = false
+let arquivoPdfPronto = null
+
+// Impede que Esc esconda o progresso durante a geração.
+modalLoadingPdf.addEventListener('cancel', evento => {
+    evento.preventDefault()
+})
+
+document.getElementById('fechar-sucesso-pdf')
+    .addEventListener('click', () => {
+        modalSucessoPdf.close()
+    })
+
+botaoBaixarPdf.addEventListener('click', () => {
+    if (!arquivoPdfPronto) return
+
+    const url = URL.createObjectURL(arquivoPdfPronto.blob)
+    const link = document.createElement('a')
+
+    link.href = url
+    link.download = arquivoPdfPronto.nome
+
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+
+    // Libera a URL temporária após o navegador iniciar o download.
+    setTimeout(() => URL.revokeObjectURL(url), 60000)
+})
+
+function atualizarProgressoPdf(mensagem, concluido, total) {
+    textoEtapaPdf.textContent = mensagem
+    status.innerText = mensagem
+
+    progressoPdf.max = total
+    progressoPdf.value = concluido
+}
+
+async function gerarPdfProduto() {
+    if (geracaoPdfEmAndamento) return
+
+    const textoOriginal = botaoGerarPdf.textContent
+
+    try {
+        exigirProduto()
+
+        if (typeof window.jspdf?.jsPDF !== 'function') {
+            throw new Error(
+                'A biblioteca de PDF não carregou. Atualize com Ctrl + F5.'
+            )
+        }
+
+        const estruturas = produtoGerado.produto.capitulos
+
+        if (!Array.isArray(estruturas) || estruturas.length === 0) {
+            throw new Error('O produto não possui capítulos para gerar.')
+        }
+
+        geracaoPdfEmAndamento = true
+        botaoGerarPdf.disabled = true
+        botaoGerarPdf.textContent = 'Gerando PDF...'
+
+        arquivoPdfPronto = null
+        pdfPublicado = null
+        botaoBaixarPdf.disabled = true
+
+        if (modalSucessoPdf.open) {
+            modalSucessoPdf.close()
+        }
+
+        const animacao = modalLoadingPdf.querySelector('iframe')
+        animacao.src = animacao.dataset.src
+
+        const totalEtapas = estruturas.length + 2
+
+        atualizarProgressoPdf(
+            'Preparando a geração dos capítulos...',
+            0,
+            totalEtapas
+        )
+
+        modalLoadingPdf.showModal()
+
+        // Permite ao navegador exibir a sobreposição.
+        await new Promise(resolve => requestAnimationFrame(resolve))
+
+        const capitulos = []
+
+        for (let indice = 0; indice < estruturas.length; indice++) {
+            const estrutura = estruturas[indice]
+
+            atualizarProgressoPdf(
+                `Gerando capítulo ${indice + 1} de ${estruturas.length}: ` +
+                estrutura.titulo,
+                indice,
+                totalEtapas
+            )
+
+            const capitulo = await desenvolverCapitulo(estrutura.numero)
+            capitulos.push(capitulo)
+
+            progressoPdf.value = indice + 1
+        }
+
+        atualizarProgressoPdf(
+            'Organizando o texto e montando o PDF...',
+            estruturas.length,
+            totalEtapas
+        )
+
+        await new Promise(resolve => requestAnimationFrame(resolve))
+
+        const pdf = montarPdf(capitulos)
+
+        atualizarProgressoPdf(
+            'Salvando o PDF para publicação...',
+            estruturas.length + 1,
+            totalEtapas
+        )
+
+        const url = await enviarPdf(pdf)
+
+        if (!url) {
+            throw new Error('O servidor não retornou o endereço do PDF.')
+        }
+
+        pdfPublicado = url
+
+        arquivoPdfPronto = {
+            blob: pdf.output('blob'),
+            nome: nomeArquivoProduto(produtoGerado.cadastro.titulo)
+        }
+
+        atualizarProgressoPdf(
+            'PDF gerado e salvo com sucesso!',
+            totalEtapas,
+            totalEtapas
+        )
+
+        modalLoadingPdf.close()
+
+        nomePdfPronto.textContent = arquivoPdfPronto.nome
+        botaoBaixarPdf.disabled = false
+
+        modalSucessoPdf.showModal()
+        botaoBaixarPdf.focus()
+    } catch (erro) {
+        console.error('Erro ao gerar PDF:', erro)
+
+        if (modalLoadingPdf.open) {
+            modalLoadingPdf.close()
+        }
+
+        status.innerText = erro.message
+        alert(erro.message)
+    } finally {
+        if (modalLoadingPdf.open) {
+            modalLoadingPdf.close()
+        }
+
+        // Interrompe a animação quando a sobreposição fecha.
+        modalLoadingPdf.querySelector('iframe').src = 'about:blank'
+
+        geracaoPdfEmAndamento = false
+        botaoGerarPdf.disabled = false
+        botaoGerarPdf.textContent = textoOriginal
+    }
+}
+
+async function publicarProdutoIa() {
+    const textoOriginal = botaoPublicarProduto.textContent
+
+    try {
+        exigirProduto()
+
+        const cadastro = produtoGerado.cadastro
+        const capa = produtoGerado.capa?.trim()
+
+        if (!capa) {
+            abrirEditorProduto()
+            alert('Informe a URL da capa e salve as alterações.')
+            return
+        }
+
+        if (!pdfPublicado) {
+            alert('Gere o PDF antes de publicar.')
+            return
+        }
+
+        const categorias = [
+            'Curso',
+            'E-book',
+            'Software / SaaS',
+            'Mentoria'
+        ]
+
+        if (!categorias.includes(cadastro.categoria)) {
+            abrirEditorProduto()
+            alert('Selecione uma categoria válida no editor.')
+            return
+        }
+
+        const titulo = cadastro.titulo?.trim()
+        const preco = Number(cadastro.preco)
+        const comissao = Number(cadastro.comissao ?? 0)
+
+        if (!titulo || titulo.length > 100) {
+            throw new Error('O título deve ter entre 1 e 100 caracteres.')
+        }
+
+        if (!Number.isFinite(preco) || preco <= 0) {
+            throw new Error('Informe um preço maior que zero.')
+        }
+
+        if (
+            !Number.isFinite(comissao) ||
+            comissao < 0 ||
+            comissao > 100
+        ) {
+            throw new Error('A comissão deve estar entre 0 e 100%.')
+        }
+
+        for (const endereco of [capa, pdfPublicado]) {
+            let url
+
+            try {
+                url = new URL(endereco)
+            } catch {
+                throw new Error('A capa ou o PDF está com um endereço inválido.')
+            }
+
+            if (!['http:', 'https:'].includes(url.protocol)) {
+                throw new Error('A capa e o PDF precisam usar HTTP ou HTTPS.')
+            }
+        }
+
+        botaoPublicarProduto.disabled = true
+        botaoPublicarProduto.textContent = 'Publicando...'
+        status.innerText = 'Salvando produto na plataforma...'
+
+        const resposta = await fetch('/produtos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify({
+                titulo,
+                descricao_curta: cadastro.descricao_curta,
+                descricao_completa: cadastro.descricao_completa,
+                categoria: cadastro.categoria,
+                preco,
+                comissao,
+                capa,
+                produto_arquivo: pdfPublicado,
+                status_produto: 'Ativo'
+            })
+        })
+
+        const dados = await resposta.json().catch(() => ({
+            erro: `O servidor retornou uma resposta inválida (${resposta.status}).`
+        }))
+
+        respostaAutenticada(resposta, dados)
+
+        if (!dados.id) {
+            throw new Error('O servidor não confirmou o código do produto.')
+        }
+
+        status.innerText = 'Produto publicado com sucesso!'
+
+        alert('Produto publicado! Ele já está disponível na vitrine.')
+
+        window.location.href = '/produto'
+    } catch (erro) {
+        console.error('Erro ao publicar produto:', erro)
+        status.innerText = erro.message
+        alert(erro.message)
+    } finally {
+        botaoPublicarProduto.disabled = false
+        botaoPublicarProduto.textContent = textoOriginal
+    }
+}
+
+botaoEditarProduto?.addEventListener('click', abrirEditorProduto)
+botaoGerarPdf?.addEventListener('click', gerarPdfProduto)
+botaoPublicarProduto?.addEventListener('click', publicarProdutoIa)
+
+formEditor.addEventListener('submit', salvarEdicaoProduto)
+
+campo('cancelar-editor').addEventListener('click', () => {
+    editor.close()
+})
 
 // botão envar
 

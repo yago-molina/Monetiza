@@ -131,8 +131,10 @@ const gerar = async (req, res) => {
             erro.codigo === 'PRODUTO_IA_JSON_INVALIDO'
         ) {
             return res.status(502).json({
-                erro:
-                    'A IA não conseguiu montar um produto válido. Tente gerar novamente.'
+                erro: erro.codigo === 'PRODUTO_IA_INVALIDO'
+                    ? erro.message
+                    : 'A IA retornou um produto com JSON inválido. Tente novamente.',
+                codigo: erro.codigo
             })
         }
 
@@ -268,6 +270,24 @@ const gerarCapitulo = async (
             erro
         )
 
+    const detalheGroq = erro.error?.error || erro.error || {}
+
+    if (
+        erro.status === 413 &&
+        detalheGroq.code === 'rate_limit_exceeded'
+    ) {
+        return res.status(429).json({
+            erro: 'O capítulo ultrapassou o limite de tokens da Groq. Reduza o tamanho da geração ou aguarde alguns instantes.',
+            codigo: 'GROQ_LIMITE_TPM'
+        })
+    }
+
+    if (erro.codigo === 'GROQ_MODELO_SEM_JSON_ESTRITO') {
+        return res.status(503).json({
+            erro: 'O modelo configurado não suporta a geração estruturada de capítulos.'
+        })
+    }
+
         if (erro.status === 429) {
             return res.status(429).json({
                 erro:
@@ -288,14 +308,14 @@ const gerarCapitulo = async (
         }
 
         if (
-            erro.codigo ===
-                'CAPITULO_IA_INVALIDO' ||
-            erro.codigo ===
-                'CAPITULO_IA_JSON_INVALIDO'
+            erro.codigo === 'CAPITULO_IA_INVALIDO' ||
+            erro.codigo === 'CAPITULO_IA_JSON_INVALIDO'
         ) {
             return res.status(502).json({
-                erro:
-                    'A IA não conseguiu gerar um capítulo válido.'
+                erro: erro.codigo === 'CAPITULO_IA_INVALIDO'
+                    ? erro.message
+                    : 'A IA retornou um capítulo com JSON inválido. Tente novamente.',
+                codigo: erro.codigo
             })
         }
 

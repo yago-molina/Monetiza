@@ -46,7 +46,7 @@ loader.load(
     model = gltf.scene;
 
     // Escala ampliada para 3.5
-    model.scale.set(3.5, 3.5, 3.5); 
+    model.scale.set(3, 3, 3); 
     model.position.set(0, initialY, 0);
 
     scene.add(model);
