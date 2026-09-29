@@ -690,6 +690,37 @@ body {
 #prompt:focus {
     border-color: var(--primary);
 }
+.btn-copiar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #a1a1aa;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-copiar:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-copiar i {
+    font-size: 13px;
+    transition: transform 0.2s ease;
+}
+
+/* Opcional: ligeiro ajuste visual do ícone no hover */
+.btn-copiar:hover i {
+    transform: scale(1.1);
+}
 
 .btn-enviar {
     height: 52px;
@@ -866,6 +897,131 @@ body {
     font-size: 14px;
     line-height: 1.6;
     color: var(--text-secondary);
+}
+
+/* Pop-up de edição do produto gerado pela IA */
+#editor-produto {
+    width: min(620px, calc(100% - 32px));
+    max-height: min(90vh, 850px);
+    margin: auto;
+    padding: 0;
+    overflow: auto;
+
+    color: var(--text);
+    background: #1c1c1e;
+    border: 1px solid #3f3f46;
+    border-radius: 16px;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.65);
+}
+
+#editor-produto::backdrop {
+    background: rgba(4, 4, 12, 0.78);
+    backdrop-filter: blur(5px);
+}
+
+#form-editor-produto {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 28px;
+}
+
+#form-editor-produto h2 {
+    margin-bottom: 10px;
+    color: var(--text);
+    font-size: 22px;
+}
+
+#form-editor-produto label {
+    margin-top: 10px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#form-editor-produto input,
+#form-editor-produto textarea,
+#form-editor-produto select {
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 13px;
+
+    color: var(--text);
+    background: #121214;
+    border: 1px solid var(--border-light);
+    border-radius: 9px;
+    outline: none;
+    font: inherit;
+    font-size: 14px;
+}
+
+#form-editor-produto textarea {
+    min-height: 88px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+#ia-descricao-completa {
+    min-height: 140px;
+}
+
+#form-editor-produto input:focus,
+#form-editor-produto textarea:focus,
+#form-editor-produto select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-bg);
+}
+
+#form-editor-produto input::placeholder {
+    color: var(--text-muted);
+}
+
+#form-editor-produto select option {
+    background: #1c1c1e;
+    color: white;
+}
+
+#form-editor-produto button {
+    min-height: 42px;
+    padding: 0 18px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#cancelar-editor {
+    color: var(--text);
+    background: transparent;
+    border: 1px solid var(--border-light);
+}
+
+#cancelar-editor:hover {
+    background: var(--card-hover);
+}
+
+#form-editor-produto button[type="submit"] {
+    color: white;
+    background: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+#form-editor-produto button[type="submit"]:hover {
+    background: var(--primary-hover);
+}
+
+@media (max-width: 600px) {
+    #form-editor-produto {
+        padding: 20px;
+    }
+
+    #form-editor-produto > div:last-child {
+        flex-direction: column-reverse;
+    }
+
+    #form-editor-produto button {
+        width: 100%;
+    }
 }
 
 /* Class utilitária para ocultar o preview até ser gerado */

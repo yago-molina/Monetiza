@@ -39,13 +39,16 @@ function validarListaTextos(
     minimo = 0,
     maximo = 20
 ) {
-    if (
-        !Array.isArray(lista) ||
-        lista.length < minimo ||
-        lista.length > maximo
-    ) {
+    if (!Array.isArray(lista)) {
         throw erroValidacao(
-            `A lista ${campo} retornada pela IA é inválida.`
+            `O campo ${campo} deveria ser uma lista, mas veio em outro formato.`
+        )
+    }
+
+    if (lista.length < minimo || lista.length > maximo) {
+        throw erroValidacao(
+            `O campo ${campo} deve ter entre ${minimo} e ${maximo} itens. ` +
+            `A IA retornou ${lista.length}.`
         )
     }
 

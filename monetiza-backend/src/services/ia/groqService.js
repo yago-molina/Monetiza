@@ -120,6 +120,14 @@ async function gerarTexto({
         parametros.response_format = formatoResposta
     }
 
+    console.log('Configuração da geração:', {
+        modelo: parametros.model,
+        limiteTokens: parametros.max_completion_tokens,
+        formato: parametros.response_format?.type,
+        strict: parametros.response_format?.json_schema?.strict,
+        schema: parametros.response_format?.json_schema?.name
+    })
+
     const resposta =
         await cliente.chat.completions.create(
             parametros
