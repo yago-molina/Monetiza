@@ -248,3 +248,77 @@ html, body {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(204, 0, 0, 0.6);
 }
+
+/* Estados funcionais da Ruby */
+.chat-body {
+    min-height: 0;
+}
+
+.message-bubble {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    min-width: 0;
+}
+
+.input-container,
+.input-container input {
+    min-width: 0;
+}
+
+#ruby-nova-conversa {
+    margin-left: auto;
+    color: white;
+    padding: 8px;
+}
+
+.ruby-feedback {
+    padding: 0 16px;
+    font-size: 12px;
+    color: #ffc3c3;
+}
+
+#ruby-aviso:not(:empty) {
+    padding: 10px 0;
+}
+
+#ruby-login {
+    color: white;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+#ruby-login[hidden] {
+    display: none;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid #b1ff00;
+    outline-offset: 3px;
+}
+
+.ruby-digitando {
+    opacity: 0.7;
+}
+
+@media (max-width: 400px) {
+    .chat-header,
+    .chat-footer {
+        padding: 12px;
+    }
+
+    .chat-body {
+        padding: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .message-wrapper {
+        animation: none;
+    }
+}

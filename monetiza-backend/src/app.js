@@ -3,6 +3,8 @@ const path = require('path')
 const app = express()
 const produtoIaRoutes = require('./routes/produtoIaRoutes')
 
+app.use('/api/ruby', require('./routes/rubyRoutes'))
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(

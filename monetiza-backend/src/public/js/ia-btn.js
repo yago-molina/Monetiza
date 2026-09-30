@@ -1,10 +1,13 @@
 (function () {
-    const t = chave => window.i18n?.t(chave) ?? chave;
+    const t = chave => window.i18n?.t(chave) ?? chave
 
     function criarBotaoIA() {
-        if (document.getElementById('btn-ia-floating')) return;
+        if (document.getElementById('btn-ia-floating')) {
+            return
+        }
 
-        const style = document.createElement('style');
+        const style = document.createElement('style')
+
         style.textContent = `
             #btn-ia-floating {
                 position: fixed !important;
@@ -37,7 +40,6 @@
                 display: block !important;
             }
 
-            /* Caixa flutuante pequena (Widget de Chat) */
             #ruby-chat-modal {
                 position: fixed !important;
                 bottom: 95px !important;
@@ -52,59 +54,197 @@
                 overflow: hidden !important;
                 border: 1px solid rgba(204, 0, 0, 0.3) !important;
                 background: #0b0d14 !important;
-                display: none;
+                display: flex;
                 flex-direction: column !important;
                 box-sizing: border-box !important;
+
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transform: translateY(24px);
+
+                transition:
+                    opacity .22s ease,
+                    transform .22s ease,
+                    visibility .22s;
+            }
+
+            #ruby-chat-modal.ruby-aberta {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+                transform: translateY(0);
             }
 
             #ruby-chat-modal * {
                 box-sizing: border-box !important;
             }
-        `;
 
-        document.head.appendChild(style);
+            @media (prefers-reduced-motion: reduce) {
+                #ruby-chat-modal {
+                    transition: none;
+                }
+            }
+        `
 
-        // Criar o Botão Flutuante
-        const btnIA = document.createElement('button');
-        btnIA.id = 'btn-ia-floating';
-        btnIA.title = t('iaBtn.assistente');
+        document.head.appendChild(style)
+
+        const btnIA = document.createElement('button')
+
+        btnIA.id = 'btn-ia-floating'
+        btnIA.type = 'button'
+        btnIA.title = t('iaBtn.assistente')
+
+        btnIA.setAttribute('aria-expanded', 'false')
+        btnIA.setAttribute('aria-controls', 'ruby-chat-modal')
+        btnIA.setAttribute('aria-label', 'Abrir assistente Ruby')
+
         btnIA.innerHTML = `
-            <img 
-                src="/image/ruby-logo.png" 
+            <img
+                src="/image/ruby-logo.png"
                 alt="Assistente IA"
-                onerror="console.error('ERRO: não conseguiu carregar ruby-logo.png')"
-                onload="console.log('Imagem carregada com sucesso!')"
             >
-        `;
+        `
 
-        // Criar a caixinha flutuante com o iframe do ruby.html dentro
-        let modal = document.createElement('div');
-        modal.id = 'ruby-chat-modal';
+        const modal = document.createElement('div')
+
+        modal.id = 'ruby-chat-modal'
+        modal.setAttribute('role', 'region')
+        modal.setAttribute('aria-label', 'Assistente Ruby')
+        modal.setAttribute('aria-hidden', 'true')
+        modal.inert = true
+
         modal.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; background: #111522; padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); height: 45px;">
-                <span style="color: #fff; font-size: 13px; font-weight: 600; font-family: 'Segoe UI', sans-serif;">Assistente Ruby</span>
-                <button id="fechar-ruby-chat" style="background: none; border: none; color: #a0a0c0; font-size: 16px; cursor: pointer; padding: 2px 6px; border-radius: 4px;">✕</button>
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #111522;
+                padding: 10px 15px;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+                height: 45px;
+            ">
+                <span style="
+                    color: #fff;
+                    font-size: 13px;
+                    font-weight: 600;
+                    font-family: 'Segoe UI', sans-serif;
+                ">
+                    Assistente Ruby
+                </span>
+
+                <button
+                    id="fechar-ruby-chat"
+                    type="button"
+                    aria-label="Fechar assistente Ruby"
+                    style="
+                        background: none;
+                        border: none;
+                        color: #a0a0c0;
+                        font-size: 16px;
+                        cursor: pointer;
+                        padding: 2px 6px;
+                        border-radius: 4px;
+                    "
+                >
+                    ✕
+                </button>
             </div>
-            <iframe src="ruby.html" style="width: 100%; height: calc(100% - 45px); border: none; background: #0b0d14;"></iframe>
-        `;
 
-        document.body.appendChild(btnIA);
-        document.body.appendChild(modal);
+            <iframe
+                title="Conversa com a Ruby"
+                data-src="/ruby.html"
+                style="
+                    width: 100%;
+                    height: calc(100% - 45px);
+                    border: none;
+                    background: #0b0d14;
+                "
+            ></iframe>
+        `
 
-        // Evento de Clique para abrir e fechar a caixinha com suavidade
+        document.body.appendChild(btnIA)
+        document.body.appendChild(modal)
+
+        const iframe = modal.querySelector('iframe')
+
+        function definirAberta(aberta) {
+            modal.classList.toggle(
+                'ruby-aberta',
+                aberta
+            )
+
+            modal.setAttribute(
+                'aria-hidden',
+                String(!aberta)
+            )
+
+            modal.inert = !aberta
+
+            btnIA.setAttribute(
+                'aria-expanded',
+                String(aberta)
+            )
+
+            if (aberta) {
+                if (!iframe.getAttribute('src')) {
+                    iframe.src = iframe.dataset.src
+                } else {
+                    iframe.contentWindow.postMessage(
+                        {
+                            type: 'ruby:open'
+                        },
+                        window.location.origin
+                    )
+                }
+
+                iframe.focus()
+            } else {
+                btnIA.focus()
+            }
+        }
+
         btnIA.addEventListener('click', () => {
-            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
-        });
+            definirAberta(
+                !modal.classList.contains('ruby-aberta')
+            )
+        })
 
-        // Ação do botão "✕" para fechar a janela
-        document.getElementById('fechar-ruby-chat').addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
+        document
+            .getElementById('fechar-ruby-chat')
+            .addEventListener('click', () => {
+                definirAberta(false)
+            })
+
+        window.addEventListener('message', evento => {
+            if (
+                evento.origin === window.location.origin &&
+                evento.source === iframe.contentWindow &&
+                evento.data?.type === 'ruby:close'
+            ) {
+                definirAberta(false)
+            }
+        })
+
+        document.addEventListener('keydown', evento => {
+            if (
+                evento.key === 'Escape' &&
+                modal.classList.contains('ruby-aberta')
+            ) {
+                definirAberta(false)
+            }
+        })
     }
 
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        criarBotaoIA();
+    if (
+        document.readyState === 'complete' ||
+        document.readyState === 'interactive'
+    ) {
+        criarBotaoIA()
     } else {
-        document.addEventListener('DOMContentLoaded', criarBotaoIA);
+        document.addEventListener(
+            'DOMContentLoaded',
+            criarBotaoIA
+        )
     }
-})();
+})()

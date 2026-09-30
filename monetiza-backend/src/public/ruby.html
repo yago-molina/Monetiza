@@ -1,61 +1,117 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="landing.tituloDocumento">Dashboard - Monetiza</title>
-    <link rel="icon" type="image/png" href="image/logo_monetiza.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
-    <link rel="stylesheet" href="css/ruby.css">
-    <link rel="stylesheet" href="css/notificacoes.css">
-    <link rel="stylesheet" href="css/feedback.css">
-    <script src="js/theme.js"></script>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Ruby — Assistente Monetiza</title>
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/image/ruby-logo.png"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+    >
+
+    <link rel="stylesheet" href="/css/ruby.css">
+    <link rel="stylesheet" href="/css/feedback.css">
 </head>
+
 <body>
-    <!-- ÁREA PRINCIPAL DO CHAT (Apenas o banner e o chat da Ruby) -->
     <main class="chat-main">
-        
-        <!-- CABEÇALHO VERMELHO DA RUBY -->
         <header class="chat-header">
-            <button class="back-btn" aria-label="Voltar" onclick="window.history.back()">&#8592;</button>
+            <button
+                id="ruby-fechar"
+                class="back-btn"
+                type="button"
+                aria-label="Fechar conversa"
+            >
+                &#8592;
+            </button>
+
             <div class="avatar-container">
-                <img src="image/ruby-logo.png" alt="Ruby Logo">
-                <span class="status-dot"></span>
+                <img
+                    src="/image/ruby-logo.png"
+                    alt="Ruby"
+                >
             </div>
+
             <div class="header-info">
                 <h1>RUBY</h1>
-                <span>Online agora</span>
+
+                <span id="ruby-estado" role="status">
+                    Assistente da Monetiza
+                </span>
             </div>
+
+            <button
+                id="ruby-nova-conversa"
+                type="button"
+                class="tools-btn"
+                title="Nova conversa"
+                aria-label="Nova conversa"
+                disabled
+            >
+                ↺
+            </button>
         </header>
 
-        <!-- CORPO DO CHAT -->
-        <div class="chat-body">
-            <div class="message-wrapper">
-                <div class="message-bubble">
-                    <p>Olá! 😊</p>
-                    <p>Seja bem-vindo(a). Estou aqui para ajudar você com suas dúvidas.</p>
-                    <p>Pode me contar o que você precisa ou qual informação procura? Farei o possível para te ajudar rapidamente!</p>
-                </div>
-            </div>
+        <div
+            id="ruby-mensagens"
+            class="chat-body"
+            role="log"
+            aria-live="polite"
+            aria-label="Conversa com a Ruby"
+        ></div>
+
+        <div class="ruby-feedback">
+            <p id="ruby-aviso" role="alert"></p>
+
+            <a
+                id="ruby-login"
+                href="/login"
+                target="_top"
+                hidden
+            >
+                Entrar na Monetiza
+            </a>
         </div>
 
-        <!-- RODAPÉ DE INPUT -->
-        <footer class="chat-footer">
-            <button class="tools-btn" title="Teclado / Opções">⌨️</button>
+        <form id="ruby-form" class="chat-footer">
             <div class="input-container">
-                <input type="text" placeholder="Escreva uma mensagem..." autocomplete="off">
+                <input
+                    id="ruby-mensagem"
+                    type="text"
+                    placeholder="Escreva uma mensagem..."
+                    aria-label="Mensagem para a Ruby"
+                    maxlength="2000"
+                    autocomplete="off"
+                    required
+                    disabled
+                >
             </div>
-            <button class="send-btn" aria-label="Enviar mensagem">➔</button>
-        </footer>
 
+            <button
+                id="ruby-enviar"
+                class="send-btn"
+                type="submit"
+                aria-label="Enviar mensagem"
+                disabled
+            >
+                ➔
+            </button>
+        </form>
     </main>
 
-    <script src="js/feedback.js"></script>
-    <script src="js/perfil-global.js"></script>
-    <script src="js/i18n.js"></script>
-    <script src="js/ruby.js"></script>
-    <script src="js/notificacoes.js"></script>
+    <script src="/js/feedback.js"></script>
+    <script src="/js/ruby.js"></script>
 </body>
 </html>
