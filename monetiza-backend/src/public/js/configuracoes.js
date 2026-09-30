@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     if (!token) {
-        alert(t('configuracoes.js.acessoNegado'))
+        await MonetizaUI.aviso(t('configuracoes.js.acessoNegado'))
         window.location.href = '/login'
         return
     }
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert(t('configuracoes.js.sessaoExpirada'))
+        await MonetizaUI.aviso(t('configuracoes.js.sessaoExpirada'))
         window.location.href = '/login'
     }
 
@@ -679,7 +679,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             await carregarConfiguracoes()
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -740,7 +740,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             )
 
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -771,7 +771,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 )
             }
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -790,7 +790,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             chavePix.value
 
         if (!nome_titular) {
-            alert(
+            await MonetizaUI.aviso(
                 t('configuracoes.js.pix.informeTitular')
             )
             return
@@ -803,7 +803,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             )
 
         if (erroChave) {
-            alert(erroChave)
+            await MonetizaUI.aviso(erroChave)
             return
         }
 
@@ -842,7 +842,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             await carregarPagamentos()
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -890,7 +890,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             await carregarPagamentos()
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             btnConfirmarExclusaoPix.disabled = false
             btnConfirmarExclusaoPix.textContent =
@@ -920,7 +920,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             nova_senha !==
             confirmar_senha
         ) {
-            alert(
+            await MonetizaUI.aviso(
                 t('configuracoes.js.senhasNaoCoincidem')
             )
             return
@@ -947,7 +947,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             formSeguranca.reset()
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -995,12 +995,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         ]
 
         if (!tiposPermitidos.includes(arquivo.type)) {
-            alert(t('configuracoes.js.foto.formatoInvalido'))
+            await MonetizaUI.aviso(t('configuracoes.js.foto.formatoInvalido'))
             return
         }
 
         if (arquivo.size > 5 * 1024 * 1024) {
-            alert(t('configuracoes.js.foto.tamanhoMaximo'))
+            await MonetizaUI.aviso(t('configuracoes.js.foto.tamanhoMaximo'))
             return
         }
 
@@ -1035,7 +1035,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             inputFotoPerfil.value = ''
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -1161,7 +1161,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             erro.message !==
             'Sessão encerrada'
         ) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -1275,7 +1275,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     if (!token) {
-        alert(t('configuracoes.js.acessoNegado'))
+        await MonetizaUI.aviso(t('configuracoes.js.acessoNegado'))
         window.location.href = '/login'
         return
     }
@@ -1302,7 +1302,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert(t('configuracoes.js.sessaoExpirada'))
+        await MonetizaUI.aviso(t('configuracoes.js.sessaoExpirada'))
         window.location.href = '/login'
     }
 
@@ -1870,7 +1870,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             await carregarConfiguracoes()
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -1931,7 +1931,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             )
 
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -1962,7 +1962,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 )
             }
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -1981,7 +1981,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             chavePix.value
 
         if (!nome_titular) {
-            alert(
+            await MonetizaUI.aviso(
                 t('configuracoes.js.pix.informeTitular')
             )
             return
@@ -1994,7 +1994,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             )
 
         if (erroChave) {
-            alert(erroChave)
+            await MonetizaUI.aviso(erroChave)
             return
         }
 
@@ -2033,7 +2033,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             await carregarPagamentos()
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -2081,7 +2081,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             await carregarPagamentos()
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             btnConfirmarExclusaoPix.disabled = false
             btnConfirmarExclusaoPix.textContent =
@@ -2111,7 +2111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             nova_senha !==
             confirmar_senha
         ) {
-            alert(
+            await MonetizaUI.aviso(
                 t('configuracoes.js.senhasNaoCoincidem')
             )
             return
@@ -2138,7 +2138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             formSeguranca.reset()
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -2186,12 +2186,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         ]
 
         if (!tiposPermitidos.includes(arquivo.type)) {
-            alert(t('configuracoes.js.foto.formatoInvalido'))
+            await MonetizaUI.aviso(t('configuracoes.js.foto.formatoInvalido'))
             return
         }
 
         if (arquivo.size > 5 * 1024 * 1024) {
-            alert(t('configuracoes.js.foto.tamanhoMaximo'))
+            await MonetizaUI.aviso(t('configuracoes.js.foto.tamanhoMaximo'))
             return
         }
 
@@ -2226,7 +2226,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             inputFotoPerfil.value = ''
         } catch (erro) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -2352,7 +2352,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             erro.message !==
             'Sessão encerrada'
         ) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 

@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let produtos = []
 
     if (!token) {
-        alert(t('produto.js.acessoNegado'))
+        await MonetizaUI.aviso(t('produto.js.acessoNegado'))
         window.location.href = '/login'
         return
     }
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert(t('produto.js.sessaoExpirada'))
+        await MonetizaUI.aviso(t('produto.js.sessaoExpirada'))
         window.location.href = '/login'
     }
 
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return true
         } catch (erro) {
             console.error('Erro ao carregar usuário:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
             return false
         }
     }
@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             renderizarProdutos(produtos)
         } catch (erro) {
             console.error('Erro ao carregar produtos:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -326,7 +326,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             !produto.capa ||
             !produto.produto_arquivo
         ) {
-            alert(
+            await MonetizaUI.aviso(
                 t('produto.js.camposObrigatorios')
             )
             return
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 )
             }
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             formulario.reset()
 
@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             await carregarProdutos()
         } catch (erro) {
             console.error('Erro ao cadastrar produto:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             botaoSalvar.disabled = false
             botaoSalvar.textContent =
@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             abrirModal(modalEditar)
         } catch (erro) {
             console.error('Erro ao abrir edição:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -492,7 +492,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             !produto.capa ||
             !produto.produto_arquivo
         ) {
-            alert(
+            await MonetizaUI.aviso(
                 t('produto.js.camposObrigatorios')
             )
             return
@@ -523,14 +523,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 )
             }
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             fecharModal(modalEditar)
 
             await carregarProdutos()
         } catch (erro) {
             console.error('Erro ao atualizar produto:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             botaoSalvar.disabled = false
             botaoSalvar.textContent =
@@ -544,7 +544,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
 
         if (!produto) {
-            alert(t('produto.js.produtoNaoEncontrado'))
+            await MonetizaUI.aviso(t('produto.js.produtoNaoEncontrado'))
             return
         }
 
@@ -594,14 +594,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 )
             }
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             fecharModal(modalExcluir)
 
             await carregarProdutos()
         } catch (erro) {
             console.error('Erro ao excluir produto:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             btnConfirmarExclusao.disabled = false
             btnConfirmarExclusao.innerHTML = `

@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let comissoes = []
 
     if (!token) {
-        alert(t('financeiro.js.acessoNegado'))
+        await MonetizaUI.aviso(t('financeiro.js.acessoNegado'))
         window.location.href = '/login'
         return
     }
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert(t('financeiro.js.sessaoExpirada'))
+        await MonetizaUI.aviso(t('financeiro.js.sessaoExpirada'))
         window.location.href = '/login'
     }
 
@@ -581,7 +581,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ) {
             tipoFormatado = 'Saida'
         } else {
-            alert(
+            await MonetizaUI.aviso(
                 t('financeiro.js.tipoInvalido')
             )
             return
@@ -607,7 +607,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             !Number.isFinite(valor) ||
             valor <= 0
         ) {
-            alert(t('financeiro.js.valorInvalido'))
+            await MonetizaUI.aviso(t('financeiro.js.valorInvalido'))
             return
         }
 
@@ -629,7 +629,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dados =
                 await verificarResposta(resposta)
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             await Promise.all([
                 carregarResumo(),
@@ -641,7 +641,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -696,7 +696,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             erro.message !==
                             'Sessão encerrada'
                         ) {
-                            alert(erro.message)
+                            await MonetizaUI.aviso(erro.message)
                         }
                     }
                 }
@@ -758,7 +758,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             erro.message !==
             'Sessão encerrada'
         ) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 })

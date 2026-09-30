@@ -59,18 +59,15 @@
     >
     `;
 
-    btnIA.addEventListener('click', () => {
-
+    btnIA.addEventListener('click', async () => {
       if (typeof abrirChatIA === 'function') {
-
-        abrirChatIA();
-
+          abrirChatIA();
       } else {
-
-        alert(t('iaBtn.acionado'));
-
-      }
-
+          await MonetizaUI.aviso(
+              t('iaBtn.acionado'),
+              { titulo: 'Assistente Monetiza' }
+          );
+        }
     });
 
     document.body.appendChild(btnIA);

@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('token')
             localStorage.removeItem('usuarioLogado')
 
-            alert(t('contratos.js.sessaoExpirada'))
+            await MonetizaUI.aviso(t('contratos.js.sessaoExpirada'))
 
             window.location.href = '/login'
 
@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
         !Number.isSafeInteger(contratoId) ||
         contratoId <= 0
     ) {
-        alert('Contrato inválido')
+        await MonetizaUI.aviso('Contrato inválido')
         return
     }
 
@@ -490,7 +490,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 60000)
     } catch (erro) {
         console.error('Erro ao baixar PDF:', erro)
-        alert(erro.message)
+        await MonetizaUI.aviso(erro.message)
     } finally {
         botao.disabled = false
     }
@@ -545,24 +545,24 @@ document.addEventListener('click', evento => {
             !inputDataFim ||
             !inputObservacoes
         ) {
-            alert(t('contratos.js.erroCamposFormulario'))
+            await MonetizaUI.aviso(t('contratos.js.erroCamposFormulario'))
             return
         }
 
         const arquivo = inputArquivo.files[0]
 
         if (!contratoEditando && !selectAfiliacao.value) {
-            alert(t('contratos.js.selecioneAfiliacaoAlerta'))
+            await MonetizaUI.aviso(t('contratos.js.selecioneAfiliacaoAlerta'))
             return
         }
 
         if (!inputTitulo.value.trim()) {
-            alert(t('contratos.js.informeTitulo'))
+            await MonetizaUI.aviso(t('contratos.js.informeTitulo'))
             return
         }
 
         if (!contratoEditando && !arquivo) {
-            alert(t('contratos.js.selecionePdf'))
+            await MonetizaUI.aviso(t('contratos.js.selecionePdf'))
             return
         }
 
@@ -573,17 +573,17 @@ document.addEventListener('click', evento => {
                 !arquivo.name.toLowerCase().endsWith('.pdf')
             )
         ) {
-            alert(t('contratos.js.pdfInvalido'))
+            await MonetizaUI.aviso(t('contratos.js.pdfInvalido'))
             return
         }
 
         if (!inputDataInicio.value || !inputDataFim.value) {
-            alert(t('contratos.js.informeDatas'))
+            await MonetizaUI.aviso(t('contratos.js.informeDatas'))
             return
         }
 
         if (inputDataFim.value < inputDataInicio.value) {
-            alert(
+            await MonetizaUI.aviso(
                 t('contratos.js.dataFinalInvalida')
             )
             return
@@ -662,7 +662,7 @@ document.addEventListener('click', evento => {
                 )
             }
 
-            alert(resultado.mensagem)
+            await MonetizaUI.aviso(resultado.mensagem)
 
             fecharModal()
 
@@ -673,7 +673,7 @@ document.addEventListener('click', evento => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             if (btnSalvar) {
                 btnSalvar.disabled = false
@@ -784,7 +784,7 @@ document.addEventListener('click', evento => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -816,7 +816,7 @@ document.addEventListener('click', evento => {
                 )
             }
 
-            alert(resultado.mensagem)
+            await MonetizaUI.aviso(resultado.mensagem)
 
             await carregarContratos()
         } catch (erro) {
@@ -825,7 +825,7 @@ document.addEventListener('click', evento => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -859,7 +859,7 @@ document.addEventListener('click', evento => {
                 )
             }
 
-            alert(resultado.mensagem)
+            await MonetizaUI.aviso(resultado.mensagem)
 
             await carregarContratos()
         } catch (erro) {
@@ -868,7 +868,7 @@ document.addEventListener('click', evento => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 

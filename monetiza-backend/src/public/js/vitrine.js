@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         console.error('Erro ao carregar vitrine:', erro)
 
-        alert(erro.message)
+        await MonetizaUI.aviso(erro.message)
 
     }
 

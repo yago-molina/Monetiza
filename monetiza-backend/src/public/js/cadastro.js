@@ -1,57 +1,43 @@
 const t = chave => window.i18n?.t(chave) ?? chave
 
-const botaoCadastrar = document.getElementById('btn-cadastrar');
+const botaoCadastrar = document.getElementById('btn-cadastrar')
 
 botaoCadastrar.addEventListener('click', async function (evento) {
+    evento.preventDefault()
 
-    evento.preventDefault();
+    if (botaoCadastrar.disabled) return
 
-    // Pega os dados digitados
-    const nome = document.getElementById('cadastro-nome').value.trim();
-    const email = document.getElementById('cadastro-email').value.trim();
-    const senha = document.getElementById('cadastro-senha').value.trim();
-    const repSenha = document.getElementById('cadastro-rep-senha').value.trim();
-    const termos = document.getElementById('termos');
+    const nome = document.getElementById('cadastro-nome').value.trim()
+    const email = document.getElementById('cadastro-email').value.trim()
+    const senha = document.getElementById('cadastro-senha').value.trim()
+    const repSenha = document.getElementById('cadastro-rep-senha').value.trim()
+    const termos = document.getElementById('termos')
 
-    // Verifica campos vazios
-    if (nome === '' || email === '' || senha === '' || repSenha === '') {
-
-        alert(t('cadastro.js.camposObrigatorios'));
-
-        return;
+    if (!nome || !email || !senha || !repSenha) {
+        await MonetizaUI.aviso(t('cadastro.js.camposObrigatorios'))
+        return
     }
 
-    // Verifica o tamanho da senha
     if (senha.length < 8) {
-
-        alert(t('cadastro.js.senhaMinima'));
-
-        return;
+        await MonetizaUI.aviso(t('cadastro.js.senhaMinima'))
+        return
     }
 
-    // Verifica se as senhas são iguais
     if (senha !== repSenha) {
-
-        alert(t('cadastro.js.senhasDiferentes'));
-
-        return;
+        await MonetizaUI.aviso(t('cadastro.js.senhasDiferentes'))
+        return
     }
 
-    // Verifica os termos
     if (!termos.checked) {
-
-        alert(t('cadastro.js.aceitarTermos'));
-
-        return;
+        await MonetizaUI.aviso(t('cadastro.js.aceitarTermos'))
+        return
     }
 
     try {
-
-        botaoCadastrar.disabled = true;
-        botaoCadastrar.textContent = t('cadastro.js.criandoConta');
+        botaoCadastrar.disabled = true
+        botaoCadastrar.textContent = t('cadastro.js.criandoConta')
 
         const resposta = await fetch('/auth/cadastro', {
-
             method: 'POST',
 
             headers: {
@@ -59,38 +45,35 @@ botaoCadastrar.addEventListener('click', async function (evento) {
             },
 
             body: JSON.stringify({
-                nome: nome,
-                email: email,
-                senha: senha
+                nome,
+                email,
+                senha
             })
-        });
+        })
 
-        const dados = await resposta.json();
+        const dados = await resposta.json()
 
         if (!resposta.ok) {
-
-            alert(dados.erro || t('cadastro.js.erroCriarConta'));
-
-            return;
+            await MonetizaUI.aviso(
+                dados.erro || t('cadastro.js.erroCriarConta')
+            )
+            return
         }
 
-        alert(dados.mensagem);
+        MonetizaUI.abrirLoading()
 
-        // Depois do cadastro, envia para o login
+        // Exibe a animação após a conta ser criada.
+        await new Promise(resolve => setTimeout(resolve, 3200))
 
-        window.location.href = '/login';
-
+        window.location.href = '/login'
     } catch (erro) {
+        MonetizaUI.fecharLoading()
 
-        console.error('Erro no cadastro:', erro);
+        console.error('Erro no cadastro:', erro)
 
-        alert(t('cadastro.js.erroServidor'));
-
+        await MonetizaUI.aviso(t('cadastro.js.erroServidor'))
     } finally {
-
-        botaoCadastrar.disabled = false;
-        botaoCadastrar.textContent = t('cadastro.criarConta');
-
+        botaoCadastrar.disabled = false
+        botaoCadastrar.textContent = t('cadastro.criarConta')
     }
-
 });

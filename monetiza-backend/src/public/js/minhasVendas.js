@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const estadoVazio = document.querySelector('.empty-sales-state')
 
     if (!token) {
-        alert(t('minhasVendas.js.acessoNegado'))
+        await MonetizaUI.aviso(t('minhasVendas.js.acessoNegado'))
         window.location.href = '/login'
         return
     }
@@ -21,11 +21,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function encerrarSessao() {
+    async function encerrarSessao() {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert(t('minhasVendas.js.sessaoExpirada'))
+        await MonetizaUI.aviso(t('minhasVendas.js.sessaoExpirada'))
         window.location.href = '/login'
     }
 
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             )
 
             if (erro.message !== 'Sessão encerrada') {
-                alert(erro.message)
+                await MonetizaUI.aviso(erro.message)
             }
         }
     }
@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
 
         if (erro.message !== 'Sessão encerrada') {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 })

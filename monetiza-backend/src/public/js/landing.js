@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     if (!token) {
 
-        alert(t('landing.js.acessoNegado'));
+        await MonetizaUI.aviso(t('landing.js.acessoNegado'));
 
         window.location.href = '/login';
 
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             localStorage.removeItem('usuarioLogado');
 
-            alert(t('landing.js.sessaoExpirada'));
+            await MonetizaUI.aviso(t('landing.js.sessaoExpirada'));
 
             window.location.href = '/login';
 
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         console.error('Erro ao carregar usuário:', erro);
 
-        alert(t('landing.js.erroCarregarUsuario'));
+        await MonetizaUI.aviso(t('landing.js.erroCarregarUsuario'));
 
     }
 
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
             } else {
 
-                alert(t('landing.js.loginDashboard'));
+                await MonetizaUI.aviso(t('landing.js.loginDashboard'));
 
                 window.location.href = '/login';
 

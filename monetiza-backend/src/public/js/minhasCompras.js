@@ -236,7 +236,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 

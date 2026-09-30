@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const listaSolicitacoes = document.getElementById('lista-solicitacoes')
 
     if (!token) {
-        alert(t('afiliados.js.acessoNegado'))
+        await MonetizaUI.aviso(t('afiliados.js.acessoNegado'))
         window.location.href = '/login'
         return
     }
@@ -31,11 +31,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function encerrarSessao() {
+    async function encerrarSessao() {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert(t('afiliados.js.sessaoExpirada'))
+        await MonetizaUI.aviso(t('afiliados.js.sessaoExpirada'))
         window.location.href = '/login'
     }
 
@@ -122,9 +122,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     function abrirModal() {
         modalNovoLink.classList.remove('hidden')
 
-        carregarProdutosDisponiveis().catch(erro => {
+        carregarProdutosDisponiveis().catch(async erro => {
             console.error('Erro ao carregar produtos:', erro)
-            alert(erro.message)
+
+            await MonetizaUI.aviso(erro.message)
+
             fecharModal()
         })
     }
@@ -387,7 +389,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function copiarLink(codigo, produtoId) {
         if (!codigo || !produtoId) {
-            alert(t('afiliados.js.linkIndisponivel'))
+            await MonetizaUI.aviso(t('afiliados.js.linkIndisponivel'))
             return
         }
 
@@ -395,7 +397,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         try {
             await navigator.clipboard.writeText(link)
-            alert(t('afiliados.js.linkCopiado'))
+            await MonetizaUI.aviso(t('afiliados.js.linkCopiado'))
         } catch {
             window.prompt(
                 t('afiliados.js.copieLink'),
@@ -548,7 +550,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const produto_id = Number(selectProduto.value)
 
         if (!produto_id) {
-            alert(t('afiliados.js.selecioneProdutoAlerta'))
+            await MonetizaUI.aviso(t('afiliados.js.selecioneProdutoAlerta'))
             return
         }
 
@@ -576,7 +578,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dados =
                 await verificarResposta(resposta)
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             fecharModal()
 
@@ -590,7 +592,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             botaoSalvar.disabled = false
             botaoSalvar.textContent =
@@ -622,7 +624,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dados =
                 await verificarResposta(resposta)
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             await Promise.all([
                 carregarMinhasAfiliacoes(),
@@ -634,7 +636,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -669,7 +671,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dados =
                 await verificarResposta(resposta)
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             await Promise.all([
                 carregarMinhasAfiliacoes(),
@@ -681,7 +683,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -732,7 +734,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
 
         if (erro.message !== 'Sessão encerrada') {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 })

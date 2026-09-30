@@ -4,16 +4,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     const t = chave => window.i18n?.t(chave) ?? chave
 
     if (!token) {
-        alert(t('dashboard.js.acessoNegado'))
+        await MonetizaUI.aviso(
+            t('dashboard.js.acessoNegado'),
+            { titulo: 'Acesso necessário' }
+        )
         window.location.href = '/login'
         return
     }
 
-    function encerrarSessao() {
+    async function encerrarSessao() {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
-
-        alert(t('dashboard.js.sessaoExpirada'))
+        await MonetizaUI.aviso(
+            t('dashboard.js.sessaoExpirada'),
+            { titulo: 'Sessão expirada' }
+        )
         window.location.href = '/login'
     }
 
@@ -48,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
 
         if (resposta.status === 401) {
-            encerrarSessao()
+            await encerrarSessao()
             return false
         }
 
@@ -145,7 +150,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
 
         if (resposta.status === 401) {
-            encerrarSessao()
+            await encerrarSessao()
             return
         }
 
@@ -245,9 +250,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (usuarioCarregado) {
             await carregarResumo()
         }
-
-    } catch (erro) {
+        } catch (erro) {
         console.error('Erro ao carregar o Dashboard:', erro)
-        alert(erro.message)
+        await MonetizaUI.aviso(
+            erro.message,
+            { titulo: 'Não foi possível carregar o dashboard' }
+        )
     }
 })

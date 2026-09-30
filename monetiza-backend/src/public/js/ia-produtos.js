@@ -921,7 +921,7 @@ async function enviarMensagem() {
         prompt.value.trim()
 
     if (!modelo.value) {
-        alert(
+        await MonetizaUI.aviso(
             t('iaProdutos.js.iaAindaIndisponivel')
         )
 
@@ -929,7 +929,7 @@ async function enviarMensagem() {
     }
 
     if (!mensagem) {
-        alert(
+        await MonetizaUI.aviso(
             t('iaProdutos.js.digiteMensagem')
         )
 
@@ -1234,7 +1234,7 @@ function respostaAutenticada(resposta, dados) {
     return dados
 }
 
-function abrirEditorProduto() {
+async function abrirEditorProduto() {
     try {
         exigirProduto()
 
@@ -1250,7 +1250,7 @@ function abrirEditorProduto() {
 
         editor.showModal()
     } catch (erro) {
-        alert(erro.message)
+        await MonetizaUI.aviso(erro.message)
     }
 }
 
@@ -1703,7 +1703,7 @@ async function gerarPdfProduto() {
         }
 
         status.innerText = erro.message
-        alert(erro.message)
+        await MonetizaUI.aviso(erro.message)
     } finally {
         if (modalLoadingPdf.open) {
             modalLoadingPdf.close()
@@ -1729,12 +1729,12 @@ async function publicarProdutoIa() {
 
         if (!capa) {
             abrirEditorProduto()
-            alert('Informe a URL da capa e salve as alterações.')
+            await MonetizaUI.aviso('Informe a URL da capa e salve as alterações.')
             return
         }
 
         if (!pdfPublicado) {
-            alert('Gere o PDF antes de publicar.')
+            await MonetizaUI.aviso('Gere o PDF antes de publicar.')
             return
         }
 
@@ -1747,7 +1747,7 @@ async function publicarProdutoIa() {
 
         if (!categorias.includes(cadastro.categoria)) {
             abrirEditorProduto()
-            alert('Selecione uma categoria válida no editor.')
+            await MonetizaUI.aviso('Selecione uma categoria válida no editor.')
             return
         }
 
@@ -1820,13 +1820,13 @@ async function publicarProdutoIa() {
 
         status.innerText = 'Produto publicado com sucesso!'
 
-        alert('Produto publicado! Ele já está disponível na vitrine.')
+        await MonetizaUI.aviso('Produto publicado! Ele já está disponível na vitrine.')
 
         window.location.href = '/produto'
     } catch (erro) {
         console.error('Erro ao publicar produto:', erro)
         status.innerText = erro.message
-        alert(erro.message)
+        await MonetizaUI.aviso(erro.message)
     } finally {
         botaoPublicarProduto.disabled = false
         botaoPublicarProduto.textContent = textoOriginal

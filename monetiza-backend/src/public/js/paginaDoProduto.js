@@ -16,10 +16,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const produtoId = Number(idBruto);
     let produtoAtual = null;
+    let compraEmAndamento = false;
 
     if (!produtoId || Number.isNaN(produtoId)) {
         console.error('ID do produto não identificado na URL.');
-        alert(t('paginaProduto.js.produtoNaoEspecificado'));
+        await MonetizaUI.aviso(t('paginaProduto.js.produtoNaoEspecificado'));
         window.location.href = '/vitrine';
         return;
     }
@@ -123,9 +124,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 }
 
-    function abrirModalCheckout() {
+    async function abrirModalCheckout() {
         if (!token) {
-            alert(t('paginaProduto.js.loginCompra'));
+            await MonetizaUI.aviso(t('paginaProduto.js.loginCompra'));
             sessionStorage.setItem('retornoCompra', window.location.href);
             window.location.href = '/login';
             return;
@@ -133,13 +134,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const modal = document.getElementById('modal-checkout');
         if (!modal) {
-            alert(t('paginaProduto.js.modalNaoEncontrado'));
+            await MonetizaUI.aviso(t('paginaProduto.js.modalNaoEncontrado'));
             console.error('Certifique-se de colar a estrutura HTML do modal no final da página.');
             return;
         }
 
         if (!produtoAtual) {
-            alert(t('paginaProduto.js.aguardeProduto'));
+            await MonetizaUI.aviso(t('paginaProduto.js.aguardeProduto'));
             return;
         }
 
@@ -182,7 +183,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         const fecharModal = () => {
-            if (modal) modal.classList.remove('ativo');
+            if (compraEmAndamento) return;
+            if (modal) {
+                modal.classList.remove('ativo');
+            }
         };
 
         if (btnFechar) btnFechar.addEventListener('click', fecharModal);
@@ -197,9 +201,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
 
-                if (!produtoAtual) return;
+                if (!produtoAtual || compraEmAndamento) return;
 
-                const btnSubmit = document.getElementById('btn-finalizar-modal');
+                compraEmAndamento = true;
+
+                const btnSubmit =
+                    document.getElementById('btn-finalizar-modal');
+
                 if (btnSubmit) {
                     btnSubmit.disabled = true;
                     btnSubmit.textContent =
@@ -207,12 +215,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
 
                 try {
+                    MonetizaUI.abrirLoading();
+
                     const resposta = await fetch('/vitrine-api/comprar', {
                         method: 'POST',
+
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': `Bearer ${token}`
                         },
+
                         body: JSON.stringify({
                             produto_id: Number(produtoAtual.id),
                             codigo_afiliado: codigoAfiliado || null
@@ -223,7 +235,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     if (resposta.status === 401) {
                         localStorage.clear();
-                        alert(t('paginaProduto.js.sessaoExpiradaCurta'));
+
+                        await MonetizaUI.aviso(
+                            t('paginaProduto.js.sessaoExpiradaCurta')
+                        );
+
                         window.location.href = '/login';
                         return;
                     }
@@ -235,22 +251,46 @@ document.addEventListener('DOMContentLoaded', async () => {
                         );
                     }
 
-                    alert(
-                        `${t('paginaProduto.js.compraDe')} "${dados.venda?.produto || produtoAtual.titulo}" ${t('paginaProduto.js.compraSucesso')}`
-                    );
+                    compraEmAndamento = false;
 
                     fecharModal();
+                    MonetizaUI.fecharLoading();
+
+                    let acesso = '/minhasCompras';
 
                     if (dados.acesso_produto) {
-                        window.open(dados.acesso_produto, '_blank');
-                    } else {
-                        window.location.href = '/minhasVendas';
+                        try {
+                            const url = new URL(
+                                dados.acesso_produto,
+                                location.origin
+                            );
+
+                            if (['http:', 'https:'].includes(url.protocol)) {
+                                acesso = url.href;
+                            }
+                        } catch {
+                            // Mantém o acesso pela página Minhas compras.
+                        }
                     }
 
+                    await MonetizaUI.aviso(
+                        `${t('paginaProduto.js.compraDe')} ` +
+                        `"${dados.venda?.produto || produtoAtual.titulo}" ` +
+                        `${t('paginaProduto.js.compraSucesso')}`,
+                        {
+                            titulo: 'Compra realizada!',
+                            url: acesso
+                        }
+                    );
                 } catch (erro) {
                     console.error('Erro no checkout:', erro);
-                    alert(erro.message);
+
+                    await MonetizaUI.aviso(erro.message);
                 } finally {
+                    MonetizaUI.fecharLoading();
+
+                    compraEmAndamento = false;
+
                     if (btnSubmit) {
                         btnSubmit.disabled = false;
                         btnSubmit.textContent =
@@ -263,13 +303,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function falarComVendedor() {
         if (!token) {
-            alert(t('paginaProduto.js.loginVendedor'))
+            await MonetizaUI.aviso(t('paginaProduto.js.loginVendedor'))
             window.location.href = '/login'
             return
         }
 
         if (!produtoAtual) {
-            alert(t('paginaProduto.js.aguardeProdutoCarregado'))
+            await MonetizaUI.aviso(t('paginaProduto.js.aguardeProdutoCarregado'))
             return
         }
 
@@ -297,7 +337,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 localStorage.removeItem('token')
                 localStorage.removeItem('usuarioLogado')
 
-                alert(t('paginaProduto.js.sessaoExpirada'))
+                await MonetizaUI.aviso(t('paginaProduto.js.sessaoExpirada'))
                 window.location.href = '/login'
                 return
             }
@@ -325,7 +365,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             if (btnFalar) {
                 btnFalar.disabled = false

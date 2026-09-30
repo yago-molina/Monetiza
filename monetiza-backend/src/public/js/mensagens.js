@@ -44,11 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function verificarSessao(response) {
+    async function verificarSessao(response) {
         if (response.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('usuarioLogado')
-            alert(t('mensagens.js.sessaoExpirada'))
+            await MonetizaUI.aviso(t('mensagens.js.sessaoExpirada'))
             window.location.href = '/login'
             return false
         }
@@ -271,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (erro) {
             console.error('Erro ao criar conversa:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -462,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Erro ao abrir conversa:',
                 erro
             )
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -521,7 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault()
 
         if (!conversaAtualId) {
-            alert(t('mensagens.js.selecioneConversa'))
+            await MonetizaUI.aviso(t('mensagens.js.selecioneConversa'))
             return
         }
 
@@ -570,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 'Erro ao enviar mensagem:',
                 erro
             )
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             if (btnEnviar) {
                 btnEnviar.disabled = false
