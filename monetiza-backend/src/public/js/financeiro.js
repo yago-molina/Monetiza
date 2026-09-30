@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function encerrarSessao() {
+    async function encerrarSessao() {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function verificarResposta(resposta) {
         if (resposta.status === 401) {
-            encerrarSessao()
+            await encerrarSessao()
             throw new Error('Sessão encerrada')
         }
 

@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     if (dashboard) {
 
-        dashboard.addEventListener('click', function (e) {
+        dashboard.addEventListener('click', async function (e) {
 
             e.preventDefault();
 

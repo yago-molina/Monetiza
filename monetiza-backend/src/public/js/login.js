@@ -51,7 +51,7 @@ function destinoAposLogin() {
         sessionStorage.removeItem('retornoCompra')
     }
 
-    return '/dashboard'
+    return '/landing'
 }
 
 async function fazerLogin(evento) {

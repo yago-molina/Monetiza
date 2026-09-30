@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function encerrarSessao() {
+    async function encerrarSessao() {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return false
             }
 
@@ -248,7 +248,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return
             }
 
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return
             }
 
@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return
             }
 
@@ -510,7 +510,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return
             }
 
@@ -538,7 +538,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function abrirExclusao(id) {
+    async function abrirExclusao(id) {
         const produto = produtos.find(
             item => Number(item.id) === Number(id)
         )
@@ -581,7 +581,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return
             }
 

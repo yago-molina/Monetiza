@@ -903,9 +903,11 @@ async function usarGeradorProduto(
 
 
     produtoGerado =
-        resultado;
+    resultado;
 
-    pdfPublicado = null 
+    pdfPublicado = null
+    arquivoPdfPronto = null
+    capitulosPdfProntos = []
 
     return resultado;
 
@@ -1261,20 +1263,33 @@ function salvarEdicaoProduto(evento) {
 
     const cadastro = produtoGerado.cadastro
 
+    const tituloAlterado =
+        cadastro.titulo !== campo('ia-titulo').value.trim()
+
     cadastro.titulo = campo('ia-titulo').value.trim()
     cadastro.descricao_curta = campo('ia-descricao-curta').value.trim()
     cadastro.descricao_completa = campo('ia-descricao-completa').value.trim()
     cadastro.categoria = campo('ia-categoria').value
     cadastro.preco = Number(campo('ia-preco').value)
     cadastro.comissao = Number(campo('ia-comissao').value)
+
     produtoGerado.capa = campo('ia-capa').value.trim()
 
-    // Um PDF anterior pode conter um título ou descrição desatualizados.
-    pdfPublicado = null
+    // Os outros campos pertencem ao anúncio.
+    // O título também aparece dentro do PDF.
+    if (tituloAlterado) {
+        pdfPublicado = null
+        arquivoPdfPronto = null
+    }
 
     mostrarProdutoPreview(produtoGerado)
     editor.close()
-    status.innerText = 'Alterações salvas. Gere o PDF antes de publicar.'
+
+    status.innerText = pdfPublicado
+        ? 'Alterações salvas. Seu PDF está pronto para publicar.'
+        : tituloAlterado && capitulosPdfProntos.length
+            ? 'Título atualizado. Clique em Gerar PDF para atualizar o arquivo sem gerar os capítulos novamente.'
+            : 'Alterações salvas. Gere o PDF antes de publicar.'
 }
 
 async function desenvolverCapitulo(numero) {
@@ -1551,6 +1566,7 @@ const botaoBaixarPdf = document.getElementById('baixar-pdf-pronto')
 
 let geracaoPdfEmAndamento = false
 let arquivoPdfPronto = null
+let capitulosPdfProntos = []
 
 // Impede que Esc esconda o progresso durante a geração.
 modalLoadingPdf.addEventListener('cancel', evento => {
@@ -1594,6 +1610,18 @@ async function gerarPdfProduto() {
 
     try {
         exigirProduto()
+
+        if (pdfPublicado && arquivoPdfPronto) {
+            nomePdfPronto.textContent = arquivoPdfPronto.nome
+            botaoBaixarPdf.disabled = false
+
+            if (!modalSucessoPdf.open) {
+                modalSucessoPdf.showModal()
+            }
+
+            botaoBaixarPdf.focus()
+            return
+        }
 
         if (typeof window.jspdf?.jsPDF !== 'function') {
             throw new Error(
@@ -1647,7 +1675,9 @@ async function gerarPdfProduto() {
                 totalEtapas
             )
 
-            const capitulo = await desenvolverCapitulo(estrutura.numero)
+            const capitulo = capitulosPdfProntos[indice] || await desenvolverCapitulo(estrutura.numero)
+
+            capitulosPdfProntos[indice] = capitulo
             capitulos.push(capitulo)
 
             progressoPdf.value = indice + 1
@@ -1728,10 +1758,16 @@ async function publicarProdutoIa() {
         const capa = produtoGerado.capa?.trim()
 
         if (!capa) {
-            abrirEditorProduto()
-            await MonetizaUI.aviso('Informe a URL da capa e salve as alterações.')
+            await MonetizaUI.aviso(
+                'Adicione uma imagem de capa para concluir a publicação.',
+                { titulo: 'Falta a capa do produto' }
+            )
+
+            await abrirEditorProduto()
+            campo('ia-capa').focus()
             return
         }
+
 
         if (!pdfPublicado) {
             await MonetizaUI.aviso('Gere o PDF antes de publicar.')
@@ -1746,8 +1782,13 @@ async function publicarProdutoIa() {
         ]
 
         if (!categorias.includes(cadastro.categoria)) {
-            abrirEditorProduto()
-            await MonetizaUI.aviso('Selecione uma categoria válida no editor.')
+            await MonetizaUI.aviso(
+                'Selecione a categoria do seu produto no editor.',
+                { titulo: 'Escolha uma categoria' }
+            )
+
+            await abrirEditorProduto()
+            campo('ia-categoria').focus()
             return
         }
 

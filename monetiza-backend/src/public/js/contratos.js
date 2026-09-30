@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function verificarSessao(response) {
+    async function verificarSessao(response) {
         if (response.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('usuarioLogado')
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: headersAuth()
             })
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const dados = await response.json()
 
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: headersAuth()
             })
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const dados = await response.json()
 
@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         )
 
-        if (!verificarSessao(response)) return
+        if (!await verificarSessao(response)) return
 
         if (!response.ok) {
             const dados = await response.json()
@@ -651,7 +651,7 @@ document.addEventListener('click', evento => {
                 body: formData
             })
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const resultado = await response.json()
 
@@ -695,7 +695,7 @@ document.addEventListener('click', evento => {
                 }
             )
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const contrato = await response.json()
 
@@ -805,7 +805,7 @@ document.addEventListener('click', evento => {
                 }
             )
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const resultado = await response.json()
 
@@ -848,7 +848,7 @@ document.addEventListener('click', evento => {
                 }
             )
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const resultado = await response.json()
 
