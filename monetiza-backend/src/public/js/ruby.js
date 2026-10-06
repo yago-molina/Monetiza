@@ -66,10 +66,10 @@
     function sessaoExpirada() {
         pronta = false
 
-        estado.textContent = 'Entre para conversar'
+        estado.textContent = window.i18n.t('complementos.entreParaConversar')
 
         aviso.textContent =
-            'Sua sessão não está disponível. Entre novamente na Monetiza.'
+            window.i18n.t('complementos.suaSessaoNaoEstaDisponivelEntreNovamenteNaMonetiza')
 
         login.hidden = false
 
@@ -99,8 +99,8 @@
             )
 
             estado.textContent = faltam
-                ? `Aguarde ${faltam}s`
-                : 'Assistente da Monetiza'
+                ? window.i18n.t('complementos.aguardeSegundosS', { segundos: faltam })
+                : window.i18n.t('complementos.assistenteDaMonetiza')
 
             if (!faltam) {
                 clearInterval(intervalo)
@@ -153,7 +153,7 @@
                 const erro = new Error(
                     dados.error ||
                     dados.erro ||
-                    'Não foi possível conversar com a Ruby.'
+                    window.i18n.t('complementos.naoFoiPossivelConversarComARuby')
                 )
 
                 erro.status = resposta.status
@@ -184,11 +184,11 @@
 
         aviso.textContent =
             erro.name === 'AbortError'
-                ? 'A resposta demorou. Sua mensagem foi mantida para tentar novamente.'
-                : erro.message ||
-                    'Não foi possível conectar. Tente novamente.'
+                ? window.i18n.t('complementos.aRespostaDemorouSuaMensagemFoiMantidaParaTentarNovamente')
+                : window.i18n.mensagem(erro.message) ||
+                    window.i18n.t('complementos.naoFoiPossivelConectarTenteNovamente')
 
-        estado.textContent = 'Não foi possível concluir'
+        estado.textContent = window.i18n.t('complementos.naoFoiPossivelConcluir')
 
         if (erro.status === 429) {
             esperar(
@@ -213,7 +213,7 @@
         aviso.textContent = ''
         login.hidden = true
 
-        estado.textContent = 'Carregando conversa…'
+        estado.textContent = window.i18n.t('complementos.carregandoConversa')
 
         atualizarBotoes()
 
@@ -251,17 +251,17 @@
 
             if (!corpo.children.length) {
                 mensagem(
-                    'Olá! Sou a Ruby. Como posso ajudar você com a Monetiza?'
+                    window.i18n.t('complementos.olaSouARubyComoPossoAjudarVoceComA')
                 )
             }
 
             pronta = Boolean(dados.configured)
 
-            estado.textContent = 'Assistente da Monetiza'
+            estado.textContent = window.i18n.t('complementos.assistenteDaMonetiza')
 
             if (!pronta) {
                 aviso.textContent =
-                    'A Ruby ainda precisa ser configurada no servidor.'
+                    window.i18n.t('complementos.aRubyAindaPrecisaSerConfiguradaNoServidor')
             }
         } catch (erro) {
             if (
@@ -298,7 +298,7 @@
         }
 
         if (texto.length > 2000) {
-            aviso.textContent = 'Use até 2.000 caracteres.'
+            aviso.textContent = window.i18n.t('complementos.useAte2000Caracteres')
             return
         }
 
@@ -306,14 +306,14 @@
 
         ocupada = true
         aviso.textContent = ''
-        estado.textContent = 'Ruby está respondendo…'
+        estado.textContent = window.i18n.t('complementos.rubyEstaRespondendo')
 
         atualizarBotoes()
 
         const minhaMensagem = mensagem(texto, true)
 
         const aguardando = mensagem(
-            'Ruby está respondendo…'
+            window.i18n.t('complementos.rubyEstaRespondendo')
         )
 
         aguardando.classList.add('ruby-digitando')
@@ -336,14 +336,14 @@
                 !dados.reply.trim()
             ) {
                 throw new Error(
-                    'Resposta inválida da Ruby.'
+                    window.i18n.t('complementos.respostaInvalidaDaRuby')
                 )
             }
 
             mensagem(dados.reply)
 
             entrada.value = ''
-            estado.textContent = 'Assistente da Monetiza'
+            estado.textContent = window.i18n.t('complementos.assistenteDaMonetiza')
         } catch (erro) {
             if (
                 atual === versao &&
@@ -375,9 +375,9 @@
         const atual = versao
 
         const confirmou = await MonetizaUI.confirmar(
-            'Apagar a conversa atual com a Ruby?',
+            window.i18n.t('complementos.apagarAConversaAtualComARuby'),
             {
-                titulo: 'Nova conversa'
+                titulo: window.i18n.t('mensagens.chat.novaConversa')
             }
         )
 
@@ -407,7 +407,7 @@
             aviso.textContent = ''
 
             mensagem(
-                'Conversa reiniciada. Como posso ajudar?'
+                window.i18n.t('complementos.conversaReiniciadaComoPossoAjudar')
             )
         } catch (erro) {
             if (

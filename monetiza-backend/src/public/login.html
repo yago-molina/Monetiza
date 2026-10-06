@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <script src="/js/i18n.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="login.tituloDocumento">Monetiza - Login</title>
@@ -11,7 +12,7 @@
 <body>
     <div class="auth-container">
         <div class="brand-header">
-            <img id="logo_monetiza" src="image/icon_monetiza.png" alt="Logo Monetiza">
+            <img id="logo_monetiza" src="image/icon_monetiza.png" alt="Logo Monetiza" data-i18n-alt="complementos.logoMonetiza">
         </div>
 
         <section id="tela-login" class="auth-box">
@@ -70,11 +71,11 @@
     </div>
 
     <dialog id="aviso-login" aria-labelledby="aviso-login-titulo">
-        <h2 id="aviso-login-titulo">Monetiza</h2>
+        <h2 id="aviso-login-titulo" data-i18n="inicio.tituloDocumento">Monetiza</h2>
         <p id="aviso-login-texto"></p>
 
         <form method="dialog">
-            <button type="submit" autofocus>Entendi</button>
+            <button type="submit" autofocus data-i18n="complementos.entendi">Entendi</button>
         </form>
     </dialog>
 
@@ -85,16 +86,16 @@
             title="Carregando Monetiza"
             sandbox="allow-scripts"
             tabindex="-1"
-        ></iframe>
+         data-i18n-title="complementos.carregandoMonetiza"></iframe>
 
-        <p id="loading-login-texto" role="status">
+        <p id="loading-login-texto" role="status" data-i18n="complementos.loginRealizadoAbrindoSuaConta">
             Login realizado! Abrindo sua conta...
         </p>
     </dialog>
 
     <script src="js/feedback.js"></script>
     <script src="js/ia-btn.js"></script>
-    <script src="js/i18n.js"></script>
+
     <script src="js/login.js"></script>
 </body>
 </html>

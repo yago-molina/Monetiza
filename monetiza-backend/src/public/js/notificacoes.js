@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function formatarData(data) {
-        return new Date(data).toLocaleDateString('pt-BR', {
+        return new Date(data).toLocaleDateString(window.i18n.locale(), {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric'

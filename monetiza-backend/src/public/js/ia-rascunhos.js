@@ -5,12 +5,12 @@
         let fila = Promise.resolve(), timer, alterado = false
         const painel = document.createElement('section')
         painel.className = 'ia-rascunhos'
-        painel.innerHTML = `<strong>Meus rascunhos</strong>
-            <select aria-label="Rascunhos salvos"><option value="">Escolha um rascunho</option></select>
-            <button type="button" data-abrir>Abrir</button>
-            <button type="button" data-novo>Novo produto</button>
-            <button type="button" data-salvar>Salvar agora</button>
-            <button type="button" data-copia>Salvar cópia</button>
+        painel.innerHTML = `<strong>${window.i18n.t('complementos.meusRascunhos')}</strong>
+            <select aria-label="${window.i18n.t('complementos.rascunhosSalvos')}"><option value="">${window.i18n.t('complementos.escolhaUmRascunho')}</option></select>
+            <button type="button" data-abrir>${window.i18n.t('complementos.abrir')}</button>
+            <button type="button" data-novo>${window.i18n.t('complementos.novoProduto')}</button>
+            <button type="button" data-salvar>${window.i18n.t('complementos.salvarAgora')}</button>
+            <button type="button" data-copia>${window.i18n.t('complementos.salvarCopia')}</button>
             <span role="status" aria-live="polite"></span>`
         document.getElementById('status').insertAdjacentElement('afterend',painel)
         const select = painel.querySelector('select')
@@ -28,7 +28,7 @@
             salvarBtn.disabled = ocupado || trocando || Boolean(publicado)
         }
         function sessao() {
-            if (localStorage.getItem('token') !== token) throw new Error('A conta mudou. Atualize a página.')
+            if (localStorage.getItem('token') !== token) throw new Error(window.i18n.t('complementos.aContaMudouAtualizeAPagina'))
         }
         async function pedir(caminho, options={}) {
             sessao()
@@ -41,15 +41,15 @@
                 })
                 sessao()
                 const dados = await resposta.json().catch(()=>({}))
-                if (!resposta.ok) { const erro = new Error(dados.erro || 'Falha ao acessar os rascunhos.'); erro.status=resposta.status; throw erro }
+                if (!resposta.ok) { const erro = new Error(dados.erro || window.i18n.t('complementos.falhaAoAcessarOsRascunhos')); erro.status=resposta.status; throw erro }
                 return dados
             } finally { clearTimeout(tempo) }
         }
         async function listar() {
             const registros = await pedir('')
-            select.replaceChildren(new Option('Escolha um rascunho',''))
+            select.replaceChildren(new Option(window.i18n.t('complementos.escolhaUmRascunho'),''))
             for (const registro of registros) {
-                select.add(new Option(registro.titulo + (registro.produto_publicado_id?' — publicado':''),registro.id))
+                select.add(new Option(registro.titulo + (registro.produto_publicado_id?window.i18n.t('complementos.publicadoExtra'):''),registro.id))
             }
             select.value = id
             return registros
@@ -64,7 +64,7 @@
                     const atual = await pedir('/'+id)
                     if (atual.produto_publicado_id) {
                         publicado=atual.produto_publicado_id;versao=atual.versao;pendente=null
-                        ultimo=snapshot();alterado=false;aoPublicar(publicado);informar('Este produto já foi publicado.');botoes()
+                        ultimo=snapshot();alterado=false;aoPublicar(publicado);informar(window.i18n.t('complementos.esteProdutoJaFoiPublicado'));botoes()
                         return
                     }
                 }
@@ -77,9 +77,9 @@
         function salvar() {
             clearTimeout(timer)
             const tarefa = fila.catch(()=>{}).then(async()=>{
-                if (!pronto) throw new Error('Aguarde carregar os rascunhos. Se falhou, use Salvar agora para reconectar.')
+                if (!pronto) throw new Error(window.i18n.t('complementos.aguardeCarregarOsRascunhosSeFalhouUseSalvarAgoraPara'))
                 if (publicado) return
-                informar('Salvando…')
+                informar(window.i18n.t('complementos.salvando'))
                 await gravarPendente() // Repete a mesma operação se a resposta anterior se perdeu.
                 if (publicado) return
                 const texto = snapshot()
@@ -88,21 +88,21 @@
                     await gravarPendente()
                 }
                 alterado = snapshot() !== ultimo
-                informar(alterado?'Há alterações para salvar.':'Salvo')
+                informar(alterado?window.i18n.t('complementos.haAlteracoesParaSalvar'):window.i18n.t('complementos.salvo'))
                 if (!Array.from(select.options).some(o=>o.value===id)) {
-                    select.add(new Option(capturar().produtoGerado?.cadastro?.titulo || 'Novo produto',id))
+                    select.add(new Option(capturar().produtoGerado?.cadastro?.titulo || window.i18n.t('complementos.novoProduto'),id))
                 }
                 const option = Array.from(select.options).find(o=>o.value===id)
-                if (option) option.textContent = capturar().produtoGerado?.cadastro?.titulo || capturar().ideiaEscolhida || 'Novo produto'
+                if (option) option.textContent = capturar().produtoGerado?.cadastro?.titulo || capturar().ideiaEscolhida || window.i18n.t('complementos.novoProduto')
                 select.value = id
-            }).catch(erro=>{ alterado=true; informar('Falha ao salvar: '+erro.message); throw erro })
+            }).catch(erro=>{ alterado=true; informar(window.i18n.t('complementos.falhaAoSalvar')+erro.message); throw erro })
             fila = tarefa
             return tarefa
         }
         function agendar() {
             if (!pronto || publicado || trocando) return
             alterado = true
-            informar('Alterações não salvas…')
+            informar(window.i18n.t('complementos.alteracoesNaoSalvas'))
             clearTimeout(timer)
             timer = setTimeout(()=>salvar().catch(()=>{}),800)
         }
@@ -113,7 +113,7 @@
             restaurar(registro.estado)
             ultimo=snapshot(); alterado=false
             select.value=id
-            informar(publicado?'Publicado — crie um novo produto para continuar.':'Rascunho recuperado. Salvo.')
+            informar(publicado?window.i18n.t('complementos.publicadoCrieUmNovoProdutoParaContinuar'):window.i18n.t('complementos.rascunhoRecuperadoSalvo'))
             aoPublicar(publicado)
         }
         async function novo(interno=false) {
@@ -124,23 +124,23 @@
             await salvar()
         }
         async function iniciar() {
-            trocando=true;botoes();informar('Carregando rascunhos…')
+            trocando=true;botoes();informar(window.i18n.t('complementos.carregandoRascunhos'))
             try {
                 const registros=await listar()
                 if (registros.length) await carregar(registros[0].id)
-                else { ultimo=snapshot(); informar('Pronto. Seu trabalho será salvo automaticamente.') }
+                else { ultimo=snapshot(); informar(window.i18n.t('complementos.prontoSeuTrabalhoSeraSalvoAutomaticamente')) }
                 pronto=true
-            } catch (erro) { pronto=false;informar('Falha ao carregar: '+erro.message) }
+            } catch (erro) { pronto=false;informar(window.i18n.t('complementos.falhaAoCarregar')+erro.message) }
             finally { trocando=false;botoes() }
         }
         async function executar(acao) {
             if (!pronto || ocupado || trocando || publicado) {
-                await MonetizaUI.aviso(publicado?'Este produto já foi publicado. Use Novo produto.':'Aguarde terminar a operação ou carregar os rascunhos.')
+                await MonetizaUI.aviso(publicado?window.i18n.t('complementos.esteProdutoJaFoiPublicadoUseNovoProduto'):window.i18n.t('complementos.aguardeTerminarAOperacaoOuCarregarOsRascunhos'))
                 return
             }
             ocupado=true;botoes()
             document.getElementById('prompt').disabled=true
-            try { await salvar(); if (publicado) { await MonetizaUI.aviso('Este produto já foi publicado. Use Novo produto.'); return } return await acao() }
+            try { await salvar(); if (publicado) { await MonetizaUI.aviso(window.i18n.t('complementos.esteProdutoJaFoiPublicadoUseNovoProduto')); return } return await acao() }
             catch (erro) { await MonetizaUI.aviso(erro.message) }
             finally { ocupado=false;document.getElementById('prompt').disabled=false;botoes() }
         }
@@ -154,7 +154,7 @@
         })
         novoBtn.addEventListener('click',async()=>{
             if (!pronto || ocupado || trocando) return
-            if (!await MonetizaUI.confirmar('Salvar o trabalho atual e começar outro produto?',{titulo:'Novo produto'})) return
+            if (!await MonetizaUI.confirmar(window.i18n.t('complementos.salvarOTrabalhoAtualEComecarOutroProduto'),{titulo:window.i18n.t('complementos.novoProduto')})) return
             ocupado=true;botoes()
             try { await novo(true) } catch(erro) { await MonetizaUI.aviso(erro.message) }
             finally { ocupado=false;botoes() }
@@ -167,7 +167,7 @@
                 id=crypto.randomUUID();versao=0;pendente=null;ultimo='';publicado=null
                 aoPublicar(null);alterado=true
                 await salvar()
-                informar('Cópia salva. O rascunho anterior foi preservado.')
+                informar(window.i18n.t('complementos.copiaSalvaORascunhoAnteriorFoiPreservado'))
             } catch(erro) { await MonetizaUI.aviso(erro.message) }
             finally { ocupado=false;botoes() }
         })
@@ -184,10 +184,10 @@
             async baixarPdf() {
                 sessao()
                 const r=await fetch(`/ia/rascunhos/${id}/pdf`,{cache:'no-store',headers:{Authorization:`Bearer ${token}`}})
-                if (!r.ok) {const e=new Error('Não foi possível recuperar o PDF salvo.');e.status=r.status;throw e}
+                if (!r.ok) {const e=new Error(window.i18n.t('complementos.naoFoiPossivelRecuperarOPdfSalvo'));e.status=r.status;throw e}
                 return r.blob()
             },
-            publicado(produtoId) {publicado=produtoId;alterado=false;pendente=null;clearTimeout(timer);informar('Publicado');aoPublicar(produtoId);botoes()},
+            publicado(produtoId) {publicado=produtoId;alterado=false;pendente=null;clearTimeout(timer);informar(window.i18n.t('complementos.publicado'));aoPublicar(produtoId);botoes()},
             ocupado:()=>ocupado
         }
     }

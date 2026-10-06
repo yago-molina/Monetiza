@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <script src="/js/i18n.js"></script>
+    <script src="/js/operacoes.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="iaProdutos.tituloDocumento">Monetiza IA</title>
@@ -27,8 +29,8 @@
     <div class="container">
         <aside class="sidebar-global">
             <div class="logo-area">
-                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
-                <span class="brand-name">Monetiza</span>
+                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar" data-i18n-alt="complementos.logo">
+                <span class="brand-name" data-i18n="inicio.tituloDocumento">Monetiza</span>
             </div>
 
             <nav class="menu-nav">
@@ -97,7 +99,7 @@
                 </div>
 
                 <div class="user-info">
-                    <span id="nome-usuario" class="user-name">Username</span>
+                    <span id="nome-usuario" class="user-name" data-i18n="complementos.username">Username</span>
                     <span id="email-usuario" class="user-email">email@gmail.com</span>
                 </div>
             </div>
@@ -142,8 +144,8 @@
             <div class="app-ia-container">
                 <aside class="sidebar-ia">
                     <div class="logo-area">
-                        <div class="logo">Monetiza</div>
-                        <div class="logo-subtitulo">IA Lab</div>
+                        <div class="logo" data-i18n="inicio.tituloDocumento">Monetiza</div>
+                        <div class="logo-subtitulo" data-i18n="complementos.iaLab">IA Lab</div>
                     </div>
 
                     <nav class="menu-ia">
@@ -158,7 +160,7 @@
                         <button class="menu-item" id="menu-prompt-builder" onclick="mudarParaPromptBuilder()">
                             <span class="menu-icone">✨</span>
                             <div class="menu-texto">
-                                <strong>Prompt Builder</strong>
+                                <strong data-i18n="complementos.promptBuilder">Prompt Builder</strong>
                                 <small data-i18n="iaProdutos.menu.promptDescricao">Estruturar sua ideia</small>
                             </div>
                         </button>
@@ -188,7 +190,7 @@
                             <span class="breadcrumb" data-i18n="iaProdutos.breadcrumb">
                                 Produtos / Criar com IA
                             </span>
-                            <h1>Monetiza IA</h1>
+                            <h1 data-i18n="iaProdutos.tituloDocumento">Monetiza IA</h1>
                         </div>
 
                         <div class="modelo-area">
@@ -267,7 +269,7 @@
                                     <div class="ia-avatar">M</div>
 
                                     <div>
-                                        <strong>Monetiza IA</strong>
+                                        <strong data-i18n="iaProdutos.tituloDocumento">Monetiza IA</strong>
                                         <span id="modo-atual" data-i18n="iaProdutos.chat.modoConsultor">
                                             Consultor de produtos digitais
                                         </span>
@@ -285,7 +287,7 @@
                                     <div class="mini-avatar">M</div>
 
                                     <div class="mensagem-corpo">
-                                        <span class="autor">Monetiza IA</span>
+                                        <span class="autor" data-i18n="iaProdutos.tituloDocumento">Monetiza IA</span>
 
                                         <div class="mensagem-balao markdown-content" id="resposta">
                                             <p data-i18n="iaProdutos.chat.mensagemInicial1">
@@ -345,7 +347,7 @@
 
                                     <div>
                                         <strong data-i18n="iaProdutos.fluxo.estruturar">Estruturar</strong>
-                                        <span>Prompt Builder</span>
+                                        <span data-i18n="complementos.promptBuilder">Prompt Builder</span>
                                     </div>
                                 </div>
 
@@ -392,37 +394,37 @@
                             <div class="produto-preview-conteudo" id="produto-preview-conteudo"></div>
                             <dialog id="editor-produto">
                                 <form id="form-editor-produto">
-                                    <h2>Editar produto</h2>
+                                    <h2 data-i18n="complementos.editarProduto">Editar produto</h2>
 
-                                    <label for="ia-titulo">Título</label>
+                                    <label for="ia-titulo" data-i18n="contratos.modal.titulo">Título</label>
                                     <input id="ia-titulo" maxlength="100" required>
 
-                                    <label for="ia-descricao-curta">Descrição curta</label>
+                                    <label for="ia-descricao-curta" data-i18n="complementos.descricaoCurta">Descrição curta</label>
                                     <textarea id="ia-descricao-curta" required></textarea>
 
-                                    <label for="ia-descricao-completa">Descrição completa</label>
+                                    <label for="ia-descricao-completa" data-i18n="complementos.descricaoCompleta">Descrição completa</label>
                                     <textarea id="ia-descricao-completa" rows="6" required></textarea>
 
-                                    <label for="ia-categoria">Categoria</label>
+                                    <label for="ia-categoria" data-i18n="financeiro.transacoes.categoria">Categoria</label>
                                     <select id="ia-categoria" required>
-                                        <option value="Curso">Curso</option>
-                                        <option value="E-book">E-book</option>
+                                        <option value="Curso" data-i18n="produto.categorias.curso">Curso</option>
+                                        <option value="E-book" data-i18n="complementos.eBook">E-book</option>
                                         <option value="Software / SaaS">Software / SaaS</option>
-                                        <option value="Mentoria">Mentoria</option>
+                                        <option value="Mentoria" data-i18n="produto.categorias.mentoria">Mentoria</option>
                                     </select>
 
-                                    <label for="ia-preco">Preço em reais</label>
+                                    <label for="ia-preco" data-i18n="complementos.precoEmReais">Preço em reais</label>
                                     <input id="ia-preco" type="number" min="0.01" step="0.01" required>
 
-                                    <label for="ia-comissao">Comissão (%)</label>
+                                    <label for="ia-comissao" data-i18n="complementos.comissao">Comissão (%)</label>
                                     <input id="ia-comissao" type="number" min="0" max="100" step="0.01" required>
 
-                                    <label for="ia-capa">URL da imagem de capa</label>
+                                    <label for="ia-capa" data-i18n="complementos.urlDaImagemDeCapa">URL da imagem de capa</label>
                                     <input id="ia-capa" type="url" placeholder="https://..." required>
 
                                     <div style="display:flex; gap:12px; margin-top:20px">
-                                        <button type="button" id="cancelar-editor">Cancelar</button>
-                                        <button type="submit">Salvar alterações</button>
+                                        <button type="button" id="cancelar-editor" data-i18n="afiliados.modal.cancelar">Cancelar</button>
+                                        <button type="submit" data-i18n="complementos.salvarAlteracoes">Salvar alterações</button>
                                     </div>
                                 </form>
                             </dialog>
@@ -440,18 +442,18 @@
             title="Animação de carregamento"
             sandbox="allow-scripts"
             tabindex="-1"
-        ></iframe>
+         data-i18n-title="complementos.animacaoDeCarregamento"></iframe>
 
         <div class="pdf-modal-conteudo">
-            <h2 id="loading-pdf-titulo">Preparando seu produto</h2>
+            <h2 id="loading-pdf-titulo" data-i18n="complementos.preparandoSeuProduto">Preparando seu produto</h2>
 
-            <p id="loading-pdf-etapa" role="status" aria-live="polite">
+            <p id="loading-pdf-etapa" role="status" aria-live="polite" data-i18n="complementos.iniciando">
                 Iniciando...
             </p>
 
             <progress id="loading-pdf-progresso" value="0" max="1"></progress>
 
-            <small>Os capítulos concluídos são salvos. Ao sair, a geração em andamento será interrompida.</small>
+            <small data-i18n="complementos.osCapitulosConcluidosSaoSalvosAoSairAGeracaoEm">Os capítulos concluídos são salvos. Ao sair, a geração em andamento será interrompida.</small>
         </div>
     </dialog>
 
@@ -459,28 +461,28 @@
         <div class="pdf-modal-conteudo">
             <div class="pdf-sucesso-icone" aria-hidden="true">✓</div>
 
-            <h2 id="sucesso-pdf-titulo">PDF gerado com sucesso!</h2>
+            <h2 id="sucesso-pdf-titulo" data-i18n="complementos.pdfGeradoComSucesso">PDF gerado com sucesso!</h2>
 
             <p id="sucesso-pdf-nome"></p>
-            <p>Baixe e confira o material antes de publicar.</p>
+            <p data-i18n="complementos.baixeEConfiraOMaterialAntesDePublicar">Baixe e confira o material antes de publicar.</p>
 
             <div class="pdf-modal-acoes">
-                <button type="button" id="fechar-sucesso-pdf">
+                <button type="button" id="fechar-sucesso-pdf" data-i18n="complementos.fechar">
                     Fechar
                 </button>
 
-                <button type="button" id="baixar-pdf-pronto">
+                <button type="button" id="baixar-pdf-pronto" data-i18n="complementos.baixarPdf">
                     Baixar PDF
                 </button>
             </div>
         </div>
     </dialog>
-        
+
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
     <script src="/js/feedback.js"></script>
     <script src="js/perfil-global.js"></script>
-    <script src="js/i18n.js"></script>
+
     <script src="/js/jspdf.umd.min.js"></script>
     <script src="/js/ia-rascunhos.js"></script>
     <script src="/js/ia-produtos.js"></script>

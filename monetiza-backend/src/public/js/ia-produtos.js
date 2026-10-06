@@ -126,8 +126,7 @@ function formatarProdutoMarkdown(produto) {
     const cadastro = produto.cadastro
     const detalhes = produto.produto
 
-    const preco = new Intl.NumberFormat(
-        'pt-BR',
+    const preco = new Intl.NumberFormat(window.i18n.locale(),
         {
             style: 'currency',
             currency: 'BRL'
@@ -311,7 +310,7 @@ function adicionarMensagemIA(texto) {
             <div class="mensagem-topo">
 
                 <span class="autor">
-                    Monetiza IA
+                    ${window.i18n.t('iaProdutos.tituloDocumento')}
                 </span>
 
                 <button class="btn-copiar">
@@ -409,7 +408,7 @@ function adicionarCarregamento() {
         <div class="mensagem-corpo">
 
             <span class="autor">
-                Monetiza IA
+                ${window.i18n.t('iaProdutos.tituloDocumento')}
             </span>
 
             <div class="mensagem-balao">
@@ -546,7 +545,7 @@ function atualizarVisualEtapa() {
 
 
         modoAtualTexto.innerText =
-            'Prompt Builder';
+            window.i18n.t('complementos.promptBuilder');
 
 
         prompt.placeholder =
@@ -644,7 +643,7 @@ function mudarParaPromptBuilder() {
 
 
     adicionarMensagemIA(`
-## ✨ Prompt Builder
+## ✨ ${window.i18n.t('complementos.promptBuilder')}
 
 ${t('iaProdutos.js.promptBuilderTexto1')}
 
@@ -1241,7 +1240,7 @@ const campo = id => document.getElementById(id)
 
 function exigirProduto() {
     if (!produtoGerado?.cadastro || !produtoGerado?.produto) {
-        throw new Error('Gere um produto antes de continuar.')
+        throw new Error(window.i18n.t('complementos.gereUmProdutoAntesDeContinuar'))
     }
 }
 
@@ -1249,11 +1248,11 @@ function respostaAutenticada(resposta, dados) {
     if (resposta.status === 401) {
         localStorage.removeItem('token')
         window.location.href = '/login'
-        throw new Error('Sua sessão expirou.')
+        throw new Error(window.i18n.t('iaProdutos.js.sessaoExpirada'))
     }
 
     if (!resposta.ok) {
-        throw new Error(dados.erro || 'Não foi possível concluir a operação.')
+        throw new Error(dados.erro || window.i18n.t('complementos.naoFoiPossivelConcluirAOperacao'))
     }
 
     return dados
@@ -1314,14 +1313,14 @@ async function salvarEdicaoProduto(evento) {
     mostrarProdutoPreview(produtoGerado)
     editor.close()
     try { await rascunhos.salvar() } catch (erro) {
-        await MonetizaUI.aviso('A edição está nesta página, mas ainda não foi salva no banco. Use Salvar agora.'); return
+        await MonetizaUI.aviso(window.i18n.t('complementos.aEdicaoEstaNestaPaginaMasAindaNaoFoiSalva')); return
     }
 
     status.innerText = pdfPublicado
-        ? 'Alterações salvas. Seu PDF está pronto para publicar.'
+        ? window.i18n.t('complementos.alteracoesSalvasSeuPdfEstaProntoParaPublicar')
         : tituloAlterado && capitulosPdfProntos.length
-            ? 'Título atualizado. Clique em Gerar PDF para atualizar o arquivo sem gerar os capítulos novamente.'
-            : 'Alterações salvas. Gere o PDF antes de publicar.'
+            ? window.i18n.t('complementos.tituloAtualizadoCliqueEmGerarPdfParaAtualizarOArquivo')
+            : window.i18n.t('complementos.alteracoesSalvasGereOPdfAntesDePublicar')
 }
 
 async function desenvolverCapitulo(numero) {
@@ -1378,7 +1377,7 @@ function nomeArquivoProduto(titulo) {
         ? `Produto ${nome}`
         : nome
 
-    return `${seguro || 'Meu produto'}.pdf`
+    return `${seguro || window.i18n.t('complementos.meuProduto')}.pdf`
 }
 
 function escreverParagrafo(
@@ -1666,19 +1665,19 @@ async function gerarPdfProduto() {
 
         if (typeof window.jspdf?.jsPDF !== 'function') {
             throw new Error(
-                'A biblioteca de PDF não carregou. Atualize com Ctrl + F5.'
+                window.i18n.t('complementos.aBibliotecaDePdfNaoCarregouAtualizeComCtrlF5')
             )
         }
 
         const estruturas = produtoGerado.produto.capitulos
 
         if (!Array.isArray(estruturas) || estruturas.length === 0) {
-            throw new Error('O produto não possui capítulos para gerar.')
+            throw new Error(window.i18n.t('complementos.oProdutoNaoPossuiCapitulosParaGerar'))
         }
 
         geracaoPdfEmAndamento = true
         botaoGerarPdf.disabled = true
-        botaoGerarPdf.textContent = 'Gerando PDF...'
+        botaoGerarPdf.textContent = window.i18n.t('complementos.gerandoPdf')
 
         arquivoPdfPronto = null
         pdfPublicado = null
@@ -1694,7 +1693,7 @@ async function gerarPdfProduto() {
         const totalEtapas = estruturas.length + 2
 
         atualizarProgressoPdf(
-            'Preparando a geração dos capítulos...',
+            window.i18n.t('complementos.preparandoAGeracaoDosCapitulos'),
             0,
             totalEtapas
         )
@@ -1710,8 +1709,7 @@ async function gerarPdfProduto() {
             const estrutura = estruturas[indice]
 
             atualizarProgressoPdf(
-                `Gerando capítulo ${indice + 1} de ${estruturas.length}: ` +
-                estrutura.titulo,
+                window.i18n.t('complementos.gerandoCapituloNumeroDeTotalTitulo', { numero: indice + 1, total: estruturas.length, titulo: estrutura.titulo }),
                 indice,
                 totalEtapas
             )
@@ -1726,7 +1724,7 @@ async function gerarPdfProduto() {
         }
 
         atualizarProgressoPdf(
-            'Organizando o texto e montando o PDF...',
+            window.i18n.t('complementos.organizandoOTextoEMontandoOPdf'),
             estruturas.length,
             totalEtapas
         )
@@ -1736,7 +1734,7 @@ async function gerarPdfProduto() {
         const pdf = montarPdf(capitulos)
 
         atualizarProgressoPdf(
-            'Salvando o PDF para publicação...',
+            window.i18n.t('complementos.salvandoOPdfParaPublicacao'),
             estruturas.length + 1,
             totalEtapas
         )
@@ -1744,7 +1742,7 @@ async function gerarPdfProduto() {
         const url = await enviarPdf(pdf)
 
         if (!url) {
-            throw new Error('O servidor não retornou o endereço do PDF.')
+            throw new Error(window.i18n.t('complementos.oServidorNaoRetornouOEnderecoDoPdf'))
         }
 
         pdfPublicado = url
@@ -1756,7 +1754,7 @@ async function gerarPdfProduto() {
         }
 
         atualizarProgressoPdf(
-            'PDF gerado e salvo com sucesso!',
+            window.i18n.t('complementos.pdfGeradoESalvoComSucesso'),
             totalEtapas,
             totalEtapas
         )
@@ -1802,8 +1800,8 @@ async function publicarProdutoIa() {
 
         if (!capa) {
             await MonetizaUI.aviso(
-                'Adicione uma imagem de capa para concluir a publicação.',
-                { titulo: 'Falta a capa do produto' }
+                window.i18n.t('complementos.adicioneUmaImagemDeCapaParaConcluirAPublicacao'),
+                { titulo: window.i18n.t('complementos.faltaACapaDoProduto') }
             )
 
             await abrirEditorProduto()
@@ -1813,7 +1811,7 @@ async function publicarProdutoIa() {
 
 
         if (!pdfPublicado) {
-            await MonetizaUI.aviso('Gere o PDF antes de publicar.')
+            await MonetizaUI.aviso(window.i18n.t('complementos.gereOPdfAntesDePublicar'))
             return
         }
 
@@ -1826,8 +1824,8 @@ async function publicarProdutoIa() {
 
         if (!categorias.includes(cadastro.categoria)) {
             await MonetizaUI.aviso(
-                'Selecione a categoria do seu produto no editor.',
-                { titulo: 'Escolha uma categoria' }
+                window.i18n.t('complementos.selecioneACategoriaDoSeuProdutoNoEditor'),
+                { titulo: window.i18n.t('complementos.escolhaUmaCategoria') }
             )
 
             await abrirEditorProduto()
@@ -1840,11 +1838,11 @@ async function publicarProdutoIa() {
         const comissao = Number(cadastro.comissao ?? 0)
 
         if (!titulo || titulo.length > 100) {
-            throw new Error('O título deve ter entre 1 e 100 caracteres.')
+            throw new Error(window.i18n.t('complementos.oTituloDeveTerEntre1E100Caracteres'))
         }
 
         if (!Number.isFinite(preco) || preco <= 0) {
-            throw new Error('Informe um preço maior que zero.')
+            throw new Error(window.i18n.t('complementos.informeUmPrecoMaiorQueZero'))
         }
 
         if (
@@ -1852,7 +1850,7 @@ async function publicarProdutoIa() {
             comissao < 0 ||
             comissao > 100
         ) {
-            throw new Error('A comissão deve estar entre 0 e 100%.')
+            throw new Error(window.i18n.t('complementos.aComissaoDeveEstarEntre0E100'))
         }
 
         for (const endereco of [capa, pdfPublicado]) {
@@ -1861,20 +1859,20 @@ async function publicarProdutoIa() {
             try {
                 url = new URL(endereco)
             } catch {
-                throw new Error('A capa ou o PDF está com um endereço inválido.')
+                throw new Error(window.i18n.t('complementos.aCapaOuOPdfEstaComUmEnderecoInvalido'))
             }
 
             if (!['http:', 'https:'].includes(url.protocol)) {
-                throw new Error('A capa e o PDF precisam usar HTTP ou HTTPS.')
+                throw new Error(window.i18n.t('complementos.aCapaEOPdfPrecisamUsarHttpOuHttps'))
             }
         }
 
         botaoPublicarProduto.disabled = true
-        botaoPublicarProduto.textContent = 'Publicando...'
-        status.innerText = 'Salvando produto na plataforma...'
+        botaoPublicarProduto.textContent = window.i18n.t('complementos.publicando')
+        status.innerText = window.i18n.t('complementos.salvandoProdutoNaPlataforma')
 
         await rascunhos.salvar()
-        const resposta = await fetch('/produtos', {
+        const resposta = await MonetizaOperacoes.enviar('/produtos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1895,19 +1893,19 @@ async function publicarProdutoIa() {
         })
 
         const dados = await resposta.json().catch(() => ({
-            erro: `O servidor retornou uma resposta inválida (${resposta.status}).`
+            erro: window.i18n.t('complementos.oServidorRetornouUmaRespostaInvalidaStatus', { status: resposta.status })
         }))
 
         respostaAutenticada(resposta, dados)
 
         if (!dados.id) {
-            throw new Error('O servidor não confirmou o código do produto.')
+            throw new Error(window.i18n.t('complementos.oServidorNaoConfirmouOCodigoDoProduto'))
         }
 
         rascunhos.publicado(dados.id)
-        status.innerText = 'Produto publicado com sucesso!'
+        status.innerText = window.i18n.t('complementos.produtoPublicadoComSucesso')
 
-        await MonetizaUI.aviso('Produto publicado! Ele já está disponível na vitrine.')
+        await MonetizaUI.aviso(window.i18n.t('complementos.produtoPublicadoEleJaEstaDisponivelNaVitrine'))
 
         window.location.href = '/produto'
     } catch (erro) {
@@ -1980,7 +1978,7 @@ function restaurarRascunho(estado) {
         else if (etapaAtual!=='produto') adicionarMensagemIA(mensagem.content)
     }
     if (produtoGerado) mostrarProdutoPreview(produtoGerado)
-    status.innerText=produtoGerado ? `${capitulosPdfProntos.filter(Boolean).length} capítulo(s) recuperado(s).` : 'Continue de onde parou.'
+    status.innerText=produtoGerado ? window.i18n.t('complementos.quantidadeCapituloSRecuperadoS', { quantidade: capitulosPdfProntos.filter(Boolean).length }) : window.i18n.t('complementos.continueDeOndeParou')
 }
 rascunhos = window.criarGerenciadorRascunhos({token,capturar:capturarRascunho,restaurar:restaurarRascunho,vazio:estadoVazioRascunho,
     aoPublicar: id => {

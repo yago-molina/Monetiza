@@ -97,12 +97,12 @@
 
         btnIA.setAttribute('aria-expanded', 'false')
         btnIA.setAttribute('aria-controls', 'ruby-chat-modal')
-        btnIA.setAttribute('aria-label', 'Abrir assistente Ruby')
+        btnIA.setAttribute('aria-label', window.i18n.t('complementos.abrirAssistenteRuby'))
 
         btnIA.innerHTML = `
             <img
                 src="/image/ruby-logo.png"
-                alt="Assistente IA"
+                alt="${window.i18n.t('iaBtn.assistente')}"
             >
         `
 
@@ -110,7 +110,7 @@
 
         modal.id = 'ruby-chat-modal'
         modal.setAttribute('role', 'region')
-        modal.setAttribute('aria-label', 'Assistente Ruby')
+        modal.setAttribute('aria-label', window.i18n.t('complementos.assistenteRuby'))
         modal.setAttribute('aria-hidden', 'true')
         modal.inert = true
 
@@ -130,13 +130,13 @@
                     font-weight: 600;
                     font-family: 'Segoe UI', sans-serif;
                 ">
-                    Assistente Ruby
+                    ${window.i18n.t('complementos.assistenteRuby')}
                 </span>
 
                 <button
                     id="fechar-ruby-chat"
                     type="button"
-                    aria-label="Fechar assistente Ruby"
+                    aria-label="${window.i18n.t('complementos.fecharAssistenteRuby')}"
                     style="
                         background: none;
                         border: none;
@@ -152,7 +152,7 @@
             </div>
 
             <iframe
-                title="Conversa com a Ruby"
+                title="${window.i18n.t('complementos.conversaComARuby')}"
                 data-src="/ruby.html"
                 style="
                     width: 100%;

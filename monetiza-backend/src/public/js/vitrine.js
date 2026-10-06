@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function formatarDinheiro(valor) {
 
-        return Number(valor || 0).toLocaleString('pt-BR', {
+        return Number(valor || 0).toLocaleString(window.i18n.locale(), {
 
             style: 'currency',
 

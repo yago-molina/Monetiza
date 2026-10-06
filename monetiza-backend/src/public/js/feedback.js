@@ -5,11 +5,11 @@
     const loading = document.createElement('dialog')
 
     loading.id = 'monetiza-loading'
-    loading.setAttribute('aria-label', 'Carregando Monetiza')
+    loading.setAttribute('aria-label', window.i18n.t('complementos.carregandoMonetiza'))
 
     loading.innerHTML = `
         <iframe
-            title="Carregando Monetiza"
+            title="${window.i18n.t('complementos.carregandoMonetiza')}"
             sandbox="allow-scripts"
             tabindex="-1"
             src="about:blank"
@@ -24,7 +24,7 @@
 
     modal.innerHTML = `
         <form id="monetiza-feedback-form">
-            <h2 id="monetiza-aviso-titulo">Monetiza</h2>
+            <h2 id="monetiza-aviso-titulo">${'Monetiza'}</h2>
 
             <p id="monetiza-aviso-texto"></p>
 
@@ -58,7 +58,7 @@
         const iframe = loading.querySelector('iframe')
 
         if (!loading.open) {
-            iframe.src = '/loading/index.html'
+            iframe.src = '/loading/index.html?lang=' + encodeURIComponent(window.i18n.obterIdiomaAtual())
             loading.showModal()
         }
     }
@@ -94,8 +94,8 @@
 
             let resultado = tipo === 'confirmar' ? false : null
 
-            titulo.textContent = opcoes.titulo || 'Monetiza'
-            texto.textContent = String(mensagem ?? '')
+            titulo.textContent = window.i18n.mensagem(opcoes.titulo) || 'Monetiza'
+            texto.textContent = window.i18n.mensagem(mensagem)
 
             entrada.hidden = tipo !== 'entrada'
             entrada.value = String(opcoes.valorInicial ?? '')
@@ -125,7 +125,7 @@
                 }
 
                 if (urlAcesso) {
-                    const acessar = criarBotao('Acessar produto')
+                    const acessar = criarBotao(window.i18n.t('minhasCompras.acessarProduto'))
 
                     acessar.addEventListener('click', () => {
                         window.open(
@@ -142,7 +142,7 @@
                 }
 
                 const fechar = criarBotao(
-                    urlAcesso ? 'Fechar' : 'Entendi',
+                    urlAcesso ? window.i18n.t('complementos.fechar') : window.i18n.t('complementos.entendi'),
                     'submit',
                     Boolean(urlAcesso)
                 )
@@ -150,7 +150,7 @@
                 botaoInicial ||= fechar
             } else {
                 const cancelar = criarBotao(
-                    'Cancelar',
+                    window.i18n.t('afiliados.modal.cancelar'),
                     'button',
                     true
                 )
@@ -160,7 +160,7 @@
                 })
 
                 criarBotao(
-                    opcoes.textoConfirmar || 'Confirmar',
+                    opcoes.textoConfirmar || window.i18n.t('complementos.confirmar'),
                     'submit'
                 )
 

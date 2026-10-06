@@ -3156,86 +3156,593 @@ traducoes.es.perfilGlobal = {
 }
 
 
-// ==================================================
-// FUNÇÕES DO I18N
-// ==================================================
 
-function obterTraducao(objeto,caminho){
-    return caminho.split('.').reduce((atual,chave)=>atual&&atual[chave]!==undefined?atual[chave]:null,objeto)
+traducoes["pt-BR"].complementos = {
+    "aRubyAindaPrecisaSerConfiguradaNoServidor": "A Ruby ainda precisa ser configurada no servidor.",
+    "aBibliotecaDePdfNaoCarregouAtualizeComCtrlF5": "A biblioteca de PDF não carregou. Atualize com Ctrl + F5.",
+    "aCapaEOPdfPrecisamUsarHttpOuHttps": "A capa e o PDF precisam usar HTTP ou HTTPS.",
+    "aCapaOuOPdfEstaComUmEnderecoInvalido": "A capa ou o PDF está com um endereço inválido.",
+    "aComissaoDeveEstarEntre0E100": "A comissão deve estar entre 0 e 100%.",
+    "aContaMudouAtualizeAPagina": "A conta mudou. Atualize a página.",
+    "aEdicaoEstaNestaPaginaMasAindaNaoFoiSalva": "A edição está nesta página, mas ainda não foi salva no banco. Use Salvar agora.",
+    "aIniciarSistema": "A iniciar sistema...",
+    "aRespostaDemorouSuaMensagemFoiMantidaParaTentarNovamente": "A resposta demorou. Sua mensagem foi mantida para tentar novamente.",
+    "abrirAssistenteRuby": "Abrir assistente Ruby",
+    "aceitarContrato": "Aceitar contrato",
+    "acessoNecessario": "Acesso necessário",
+    "adicioneUmaImagemDeCapaParaConcluirAPublicacao": "Adicione uma imagem de capa para concluir a publicação.",
+    "aguardeCarregarOsRascunhosSeFalhouUseSalvarAgoraPara": "Aguarde carregar os rascunhos. Se falhou, use Salvar agora para reconectar.",
+    "aguardeTerminarAOperacaoOuCarregarOsRascunhos": "Aguarde terminar a operação ou carregar os rascunhos.",
+    "alteracoesNaoSalvas": "Alterações não salvas…",
+    "alteracoesSalvasGereOPdfAntesDePublicar": "Alterações salvas. Gere o PDF antes de publicar.",
+    "alteracoesSalvasSeuPdfEstaProntoParaPublicar": "Alterações salvas. Seu PDF está pronto para publicar.",
+    "animacaoDeCarregamento": "Animação de carregamento",
+    "apagarAConversaAtualComARuby": "Apagar a conversa atual com a Ruby?",
+    "aparencia": "Aparência",
+    "assistenteRuby": "Assistente Ruby",
+    "assistenteDaMonetiza": "Assistente da Monetiza",
+    "atividadePratica": "Atividade prática",
+    "baixarPdf": "Baixar PDF",
+    "baixeEConfiraOMaterialAntesDePublicar": "Baixe e confira o material antes de publicar.",
+    "bemVindoAoMonetiza": "Bem-vindo ao Monetiza",
+    "cancelarContrato": "Cancelar contrato",
+    "capa": "Capa",
+    "capaDoProduto": "Capa do Produto",
+    "carregandoMonetiza": "Carregando Monetiza",
+    "carregandoConversa": "Carregando conversa…",
+    "carregandoRascunhos": "Carregando rascunhos…",
+    "claro": "Claro",
+    "comissao": "Comissão (%)",
+    "compraRealizada": "Compra realizada!",
+    "conclusao": "Conclusão",
+    "confirmar": "Confirmar",
+    "continueDeOndeParou": "Continue de onde parou.",
+    "contratoInvalido": "Contrato inválido",
+    "conversaComARuby": "Conversa com a Ruby",
+    "conversaReiniciadaComoPossoAjudar": "Conversa reiniciada. Como posso ajudar?",
+    "copiaSalvaORascunhoAnteriorFoiPreservado": "Cópia salva. O rascunho anterior foi preservado.",
+    "descricaoCompleta": "Descrição completa",
+    "descricaoCurta": "Descrição curta",
+    "eBook": "E-book",
+    "eBooks": "E-books",
+    "editarProduto": "Editar produto",
+    "enderecoInvalido": "Endereço inválido.",
+    "entendi": "Entendi",
+    "entrarNaMonetiza": "Entrar na Monetiza",
+    "entreParaConversar": "Entre para conversar",
+    "escolhaOTemaDeSuaPreferenciaParaAInterface": "Escolha o tema de sua preferência para a interface.",
+    "escolhaUmRascunho": "Escolha um rascunho",
+    "escolhaUmaCategoria": "Escolha uma categoria",
+    "escrevaUmaMensagem": "Escreva uma mensagem...",
+    "escuro": "Escuro",
+    "esteContratoNaoPermiteMaisEdicaoAtualizeALista": "Este contrato não permite mais edição. Atualize a lista.",
+    "esteProdutoJaFoiPublicado": "Este produto já foi publicado.",
+    "esteProdutoJaFoiPublicadoUseNovoProduto": "Este produto já foi publicado. Use Novo produto.",
+    "falhaAoAcessarOsRascunhos": "Falha ao acessar os rascunhos.",
+    "falhaAoCarregar": "Falha ao carregar: ",
+    "falhaAoSalvar": "Falha ao salvar: ",
+    "faltaACapaDoProduto": "Falta a capa do produto",
+    "fechar": "Fechar",
+    "fecharConversa": "Fechar conversa",
+    "fecharAssistenteRuby": "Fechar assistente Ruby",
+    "gerandoPdf": "Gerando PDF...",
+    "gereOPdfAntesDePublicar": "Gere o PDF antes de publicar.",
+    "gereUmProdutoAntesDeContinuar": "Gere um produto antes de continuar.",
+    "haAlteracoesParaSalvar": "Há alterações para salvar.",
+    "iaLab": "IA Lab",
+    "informeUmPrecoMaiorQueZero": "Informe um preço maior que zero.",
+    "iniciando": "Iniciando...",
+    "loginRealizadoAbrindoSuaConta": "Login realizado! Abrindo sua conta...",
+    "logo": "Logo",
+    "logoMonetiza": "Logo Monetiza",
+    "logoExtra": "logo",
+    "mensagemParaARuby": "Mensagem para a Ruby",
+    "meuProduto": "Meu produto",
+    "meusRascunhos": "Meus rascunhos",
+    "nomeDoProduto": "Nome do Produto",
+    "novoProduto": "Novo produto",
+    "naoFoiPossivelAcessarOProduto": "Não foi possível acessar o produto.",
+    "naoFoiPossivelBaixarOPdf": "Não foi possível baixar o PDF",
+    "naoFoiPossivelCarregarODashboard": "Não foi possível carregar o dashboard",
+    "naoFoiPossivelConcluir": "Não foi possível concluir",
+    "naoFoiPossivelConcluirAOperacao": "Não foi possível concluir a operação.",
+    "naoFoiPossivelConectarTenteNovamente": "Não foi possível conectar. Tente novamente.",
+    "naoFoiPossivelConversarComARuby": "Não foi possível conversar com a Ruby.",
+    "naoFoiPossivelIdentificarSuaConta": "Não foi possível identificar sua conta.",
+    "naoFoiPossivelRecuperarOPdfSalvo": "Não foi possível recuperar o PDF salvo.",
+    "oMeuSite": "O Meu Site",
+    "oProdutoNaoPossuiCapitulosParaGerar": "O produto não possui capítulos para gerar.",
+    "oServidorNaoConfirmouOCodigoDoProduto": "O servidor não confirmou o código do produto.",
+    "oServidorNaoRetornouOEnderecoDoPdf": "O servidor não retornou o endereço do PDF.",
+    "oServidorNaoRetornouOTokenDeLogin": "O servidor não retornou o token de login.",
+    "oTituloDeveTerEntre1E100Caracteres": "O título deve ter entre 1 e 100 caracteres.",
+    "olaSouARubyComoPossoAjudarVoceComA": "Olá! Sou a Ruby. Como posso ajudar você com a Monetiza?",
+    "organizandoOTextoEMontandoOPdf": "Organizando o texto e montando o PDF...",
+    "osCapitulosConcluidosSaoSalvosAoSairAGeracaoEm": "Os capítulos concluídos são salvos. Ao sair, a geração em andamento será interrompida.",
+    "pdfGeradoComSucesso": "PDF gerado com sucesso!",
+    "pdfGeradoESalvoComSucesso": "PDF gerado e salvo com sucesso!",
+    "pontosChave": "Pontos-chave",
+    "preparandoAGeracaoDosCapitulos": "Preparando a geração dos capítulos...",
+    "preparandoSeuProduto": "Preparando seu produto",
+    "precoEmReais": "Preço em reais",
+    "produtoPublicadoComSucesso": "Produto publicado com sucesso!",
+    "produtoPublicadoEleJaEstaDisponivelNaVitrine": "Produto publicado! Ele já está disponível na vitrine.",
+    "promptBuilder": "Prompt Builder",
+    "prontoSeuTrabalhoSeraSalvoAutomaticamente": "Pronto. Seu trabalho será salvo automaticamente.",
+    "publicado": "Publicado",
+    "publicadoCrieUmNovoProdutoParaContinuar": "Publicado — crie um novo produto para continuar.",
+    "publicando": "Publicando...",
+    "r000": "R$ 0,00",
+    "r000Extra": "R$ 0.00",
+    "rascunhoRecuperadoSalvo": "Rascunho recuperado. Salvo.",
+    "rascunhosSalvos": "Rascunhos salvos",
+    "respostaInvalidaDaRuby": "Resposta inválida da Ruby.",
+    "rubyEstaRespondendo": "Ruby está respondendo…",
+    "rubyAssistenteMonetiza": "Ruby — Assistente Monetiza",
+    "salvandoOPdfParaPublicacao": "Salvando o PDF para publicação...",
+    "salvandoProdutoNaPlataforma": "Salvando produto na plataforma...",
+    "salvando": "Salvando…",
+    "salvarAlteracoes": "Salvar alterações",
+    "salvarAgora": "Salvar agora",
+    "salvarCopia": "Salvar cópia",
+    "salvarOTrabalhoAtualEComecarOutroProduto": "Salvar o trabalho atual e começar outro produto?",
+    "salvo": "Salvo",
+    "selecioneACategoriaDoSeuProdutoNoEditor": "Selecione a categoria do seu produto no editor.",
+    "sessaoEncerrada": "Sessão encerrada",
+    "sessaoExpirada": "Sessão expirada",
+    "sessaoInvalidaEntreNovamente": "Sessão inválida. Entre novamente.",
+    "suaSessaoExpirouEntreNovamente": "Sua sessão expirou. Entre novamente.",
+    "suaSessaoNaoEstaDisponivelEntreNovamenteNaMonetiza": "Sua sessão não está disponível. Entre novamente na Monetiza.",
+    "tema": "Tema",
+    "tituloAtualizadoCliqueEmGerarPdfParaAtualizarOArquivo": "Título atualizado. Clique em Gerar PDF para atualizar o arquivo sem gerar os capítulos novamente.",
+    "urlDaImagemDeCapa": "URL da imagem de capa",
+    "useAte2000Caracteres": "Use até 2.000 caracteres.",
+    "username": "Username",
+    "marcarTodasComoLidas": "Marcar todas como lidas",
+    "nenhumaNotificacaoPorAqui": "Nenhuma notificação por aqui.",
+    "publicadoExtra": " — publicado",
+    "aguardeSegundosS": "Aguarde {segundos}s",
+    "gerandoCapituloNumeroDeTotalTitulo": "Gerando capítulo {numero} de {total}: {titulo}",
+    "oServidorRetornouUmaRespostaInvalidaStatus": "O servidor retornou uma resposta inválida ({status}).",
+    "quantidadeCapituloSRecuperadoS": "{quantidade} capítulo(s) recuperado(s).",
+    "paginaPaginaDeTotal": "Página {pagina} de {total}"
+};
+traducoes["pt-BR"].notificacoes = {
+    "titulo": "Notificações",
+    "marcarTodas": "Marcar todas como lidas",
+    "vazio": "Nenhuma notificação por aqui."
+};
+
+traducoes["en"].complementos = {
+    "aRubyAindaPrecisaSerConfiguradaNoServidor": "Ruby still needs to be configured on the server.",
+    "aBibliotecaDePdfNaoCarregouAtualizeComCtrlF5": "The PDF library did not load. Refresh with Ctrl + F5.",
+    "aCapaEOPdfPrecisamUsarHttpOuHttps": "The cover and PDF URLs must use HTTP or HTTPS.",
+    "aCapaOuOPdfEstaComUmEnderecoInvalido": "The cover or PDF URL is invalid.",
+    "aComissaoDeveEstarEntre0E100": "The commission must be between 0 and 100%.",
+    "aContaMudouAtualizeAPagina": "The account has changed. Refresh the page.",
+    "aEdicaoEstaNestaPaginaMasAindaNaoFoiSalva": "Your changes are on this page but have not been saved to the database. Use Save now.",
+    "aIniciarSistema": "Starting up...",
+    "aRespostaDemorouSuaMensagemFoiMantidaParaTentarNovamente": "The response took too long. Your message was kept so you can try again.",
+    "abrirAssistenteRuby": "Open Ruby assistant",
+    "aceitarContrato": "Accept contract",
+    "acessoNecessario": "Sign-in required",
+    "adicioneUmaImagemDeCapaParaConcluirAPublicacao": "Add a cover image to finish publishing.",
+    "aguardeCarregarOsRascunhosSeFalhouUseSalvarAgoraPara": "Wait for your drafts to load. If loading failed, use Save now to reconnect.",
+    "aguardeTerminarAOperacaoOuCarregarOsRascunhos": "Wait for the operation to finish or for your drafts to load.",
+    "alteracoesNaoSalvas": "Unsaved changes…",
+    "alteracoesSalvasGereOPdfAntesDePublicar": "Changes saved. Generate the PDF before publishing.",
+    "alteracoesSalvasSeuPdfEstaProntoParaPublicar": "Changes saved. Your PDF is ready to publish.",
+    "animacaoDeCarregamento": "Loading animation",
+    "apagarAConversaAtualComARuby": "Delete your current conversation with Ruby?",
+    "aparencia": "Appearance",
+    "assistenteRuby": "Ruby assistant",
+    "assistenteDaMonetiza": "Monetiza assistant",
+    "atividadePratica": "Practical exercise",
+    "baixarPdf": "Download PDF",
+    "baixeEConfiraOMaterialAntesDePublicar": "Download and review the material before publishing.",
+    "bemVindoAoMonetiza": "Welcome to Monetiza",
+    "cancelarContrato": "Cancel contract",
+    "capa": "Cover",
+    "capaDoProduto": "Product cover",
+    "carregandoMonetiza": "Loading Monetiza",
+    "carregandoConversa": "Loading conversation…",
+    "carregandoRascunhos": "Loading drafts…",
+    "claro": "Light",
+    "comissao": "Commission (%)",
+    "compraRealizada": "Purchase complete!",
+    "conclusao": "Conclusion",
+    "confirmar": "Confirm",
+    "continueDeOndeParou": "Pick up where you left off.",
+    "contratoInvalido": "Invalid contract",
+    "conversaComARuby": "Conversation with Ruby",
+    "conversaReiniciadaComoPossoAjudar": "Conversation restarted. How can I help?",
+    "copiaSalvaORascunhoAnteriorFoiPreservado": "Copy saved. Your previous draft was kept.",
+    "descricaoCompleta": "Full description",
+    "descricaoCurta": "Short description",
+    "eBook": "E-book",
+    "eBooks": "E-books",
+    "editarProduto": "Edit product",
+    "enderecoInvalido": "Invalid URL.",
+    "entendi": "Got it",
+    "entrarNaMonetiza": "Sign in to Monetiza",
+    "entreParaConversar": "Sign in to chat",
+    "escolhaOTemaDeSuaPreferenciaParaAInterface": "Choose your preferred interface theme.",
+    "escolhaUmRascunho": "Choose a draft",
+    "escolhaUmaCategoria": "Choose a category",
+    "escrevaUmaMensagem": "Write a message...",
+    "escuro": "Dark",
+    "esteContratoNaoPermiteMaisEdicaoAtualizeALista": "This contract can no longer be edited. Refresh the list.",
+    "esteProdutoJaFoiPublicado": "This product has already been published.",
+    "esteProdutoJaFoiPublicadoUseNovoProduto": "This product has already been published. Use New product.",
+    "falhaAoAcessarOsRascunhos": "Could not access your drafts.",
+    "falhaAoCarregar": "Could not load: ",
+    "falhaAoSalvar": "Could not save: ",
+    "faltaACapaDoProduto": "Product cover missing",
+    "fechar": "Close",
+    "fecharConversa": "Close conversation",
+    "fecharAssistenteRuby": "Close Ruby assistant",
+    "gerandoPdf": "Generating PDF...",
+    "gereOPdfAntesDePublicar": "Generate the PDF before publishing.",
+    "gereUmProdutoAntesDeContinuar": "Generate a product before continuing.",
+    "haAlteracoesParaSalvar": "There are changes to save.",
+    "iaLab": "AI Lab",
+    "informeUmPrecoMaiorQueZero": "Enter a price greater than zero.",
+    "iniciando": "Starting...",
+    "loginRealizadoAbrindoSuaConta": "Signed in! Opening your account...",
+    "logo": "Logo",
+    "logoMonetiza": "Monetiza logo",
+    "logoExtra": "logo",
+    "mensagemParaARuby": "Message to Ruby",
+    "meuProduto": "My product",
+    "meusRascunhos": "My drafts",
+    "nomeDoProduto": "Product name",
+    "novoProduto": "New product",
+    "naoFoiPossivelAcessarOProduto": "Could not access the product.",
+    "naoFoiPossivelBaixarOPdf": "Could not download the PDF",
+    "naoFoiPossivelCarregarODashboard": "Could not load the dashboard",
+    "naoFoiPossivelConcluir": "Could not complete the operation",
+    "naoFoiPossivelConcluirAOperacao": "Could not complete the operation.",
+    "naoFoiPossivelConectarTenteNovamente": "Could not connect. Try again.",
+    "naoFoiPossivelConversarComARuby": "Could not connect to Ruby.",
+    "naoFoiPossivelIdentificarSuaConta": "Could not identify your account.",
+    "naoFoiPossivelRecuperarOPdfSalvo": "Could not retrieve the saved PDF.",
+    "oMeuSite": "Monetiza — Loading",
+    "oProdutoNaoPossuiCapitulosParaGerar": "The product has no chapters to generate.",
+    "oServidorNaoConfirmouOCodigoDoProduto": "The server did not confirm the product ID.",
+    "oServidorNaoRetornouOEnderecoDoPdf": "The server did not return the PDF URL.",
+    "oServidorNaoRetornouOTokenDeLogin": "The server did not return a sign-in token.",
+    "oTituloDeveTerEntre1E100Caracteres": "The title must be between 1 and 100 characters long.",
+    "olaSouARubyComoPossoAjudarVoceComA": "Hi! I'm Ruby. How can I help you with Monetiza?",
+    "organizandoOTextoEMontandoOPdf": "Organizing the text and building the PDF...",
+    "osCapitulosConcluidosSaoSalvosAoSairAGeracaoEm": "Completed chapters are saved. Leaving this page will interrupt the current generation.",
+    "pdfGeradoComSucesso": "PDF generated successfully!",
+    "pdfGeradoESalvoComSucesso": "PDF generated and saved successfully!",
+    "pontosChave": "Key points",
+    "preparandoAGeracaoDosCapitulos": "Preparing to generate chapters...",
+    "preparandoSeuProduto": "Preparing your product",
+    "precoEmReais": "Price in Brazilian reais",
+    "produtoPublicadoComSucesso": "Product published successfully!",
+    "produtoPublicadoEleJaEstaDisponivelNaVitrine": "Product published! It is now available in the marketplace.",
+    "promptBuilder": "Prompt Builder",
+    "prontoSeuTrabalhoSeraSalvoAutomaticamente": "Ready. Your work will be saved automatically.",
+    "publicado": "Published",
+    "publicadoCrieUmNovoProdutoParaContinuar": "Published — create a new product to continue.",
+    "publicando": "Publishing...",
+    "r000": "R$0.00",
+    "r000Extra": "R$0.00",
+    "rascunhoRecuperadoSalvo": "Draft restored. Saved.",
+    "rascunhosSalvos": "Saved drafts",
+    "respostaInvalidaDaRuby": "Invalid response from Ruby.",
+    "rubyEstaRespondendo": "Ruby is replying…",
+    "rubyAssistenteMonetiza": "Ruby — Monetiza Assistant",
+    "salvandoOPdfParaPublicacao": "Saving the PDF for publication...",
+    "salvandoProdutoNaPlataforma": "Saving your product to the platform...",
+    "salvando": "Saving…",
+    "salvarAlteracoes": "Save changes",
+    "salvarAgora": "Save now",
+    "salvarCopia": "Save a copy",
+    "salvarOTrabalhoAtualEComecarOutroProduto": "Save your current work and start another product?",
+    "salvo": "Saved",
+    "selecioneACategoriaDoSeuProdutoNoEditor": "Select your product category in the editor.",
+    "sessaoEncerrada": "Session ended",
+    "sessaoExpirada": "Session expired",
+    "sessaoInvalidaEntreNovamente": "Invalid session. Sign in again.",
+    "suaSessaoExpirouEntreNovamente": "Your session has expired. Sign in again.",
+    "suaSessaoNaoEstaDisponivelEntreNovamenteNaMonetiza": "Your session is unavailable. Sign in to Monetiza again.",
+    "tema": "Theme",
+    "tituloAtualizadoCliqueEmGerarPdfParaAtualizarOArquivo": "Title updated. Click Generate PDF to update the file without generating the chapters again.",
+    "urlDaImagemDeCapa": "Cover image URL",
+    "useAte2000Caracteres": "Use up to 2,000 characters.",
+    "username": "User",
+    "marcarTodasComoLidas": "Mark all as read",
+    "nenhumaNotificacaoPorAqui": "No notifications yet.",
+    "publicadoExtra": " — published",
+    "aguardeSegundosS": "Wait {segundos}s",
+    "gerandoCapituloNumeroDeTotalTitulo": "Generating chapter {numero} of {total}: {titulo}",
+    "oServidorRetornouUmaRespostaInvalidaStatus": "The server returned an invalid response ({status}).",
+    "quantidadeCapituloSRecuperadoS": "{quantidade} chapter(s) restored.",
+    "paginaPaginaDeTotal": "Page {pagina} of {total}"
+};
+traducoes["en"].notificacoes = {
+    "titulo": "Notifications",
+    "marcarTodas": "Mark all as read",
+    "vazio": "No notifications yet."
+};
+
+traducoes["es"].complementos = {
+    "aRubyAindaPrecisaSerConfiguradaNoServidor": "Ruby todavía necesita configurarse en el servidor.",
+    "aBibliotecaDePdfNaoCarregouAtualizeComCtrlF5": "La biblioteca de PDF no se cargó. Actualiza con Ctrl + F5.",
+    "aCapaEOPdfPrecisamUsarHttpOuHttps": "Las URL de la portada y del PDF deben usar HTTP o HTTPS.",
+    "aCapaOuOPdfEstaComUmEnderecoInvalido": "La URL de la portada o del PDF no es válida.",
+    "aComissaoDeveEstarEntre0E100": "La comisión debe estar entre el 0 y el 100%.",
+    "aContaMudouAtualizeAPagina": "La cuenta cambió. Actualiza la página.",
+    "aEdicaoEstaNestaPaginaMasAindaNaoFoiSalva": "Los cambios están en esta página, pero todavía no se guardaron en la base de datos. Usa Guardar ahora.",
+    "aIniciarSistema": "Iniciando el sistema...",
+    "aRespostaDemorouSuaMensagemFoiMantidaParaTentarNovamente": "La respuesta tardó demasiado. Conservamos tu mensaje para que puedas intentarlo de nuevo.",
+    "abrirAssistenteRuby": "Abrir asistente Ruby",
+    "aceitarContrato": "Aceptar contrato",
+    "acessoNecessario": "Debes iniciar sesión",
+    "adicioneUmaImagemDeCapaParaConcluirAPublicacao": "Añade una imagen de portada para completar la publicación.",
+    "aguardeCarregarOsRascunhosSeFalhouUseSalvarAgoraPara": "Espera a que se carguen los borradores. Si falló la carga, usa Guardar ahora para reconectar.",
+    "aguardeTerminarAOperacaoOuCarregarOsRascunhos": "Espera a que termine la operación o se carguen los borradores.",
+    "alteracoesNaoSalvas": "Cambios sin guardar…",
+    "alteracoesSalvasGereOPdfAntesDePublicar": "Cambios guardados. Genera el PDF antes de publicar.",
+    "alteracoesSalvasSeuPdfEstaProntoParaPublicar": "Cambios guardados. Tu PDF está listo para publicar.",
+    "animacaoDeCarregamento": "Animación de carga",
+    "apagarAConversaAtualComARuby": "¿Eliminar la conversación actual con Ruby?",
+    "aparencia": "Apariencia",
+    "assistenteRuby": "Asistente Ruby",
+    "assistenteDaMonetiza": "Asistente de Monetiza",
+    "atividadePratica": "Actividad práctica",
+    "baixarPdf": "Descargar PDF",
+    "baixeEConfiraOMaterialAntesDePublicar": "Descarga y revisa el material antes de publicar.",
+    "bemVindoAoMonetiza": "Bienvenido a Monetiza",
+    "cancelarContrato": "Cancelar contrato",
+    "capa": "Portada",
+    "capaDoProduto": "Portada del producto",
+    "carregandoMonetiza": "Cargando Monetiza",
+    "carregandoConversa": "Cargando conversación…",
+    "carregandoRascunhos": "Cargando borradores…",
+    "claro": "Claro",
+    "comissao": "Comisión (%)",
+    "compraRealizada": "¡Compra realizada!",
+    "conclusao": "Conclusión",
+    "confirmar": "Confirmar",
+    "continueDeOndeParou": "Continúa donde lo dejaste.",
+    "contratoInvalido": "Contrato no válido",
+    "conversaComARuby": "Conversación con Ruby",
+    "conversaReiniciadaComoPossoAjudar": "Conversación reiniciada. ¿Cómo puedo ayudarte?",
+    "copiaSalvaORascunhoAnteriorFoiPreservado": "Copia guardada. Se conservó el borrador anterior.",
+    "descricaoCompleta": "Descripción completa",
+    "descricaoCurta": "Descripción breve",
+    "eBook": "Libro electrónico",
+    "eBooks": "Libros electrónicos",
+    "editarProduto": "Editar producto",
+    "enderecoInvalido": "URL no válida.",
+    "entendi": "Entendido",
+    "entrarNaMonetiza": "Iniciar sesión en Monetiza",
+    "entreParaConversar": "Inicia sesión para conversar",
+    "escolhaOTemaDeSuaPreferenciaParaAInterface": "Elige el tema que prefieras para la interfaz.",
+    "escolhaUmRascunho": "Elige un borrador",
+    "escolhaUmaCategoria": "Elige una categoría",
+    "escrevaUmaMensagem": "Escribe un mensaje...",
+    "escuro": "Oscuro",
+    "esteContratoNaoPermiteMaisEdicaoAtualizeALista": "Este contrato ya no se puede editar. Actualiza la lista.",
+    "esteProdutoJaFoiPublicado": "Este producto ya se publicó.",
+    "esteProdutoJaFoiPublicadoUseNovoProduto": "Este producto ya se publicó. Usa Nuevo producto.",
+    "falhaAoAcessarOsRascunhos": "No se pudo acceder a los borradores.",
+    "falhaAoCarregar": "Error al cargar: ",
+    "falhaAoSalvar": "Error al guardar: ",
+    "faltaACapaDoProduto": "Falta la portada del producto",
+    "fechar": "Cerrar",
+    "fecharConversa": "Cerrar conversación",
+    "fecharAssistenteRuby": "Cerrar asistente Ruby",
+    "gerandoPdf": "Generando PDF...",
+    "gereOPdfAntesDePublicar": "Genera el PDF antes de publicar.",
+    "gereUmProdutoAntesDeContinuar": "Genera un producto antes de continuar.",
+    "haAlteracoesParaSalvar": "Hay cambios por guardar.",
+    "iaLab": "Laboratorio de IA",
+    "informeUmPrecoMaiorQueZero": "Introduce un precio mayor que cero.",
+    "iniciando": "Iniciando...",
+    "loginRealizadoAbrindoSuaConta": "¡Sesión iniciada! Abriendo tu cuenta...",
+    "logo": "Logotipo",
+    "logoMonetiza": "Logotipo de Monetiza",
+    "logoExtra": "logotipo",
+    "mensagemParaARuby": "Mensaje para Ruby",
+    "meuProduto": "Mi producto",
+    "meusRascunhos": "Mis borradores",
+    "nomeDoProduto": "Nombre del producto",
+    "novoProduto": "Nuevo producto",
+    "naoFoiPossivelAcessarOProduto": "No se pudo acceder al producto.",
+    "naoFoiPossivelBaixarOPdf": "No se pudo descargar el PDF",
+    "naoFoiPossivelCarregarODashboard": "No se pudo cargar el panel",
+    "naoFoiPossivelConcluir": "No se pudo completar la operación",
+    "naoFoiPossivelConcluirAOperacao": "No se pudo completar la operación.",
+    "naoFoiPossivelConectarTenteNovamente": "No se pudo conectar. Inténtalo de nuevo.",
+    "naoFoiPossivelConversarComARuby": "No se pudo conversar con Ruby.",
+    "naoFoiPossivelIdentificarSuaConta": "No se pudo identificar tu cuenta.",
+    "naoFoiPossivelRecuperarOPdfSalvo": "No se pudo recuperar el PDF guardado.",
+    "oMeuSite": "Monetiza — Cargando",
+    "oProdutoNaoPossuiCapitulosParaGerar": "El producto no tiene capítulos para generar.",
+    "oServidorNaoConfirmouOCodigoDoProduto": "El servidor no confirmó el ID del producto.",
+    "oServidorNaoRetornouOEnderecoDoPdf": "El servidor no devolvió la URL del PDF.",
+    "oServidorNaoRetornouOTokenDeLogin": "El servidor no devolvió el token de inicio de sesión.",
+    "oTituloDeveTerEntre1E100Caracteres": "El título debe tener entre 1 y 100 caracteres.",
+    "olaSouARubyComoPossoAjudarVoceComA": "¡Hola! Soy Ruby. ¿Cómo puedo ayudarte con Monetiza?",
+    "organizandoOTextoEMontandoOPdf": "Organizando el texto y creando el PDF...",
+    "osCapitulosConcluidosSaoSalvosAoSairAGeracaoEm": "Los capítulos terminados se guardan. Si sales, se interrumpirá la generación en curso.",
+    "pdfGeradoComSucesso": "¡PDF generado correctamente!",
+    "pdfGeradoESalvoComSucesso": "¡PDF generado y guardado correctamente!",
+    "pontosChave": "Puntos clave",
+    "preparandoAGeracaoDosCapitulos": "Preparando la generación de capítulos...",
+    "preparandoSeuProduto": "Preparando tu producto",
+    "precoEmReais": "Precio en reales brasileños",
+    "produtoPublicadoComSucesso": "¡Producto publicado correctamente!",
+    "produtoPublicadoEleJaEstaDisponivelNaVitrine": "¡Producto publicado! Ya está disponible en el escaparate.",
+    "promptBuilder": "Creador de prompts",
+    "prontoSeuTrabalhoSeraSalvoAutomaticamente": "Listo. Tu trabajo se guardará automáticamente.",
+    "publicado": "Publicado",
+    "publicadoCrieUmNovoProdutoParaContinuar": "Publicado: crea un nuevo producto para continuar.",
+    "publicando": "Publicando...",
+    "r000": "0,00 BRL",
+    "r000Extra": "0,00 BRL",
+    "rascunhoRecuperadoSalvo": "Borrador recuperado. Guardado.",
+    "rascunhosSalvos": "Borradores guardados",
+    "respostaInvalidaDaRuby": "Respuesta de Ruby no válida.",
+    "rubyEstaRespondendo": "Ruby está respondiendo…",
+    "rubyAssistenteMonetiza": "Ruby — Asistente de Monetiza",
+    "salvandoOPdfParaPublicacao": "Guardando el PDF para publicarlo...",
+    "salvandoProdutoNaPlataforma": "Guardando el producto en la plataforma...",
+    "salvando": "Guardando…",
+    "salvarAlteracoes": "Guardar cambios",
+    "salvarAgora": "Guardar ahora",
+    "salvarCopia": "Guardar copia",
+    "salvarOTrabalhoAtualEComecarOutroProduto": "¿Guardar el trabajo actual y empezar otro producto?",
+    "salvo": "Guardado",
+    "selecioneACategoriaDoSeuProdutoNoEditor": "Selecciona la categoría del producto en el editor.",
+    "sessaoEncerrada": "Sesión cerrada",
+    "sessaoExpirada": "Sesión caducada",
+    "sessaoInvalidaEntreNovamente": "Sesión no válida. Inicia sesión de nuevo.",
+    "suaSessaoExpirouEntreNovamente": "Tu sesión caducó. Inicia sesión de nuevo.",
+    "suaSessaoNaoEstaDisponivelEntreNovamenteNaMonetiza": "Tu sesión no está disponible. Inicia sesión de nuevo en Monetiza.",
+    "tema": "Tema",
+    "tituloAtualizadoCliqueEmGerarPdfParaAtualizarOArquivo": "Título actualizado. Haz clic en Generar PDF para actualizar el archivo sin volver a generar los capítulos.",
+    "urlDaImagemDeCapa": "URL de la imagen de portada",
+    "useAte2000Caracteres": "Usa hasta 2.000 caracteres.",
+    "username": "Usuario",
+    "marcarTodasComoLidas": "Marcar todas como leídas",
+    "nenhumaNotificacaoPorAqui": "Aún no hay notificaciones.",
+    "publicadoExtra": " — publicado",
+    "aguardeSegundosS": "Espera {segundos}s",
+    "gerandoCapituloNumeroDeTotalTitulo": "Generando capítulo {numero} de {total}: {titulo}",
+    "oServidorRetornouUmaRespostaInvalidaStatus": "El servidor devolvió una respuesta no válida ({status}).",
+    "quantidadeCapituloSRecuperadoS": "{quantidade} capítulo(s) recuperado(s).",
+    "paginaPaginaDeTotal": "Página {pagina} de {total}"
+};
+traducoes["es"].notificacoes = {
+    "titulo": "Notificaciones",
+    "marcarTodas": "Marcar todas como leídas",
+    "vazio": "Aún no hay notificaciones."
+};
+traducoes['pt-BR'].complementos.abrir = 'Abrir';
+traducoes.en.complementos.abrir = 'Open';
+traducoes.es.complementos.abrir = 'Abrir';
+
+
+traducoes['pt-BR'].operacoes = {
+    sessao: 'Sua sessão expirou. Entre novamente.',
+    armazenamento: 'Não foi possível preparar a operação. Permita o armazenamento do navegador e tente novamente.',
+    identificador: 'Identificador da operação inválido. Atualize a página e tente novamente.',
+    conflito: 'Esta operação já foi usada com outros dados. Reabra o formulário.',
+    jaComprado: 'Você já possui este produto. Acesse Minhas compras.',
+    jaPublicado: 'Este rascunho já foi publicado.',
+    rascunhoInvalido: 'Rascunho inválido.',
+    rascunhoAusente: 'Rascunho não encontrado.',
+    rascunhoMudou: 'O rascunho mudou. Reabra a versão salva antes de publicar.',
+    transacao: 'Transação simulada registrada com sucesso!'
+}
+traducoes.en.operacoes = {
+    sessao: 'Your session has expired. Sign in again.',
+    armazenamento: 'Could not prepare the operation. Allow browser storage and try again.',
+    identificador: 'Invalid operation ID. Refresh the page and try again.',
+    conflito: 'This operation was already used with different data. Reopen the form.',
+    jaComprado: 'You already own this product. Open My purchases.',
+    jaPublicado: 'This draft has already been published.',
+    rascunhoInvalido: 'Invalid draft.',
+    rascunhoAusente: 'Draft not found.',
+    rascunhoMudou: 'The draft has changed. Reopen the saved version before publishing.',
+    transacao: 'Simulated transaction recorded successfully!'
+}
+traducoes.es.operacoes = {
+    sessao: 'Tu sesión caducó. Inicia sesión de nuevo.',
+    armazenamento: 'No se pudo preparar la operación. Permite el almacenamiento del navegador e inténtalo de nuevo.',
+    identificador: 'ID de operación no válido. Actualiza la página e inténtalo de nuevo.',
+    conflito: 'Esta operación ya se usó con otros datos. Vuelve a abrir el formulario.',
+    jaComprado: 'Ya tienes este producto. Abre Mis compras.',
+    jaPublicado: 'Este borrador ya se publicó.',
+    rascunhoInvalido: 'Borrador no válido.',
+    rascunhoAusente: 'Borrador no encontrado.',
+    rascunhoMudou: 'El borrador cambió. Abre la versión guardada antes de publicar.',
+    transacao: '¡Transacción simulada registrada correctamente!'
 }
 
-function obterIdiomaAtual(){
-    return localStorage.getItem('idioma')||'pt-BR'
+// API compartilhada; traduções são texto, nunca HTML executável.
+function obterTraducao(objeto, caminho) {
+    return String(caminho).split('.').reduce((atual, chave) =>
+        atual && Object.prototype.hasOwnProperty.call(atual, chave) ? atual[chave] : undefined, objeto)
 }
-
-function traduzir(chave,idioma=obterIdiomaAtual()){
-    const idiomaValido=traducoes[idioma]?idioma:'pt-BR'
-    return obterTraducao(traducoes[idiomaValido],chave)??chave
+const idiomasSuportados = ['pt-BR', 'en', 'es']
+let idiomaEmMemoria = 'pt-BR'
+try {
+    const preferido = new URLSearchParams(window.location.search).get('lang') || localStorage.getItem('idioma')
+    if (idiomasSuportados.includes(preferido)) idiomaEmMemoria = preferido
+} catch { /* O iframe de carregamento pode bloquear o armazenamento. */ }
+function obterIdiomaAtual() { return idiomaEmMemoria }
+function traduzir(chave, idiomaOuParametros = obterIdiomaAtual(), parametros = {}) {
+    const idioma = typeof idiomaOuParametros === 'string' ? idiomaOuParametros : obterIdiomaAtual()
+    if (typeof idiomaOuParametros === 'object' && idiomaOuParametros) parametros = idiomaOuParametros
+    const texto = obterTraducao(traducoes[idiomasSuportados.includes(idioma) ? idioma : 'pt-BR'], chave)
+        ?? obterTraducao(traducoes['pt-BR'], chave) ?? chave
+    return typeof texto === 'string' ? texto.replace(/\{(\w+)\}/g, (original, nome) =>
+        Object.prototype.hasOwnProperty.call(parametros, nome) ? String(parametros[nome]) : original) : chave
 }
-
-function aplicarIdioma(idioma){
-    const idiomaValido=traducoes[idioma]?idioma:'pt-BR'
-
-    localStorage.setItem('idioma',idiomaValido)
-
-    document.documentElement.lang=
-        idiomaValido==='pt-BR'
-            ?'pt-br'
-            :idiomaValido
-
-    document.querySelectorAll('[data-i18n]').forEach(elemento=>{
-        const texto=traduzir(elemento.dataset.i18n,idiomaValido)
-
-        if(texto!==elemento.dataset.i18n){
-            elemento.textContent=texto
+const chavesPorMensagem = new Map()
+function indexarMensagens(objeto, prefixo = '') {
+    Object.entries(objeto).forEach(([chave, valor]) => {
+        const caminho = prefixo ? `${prefixo}.${chave}` : chave
+        if (valor && typeof valor === 'object') indexarMensagens(valor, caminho)
+        else if (!chavesPorMensagem.has(valor)) chavesPorMensagem.set(valor, caminho)
+    })
+}
+indexarMensagens(traducoes['pt-BR'])
+function traduzirMensagem(texto) {
+    const valor = String(texto ?? '')
+    return chavesPorMensagem.has(valor) ? traduzir(chavesPorMensagem.get(valor)) : valor
+}
+const atributosI18n = { 'data-i18n': null, 'data-i18n-placeholder': 'placeholder',
+    'data-i18n-title': 'title', 'data-i18n-aria-label': 'aria-label', 'data-i18n-alt': 'alt' }
+const ultimasTraducoes = new WeakMap()
+function traduzirElementos(raiz = document) {
+    for (const [marcador, atributo] of Object.entries(atributosI18n)) {
+        const elementos = [...raiz.querySelectorAll(`[${marcador}]`)]
+        if (raiz.matches?.(`[${marcador}]`)) elementos.unshift(raiz)
+        elementos.forEach(elemento => {
+            const chave = elemento.getAttribute(marcador), texto = traduzir(chave)
+            if (texto === chave) return
+            const anteriores = ultimasTraducoes.get(elemento) || new Map()
+            const atual = atributo ? elemento.getAttribute(atributo) : elemento.textContent
+            // Não sobrescreve nomes, preços ou estados que o código da página atualizou.
+            if (anteriores.has(marcador) && anteriores.get(marcador) !== atual) return
+            anteriores.set(marcador, texto)
+            ultimasTraducoes.set(elemento, anteriores)
+            if (atributo) { if (elemento.getAttribute(atributo) !== texto) elemento.setAttribute(atributo, texto) }
+            else if (elemento.textContent !== texto) elemento.textContent = texto
+        })
+    }
+}
+function aplicarIdioma(idioma) {
+    idiomaEmMemoria = idiomasSuportados.includes(idioma) ? idioma : 'pt-BR'
+    try { localStorage.setItem('idioma', idiomaEmMemoria) } catch { /* Sem armazenamento persistente. */ }
+    document.documentElement.lang = idiomaEmMemoria
+    traduzirElementos()
+    document.querySelectorAll('iframe[src]').forEach(iframe => {
+        const url = new URL(iframe.getAttribute('src'), window.location.href)
+        if (url.origin === window.location.origin && url.pathname === '/loading/index.html' && url.searchParams.get('lang') !== idiomaEmMemoria) {
+            url.searchParams.set('lang', idiomaEmMemoria)
+            iframe.src = url.href
         }
     })
-
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(elemento=>{
-        const texto=traduzir(
-            elemento.dataset.i18nPlaceholder,
-            idiomaValido
-        )
-
-        if(texto!==elemento.dataset.i18nPlaceholder){
-            elemento.placeholder=texto
-        }
-    })
-
-    document.querySelectorAll('[data-i18n-title]').forEach(elemento=>{
-        const texto=traduzir(
-            elemento.dataset.i18nTitle,
-            idiomaValido
-        )
-
-        if(texto!==elemento.dataset.i18nTitle){
-            elemento.title=texto
-        }
-    })
-
-    document.querySelectorAll('[data-i18n-aria-label]').forEach(elemento=>{
-        const texto=traduzir(
-            elemento.dataset.i18nAriaLabel,
-            idiomaValido
-        )
-
-        if(texto!==elemento.dataset.i18nAriaLabel){
-            elemento.setAttribute(
-                'aria-label',
-                texto
-            )
-        }
-    })
+    window.dispatchEvent(new CustomEvent('i18n:change', { detail: { idioma: idiomaEmMemoria } }))
 }
-
-window.i18n={
-    aplicarIdioma,
-    obterIdiomaAtual,
-    t:traduzir
-}
-
-document.addEventListener('DOMContentLoaded',()=>{
-    aplicarIdioma(
-        obterIdiomaAtual()
-    )
+window.i18n = { aplicarIdioma, obterIdiomaAtual, t: traduzir, mensagem: traduzirMensagem,
+    locale: () => ({ 'pt-BR': 'pt-BR', en: 'en-US', es: 'es-ES' })[obterIdiomaAtual()] }
+window.addEventListener('storage', evento => {
+    if (evento.key === 'idioma' && idiomasSuportados.includes(evento.newValue)) aplicarIdioma(evento.newValue)
+})
+document.addEventListener('DOMContentLoaded', () => {
+    aplicarIdioma(obterIdiomaAtual())
+    // Apenas elementos explicitamente marcados: mensagens e produtos do usuário ficam intactos.
+    new MutationObserver(registros => registros.forEach(registro => registro.addedNodes.forEach(no => {
+        if (no.nodeType === 1) traduzirElementos(no)
+    }))).observe(document.body, { childList: true, subtree: true })
 })

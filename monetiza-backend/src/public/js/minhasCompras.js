@@ -23,8 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function formatarDinheiro(valor) {
-        return Number(valor || 0).toLocaleString(
-            'pt-BR',
+        return Number(valor || 0).toLocaleString(window.i18n.locale(),
             {
                 style: 'currency',
                 currency: 'BRL'
@@ -35,8 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function formatarData(data) {
         if (!data) return '-'
 
-        return new Date(data).toLocaleDateString(
-            'pt-BR'
+        return new Date(data).toLocaleDateString(window.i18n.locale()
         )
     }
 
@@ -98,6 +96,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             : traducao
     }
 
+    function nomePdfProduto(titulo, id) {
+        let nome = String(titulo || '').normalize('NFC')
+            .replace(/[<>:"/\\|?*\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/g, ' ')
+            .replace(/\s+/g, ' ').trim()
+            .replace(/(?:\.pdf)+$/i, '').replace(/^[. ]+|[. ]+$/g, '')
+        nome = Array.from(nome).slice(0, 100).join('').replace(/[. ]+$/g, '')
+        if (!nome) nome = `produto-${id}`
+        if (/^(con|prn|aux|nul|com[0-9¹²³]|lpt[0-9¹²³])(?:\.|$)/i.test(nome)) nome = `Produto ${nome}`
+        return `${nome}.pdf`
+    }
+
     async function acessarProduto(compra, botao) {
         if (botao.dataset.ocupado === '1') return
         botao.dataset.ocupado = '1'
@@ -110,14 +119,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!resposta.ok) {
                 const dados = await resposta.json().catch(() => ({}))
                 throw new Error(resposta.status === 401
-                    ? 'Sua sessão expirou. Entre novamente.'
-                    : dados.erro || 'Não foi possível acessar o produto.')
+                    ? window.i18n.t('complementos.suaSessaoExpirouEntreNovamente')
+                    : dados.erro || window.i18n.t('complementos.naoFoiPossivelAcessarOProduto'))
             }
             if (resposta.headers.get('content-type')?.includes('application/json')) {
                 const dados = await resposta.json()
                 const url = new URL(dados.url)
                 if (!['http:', 'https:'].includes(url.protocol)) {
-                    throw new Error('Endereço inválido.')
+                    throw new Error(window.i18n.t('complementos.enderecoInvalido'))
                 }
                 window.location.assign(url.href)
                 return
@@ -126,7 +135,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const url = URL.createObjectURL(blob)
             const link = document.createElement('a')
             link.href = url
-            link.download = `produto-${compra.produto_id}.pdf`
+            link.download = nomePdfProduto(compra.produto, compra.produto_id)
             document.body.appendChild(link)
             link.click()
             link.remove()

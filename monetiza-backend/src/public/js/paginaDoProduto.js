@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function formatarDinheiro(valor) {
-        return Number(valor || 0).toLocaleString('pt-BR', {
+        return Number(valor || 0).toLocaleString(window.i18n.locale(), {
             style: 'currency',
             currency: 'BRL'
         });
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 try {
                     MonetizaUI.abrirLoading();
 
-                    const resposta = await fetch('/vitrine-api/comprar', {
+                    const resposta = await MonetizaOperacoes.enviar('/vitrine-api/comprar', {
                         method: 'POST',
 
                         headers: {
@@ -259,11 +259,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const acesso = '/minhasCompras';
 
                     await MonetizaUI.aviso(
+                        resposta.status === 200 ? window.i18n.mensagem(dados.mensagem) :
                         `${t('paginaProduto.js.compraDe')} ` +
                         `"${dados.venda?.produto || produtoAtual.titulo}" ` +
                         `${t('paginaProduto.js.compraSucesso')}`,
                         {
-                            titulo: 'Compra realizada!',
+                            titulo: window.i18n.t('complementos.compraRealizada'),
                             url: acesso
                         }
                     );

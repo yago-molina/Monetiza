@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <script src="/js/i18n.js"></script>
     <meta charset="UTF-8">
 
     <meta
@@ -8,7 +9,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Ruby — Assistente Monetiza</title>
+    <title data-i18n="complementos.rubyAssistenteMonetiza">Ruby — Assistente Monetiza</title>
 
     <link
         rel="icon"
@@ -33,7 +34,7 @@
                 class="back-btn"
                 type="button"
                 aria-label="Fechar conversa"
-            >
+             data-i18n-aria-label="complementos.fecharConversa">
                 &#8592;
             </button>
 
@@ -47,7 +48,7 @@
             <div class="header-info">
                 <h1>RUBY</h1>
 
-                <span id="ruby-estado" role="status">
+                <span id="ruby-estado" role="status" data-i18n="complementos.assistenteDaMonetiza">
                     Assistente da Monetiza
                 </span>
             </div>
@@ -59,7 +60,7 @@
                 title="Nova conversa"
                 aria-label="Nova conversa"
                 disabled
-            >
+             data-i18n-title="mensagens.chat.novaConversa" data-i18n-aria-label="mensagens.chat.novaConversa">
                 ↺
             </button>
         </header>
@@ -70,7 +71,7 @@
             role="log"
             aria-live="polite"
             aria-label="Conversa com a Ruby"
-        ></div>
+         data-i18n-aria-label="complementos.conversaComARuby"></div>
 
         <div class="ruby-feedback">
             <p id="ruby-aviso" role="alert"></p>
@@ -80,7 +81,7 @@
                 href="/login"
                 target="_top"
                 hidden
-            >
+             data-i18n="complementos.entrarNaMonetiza">
                 Entrar na Monetiza
             </a>
         </div>
@@ -96,7 +97,7 @@
                     autocomplete="off"
                     required
                     disabled
-                >
+                 data-i18n-placeholder="complementos.escrevaUmaMensagem" data-i18n-aria-label="complementos.mensagemParaARuby">
             </div>
 
             <button
@@ -105,7 +106,7 @@
                 type="submit"
                 aria-label="Enviar mensagem"
                 disabled
-            >
+             data-i18n-aria-label="mensagens.chat.enviarMensagem">
                 ➔
             </button>
         </form>

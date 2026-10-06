@@ -16,6 +16,11 @@ const db={getConnection:async()=>({
 })}
 const configPath=path.resolve(__dirname,'../src/config/db.js')
 require.cache[configPath]={id:configPath,filename:configPath,loaded:true,exports:db}
+// Este teste isola o vínculo do rascunho; operacoes.test.js cobre a idempotência integrada.
+const servicePath=path.resolve(__dirname,'../src/services/operacaoService.js')
+require.cache[servicePath]={id:servicePath,filename:servicePath,loaded:true,exports:{
+ iniciar:async()=>({repeticao:null}), concluir:async(conexao)=>conexao.commit(), ErroOperacao:class extends Error {}
+}}
 const {criar}=require('../src/controllers/produtoController')
 test('Publicação vincula produto uma vez, rejeita outra conta/versão e desfaz falha',async t=>{
  const app=express();app.use(express.json());app.post('/',(req,res)=>{req.usuario={id:Number(req.headers['x-user']||1)};return criar(req,res)})

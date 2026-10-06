@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const horario = new Date(data)
 
-        return horario.toLocaleTimeString('pt-BR', {
+        return horario.toLocaleTimeString(window.i18n.locale(), {
             hour: '2-digit',
             minute: '2-digit'
         })
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return formatarHora(data)
         }
 
-        return dataMensagem.toLocaleDateString('pt-BR', {
+        return dataMensagem.toLocaleDateString(window.i18n.locale(), {
             day: '2-digit',
             month: '2-digit'
         })

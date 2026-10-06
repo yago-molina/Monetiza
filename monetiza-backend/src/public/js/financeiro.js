@@ -67,8 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function formatarDinheiro(valor) {
-        return Number(valor || 0).toLocaleString(
-            'pt-BR',
+        return Number(valor || 0).toLocaleString(window.i18n.locale(),
             {
                 style: 'currency',
                 currency: 'BRL'
@@ -81,8 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return '-'
         }
 
-        return new Date(data).toLocaleDateString(
-            'pt-BR'
+        return new Date(data).toLocaleDateString(window.i18n.locale()
         )
     }
 
@@ -553,7 +551,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderizarComissoes()
     }
 
+    let transacaoEmAndamento = false
     async function novaTransacao() {
+        if (transacaoEmAndamento) return
+        transacaoEmAndamento = true
+        try { await executarNovaTransacao() }
+        finally { transacaoEmAndamento = false }
+    }
+
+    async function executarNovaTransacao() {
         const tipo = window.prompt(
             t('financeiro.js.promptTipo')
         )
@@ -612,7 +618,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         try {
-            const resposta = await fetch(
+            const resposta = await MonetizaOperacoes.enviar(
                 '/financeiro-api/transacoes',
                 {
                     method: 'POST',

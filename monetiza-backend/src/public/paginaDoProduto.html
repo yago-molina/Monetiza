@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <script src="/js/i18n.js"></script>
+    <script src="/js/operacoes.js"></script>
     <base href="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +13,14 @@
     <link rel="stylesheet" href="css/notificacoes.css">
     <link rel="stylesheet" href="/css/feedback.css">
     <script src="js/theme.js"></script>
-    
+
 </head>
 <body>
     <div class="container">
         <aside class="sidebar">
             <div class="logo-area">
-                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
-                <span class="brand-name">Monetiza</span>
+                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar" data-i18n-alt="complementos.logo">
+                <span class="brand-name" data-i18n="inicio.tituloDocumento">Monetiza</span>
             </div>
 
             <nav class="menu-nav">
@@ -142,7 +144,7 @@
                             id="detalhe-capa"
                             src="image/placeholder.png"
                             alt="Capa do Produto"
-                        >
+                         data-i18n-alt="complementos.capaDoProduto">
                     </div>
 
                     <div class="content-block">
@@ -186,15 +188,15 @@
                 </div>
 
                 <div class="product-action-card">
-                    <span id="detalhe-categoria" class="badge-categoria">
+                    <span id="detalhe-categoria" class="badge-categoria" data-i18n="financeiro.transacoes.categoria">
                         Categoria
                     </span>
 
-                    <h1 id="detalhe-titulo">Nome do Produto</h1>
+                    <h1 id="detalhe-titulo" data-i18n="complementos.nomeDoProduto">Nome do Produto</h1>
 
                     <p class="producer-text">
                         <span data-i18n="paginaProduto.produto.criadoPor">Criado por:</span>
-                        <strong id="detalhe-produtor">Produtor</strong>
+                        <strong id="detalhe-produtor" data-i18n="contratos.js.produtor">Produtor</strong>
                     </p>
 
                     <div class="price-box">
@@ -202,7 +204,7 @@
                             Preço:
                         </span>
 
-                        <span id="detalhe-preco" class="price-value">
+                        <span id="detalhe-preco" class="price-value" data-i18n="complementos.r000">
                             R$ 0,00
                         </span>
                     </div>
@@ -261,14 +263,14 @@
                             id="modal-checkout-img"
                             src="image/placeholder.png"
                             alt="Capa"
-                        >
+                         data-i18n-alt="complementos.capa">
 
                         <div>
-                            <h4 id="modal-checkout-titulo">
+                            <h4 id="modal-checkout-titulo" data-i18n="complementos.nomeDoProduto">
                                 Nome do Produto
                             </h4>
 
-                            <span id="modal-checkout-preco" class="price-green">
+                            <span id="modal-checkout-preco" class="price-green" data-i18n="complementos.r000">
                                 R$ 0,00
                             </span>
                         </div>
@@ -351,7 +353,7 @@
     </div>
 
     <script src="js/perfil-global.js"></script>
-    <script src="js/i18n.js"></script>
+
     <script src="/js/feedback.js"></script>
     <script src="js/paginaDoProduto.js"></script>
     <script src="js/notificacoes.js"></script>

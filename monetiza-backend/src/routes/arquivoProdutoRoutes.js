@@ -2,6 +2,17 @@ const express = require('express')
 const path = require('path')
 const autenticar = require('../middlewares/authMiddleware')
 
+function nomePdfProduto(titulo, id) {
+    let nome = String(titulo || '').normalize('NFC')
+        .replace(/[<>:"/\\|?*\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/g, ' ')
+        .replace(/\s+/g, ' ').trim()
+        .replace(/(?:\.pdf)+$/i, '').replace(/^[. ]+|[. ]+$/g, '')
+    nome = Array.from(nome).slice(0, 100).join('').replace(/[. ]+$/g, '')
+    if (!nome) nome = `produto-${id}`
+    if (/^(con|prn|aux|nul|com[0-9¹²³]|lpt[0-9¹²³])(?:\.|$)/i.test(nome)) nome = `Produto ${nome}`
+    return `${nome}.pdf`
+}
+
 function criarRotasArquivos({
     obterDb = () => require('../config/db'),
     pasta = path.join(__dirname, '../private/uploads/produtos')
@@ -22,7 +33,7 @@ function criarRotasArquivos({
         }
         try {
             const [produtos] = await obterDb().execute(`
-                SELECT p.id, p.usuario_id, p.produto_arquivo
+                SELECT p.id, p.usuario_id, p.titulo, p.produto_arquivo
                 FROM produtos p
                 WHERE p.id = ? AND (
                     p.usuario_id = ? OR EXISTS (
@@ -52,7 +63,7 @@ function criarRotasArquivos({
             if (!arquivo || Number(arquivo[1]) !== Number(produto.usuario_id)) {
                 return res.status(404).json({ erro: 'Arquivo indisponível.' })
             }
-            return res.download(path.join(pasta, nome), `produto-${id}.pdf`, erro => {
+            return res.download(path.join(pasta, nome), nomePdfProduto(produto.titulo, id), erro => {
                 if (erro && !res.headersSent && !res.destroyed) {
                     res.status(404).json({ erro: 'Arquivo não encontrado.' })
                 }

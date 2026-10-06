@@ -1,4 +1,5 @@
 const db = require('../config/db')
+const operacoes = require('../services/operacaoService')
 
 const {
     calcularResumoFinanceiro
@@ -192,6 +193,11 @@ const criarTransacao = async (req, res) => {
         conexao = await db.getConnection()
 
         await conexao.beginTransaction()
+        const reserva = await operacoes.iniciar(conexao, req, 'criar-transacao')
+        if (reserva.repeticao) {
+            await conexao.commit()
+            return res.status(reserva.repeticao.status).json(reserva.repeticao.corpo)
+        }
 
         // Serializa as movimentações deste usuário.
         const [usuarios] = await conexao.query(
@@ -247,12 +253,9 @@ const criarTransacao = async (req, res) => {
             ]
         )
 
-        await conexao.commit()
-
-        return res.status(201).json({
-            mensagem: 'Transação simulada registrada com sucesso!',
-            id: resultado.insertId
-        })
+        const corpo = { mensagem: 'Transação simulada registrada com sucesso!', id: resultado.insertId }
+        await operacoes.concluir(conexao, reserva, 201, corpo)
+        return res.status(201).json(corpo)
     } catch (erro) {
         if (conexao) {
             try {
@@ -264,6 +267,8 @@ const criarTransacao = async (req, res) => {
                 )
             }
         }
+
+        if (erro instanceof operacoes.ErroOperacao) return res.status(erro.status).json({ erro: erro.message })
 
         console.error('Erro ao criar transação:', erro)
 

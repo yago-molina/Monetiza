@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function formatarPreco(preco) {
-        return Number(preco).toLocaleString('pt-BR', {
+        return Number(preco).toLocaleString(window.i18n.locale(), {
             style: 'currency',
             currency: 'BRL'
         })
@@ -337,7 +337,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             botaoSalvar.textContent =
                 t('produto.js.salvando')
 
-            const resposta = await fetch('/produtos', {
+            const resposta = await MonetizaOperacoes.enviar('/produtos', {
                 method: 'POST',
                 headers: headersAutenticados(),
                 body: JSON.stringify(produto)

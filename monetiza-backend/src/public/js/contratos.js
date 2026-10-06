@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             data-id="${escaparHTML(contrato.id)}"
                         >
                             <i class="fa-solid fa-file-pdf"></i>
-                            Baixar PDF
+                            ${window.i18n.t('complementos.baixarPdf')}
                         </button>
 
                     ${
@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         !Number.isSafeInteger(contratoId) ||
         contratoId <= 0
     ) {
-        await MonetizaUI.aviso('Contrato inválido')
+        await MonetizaUI.aviso(window.i18n.t('complementos.contratoInvalido'))
         return
     }
 
@@ -474,7 +474,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             throw new Error(
                 dados.erro ||
-                'Não foi possível baixar o PDF'
+                window.i18n.t('complementos.naoFoiPossivelBaixarOPdf')
             )
         }
 
@@ -714,7 +714,7 @@ document.addEventListener('click', evento => {
 
             if (contrato.status_contrato !== 'Pendente' ||
                 contrato.aceito_produtor_em || contrato.aceito_afiliado_em) {
-                throw new Error('Este contrato não permite mais edição. Atualize a lista.')
+                throw new Error(window.i18n.t('complementos.esteContratoNaoPermiteMaisEdicaoAtualizeALista'))
             }
             contratoEditando = contrato.id
             versaoEditando = contrato.versao
@@ -769,7 +769,7 @@ document.addEventListener('click', evento => {
                             class="btn-contrato btn-baixar-pdf"
                             data-id="${escaparHTML(contrato.id)}"
                         >
-                            Baixar PDF
+                            ${window.i18n.t('complementos.baixarPdf')}
                         </button>
                         `
                         : ''
@@ -802,7 +802,7 @@ document.addEventListener('click', evento => {
     async function aceitarContrato(id, versao) {
         if (!await MonetizaUI.confirmar(
             t('contratos.js.confirmarAceite'),
-            { titulo: 'Aceitar contrato' }
+            { titulo: window.i18n.t('complementos.aceitarContrato') }
         )) {
             return
         }
@@ -844,7 +844,7 @@ document.addEventListener('click', evento => {
     async function cancelarContrato(id) {
         if (!await MonetizaUI.confirmar(
             t('contratos.js.confirmarCancelamento'),
-            { titulo: 'Cancelar contrato' }
+            { titulo: window.i18n.t('complementos.cancelarContrato') }
         )) {
             return
         }
@@ -997,10 +997,10 @@ document.addEventListener('click', evento => {
     try {
         const respostaPerfil = await fetch('/usuario/perfil', { headers: headersAuth() })
         if (!await verificarSessao(respostaPerfil)) return
-        if (!respostaPerfil.ok) throw new Error('Não foi possível identificar sua conta.')
+        if (!respostaPerfil.ok) throw new Error(window.i18n.t('complementos.naoFoiPossivelIdentificarSuaConta'))
         const perfil = await respostaPerfil.json()
         usuarioLogado = perfil.usuario
-        if (!usuarioLogado?.id) throw new Error('Sessão inválida. Entre novamente.')
+        if (!usuarioLogado?.id) throw new Error(window.i18n.t('complementos.sessaoInvalidaEntreNovamente'))
         carregarAfiliacoes()
         carregarContratos()
     } catch (erro) {
