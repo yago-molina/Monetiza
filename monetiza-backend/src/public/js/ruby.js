@@ -30,7 +30,11 @@
         balao.className = 'message-bubble'
 
         // Nunca interpretar a resposta como HTML.
-        balao.textContent = texto
+        if (!usuario && window.renderizarMensagemRuby) {
+            window.renderizarMensagemRuby(balao, texto)
+        } else {
+            balao.textContent = texto
+        }
 
         linha.appendChild(balao)
         corpo.appendChild(linha)

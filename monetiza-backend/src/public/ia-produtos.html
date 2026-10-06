@@ -13,6 +13,13 @@
     <link rel="stylesheet" href="/css/feedback.css">
     <link rel="stylesheet" href="css/ia-produtos.css">
     <link rel="icon" type="image/png" href="image/icon_monetiza.png">
+<style>
+    .ia-rascunhos { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:12px; margin:12px 0; border:1px solid #ffffff25; border-radius:10px; }
+    .ia-rascunhos select { flex:1; min-width:140px; max-width:100%; }
+    .ia-rascunhos button,.ia-rascunhos select { background:#202027; color:#fff; border:1px solid #ffffff35; padding:8px 10px; border-radius:6px; }
+    .ia-rascunhos button:disabled { opacity:.5; cursor:not-allowed; }
+    .ia-rascunhos [role=status] { flex-basis:100%; font-size:12px; }
+    </style>
 </head>
 
 <body>
@@ -444,7 +451,7 @@
 
             <progress id="loading-pdf-progresso" value="0" max="1"></progress>
 
-            <small>Mantenha esta página aberta até terminar.</small>
+            <small>Os capítulos concluídos são salvos. Ao sair, a geração em andamento será interrompida.</small>
         </div>
     </dialog>
 
@@ -475,6 +482,7 @@
     <script src="js/perfil-global.js"></script>
     <script src="js/i18n.js"></script>
     <script src="/js/jspdf.umd.min.js"></script>
+    <script src="/js/ia-rascunhos.js"></script>
     <script src="/js/ia-produtos.js"></script>
     <script src="js/notificacoes.js"></script>
 </body>

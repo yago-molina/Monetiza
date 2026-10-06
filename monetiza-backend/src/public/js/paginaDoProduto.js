@@ -256,22 +256,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     fecharModal();
                     MonetizaUI.fecharLoading();
 
-                    let acesso = '/minhasCompras';
-
-                    if (dados.acesso_produto) {
-                        try {
-                            const url = new URL(
-                                dados.acesso_produto,
-                                location.origin
-                            );
-
-                            if (['http:', 'https:'].includes(url.protocol)) {
-                                acesso = url.href;
-                            }
-                        } catch {
-                            // Mantém o acesso pela página Minhas compras.
-                        }
-                    }
+                    const acesso = '/minhasCompras';
 
                     await MonetizaUI.aviso(
                         `${t('paginaProduto.js.compraDe')} ` +

@@ -1,19 +1,10 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     console.log('contratos.js carregado')
 
     const token = localStorage.getItem('token')
     const t = chave => window.i18n?.t(chave) ?? chave
 
     let usuarioLogado = {}
-
-    try {
-        usuarioLogado = JSON.parse(
-            localStorage.getItem('usuarioLogado') || '{}'
-        )
-    } catch (erro) {
-        console.error('Erro ao ler usuarioLogado:', erro)
-        usuarioLogado = {}
-    }
 
     if (!token) {
         window.location.href = '/login'
@@ -46,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailUsuario = document.getElementById('email-usuario')
 
     let contratos = []
+    let versaoEditando = null
     let contratoEditando = null
 
     if (nomeUsuario && usuarioLogado.nome) {
@@ -86,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function abrirModalNovo() {
         contratoEditando = null
+        versaoEditando = null
 
         if (form) {
             form.reset()
@@ -147,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         contratoEditando = null
+        versaoEditando = null
     }
 
     async function carregarAfiliacoes() {
@@ -312,11 +306,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.className = 'contrato-card'
 
-            const podeEditar =
-                Number(contrato.criado_por_id) ===
-                Number(usuarioLogado.id) &&
-                !['Encerrado', 'Cancelado']
-                    .includes(contrato.status_contrato)
+            const criador = Number(contrato.criado_por_id) === Number(usuarioLogado.id)
+            const pendente = contrato.status_contrato === 'Pendente'
+            const finalizado = ['Encerrado', 'Cancelado'].includes(contrato.status_contrato)
+            const podeEditar = criador && pendente &&
+                !contrato.aceito_produtor_em && !contrato.aceito_afiliado_em
+            const podeCancelar = criador && !finalizado
+            const meuAceite = Number(contrato.produtor_id) === Number(usuarioLogado.id)
+                ? contrato.aceito_produtor_em : contrato.aceito_afiliado_em
+            const podeAceitar = pendente && !meuAceite
 
             const produtorAceitou =
                 contrato.aceito_produtor_em
@@ -331,8 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
             card.innerHTML = `
                 <div class="contrato-header">
                     <div>
-                        <h3>${contrato.titulo}</h3>
-                        <p>${contrato.produto}</p>
+                        <h3>${escaparHTML(contrato.titulo)}</h3>
+                        <p>${escaparHTML(contrato.produto)}</p>
                     </div>
 
                     <span class="contrato-status">
@@ -343,12 +341,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="contrato-info">
                     <p>
                         <strong>${t('contratos.js.produtor')}:</strong>
-                        ${contrato.produtor}
+                        ${escaparHTML(contrato.produtor)}
                     </p>
 
                     <p>
                         <strong>${t('contratos.js.afiliado')}:</strong>
-                        ${contrato.afiliado}
+                        ${escaparHTML(contrato.afiliado)}
                     </p>
 
                     <p>
@@ -373,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             ? `
                                 <p>
                                     <strong>${t('contratos.js.observacoes')}:</strong>
-                                    ${contrato.observacoes}
+                                    ${escaparHTML(contrato.observacoes)}
                                 </p>
                             `
                             : ''
@@ -391,11 +389,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         </button>
 
                     ${
-                        contrato.status_contrato === 'Pendente'
+                        podeAceitar
                             ? `
                                 <button
                                     type="button"
                                     class="btn-contrato btn-aceitar"
+                                    data-versao="${escaparHTML(contrato.versao)}"
                                     data-id="${escaparHTML(contrato.id)}"
                                 >
                                     <i class="fa-solid fa-check"></i>
@@ -417,6 +416,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                     ${t('contratos.js.editar')}
                                 </button>
 
+                            `
+                            : ''
+                    }
+                    ${
+                        podeCancelar
+                            ? `
                                 <button
                                     type="button"
                                     class="btn-contrato btn-cancelar-contrato"
@@ -515,7 +520,7 @@ document.addEventListener('click', evento => {
         document.querySelectorAll('.btn-aceitar')
             .forEach(botao => {
                 botao.addEventListener('click', () => {
-                    aceitarContrato(botao.dataset.id)
+                    aceitarContrato(botao.dataset.id, botao.dataset.versao)
                 })
             })
 
@@ -590,6 +595,7 @@ document.addEventListener('click', evento => {
         }
 
         const formData = new FormData()
+        if (contratoEditando) formData.append('versao', versaoEditando || '')
 
         if (!contratoEditando) {
             formData.append(
@@ -706,7 +712,12 @@ document.addEventListener('click', evento => {
                 )
             }
 
+            if (contrato.status_contrato !== 'Pendente' ||
+                contrato.aceito_produtor_em || contrato.aceito_afiliado_em) {
+                throw new Error('Este contrato não permite mais edição. Atualize a lista.')
+            }
             contratoEditando = contrato.id
+            versaoEditando = contrato.versao
 
             if (selectAfiliacao) {
                 selectAfiliacao.value =
@@ -788,9 +799,10 @@ document.addEventListener('click', evento => {
         }
     }
 
-    async function aceitarContrato(id) {
-        if (!confirm(
-            t('contratos.js.confirmarAceite')
+    async function aceitarContrato(id, versao) {
+        if (!await MonetizaUI.confirmar(
+            t('contratos.js.confirmarAceite'),
+            { titulo: 'Aceitar contrato' }
         )) {
             return
         }
@@ -801,7 +813,7 @@ document.addEventListener('click', evento => {
                 {
                     method: 'PATCH',
                     headers: headersJson(),
-                    body: JSON.stringify({})
+                    body: JSON.stringify({ versao })
                 }
             )
 
@@ -830,8 +842,9 @@ document.addEventListener('click', evento => {
     }
 
     async function cancelarContrato(id) {
-        if (!confirm(
-            t('contratos.js.confirmarCancelamento')
+        if (!await MonetizaUI.confirmar(
+            t('contratos.js.confirmarCancelamento'),
+            { titulo: 'Cancelar contrato' }
         )) {
             return
         }
@@ -981,6 +994,16 @@ document.addEventListener('click', evento => {
         )
     }
 
-    carregarAfiliacoes()
-    carregarContratos()
+    try {
+        const respostaPerfil = await fetch('/usuario/perfil', { headers: headersAuth() })
+        if (!await verificarSessao(respostaPerfil)) return
+        if (!respostaPerfil.ok) throw new Error('Não foi possível identificar sua conta.')
+        const perfil = await respostaPerfil.json()
+        usuarioLogado = perfil.usuario
+        if (!usuarioLogado?.id) throw new Error('Sessão inválida. Entre novamente.')
+        carregarAfiliacoes()
+        carregarContratos()
+    } catch (erro) {
+        await MonetizaUI.aviso(erro.message)
+    }
 })

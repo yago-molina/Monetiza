@@ -5,6 +5,8 @@ const produtoIaRoutes = require('./routes/produtoIaRoutes')
 
 app.use('/api/ruby', require('./routes/rubyRoutes'))
 
+app.use('/ia/rascunhos', require('./routes/rascunhoIaRoutes'))
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(
@@ -18,6 +20,14 @@ app.use('/uploads/contratos', (req, res) => {
     res.status(404).json({
         erro: 'Arquivo não encontrado'
     })
+})
+
+app.use('/arquivos-produtos', require('./routes/arquivoProdutoRoutes'))
+
+// Bloqueia também os endereços antigos, antes do express.static.
+app.use('/uploads/produtos', (_req, res) => {
+    res.set('Cache-Control', 'no-store')
+    res.status(404).json({ erro: 'Use Minhas Compras para acessar o produto.' })
 })
 
 app.use(express.static(path.join(__dirname, 'public')))

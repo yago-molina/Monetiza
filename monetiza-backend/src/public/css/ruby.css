@@ -322,3 +322,10 @@ a:focus-visible {
         animation: none;
     }
 }
+/* Formatação restrita, sem HTML fornecido pelo modelo. */
+.message-bubble.ruby-formatado { white-space: normal; line-height: 1.6; }
+.ruby-formatado p + p, .ruby-formatado ul, .ruby-formatado ol { margin-top: .55em; }
+.ruby-formatado ul, .ruby-formatado ol { padding-left: 1.4em; margin-bottom: .55em; }
+.ruby-formatado li + li { margin-top: .3em; }
+.ruby-formatado strong { font-weight: 600; }
+.ruby-formatado code { font-family: monospace; background: #ffffff12; border-radius: 4px; padding: 1px 4px; }

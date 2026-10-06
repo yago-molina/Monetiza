@@ -98,6 +98,47 @@ document.addEventListener('DOMContentLoaded', async () => {
             : traducao
     }
 
+    async function acessarProduto(compra, botao) {
+        if (botao.dataset.ocupado === '1') return
+        botao.dataset.ocupado = '1'
+        botao.setAttribute('aria-busy', 'true')
+        try {
+            const resposta = await fetch(`/arquivos-produtos/${compra.produto_id}`, {
+                cache: 'no-store',
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            })
+            if (!resposta.ok) {
+                const dados = await resposta.json().catch(() => ({}))
+                throw new Error(resposta.status === 401
+                    ? 'Sua sessão expirou. Entre novamente.'
+                    : dados.erro || 'Não foi possível acessar o produto.')
+            }
+            if (resposta.headers.get('content-type')?.includes('application/json')) {
+                const dados = await resposta.json()
+                const url = new URL(dados.url)
+                if (!['http:', 'https:'].includes(url.protocol)) {
+                    throw new Error('Endereço inválido.')
+                }
+                window.location.assign(url.href)
+                return
+            }
+            const blob = await resposta.blob()
+            const url = URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+            link.download = `produto-${compra.produto_id}.pdf`
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+            setTimeout(() => URL.revokeObjectURL(url), 60000)
+        } catch (erro) {
+            await MonetizaUI.aviso(erro.message)
+        } finally {
+            delete botao.dataset.ocupado
+            botao.removeAttribute('aria-busy')
+        }
+    }
+
     function criarCard(compra) {
         const card =
             document.createElement('div')
@@ -171,9 +212,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         podeAcessar
                             ? `
                                 <a
-                                    href="${escaparHtml(compra.produto_arquivo)}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    href="#"
                                     class="btn-acessar-produto"
                                 >
                                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -185,6 +224,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             </div>
         `
+
+        const acessar = card.querySelector('.btn-acessar-produto')
+        acessar?.addEventListener('click', evento => {
+            evento.preventDefault()
+            acessarProduto(compra, acessar)
+        })
 
         return card
     }

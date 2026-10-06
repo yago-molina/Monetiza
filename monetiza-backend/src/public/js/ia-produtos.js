@@ -72,6 +72,8 @@ let ideiaEscolhida = '';
 let promptGerado = '';
 
 let produtoGerado = null;
+let rascunhos = null;
+let camposEditorSalvos = null;
 
 
 // ==================================================
@@ -104,7 +106,9 @@ function renderizarMarkdown(texto) {
         typeof marked === 'undefined' ||
         typeof DOMPurify === 'undefined'
     ) {
-        return texto
+        const seguro = document.createElement('div')
+        seguro.textContent = String(texto)
+        return seguro.innerHTML
     }
 
     const html =
@@ -586,6 +590,8 @@ function atualizarVisualEtapa() {
 // ==================================================
 
 function mudarParaConsultor() {
+    if (!rascunhos?.podeMudar()) return
+    rascunhos.agendar()
 
     etapaAtual =
         'consultor';
@@ -623,6 +629,8 @@ ${t('iaProdutos.js.consultorTexto3')}
 // ==================================================
 
 function mudarParaPromptBuilder() {
+    if (!rascunhos?.podeMudar()) return
+    rascunhos.agendar()
 
     etapaAtual =
         'promptBuilder';
@@ -655,6 +663,8 @@ ${t('iaProdutos.js.exemplo')}:
 // ==================================================
 
 function mudarParaGeradorProduto() {
+    if (!rascunhos?.podeMudar()) return
+    rascunhos.agendar()
 
     etapaAtual =
         'produto';
@@ -878,6 +888,7 @@ async function usarPromptBuilder(
         resultado;
 
 
+    await rascunhos.salvar()
     return resultado;
 
 }
@@ -890,6 +901,14 @@ async function usarPromptBuilder(
 async function usarGeradorProduto(
     promptFinal
 ) {
+    if (produtoGerado) {
+        await rascunhos.novo(true)
+        etapaAtual = 'produto'
+        atualizarVisualEtapa()
+    }
+    promptGerado = promptFinal
+    await rascunhos.salvar()
+
 
     status.innerText =
         t('iaProdutos.js.gerandoProduto');
@@ -908,6 +927,9 @@ async function usarGeradorProduto(
     pdfPublicado = null
     arquivoPdfPronto = null
     capitulosPdfProntos = []
+    camposEditorSalvos = null
+    mostrarProdutoPreview(produtoGerado)
+    await rascunhos.salvar()
 
     return resultado;
 
@@ -942,7 +964,6 @@ async function enviarMensagem() {
 
     adicionarMensagemUsuario(mensagem)
 
-    prompt.value = ''
     botao.disabled = true
 
     const carregamento =
@@ -973,6 +994,8 @@ async function enviarMensagem() {
             )
         }
 
+        prompt.value = ''
+        await rascunhos.salvar()
         removerCarregamento(carregamento)
 
         if (
@@ -1250,13 +1273,18 @@ async function abrirEditorProduto() {
         campo('ia-comissao').value = cadastro.comissao
         campo('ia-capa').value = produtoGerado.capa || ''
 
+        if (camposEditorSalvos) {
+            for (const [id, valor] of Object.entries(camposEditorSalvos)) {
+                if (IDS_EDITOR.includes(id)) campo(id).value = String(valor)
+            }
+        }
         editor.showModal()
     } catch (erro) {
         await MonetizaUI.aviso(erro.message)
     }
 }
 
-function salvarEdicaoProduto(evento) {
+async function salvarEdicaoProduto(evento) {
     evento.preventDefault()
 
     if (!formEditor.reportValidity()) return
@@ -1282,8 +1310,12 @@ function salvarEdicaoProduto(evento) {
         arquivoPdfPronto = null
     }
 
+    camposEditorSalvos = null
     mostrarProdutoPreview(produtoGerado)
     editor.close()
+    try { await rascunhos.salvar() } catch (erro) {
+        await MonetizaUI.aviso('A edição está nesta página, mas ainda não foi salva no banco. Use Salvar agora.'); return
+    }
 
     status.innerText = pdfPublicado
         ? 'Alterações salvas. Seu PDF está pronto para publicar.'
@@ -1611,6 +1643,15 @@ async function gerarPdfProduto() {
     try {
         exigirProduto()
 
+        if (pdfPublicado && !arquivoPdfPronto) {
+            try {
+                arquivoPdfPronto = { blob: await rascunhos.baixarPdf(), nome: nomeArquivoProduto(produtoGerado.cadastro.titulo) }
+            } catch (erro) {
+                if (erro.status !== 404) throw erro
+                pdfPublicado = null
+                await rascunhos.salvar()
+            }
+        }
         if (pdfPublicado && arquivoPdfPronto) {
             nomePdfPronto.textContent = arquivoPdfPronto.nome
             botaoBaixarPdf.disabled = false
@@ -1679,6 +1720,7 @@ async function gerarPdfProduto() {
 
             capitulosPdfProntos[indice] = capitulo
             capitulos.push(capitulo)
+            await rascunhos.salvar()
 
             progressoPdf.value = indice + 1
         }
@@ -1706,6 +1748,7 @@ async function gerarPdfProduto() {
         }
 
         pdfPublicado = url
+        await rascunhos.salvar()
 
         arquivoPdfPronto = {
             blob: pdf.output('blob'),
@@ -1830,6 +1873,7 @@ async function publicarProdutoIa() {
         botaoPublicarProduto.textContent = 'Publicando...'
         status.innerText = 'Salvando produto na plataforma...'
 
+        await rascunhos.salvar()
         const resposta = await fetch('/produtos', {
             method: 'POST',
             headers: {
@@ -1845,7 +1889,8 @@ async function publicarProdutoIa() {
                 comissao,
                 capa,
                 produto_arquivo: pdfPublicado,
-                status_produto: 'Ativo'
+                status_produto: 'Ativo',
+                ...rascunhos.referencia()
             })
         })
 
@@ -1859,6 +1904,7 @@ async function publicarProdutoIa() {
             throw new Error('O servidor não confirmou o código do produto.')
         }
 
+        rascunhos.publicado(dados.id)
         status.innerText = 'Produto publicado com sucesso!'
 
         await MonetizaUI.aviso('Produto publicado! Ele já está disponível na vitrine.')
@@ -1874,14 +1920,16 @@ async function publicarProdutoIa() {
     }
 }
 
-botaoEditarProduto?.addEventListener('click', abrirEditorProduto)
-botaoGerarPdf?.addEventListener('click', gerarPdfProduto)
-botaoPublicarProduto?.addEventListener('click', publicarProdutoIa)
+botaoEditarProduto?.addEventListener('click', () => rascunhos.executar(abrirEditorProduto))
+botaoGerarPdf?.addEventListener('click', () => rascunhos.executar(gerarPdfProduto))
+botaoPublicarProduto?.addEventListener('click', () => rascunhos.executar(publicarProdutoIa))
 
-formEditor.addEventListener('submit', salvarEdicaoProduto)
+formEditor.addEventListener('submit', evento => { evento.preventDefault(); rascunhos.executar(() => salvarEdicaoProduto(evento)) })
 
 campo('cancelar-editor').addEventListener('click', () => {
+    camposEditorSalvos = null
     editor.close()
+    rascunhos.agendar()
 })
 
 // botão envar
@@ -1890,7 +1938,7 @@ botao.addEventListener(
     'click',
     function (evento) {
         evento.preventDefault()
-        enviarMensagem()
+        rascunhos.executar(enviarMensagem)
     }
 )
 
@@ -1902,11 +1950,48 @@ prompt.addEventListener(
             evento.key === 'Enter'
         ) {
             evento.preventDefault()
-            enviarMensagem()
+            rascunhos.executar(enviarMensagem)
         }
     }
 )
 
+const IDS_EDITOR = ['ia-titulo','ia-descricao-curta','ia-descricao-completa','ia-categoria','ia-preco','ia-comissao','ia-capa']
+function estadoVazioRascunho() {
+    return { schema:1, etapaAtual:'consultor', ideiaEscolhida:'', promptGerado:'',
+        produtoGerado:null, pdfPublicado:null, capitulosPdfProntos:[], textoPrompt:'',
+        historicos:{consultor:[],promptBuilder:[],produto:[]}, camposEditorSalvos:null }
+}
+function capturarRascunho() {
+    return {schema:1,etapaAtual,ideiaEscolhida,promptGerado,produtoGerado,pdfPublicado,
+        capitulosPdfProntos,textoPrompt:prompt.value,camposEditorSalvos,
+        historicos:Object.fromEntries(Object.entries(historicos).map(([k,v])=>[k,v.slice(-20)]))}
+}
+function restaurarRascunho(estado) {
+    etapaAtual=estado.etapaAtual;ideiaEscolhida=estado.ideiaEscolhida;promptGerado=estado.promptGerado
+    produtoGerado=estado.produtoGerado;pdfPublicado=estado.pdfPublicado
+    capitulosPdfProntos=estado.capitulosPdfProntos;arquivoPdfPronto=null
+    camposEditorSalvos=estado.camposEditorSalvos || null;prompt.value=estado.textoPrompt
+    for (const etapa of Object.keys(historicos)) historicos[etapa]=estado.historicos[etapa] || []
+    chatConteudo.replaceChildren();produtoPreview.classList.add('oculto')
+    atualizarVisualEtapa()
+    // Histórico já vem validado do servidor; a renderização continua sanitizada.
+    for (const mensagem of historicos[etapaAtual]) {
+        if (mensagem.role==='user') adicionarMensagemUsuario(mensagem.content)
+        else if (etapaAtual!=='produto') adicionarMensagemIA(mensagem.content)
+    }
+    if (produtoGerado) mostrarProdutoPreview(produtoGerado)
+    status.innerText=produtoGerado ? `${capitulosPdfProntos.filter(Boolean).length} capítulo(s) recuperado(s).` : 'Continue de onde parou.'
+}
+rascunhos = window.criarGerenciadorRascunhos({token,capturar:capturarRascunho,restaurar:restaurarRascunho,vazio:estadoVazioRascunho,
+    aoPublicar: id => {
+        botaoEditarProduto.disabled=Boolean(id);botaoGerarPdf.disabled=Boolean(id);botaoPublicarProduto.disabled=Boolean(id)
+    }})
+prompt.addEventListener('input',()=>rascunhos.agendar())
+formEditor.addEventListener('input',()=>{
+    camposEditorSalvos=Object.fromEntries(IDS_EDITOR.map(id=>[id,campo(id).value]))
+    rascunhos.agendar()
+})
 // inicialização
 atualizarVisualEtapa()
 carregarModelos()
+rascunhos.iniciar()

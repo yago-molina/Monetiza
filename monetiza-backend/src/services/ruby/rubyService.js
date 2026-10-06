@@ -1,4 +1,5 @@
 const systemPrompt = require('../../prompts/rubyPrompt')
+const { criarConsultaContexto } = require('./rubyContexto')
 
 class ErroRuby extends Error {
     constructor(status, mensagem, retryAfter) {
@@ -13,7 +14,8 @@ function criarServicoRuby({
     fetchImpl = globalThis.fetch,
     env = process.env,
     agora = Date.now,
-    timeoutMs = 45000
+    timeoutMs = 45000,
+    consultarContexto = criarConsultaContexto()
 } = {}) {
     const usuarios = new Map()
 
@@ -201,6 +203,13 @@ function criarServicoRuby({
         )
 
         try {
+            let contexto
+            try {
+                contexto = await consultarContexto(id, mensagem)
+            } catch {
+                contexto = { consultado: false, motivo: 'Consulta indisponível' }
+            }
+            if (abort.signal.aborted) throw new Error('Requisição cancelada')
             const resposta = await fetchImpl(
                 'https://api.groq.com/openai/v1/chat/completions',
                 {
@@ -221,7 +230,8 @@ function criarServicoRuby({
                         messages: [
                             {
                                 role: 'system',
-                                content: systemPrompt
+                                content: systemPrompt + '\n\nCONSULTA ATUAL DO SERVIDOR (JSON):\n' +
+                                    JSON.stringify(contexto)
                             },
 
                             ...item.historico,

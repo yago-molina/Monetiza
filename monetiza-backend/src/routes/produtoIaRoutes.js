@@ -41,7 +41,7 @@ router.post('/arquivo', (req, res) => {
         }
 
         try {
-            const pasta = path.join(__dirname, '../public/uploads/produtos')
+            const pasta = path.join(__dirname, '../private/uploads/produtos')
             await fs.mkdir(pasta, { recursive: true })
 
             const nome = `${req.usuario.id}-${crypto.randomUUID()}.pdf`
