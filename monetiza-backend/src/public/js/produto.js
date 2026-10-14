@@ -156,9 +156,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     function renderizarProdutos(lista) {
         listaProdutos.innerHTML = ''
 
-        if (lista.length === 0) {
-            estadoVazio.style.display = 'block'
-            return
+            if (lista.length === 0) {
+            // A conta realmente não possui produtos.
+                if (produtos.length === 0) {
+                    estadoVazio.style.display = 'block'
+                    return
+                }
+
+                // Existem produtos, mas nenhum corresponde à busca.
+                estadoVazio.style.display = 'none'
+
+                const mensagem = document.createElement('p')
+
+                mensagem.textContent = t('vitrine.nenhumProduto')
+                mensagem.setAttribute('role', 'status')
+                mensagem.style.gridColumn = '1 / -1'
+                mensagem.style.textAlign = 'center'
+                mensagem.style.padding = '24px'
+                mensagem.style.color = 'inherit'
+
+                listaProdutos.appendChild(mensagem)
+                return
         }
 
         estadoVazio.style.display = 'none'
@@ -263,7 +281,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             produtos = dados
 
-            renderizarProdutos(produtos)
+            buscarProdutos()
         } catch (erro) {
             console.error('Erro ao carregar produtos:', erro)
             await MonetizaUI.aviso(erro.message)
@@ -612,24 +630,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function buscarProdutos() {
-        const termo = campoBusca
-            .value
-            .trim()
-            .toLowerCase()
+        function normalizar(valor) {
+            return String(valor ?? '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .trim()
+        }
+
+        const termos = normalizar(campoBusca.value)
+            .split(/\s+/)
+            .filter(Boolean)
 
         const produtosFiltrados = produtos.filter(produto => {
-            const titulo = produto.titulo || ''
-            const categoria = produto.categoria || ''
-            const descricao = produto.descricao_curta || ''
+            const texto = normalizar([
+                produto.titulo,
+                produto.categoria,
+                produto.descricao_curta
+            ].filter(Boolean).join(' '))
 
-            return (
-                titulo.toLowerCase().includes(termo) ||
-                categoria.toLowerCase().includes(termo) ||
-                descricao.toLowerCase().includes(termo)
-            )
+            return termos.every(termo => texto.includes(termo))
         })
 
-        renderizarProdutos(produtosFiltrados)
+        buscarProdutos()
     }
 
     listaProdutos.addEventListener('click', evento => {

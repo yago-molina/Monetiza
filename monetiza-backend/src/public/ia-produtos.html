@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/feedback.css">
     <link rel="stylesheet" href="css/ia-produtos.css">
+    <link rel="stylesheet" href="/css/notificacoes.css">
+    <link rel="stylesheet" href="/css/ia-interface.css">
     <link rel="icon" type="image/png" href="image/icon_monetiza.png">
 <style>
     .ia-rascunhos { display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding:12px; margin:12px 0; border:1px solid #ffffff25; border-radius:10px; }
@@ -24,7 +26,7 @@
     </style>
 </head>
 
-<body>
+<body class="pagina-ia">
 
     <div class="container">
         <aside class="sidebar-global">
@@ -123,13 +125,42 @@
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
 
+                    <div class="notificacao-container">
                     <button
+                        type="button"
                         class="icon-btn"
+                        id="btn-notificacoes"
                         aria-label="Notificações"
                         data-i18n-aria-label="iaProdutos.notificacoes"
                     >
                         <i class="fa-solid fa-bell fa-lg"></i>
+                        <span
+                            id="contador-notificacoes"
+                            class="contador-notificacoes"
+                        >0</span>
                     </button>
+                </div>
+
+                <div id="menu-notificacoes" class="menu-notificacoes">
+                    <div class="notificacoes-cabecalho">
+                        <strong data-i18n="notificacoes.titulo">
+                            Notificações
+                        </strong>
+
+                        <button
+                            type="button"
+                            id="marcar-todas-notificacoes"
+                            data-i18n="notificacoes.marcarTodas"
+                        >
+                            Marcar todas
+                        </button>
+                    </div>
+
+                    <div
+                        id="lista-notificacoes"
+                        class="lista-notificacoes"
+                    ></div>
+                </div>
 
                     <button
                         class="icon-btn"
@@ -482,9 +513,11 @@
     <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
     <script src="/js/feedback.js"></script>
     <script src="js/perfil-global.js"></script>
-
+    <script src="/js/searchBar.js"></script>
+    <script src="/js/theme.js"></script>
     <script src="/js/jspdf.umd.min.js"></script>
     <script src="/js/ia-rascunhos.js"></script>
+    <script src="/js/ia-interface.js"></script>
     <script src="/js/ia-produtos.js"></script>
     <script src="js/notificacoes.js"></script>
 </body>

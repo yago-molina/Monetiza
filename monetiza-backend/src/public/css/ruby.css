@@ -5,9 +5,9 @@
     --bg-bubble: #1a1f35;
     --text-color: #ffffff;
     --text-dim: #9494b8;
-    --accent-red: #cc0000;
-    --accent-red-dark: #800000;
-    --accent-green: #b1ff00;
+    --accent-green: #22c55e;
+    --accent-green-dark: #15803d;
+    --accent-lime: #b1ff00;
 }
 
 * {
@@ -34,9 +34,9 @@ html, body {
     background: radial-gradient(circle at center, #151928 0%, #0b0d14 100%);
 }
 
-/* --- CABEÇALHO VERMELHO DA RUBY --- */
+/* --- CABEÇALHO VERDE DA RUBY --- */
 .chat-header {
-    background: linear-gradient(135deg, var(--accent-red), var(--accent-red-dark));
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark));
     padding: 14px 20px;
     display: flex;
     align-items: center;
@@ -74,7 +74,6 @@ html, body {
     margin-right: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     flex-shrink: 0;
-    /* IMPORTANTE: Removi o overflow: hidden daqui para o ponto poder sair para fora */
 }
 
 .avatar-container img {
@@ -86,12 +85,12 @@ html, body {
 
 .status-dot {
     position: absolute;
-    bottom: -1px;  /* Posiciona ligeiramente para fora na parte inferior */
-    right: -1px;   /* Posiciona ligeiramente para fora na parte lateral */
+    bottom: -1px;  
+    right: -1px;   
     width: 12px;
     height: 12px;
-    background-color: var(--accent-green);
-    border: 2px solid #111522; /* Borda com a cor de fundo do cabeçalho para criar um recorte limpo */
+    background-color: var(--accent-lime);
+    border: 2px solid #111522; 
     border-radius: 50%;
 }
 
@@ -105,7 +104,7 @@ html, body {
 
 .header-info span {
     font-size: 12px;
-    color: #ffcccc;
+    color: #bbf7d0;
 }
 
 /* --- CORPO DO CHAT --- */
@@ -149,7 +148,7 @@ html, body {
     font-size: 14.5px;
     line-height: 1.5;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(204, 0, 0, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.15);
 }
 
 .message-bubble p {
@@ -160,14 +159,14 @@ html, body {
     margin-bottom: 0;
 }
 
-/* Mensagens do utilizador (Alinhadas à direita com tom vermelho) */
+/* Mensagens do utilizador (Alinhadas à direita com tom verde) */
 .message-wrapper.user-message {
     margin-left: auto;
     justify-content: flex-end;
 }
 
 .message-wrapper.user-message .message-bubble {
-    background: linear-gradient(135deg, var(--accent-red), #990000);
+    background: linear-gradient(135deg, var(--accent-green), #15803d);
     border-radius: 18px 4px 18px 18px;
     border: 1px solid rgba(177, 255, 0, 0.2);
 }
@@ -196,7 +195,7 @@ html, body {
 }
 
 .tools-btn:hover {
-    color: var(--accent-green);
+    color: var(--accent-lime);
 }
 
 .input-container {
@@ -211,8 +210,8 @@ html, body {
 }
 
 .input-container:focus-within {
-    border-color: var(--accent-red);
-    box-shadow: 0 0 10px rgba(204, 0, 0, 0.2);
+    border-color: var(--accent-green);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
 }
 
 .input-container input {
@@ -229,7 +228,7 @@ html, body {
 }
 
 .send-btn {
-    background: linear-gradient(135deg, var(--accent-red), var(--accent-red-dark));
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark));
     border: none;
     width: 38px;
     height: 38px;
@@ -240,13 +239,13 @@ html, body {
     color: white;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(204, 0, 0, 0.4);
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
     flex-shrink: 0;
 }
 
 .send-btn:hover {
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(204, 0, 0, 0.6);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.6);
 }
 
 /* Estados funcionais da Ruby */
@@ -274,7 +273,7 @@ html, body {
 .ruby-feedback {
     padding: 0 16px;
     font-size: 12px;
-    color: #ffc3c3;
+    color: #bbf7d0;
 }
 
 #ruby-aviso:not(:empty) {
@@ -322,7 +321,7 @@ a:focus-visible {
         animation: none;
     }
 }
-/* Formatação restrita, sem HTML fornecido pelo modelo. */
+
 .message-bubble.ruby-formatado { white-space: normal; line-height: 1.6; }
 .ruby-formatado p + p, .ruby-formatado ul, .ruby-formatado ol { margin-top: .55em; }
 .ruby-formatado ul, .ruby-formatado ol { padding-left: 1.4em; margin-bottom: .55em; }

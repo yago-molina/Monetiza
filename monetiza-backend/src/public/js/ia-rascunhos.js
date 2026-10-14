@@ -133,16 +133,41 @@
             } catch (erro) { pronto=false;informar(window.i18n.t('complementos.falhaAoCarregar')+erro.message) }
             finally { trocando=false;botoes() }
         }
-        async function executar(acao) {
-            if (!pronto || ocupado || trocando || publicado) {
-                await MonetizaUI.aviso(publicado?window.i18n.t('complementos.esteProdutoJaFoiPublicadoUseNovoProduto'):window.i18n.t('complementos.aguardeTerminarAOperacaoOuCarregarOsRascunhos'))
+                async function executar(acao, { somenteLeitura = false } = {}) {
+            if (
+                !pronto ||
+                ocupado ||
+                trocando ||
+                (publicado && !somenteLeitura)
+            ) {
+                await MonetizaUI.aviso(
+                    publicado && !somenteLeitura
+                        ? window.i18n.t('complementos.esteProdutoJaFoiPublicadoUseNovoProduto')
+                        : window.i18n.t('complementos.aguardeTerminarAOperacaoOuCarregarOsRascunhos')
+                )
                 return
             }
-            ocupado=true;botoes()
-            document.getElementById('prompt').disabled=true
-            try { await salvar(); if (publicado) { await MonetizaUI.aviso(window.i18n.t('complementos.esteProdutoJaFoiPublicadoUseNovoProduto')); return } return await acao() }
-            catch (erro) { await MonetizaUI.aviso(erro.message) }
-            finally { ocupado=false;document.getElementById('prompt').disabled=false;botoes() }
+
+            ocupado = true
+            botoes()
+            document.getElementById('prompt').disabled = true
+
+            try {
+                sessao()
+
+                if (!somenteLeitura) {
+                    await salvar()
+                    if (publicado) return
+                }
+
+                return await acao()
+            } catch (erro) {
+                await MonetizaUI.aviso(erro.message)
+            } finally {
+                ocupado = false
+                document.getElementById('prompt').disabled = false
+                botoes()
+            }
         }
         abrir.addEventListener('click',async()=>{
             if (!select.value || ocupado || trocando) return

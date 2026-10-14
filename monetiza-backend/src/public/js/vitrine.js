@@ -379,18 +379,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         aplicarFiltros()
     }
 
-    buscaTopo.addEventListener('input', evento => {
-
-        atualizarBusca(evento.target.value)
-
-    })
-
-    buscaProdutos.addEventListener('input', evento => {
-
-        atualizarBusca(evento.target.value)
-
-    })
-
     function confirmarBusca(campo) {
         atualizarBusca(campo.value)
 

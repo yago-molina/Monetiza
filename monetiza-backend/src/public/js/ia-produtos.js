@@ -545,7 +545,7 @@ function atualizarVisualEtapa() {
 
 
         modoAtualTexto.innerText =
-            window.i18n.t('complementos.promptBuilder');
+            iaInterface.texto('estruturar');
 
 
         prompt.placeholder =
@@ -692,60 +692,43 @@ ${t('iaProdutos.js.geradorTexto2')}
 // ==================================================
 
 async function carregarModelos() {
-    try {
-        status.innerText =
-            t('iaProdutos.js.verificandoConexao')
+    iaInterface.conexao('verificar')
+    modelo.value = ''
 
-        const requisicao = await fetch(
-            '/ia/produtos/status',
-            {
-                headers: {
-                    Authorization:
-                        `Bearer ${token}`
-                }
-            }
+    const controle = new AbortController()
+    const timer = setTimeout(() => controle.abort(), 20000)
+
+    try {
+        const requisicao = await fetch('/ia/produtos/status', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            signal: controle.signal
+        })
+
+        const dados = await requisicao.json()
+        respostaAutenticada(requisicao, dados)
+
+        if (
+            !dados.disponivel ||
+            !dados.suportaProdutosEstruturados
+        ) {
+            throw new Error(iaInterface.texto('offline'))
+        }
+
+        modelo.replaceChildren(
+            new Option(dados.modelo, dados.modelo)
         )
 
-        const dados =
-            await requisicao.json()
-
-        if (requisicao.status === 401) {
-            localStorage.removeItem('token')
-            window.location.href = '/login'
-            return
-        }
-
-        if (!requisicao.ok) {
-            throw new Error(
-                dados.erro ||
-                t('iaProdutos.js.iaIndisponivel')
-            )
-        }
-
-        modelo.innerHTML = ''
-
-        const option =
-            document.createElement('option')
-
-        option.value = dados.modelo
-        option.innerText = dados.modelo
-
-        modelo.appendChild(option)
         modelo.disabled = true
-
-        status.innerText =
-            t('iaProdutos.js.groqConectada')
+        iaInterface.conexao('online')
     } catch (erro) {
-        console.error(erro)
+        modelo.replaceChildren(new Option('', ''))
+        iaInterface.conexao('offline')
 
-        modelo.innerHTML = `
-            <option value="">
-                ${t('iaProdutos.js.iaIndisponivelCurto')}
-            </option>
-        `
-
-        status.innerText =
-            erro.message
+        console.error('Conexão com a IA:', erro.message)
+    } finally {
+        clearTimeout(timer)
     }
 }
 
@@ -1070,165 +1053,6 @@ async function transformarIdeiaEmPrompt(
 
 }
 
-
-// ==================================================
-// TRANSFORMA PROMPT EM PRODUTO
-// ==================================================
-
-async function transformarPromptEmProduto(
-    promptFinal
-) {
-
-    etapaAtual =
-        'produto';
-
-
-    atualizarVisualEtapa();
-
-
-    const resultado =
-        await usarGeradorProduto(
-            promptFinal
-        );
-
-
-    produtoGerado =
-        resultado;
-
-
-    return resultado;
-
-}
-
-
-// ==================================================
-// FLUXO AUTOMÁTICO DE TESTE
-// ==================================================
-
-async function gerarProdutoCompleto(
-    ideia
-) {
-
-    if (!ideia) {
-
-        console.error(
-            'Informe uma ideia.'
-        );
-
-
-        return;
-
-    }
-
-
-    botao.disabled =
-        true;
-
-
-    const inicio =
-        performance.now();
-
-
-    try {
-
-        adicionarMensagemUsuario(
-            ideia
-        );
-
-        // PROMPT BUILDER
-
-        etapaAtual =
-            'promptBuilder';
-
-
-        atualizarVisualEtapa();
-
-
-        status.innerText =
-            t('iaProdutos.js.criandoPrompt');
-
-
-        const promptFinal =
-            await usarPromptBuilder(
-                ideia
-            );
-
-
-        adicionarMensagemIA(`
-## ✨ ${t('iaProdutos.js.promptCriado')}
-
-${promptFinal}
-`);
-
-        // GERADOR DE PRODUTO
-
-        etapaAtual =
-            'produto';
-
-
-        atualizarVisualEtapa();
-
-
-        status.innerText =
-            t('iaProdutos.js.promptCriadoGerando');
-
-
-        const produto =
-            await usarGeradorProduto(
-                promptFinal
-            );
-
-
-        mostrarProdutoPreview(produto)
-
-        adicionarMensagemIA(
-            formatarProdutoMarkdown(produto)
-        );
-
-
-        const fim =
-            performance.now();
-
-
-        const tempo =
-            (
-                (fim - inicio) /
-                1000
-            ).toFixed(2);
-
-
-        status.innerText =
-            `${t('iaProdutos.js.produtoCriadoEm')} ${tempo}s`;
-
-
-        return produto;
-
-    }
-    catch (erro) {
-
-        console.error(erro);
-
-
-        adicionarMensagemIA(`
-## ❌ ${t('iaProdutos.js.erro')}
-
-${erro.message}
-`);
-
-
-        status.innerText =
-            t('iaProdutos.js.erroGerarProduto');
-
-    }
-    finally {
-
-        botao.disabled =
-            false;
-
-    }
-
-}
-
 // BOTÃO EDITAR PRODUTO
 
 // Estado do arquivo correspondente à versão atual do produto.
@@ -1326,10 +1150,12 @@ async function salvarEdicaoProduto(evento) {
 async function desenvolverCapitulo(numero) {
     const resposta = await fetch('/ia/produtos/gerar-capitulo', {
         method: 'POST',
+
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
         },
+
         body: JSON.stringify({
             produto: {
                 versao_schema: produtoGerado.versao_schema,
@@ -1337,12 +1163,69 @@ async function desenvolverCapitulo(numero) {
                 produto: produtoGerado.produto,
                 criativos: produtoGerado.criativos
             },
-            numero_capitulo: numero
+
+            numero_capitulo: numero,
+            progresso: true
         })
     })
 
-    const dados = await resposta.json()
-    return respostaAutenticada(resposta, dados).resposta
+    // Mantém compatibilidade com respostas normais e erros de autenticação.
+    if (
+        !resposta.headers.get('content-type')
+            ?.includes('application/x-ndjson')
+    ) {
+        const dados = await resposta.json()
+        return respostaAutenticada(resposta, dados).resposta
+    }
+
+    const leitor = resposta.body.getReader()
+    const decoder = new TextDecoder()
+
+    let buffer = ''
+    let resultado = null
+
+    function processar(linha) {
+        if (!linha.trim()) return
+
+        const evento = JSON.parse(linha)
+
+        if (evento.tipo === 'progresso') {
+            iaInterface.progresso(evento.etapa)
+        } else if (evento.tipo === 'resultado') {
+            resultado = respostaAutenticada(
+                {
+                    status: evento.status,
+                    ok: evento.status >= 200 && evento.status < 300
+                },
+                evento.dados
+            ).resposta
+        }
+    }
+
+    try {
+        while (true) {
+            const { value, done } = await leitor.read()
+
+            if (done) break
+
+            buffer += decoder.decode(value, { stream: true })
+
+            const linhas = buffer.split('\n')
+            buffer = linhas.pop()
+
+            linhas.forEach(processar)
+        }
+
+        processar(buffer + decoder.decode())
+    } finally {
+        leitor.releaseLock()
+    }
+
+    if (!resultado) {
+        throw new Error(iaInterface.texto('falhaFluxo'))
+    }
+
+    return resultado
 }
 
 function limparTextoPdf(texto) {
@@ -1627,6 +1510,7 @@ botaoBaixarPdf.addEventListener('click', () => {
 })
 
 function atualizarProgressoPdf(mensagem, concluido, total) {
+    iaInterface.progresso('')
     textoEtapaPdf.textContent = mensagem
     status.innerText = mensagem
 
@@ -1676,6 +1560,7 @@ async function gerarPdfProduto() {
         }
 
         geracaoPdfEmAndamento = true
+        iaInterface.iniciarPdf()
         botaoGerarPdf.disabled = true
         botaoGerarPdf.textContent = window.i18n.t('complementos.gerandoPdf')
 
@@ -1721,6 +1606,10 @@ async function gerarPdfProduto() {
             await rascunhos.salvar()
 
             progressoPdf.value = indice + 1
+        if (iaInterface.interrompido()) {
+                status.innerText = iaInterface.texto('pausado')
+                return
+            }
         }
 
         atualizarProgressoPdf(
@@ -1731,6 +1620,7 @@ async function gerarPdfProduto() {
 
         await new Promise(resolve => requestAnimationFrame(resolve))
 
+        iaInterface.montando()
         const pdf = montarPdf(capitulos)
 
         atualizarProgressoPdf(
@@ -1783,6 +1673,7 @@ async function gerarPdfProduto() {
         // Interrompe a animação quando a sobreposição fecha.
         modalLoadingPdf.querySelector('iframe').src = 'about:blank'
 
+        iaInterface.finalizarPdf()
         geracaoPdfEmAndamento = false
         botaoGerarPdf.disabled = false
         botaoGerarPdf.textContent = textoOriginal
@@ -1913,14 +1804,48 @@ async function publicarProdutoIa() {
         status.innerText = erro.message
         await MonetizaUI.aviso(erro.message)
     } finally {
-        botaoPublicarProduto.disabled = false
+        botaoPublicarProduto.disabled =
+            Boolean(iaInterface.publicado())
         botaoPublicarProduto.textContent = textoOriginal
     }
 }
 
-botaoEditarProduto?.addEventListener('click', () => rascunhos.executar(abrirEditorProduto))
-botaoGerarPdf?.addEventListener('click', () => rascunhos.executar(gerarPdfProduto))
-botaoPublicarProduto?.addEventListener('click', () => rascunhos.executar(publicarProdutoIa))
+botaoEditarProduto?.addEventListener('click', () => {
+    if (iaInterface.publicado()) {
+        window.location.href = '/produto'
+        return
+    }
+
+    rascunhos.executar(abrirEditorProduto)
+})
+
+botaoGerarPdf?.addEventListener('click', () => {
+    if (!iaInterface.publicado()) {
+        rascunhos.executar(gerarPdfProduto)
+        return
+    }
+
+    rascunhos.executar(async () => {
+        const blob = await rascunhos.baixarPdf()
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+
+        link.href = url
+        link.download = nomeArquivoProduto(
+            produtoGerado.cadastro.titulo
+        )
+
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+
+        setTimeout(() => URL.revokeObjectURL(url), 60000)
+    }, { somenteLeitura: true })
+})
+
+botaoPublicarProduto?.addEventListener('click', () => {
+    rascunhos.executar(publicarProdutoIa)
+})
 
 formEditor.addEventListener('submit', evento => { evento.preventDefault(); rascunhos.executar(() => salvarEdicaoProduto(evento)) })
 
@@ -1982,7 +1907,7 @@ function restaurarRascunho(estado) {
 }
 rascunhos = window.criarGerenciadorRascunhos({token,capturar:capturarRascunho,restaurar:restaurarRascunho,vazio:estadoVazioRascunho,
     aoPublicar: id => {
-        botaoEditarProduto.disabled=Boolean(id);botaoGerarPdf.disabled=Boolean(id);botaoPublicarProduto.disabled=Boolean(id)
+        iaInterface.publicacao(id)
     }})
 prompt.addEventListener('input',()=>rascunhos.agendar())
 formEditor.addEventListener('input',()=>{
@@ -1990,6 +1915,7 @@ formEditor.addEventListener('input',()=>{
     rascunhos.agendar()
 })
 // inicialização
+iaInterface.iniciar()
 atualizarVisualEtapa()
 carregarModelos()
 rascunhos.iniciar()

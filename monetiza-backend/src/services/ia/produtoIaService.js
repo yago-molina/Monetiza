@@ -121,7 +121,8 @@ async function gerar({
 
 async function gerarCapitulo({
     produto,
-    capitulo
+    capitulo,
+    onProgress
 }) {
     const detalhes =
         produto.produto
@@ -165,6 +166,8 @@ async function gerarCapitulo({
         await gerarTexto({
             systemPrompt:
                 PROMPT_CAPITULO,
+
+            onProgress,
 
             mensagem:
                 JSON.stringify(contexto),

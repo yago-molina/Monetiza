@@ -188,150 +188,148 @@ const gerar = async (req, res) => {
     }
 }
 
-const gerarCapitulo = async (
-    req,
-    res
-) => {
+const gerarCapitulo = async (req, res) => {
+    const comProgresso = req.body?.progresso === true
+
+    function emitir(evento) {
+        if (res.destroyed || res.writableEnded) return
+
+        if (!res.headersSent) {
+            res.set(
+                'Content-Type',
+                'application/x-ndjson; charset=utf-8'
+            )
+            res.set('Cache-Control', 'no-store')
+            res.set('X-Accel-Buffering', 'no')
+        }
+
+        res.write(JSON.stringify(evento) + '\n')
+    }
+
+    function responder(status, dados) {
+        if (!comProgresso) {
+            return res.status(status).json(dados)
+        }
+
+        emitir({
+            tipo: 'resultado',
+            status,
+            dados
+        })
+
+        if (!res.destroyed && !res.writableEnded) {
+            res.end()
+        }
+    }
+
     const {
         produto,
         numero_capitulo
-    } = req.body
+    } = req.body || {}
 
     if (
         !Number.isInteger(numero_capitulo) ||
         numero_capitulo <= 0
     ) {
-        return res.status(400).json({
-            erro:
-                'Número do capítulo inválido.'
+        return responder(400, {
+            erro: 'Número do capítulo inválido.'
         })
     }
 
     let produtoValido
 
     try {
-        produtoValido =
-            validarProdutoGerado(produto)
+        produtoValido = validarProdutoGerado(produto)
     } catch {
-        return res.status(400).json({
-            erro:
-                'O produto enviado é inválido.'
+        return responder(400, {
+            erro: 'O produto enviado é inválido.'
         })
     }
 
-    const capitulo =
-        produtoValido.produto.capitulos
-            .find((item) => {
-                return (
-                    item.numero ===
-                    numero_capitulo
-                )
-            })
+    const capitulo = produtoValido.produto.capitulos.find(
+        item => item.numero === numero_capitulo
+    )
 
     if (!capitulo) {
-        return res.status(404).json({
-            erro:
-                'Capítulo não encontrado no produto.'
+        return responder(404, {
+            erro: 'Capítulo não encontrado no produto.'
         })
     }
 
     try {
-        const resultado =
-            await produtoIaService
-                .gerarCapitulo({
-                    produto:
-                        produtoValido,
+        const resultado = await produtoIaService.gerarCapitulo({
+            produto: produtoValido,
+            capitulo,
 
-                    capitulo
+            onProgress: comProgresso
+                ? etapa => emitir({
+                    tipo: 'progresso',
+                    etapa
                 })
+                : undefined
+        })
 
-        return res.json({
+        return responder(200, {
             etapa: 'capitulo',
-
-            formato:
-                resultado.formato,
-
-            resposta:
-                resultado.conteudo,
-
-            modelo:
-                resultado.modelo,
-
-            uso:
-                resultado.uso,
-
-            motivo_finalizacao:
-                resultado
-                    .motivoFinalizacao
+            formato: resultado.formato,
+            resposta: resultado.conteudo,
+            modelo: resultado.modelo,
+            uso: resultado.uso,
+            motivo_finalizacao: resultado.motivoFinalizacao
         })
     } catch (erro) {
-        console.error(
-            'Erro ao gerar capítulo:',
-            erro
-        )
+        console.error('Erro ao gerar capítulo:', erro)
 
-    const detalheGroq = erro.error?.error || erro.error || {}
+        const detalhe = erro.error?.error || erro.error || {}
 
-    if (
-        erro.status === 413 &&
-        detalheGroq.code === 'rate_limit_exceeded'
-    ) {
-        return res.status(429).json({
-            erro: 'O capítulo ultrapassou o limite de tokens da Groq. Reduza o tamanho da geração ou aguarde alguns instantes.',
-            codigo: 'GROQ_LIMITE_TPM'
-        })
-    }
+        if (
+            erro.status === 429 ||
+            (
+                erro.status === 413 &&
+                detalhe.code === 'rate_limit_exceeded'
+            )
+        ) {
+            return responder(429, {
+                erro: 'Limite da IA atingido. Aguarde e tente novamente.'
+            })
+        }
 
-    if (erro.codigo === 'GROQ_MODELO_SEM_JSON_ESTRITO') {
-        return res.status(503).json({
-            erro: 'O modelo configurado não suporta a geração estruturada de capítulos.'
-        })
-    }
+        if (erro.codigo === 'GROQ_MODELO_SEM_JSON_ESTRITO') {
+            return responder(503, {
+                erro: 'O modelo configurado não suporta a geração estruturada de capítulos.'
+            })
+        }
 
-        if (erro.status === 429) {
-            return res.status(429).json({
-                erro:
-                    'Limite da Groq atingido. Aguarde e tente novamente.'
+        if (erro.codigo === 'GROQ_LIMITE_TOKENS') {
+            return responder(502, {
+                erro: 'O capítulo atingiu o limite de conteúdo. Tente novamente.',
+                motivo_finalizacao: 'length'
             })
         }
 
         if (
-            erro.codigo ===
-            'GROQ_LIMITE_TOKENS'
+            [
+                'CAPITULO_IA_INVALIDO',
+                'CAPITULO_IA_JSON_INVALIDO'
+            ].includes(erro.codigo)
         ) {
-            return res.status(502).json({
-                erro:
-                    'O capítulo atingiu o limite de conteúdo. Tente novamente.',
-                motivo_finalizacao:
-                    'length'
-            })
-        }
-
-        if (
-            erro.codigo === 'CAPITULO_IA_INVALIDO' ||
-            erro.codigo === 'CAPITULO_IA_JSON_INVALIDO'
-        ) {
-            return res.status(502).json({
+            return responder(502, {
                 erro: erro.codigo === 'CAPITULO_IA_INVALIDO'
                     ? erro.message
                     : 'A IA retornou um capítulo com JSON inválido. Tente novamente.',
+
                 codigo: erro.codigo
             })
         }
 
-        if (
-            erro.codigo ===
-            'GROQ_CONTEUDO_RECUSADO'
-        ) {
-            return res.status(422).json({
-                erro:
-                    'A IA não pode gerar esse conteúdo.'
+        if (erro.codigo === 'GROQ_CONTEUDO_RECUSADO') {
+            return responder(422, {
+                erro: 'A IA não pode gerar esse conteúdo.'
             })
         }
 
-        return res.status(503).json({
-            erro:
-                'Não foi possível gerar o capítulo neste momento.'
+        return responder(503, {
+            erro: 'Não foi possível gerar o capítulo neste momento.'
         })
     }
 }
