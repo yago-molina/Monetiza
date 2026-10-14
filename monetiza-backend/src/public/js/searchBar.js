@@ -1,34 +1,60 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Procura por qualquer input que tenha a classe 'search-input' ou o atributo 'data-search'
-    const searchInputs = document.querySelectorAll('.search-input, [data-search]');
+    const campos = document.querySelectorAll(
+        '.top-bar .search-bar-container .search-input'
+    )
 
-    searchInputs.forEach(input => {
-        // Define o seletor dos elementos que serão filtrados (lido do atributo data-target ou usa um padrão .search-item)
-        const targetSelector = input.getAttribute('data-target') || '.search-item';
+    campos.forEach(campo => {
+        // A vitrine controla sua própria pesquisa.
+        if (campo.id === 'busca-topo') return
 
-        input.addEventListener('input', (e) => {
-            const query = normalizeString(e.target.value);
-            const items = document.querySelectorAll(targetSelector);
+        const container = campo.closest('.search-bar-container')
+        const lupa = container.querySelector('.search-icon')
 
-            items.forEach(item => {
-                const text = normalizeString(item.textContent);
+        campo.setAttribute('enterkeyhint', 'search')
 
-                // Mostra ou esconde o item dependendo se corresponde à pesquisa
-                if (text.includes(query)) {
-                    // Restaura o display original (funciona bem com flex, block, etc.)
-                    item.style.display = ''; 
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    });
-});
+        function pesquisar() {
+            const termo = campo.value.trim()
 
-// Função auxiliar para remover acentos e converter para minúsculas (pesquisa inteligente)
-function normalizeString(str) {
-    return str
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '');
-}
+            if (!termo) {
+                campo.focus()
+                return
+            }
+
+            const destino = new URL('/vitrine', window.location.origin)
+            destino.searchParams.set('q', termo)
+
+            const parametros = new URLSearchParams(window.location.search)
+            const referencia = parametros.get('ref')
+
+            if (referencia) {
+                destino.searchParams.set('ref', referencia)
+            }
+
+            window.location.assign(destino.href)
+        }
+
+        campo.addEventListener('keydown', evento => {
+            if (evento.key !== 'Enter' || evento.isComposing) return
+
+            evento.preventDefault()
+            pesquisar()
+        })
+
+        if (!lupa) return
+
+        lupa.style.cursor = 'pointer'
+        lupa.style.pointerEvents = 'auto'
+        lupa.setAttribute('role', 'button')
+        lupa.setAttribute('tabindex', '0')
+        lupa.setAttribute('aria-label', 'Pesquisar produtos')
+
+        lupa.addEventListener('click', pesquisar)
+
+        lupa.addEventListener('keydown', evento => {
+            if (evento.key !== 'Enter' && evento.key !== ' ') return
+
+            evento.preventDefault()
+            pesquisar()
+        })
+    })
+})
