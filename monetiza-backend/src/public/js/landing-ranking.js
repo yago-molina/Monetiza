@@ -70,6 +70,43 @@ document.addEventListener('DOMContentLoaded', async () => {
     let produtos = []
     let indice = 0
 
+    let temporizador = null
+
+    function pararRotacao() {
+        clearInterval(temporizador)
+        temporizador = null
+    }
+
+    function iniciarRotacao() {
+        pararRotacao()
+
+        if (
+            produtos.length < 2 ||
+            document.hidden ||
+            painel.matches(':hover') ||
+            painel.contains(document.activeElement)
+        ) return
+
+        temporizador = setInterval(() => {
+            indice = (indice + 1) % produtos.length
+            mostrarProduto()
+        }, 5000)
+    }
+
+    painel.addEventListener('mouseenter', pararRotacao)
+    painel.addEventListener('mouseleave', iniciarRotacao)
+
+    painel.addEventListener('focusin', pararRotacao)
+
+    painel.addEventListener('focusout', () => {
+        // Aguarda o navegador atualizar qual elemento recebeu o foco.
+        setTimeout(iniciarRotacao, 0)
+    })
+
+    document.addEventListener('visibilitychange', iniciarRotacao)
+    window.addEventListener('pagehide', pararRotacao)
+    window.addEventListener('pageshow', iniciarRotacao)
+
     function enderecoImagem(valor) {
         if (typeof valor !== 'string' || !valor.trim()) return null
 
@@ -131,13 +168,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     anterior.addEventListener('click', () => {
         indice = (indice - 1 + produtos.length) % produtos.length
         mostrarProduto()
+        iniciarRotacao()
     })
 
     proximo.addEventListener('click', () => {
         indice = (indice + 1) % produtos.length
         mostrarProduto()
+        iniciarRotacao()
     })
-
+ 
     try {
         const resposta = await fetch('/vitrine-api/produtos')
 
@@ -168,6 +207,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         mostrarProduto()
+        iniciarRotacao()
     } catch (erro) {
         console.error('Erro no ranking da landing:', erro)
         status.textContent = textos.erro

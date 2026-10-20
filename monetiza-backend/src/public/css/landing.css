@@ -593,3 +593,201 @@ html[data-theme="light"] #landing-ranking {
         height: 115px;
     }
 }
+/* Novidades da Monetiza */
+.landing-novidades {
+    --novidade-fundo: #1c1c1e;
+    --novidade-texto: #f4f4f5;
+    --novidade-secundario: #b4b4be;
+    --novidade-destaque: #a5a5ff;
+    --novidade-borda: #3f3f46;
+
+    min-width: 0;
+    background: var(--novidade-fundo);
+    border-color: var(--novidade-borda);
+}
+
+html[data-theme="light"] .landing-novidades {
+    --novidade-fundo: #ffffff;
+    --novidade-texto: #18181b;
+    --novidade-secundario: #52525b;
+    --novidade-destaque: #4338ca;
+    --novidade-borda: #d4d4d8;
+}
+
+.landing-novidades .novidades-cabecalho {
+    padding: 24px 24px 0;
+}
+
+.landing-novidades .novidades-cabecalho h2 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--novidade-texto);
+}
+
+#novidades-carrossel {
+    height: auto;
+    min-height: 245px;
+}
+
+#novidades-carrossel .swiper-slide {
+    padding: 24px 48px;
+}
+
+#novidades-carrossel .novidade-conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    min-width: 0;
+}
+
+#novidades-carrossel .novidade-topo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--novidade-destaque);
+}
+
+#novidades-carrossel .novidade-topo i {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: rgba(99, 102, 241, 0.12);
+    font-size: 18px;
+}
+
+#novidades-carrossel .novidade-tipo {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#novidades-carrossel h3 {
+    margin: 0;
+    color: var(--novidade-texto);
+    font-size: 20px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+#novidades-carrossel p {
+    margin: 0;
+    color: var(--novidade-secundario);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#novidades-carrossel .novidade-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 8px 12px;
+    color: var(--novidade-destaque);
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid var(--novidade-borda);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+#novidades-carrossel .novidade-link:hover {
+    background: rgba(99, 102, 241, 0.2);
+}
+
+#novidades-carrossel .swiper-button-prev,
+#novidades-carrossel .swiper-button-next {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    color: var(--novidade-destaque) !important;
+}
+
+#novidades-carrossel a:focus-visible,
+#novidades-carrossel button:focus-visible {
+    outline: 2px solid var(--novidade-destaque);
+    outline-offset: 3px;
+}
+
+#novidades-carrossel [hidden] {
+    display: none !important;
+}
+
+#novidades-carrossel.novidades-sem-swiper .swiper-wrapper {
+    display: block;
+}
+
+#novidades-carrossel.novidades-sem-swiper .swiper-slide + .swiper-slide {
+    border-top: 1px solid var(--novidade-borda);
+}
+
+/* Setas laterais no carrossel de mais vendidos */
+#landing-ranking {
+    position: relative;
+}
+
+#landing-ranking .ranking-produto {
+    margin-inline: 24px;
+}
+
+#landing-ranking .ranking-controles {
+    position: absolute;
+    top: 56px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 0;
+    display: block;
+    pointer-events: none;
+}
+
+#landing-ranking .ranking-controles button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 32px;
+    height: 32px;
+    padding: 0;
+
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+
+    color: var(--ranking-destaque);
+    font-size: 16px;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+#ranking-anterior {
+    left: 8px;
+}
+
+#ranking-proximo {
+    right: 8px;
+}
+
+#landing-ranking .ranking-controles button:hover {
+    background: transparent;
+    opacity: 0.75;
+}
+
+#landing-ranking .ranking-controles button:focus-visible {
+    outline: 2px solid var(--ranking-destaque);
+    outline-offset: 3px;
+}
+
+/* Alinhar as setas dos dois carrosséis */
+#landing-ranking .ranking-controles {
+    top: 0;
+    bottom: 0;
+}
+
+#landing-ranking .ranking-controles button {
+    top: 50%;
+    transform: translateY(-50%);
+}
