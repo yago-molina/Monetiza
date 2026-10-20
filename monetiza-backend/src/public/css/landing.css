@@ -428,3 +428,168 @@ body {
 .avatar-fallback {
     overflow: hidden;
 }
+
+/* Carrossel de produtos mais vendidos da landing */
+.main-content {
+    min-width: 0;
+}
+
+.two-carousels-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#landing-ranking {
+    --ranking-texto: #f4f4f5;
+    --ranking-secundario: #b4b4be;
+    --ranking-fundo: #1c1c1e;
+    --ranking-borda: #3f3f46;
+    --ranking-destaque: #a5a5ff;
+
+    min-width: 0;
+    min-height: 270px;
+    padding: 24px;
+    background: var(--ranking-fundo);
+    color: var(--ranking-texto);
+    border-color: var(--ranking-borda);
+}
+
+html[data-theme="light"] #landing-ranking {
+    --ranking-texto: #18181b;
+    --ranking-secundario: #52525b;
+    --ranking-fundo: #ffffff;
+    --ranking-borda: #d4d4d8;
+    --ranking-destaque: #4338ca;
+}
+
+#landing-ranking [hidden] {
+    display: none !important;
+}
+
+#landing-ranking .ranking-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+#landing-ranking h2 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--ranking-texto);
+}
+
+#ranking-posicao,
+#ranking-status,
+#ranking-vendas {
+    color: var(--ranking-secundario);
+    font-size: 13px;
+}
+
+#landing-ranking .ranking-produto {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+    color: var(--ranking-texto);
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+#landing-ranking .ranking-capa {
+    height: 145px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--ranking-borda);
+    border-radius: 10px;
+    color: var(--ranking-secundario);
+    font-size: 32px;
+}
+
+#ranking-imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#landing-ranking .ranking-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+#ranking-nome {
+    margin: 0;
+    color: var(--ranking-texto);
+    font-size: 18px;
+    overflow-wrap: anywhere;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+#ranking-categoria,
+#ranking-ver {
+    color: var(--ranking-destaque);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#ranking-preco {
+    color: var(--ranking-texto);
+    font-size: 20px;
+}
+
+#landing-ranking .ranking-controles {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+#landing-ranking .ranking-controles button {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    color: var(--ranking-destaque);
+    border: 1px solid var(--ranking-borda);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#landing-ranking .ranking-controles button:hover {
+    background: rgba(99, 102, 241, 0.12);
+}
+
+#landing-ranking a:focus-visible,
+#landing-ranking button:focus-visible {
+    outline: 2px solid var(--ranking-destaque);
+    outline-offset: 4px;
+}
+
+@media (max-width: 1100px) {
+    .two-carousels-container {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    #landing-ranking {
+        padding: 18px;
+    }
+
+    #landing-ranking .ranking-produto {
+        grid-template-columns: 85px minmax(0, 1fr);
+        gap: 12px;
+    }
+
+    #landing-ranking .ranking-capa {
+        height: 115px;
+    }
+}
