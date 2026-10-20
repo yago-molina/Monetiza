@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function formatarDinheiro(valor) {
 
         return Number(valor || 0).toLocaleString(window.i18n.locale(), {
+        return Number(valor || 0).toLocaleString(window.i18n.locale(), {
 
             style: 'currency',
 
@@ -264,9 +265,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
         function aplicarFiltros() {
+        function aplicarFiltros() {
         let resultado = [...produtos]
 
         if (categoriaAtual !== 'Todas') {
+            resultado = resultado.filter(
+                produto => produto.categoria === categoriaAtual
+            )
             resultado = resultado.filter(
                 produto => produto.categoria === categoriaAtual
             )
@@ -275,7 +280,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const termos = normalizarBusca(textoBusca)
             .split(/\s+/)
             .filter(Boolean)
+        const termos = normalizarBusca(textoBusca)
+            .split(/\s+/)
+            .filter(Boolean)
 
+        if (termos.length > 0) {
         if (termos.length > 0) {
             resultado = resultado.filter(produto => {
                 const textoProduto = normalizarBusca([
@@ -284,7 +293,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                     produto.categoria,
                     produto.produtor
                 ].filter(Boolean).join(' '))
+                const textoProduto = normalizarBusca([
+                    produto.titulo,
+                    produto.descricao_curta,
+                    produto.categoria,
+                    produto.produtor
+                ].filter(Boolean).join(' '))
 
+                return termos.every(
+                    termo => textoProduto.includes(termo)
+                )
+            })
                 return termos.every(
                     termo => textoProduto.includes(termo)
                 )
@@ -299,9 +318,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                     Number(b.total_vendas || 0) -
                     Number(a.total_vendas || 0)
             )
+            resultado.sort(
+                (a, b) =>
+                    Number(b.total_vendas || 0) -
+                    Number(a.total_vendas || 0)
+            )
         }
 
         if (ordem === 'recentes') {
+            resultado.sort(
+                (a, b) =>
+                    new Date(b.criado_em) -
+                    new Date(a.criado_em)
+            )
             resultado.sort(
                 (a, b) =>
                     new Date(b.criado_em) -
@@ -313,9 +342,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             resultado.sort(
                 (a, b) => Number(a.preco) - Number(b.preco)
             )
+            resultado.sort(
+                (a, b) => Number(a.preco) - Number(b.preco)
+            )
         }
 
         if (ordem === 'maior-preco') {
+            resultado.sort(
+                (a, b) => Number(b.preco) - Number(a.preco)
+            )
+        }
+
+        const secaoMaisVendidos =
+            listaMaisVendidos.closest('section')
+
+        if (secaoMaisVendidos) {
+            const filtrando =
+                termos.length > 0 || categoriaAtual !== 'Todas'
+
+            secaoMaisVendidos.style.display = filtrando ? 'none' : ''
             resultado.sort(
                 (a, b) => Number(b.preco) - Number(a.preco)
             )
@@ -372,13 +417,34 @@ document.addEventListener('DOMContentLoaded', async () => {
             '',
             url.href
         )
+        const url = new URL(window.location.href)
+
+        if (textoBusca) {
+            url.searchParams.set('q', textoBusca)
+        } else {
+            url.searchParams.delete('q')
+        }
+
+        window.history.replaceState(
+            window.history.state,
+            '',
+            url.href
+        )
 
         aplicarFiltros()
     }
 
     function confirmarBusca(campo) {
         atualizarBusca(campo.value)
+    }
 
+    function confirmarBusca(campo) {
+        atualizarBusca(campo.value)
+
+        listaProdutos.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        })
         listaProdutos.scrollIntoView({
             behavior: 'smooth',
             block: 'start'
@@ -390,6 +456,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     camposPesquisa.forEach(campo => {
         campo.setAttribute('enterkeyhint', 'search')
 
+        campo.addEventListener('input', evento => {
+            atualizarBusca(evento.target.value)
+        })
+
+        campo.addEventListener('keydown', evento => {
+            if (evento.key !== 'Enter' || evento.isComposing) return
+
+            evento.preventDefault()
+            confirmarBusca(campo)
+        })
+
+        const lupa = campo.parentElement.querySelector(
+            '.fa-magnifying-glass'
+        )
+
+        if (!lupa) return
+
+        lupa.style.cursor = 'pointer'
+        lupa.style.pointerEvents = 'auto'
+        lupa.setAttribute('role', 'button')
+        lupa.setAttribute('tabindex', '0')
+        lupa.setAttribute('aria-label', 'Pesquisar produtos')
+
+        lupa.addEventListener('click', () => {
+            confirmarBusca(campo)
+        })
+
+        lupa.addEventListener('keydown', evento => {
+            if (evento.key !== 'Enter' && evento.key !== ' ') return
+
+            evento.preventDefault()
+            confirmarBusca(campo)
+        })
         campo.addEventListener('input', evento => {
             atualizarBusca(evento.target.value)
         })
@@ -456,6 +555,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         console.error('Erro ao carregar vitrine:', erro)
 
+        await MonetizaUI.aviso(erro.message)
         await MonetizaUI.aviso(erro.message)
 
     }

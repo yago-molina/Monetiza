@@ -1918,32 +1918,4 @@ formEditor.addEventListener('input',()=>{
 iaInterface.iniciar()
 atualizarVisualEtapa()
 carregarModelos()
-Promise.resolve(rascunhos.iniciar())
-    .then(() => {
-        const etapaSolicitada = new URLSearchParams(
-            window.location.search
-        ).get('etapa')
-
-        const destinos = {
-            consultor: 'menu-consultor',
-            estrutura: 'menu-prompt-builder',
-            produto: 'menu-produto'
-        }
-
-        if (!Object.prototype.hasOwnProperty.call(
-            destinos,
-            etapaSolicitada
-        )) return
-
-        const botao = document.getElementById(
-            destinos[etapaSolicitada]
-        )
-
-        if (!botao) return
-
-        botao.click()
-        botao.focus({ preventScroll: true })
-    })
-    .catch(erro => {
-        console.error('Erro ao iniciar a navegação da IA:', erro)
-    })
+rascunhos.iniciar()

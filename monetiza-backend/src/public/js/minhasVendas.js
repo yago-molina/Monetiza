@@ -417,25 +417,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             await MonetizaUI.aviso(erro.message)
         }
     }
-        // Abre a aba indicada pela busca, após a inicialização da página.
-    const abaSolicitada = new URLSearchParams(
-        window.location.search
-    ).get('aba')
-
-    if (abaSolicitada) {
-        const botaoDestino = Array.from(
-            document.querySelectorAll('.tab-btn[data-tab]')
-        ).find(botao => botao.dataset.tab === abaSolicitada)
-
-        if (botaoDestino) {
-            botaoDestino.click()
-
-            botaoDestino.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center'
-            })
-
-            botaoDestino.focus({ preventScroll: true })
-        }
-    }
 })
