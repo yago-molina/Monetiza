@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const db = require('../config/db')
+const operacoes = require('../services/operacaoService')
 
 const listarProdutos = async (req, res) => {
     try {
@@ -158,7 +159,7 @@ const comprar = async (req, res) => {
     } = req.body
 
     if (
-        Number.isNaN(Number(produto_id)) ||
+        !Number.isSafeInteger(Number(produto_id)) ||
         Number(produto_id) <= 0
     ) {
         return res.status(400).json({
@@ -172,6 +173,11 @@ const comprar = async (req, res) => {
         conexao = await db.getConnection()
 
         await conexao.beginTransaction()
+        const reserva = await operacoes.iniciar(conexao, req, 'comprar')
+        if (reserva.repeticao) {
+            await conexao.commit()
+            return res.status(reserva.repeticao.status).json(reserva.repeticao.corpo)
+        }
 
         const [produtos] = await conexao.query(
             `SELECT
@@ -209,6 +215,24 @@ const comprar = async (req, res) => {
             return res.status(400).json({
                 erro: 'Você não pode comprar seu próprio produto'
             })
+        }
+
+        // Produtos digitais dão acesso único por comprador. O bloqueio do produto
+        // serializa compras também quando vierem de abas/chaves diferentes.
+        const [[existente]] = await conexao.query(`SELECT v.id, v.codigo_venda, v.forma_pagamento,
+            vi.id AS item_id, vi.produto_id, vi.titulo_produto AS produto,
+            vi.preco_unitario AS valor, vi.afiliacao_id, vi.comissao_afiliado
+            FROM vendas v INNER JOIN venda_itens vi ON vi.venda_id = v.id
+            WHERE v.comprador_id = ? AND vi.produto_id = ? AND v.status_venda = 'pago'
+            ORDER BY v.id LIMIT 1 FOR UPDATE`, [comprador_id, produto.id])
+        if (existente) {
+            const corpo = { mensagem: 'Você já possui este produto. Acesse Minhas compras.',
+                venda: { ...existente, valor: Number(existente.valor), status: 'pago',
+                    afiliacao_aplicada: Boolean(existente.afiliacao_id),
+                    comissao_afiliado: Number(existente.comissao_afiliado) },
+                acesso_produto: produto.produto_arquivo }
+            await operacoes.concluir(conexao, reserva, 200, corpo)
+            return res.json(corpo)
         }
 
         let afiliacao_id = null
@@ -326,9 +350,7 @@ const comprar = async (req, res) => {
             ]
         )
 
-        await conexao.commit()
-
-        return res.status(201).json({
+        const corpo = {
             mensagem: 'Compra simulada realizada com sucesso!',
             venda: {
                 id: venda_id,
@@ -343,7 +365,9 @@ const comprar = async (req, res) => {
                 comissao_afiliado
             },
             acesso_produto: produto.produto_arquivo
-        })
+        }
+        await operacoes.concluir(conexao, reserva, 201, corpo)
+        return res.status(201).json(corpo)
     } catch (erro) {
         if (conexao) {
             try {
@@ -355,6 +379,8 @@ const comprar = async (req, res) => {
                 )
             }
         }
+
+        if (erro instanceof operacoes.ErroOperacao) return res.status(erro.status).json({ erro: erro.message })
 
         console.error(
             'Erro ao realizar compra simulada:',

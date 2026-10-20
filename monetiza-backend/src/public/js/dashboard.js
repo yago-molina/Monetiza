@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!token) {
         await MonetizaUI.aviso(
             t('dashboard.js.acessoNegado'),
-            { titulo: 'Acesso necessário' }
+            { titulo: window.i18n.t('complementos.acessoNecessario') }
         )
         window.location.href = '/login'
         return
@@ -17,20 +17,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.removeItem('usuarioLogado')
         await MonetizaUI.aviso(
             t('dashboard.js.sessaoExpirada'),
-            { titulo: 'Sessão expirada' }
+            { titulo: window.i18n.t('complementos.sessaoExpirada') }
         )
         window.location.href = '/login'
     }
 
     function formatarDinheiro(valor) {
-        return Number(valor || 0).toLocaleString('pt-BR', {
+        return Number(valor || 0).toLocaleString(window.i18n.locale(), {
             style: 'currency',
             currency: 'BRL'
         })
     }
 
     function formatarData(data) {
-        return new Date(data).toLocaleDateString('pt-BR', {
+        return new Date(data).toLocaleDateString(window.i18n.locale(), {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric'
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Erro ao carregar o Dashboard:', erro)
         await MonetizaUI.aviso(
             erro.message,
-            { titulo: 'Não foi possível carregar o dashboard' }
+            { titulo: window.i18n.t('complementos.naoFoiPossivelCarregarODashboard') }
         )
     }
 })

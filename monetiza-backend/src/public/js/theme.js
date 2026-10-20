@@ -1,120 +1,81 @@
-(function () {
+(() => {
+    const CHAVE = 'monetiza_theme'
+    const ID_CSS = 'light-theme-css'
 
-    const STORAGE_KEY = 'monetiza_theme'
-    const LIGHT_THEME_ID = 'light-theme-css'
-
-    // Pega o tema salvo imediatamente
-    let tema = localStorage.getItem(STORAGE_KEY)
-
-    if (tema !== 'light' && tema !== 'dark') {
-        tema = 'dark'
-    }
-
-    // Aplica o atributo ANTES do restante da página carregar
-    document.documentElement.setAttribute('data-theme', tema)
-
-    function carregarLightTheme() {
-
-        let link = document.getElementById(LIGHT_THEME_ID)
-
-        if (!link) {
-
-            link = document.createElement('link')
-
-            link.id = LIGHT_THEME_ID
-            link.rel = 'stylesheet'
-            link.href = 'css/lightTheme.css'
-
-            document.head.appendChild(link)
-        }
-
-        link.disabled = false
-    }
-
-    function removerLightTheme() {
-
-        const link =
-            document.getElementById(LIGHT_THEME_ID)
-
-        if (link) {
-            link.disabled = true
+    function lerTema() {
+        try {
+            return localStorage.getItem(CHAVE) === 'light'
+                ? 'light'
+                : 'dark'
+        } catch {
+            return 'dark'
         }
     }
 
-    function atualizarBotoes() {
+    function atualizarBotoes(tema) {
+        document.querySelectorAll('[data-tema-select]').forEach(botao => {
+            const selecionado = botao.dataset.temaSelect === tema
 
-        const temaAtual =
-            document.documentElement.getAttribute('data-theme') || 'dark'
-
-        document
-            .querySelectorAll('[data-tema-select]')
-            .forEach(botao => {
-
-                const temaBotao =
-                    botao.getAttribute('data-tema-select')
-
-                botao.classList.toggle(
-                    'active',
-                    temaBotao === temaAtual
-                )
-
-            })
+            botao.classList.toggle('active', selecionado)
+            botao.setAttribute('aria-pressed', String(selecionado))
+        })
     }
 
-    function aplicarTema(novoTema) {
+    function aplicarTema(valor, salvar = false) {
+        const tema = valor === 'light' ? 'light' : 'dark'
 
-        if (
-            novoTema !== 'light' &&
-            novoTema !== 'dark'
-        ) {
-            novoTema = 'dark'
+        document.documentElement.dataset.theme = tema
+        document.documentElement.style.colorScheme = tema
+
+        let folha = document.getElementById(ID_CSS)
+
+        if (tema === 'light' && !folha) {
+            folha = document.createElement('link')
+            folha.id = ID_CSS
+            folha.rel = 'stylesheet'
+            folha.href = '/css/lightTheme.css'
+            document.head.appendChild(folha)
         }
 
-        document.documentElement.setAttribute(
-            'data-theme',
-            novoTema
-        )
-
-        localStorage.setItem(
-            STORAGE_KEY,
-            novoTema
-        )
-
-        if (novoTema === 'light') {
-            carregarLightTheme()
-        } else {
-            removerLightTheme()
+        if (folha) {
+            folha.disabled = tema !== 'light'
         }
 
-        atualizarBotoes()
+        if (salvar) {
+            try {
+                localStorage.setItem(CHAVE, tema)
+            } catch {
+                // O tema continua funcionando nesta página.
+            }
+        }
+
+        atualizarBotoes(tema)
     }
 
-    // Ativa o light CSS o mais cedo possível
-    if (tema === 'light') {
-        carregarLightTheme()
-    }
+    aplicarTema(lerTema())
 
-    // Botões de tema
-    document.addEventListener('click', event => {
+    document.addEventListener('DOMContentLoaded', () => {
+        // Mantém as regras claras depois dos estilos da página.
+        const folha = document.getElementById(ID_CSS)
 
-        const botao =
-            event.target.closest('[data-tema-select]')
+        if (folha) document.head.appendChild(folha)
+
+        atualizarBotoes(document.documentElement.dataset.theme)
+    })
+
+    document.addEventListener('click', evento => {
+        const botao = evento.target.closest('[data-tema-select]')
 
         if (!botao) return
 
-        const novoTema =
-            botao.getAttribute('data-tema-select')
-
-        aplicarTema(novoTema)
-
+        evento.preventDefault()
+        aplicarTema(botao.dataset.temaSelect, true)
     })
 
-    // Atualiza os botões depois que o HTML existir
-    document.addEventListener(
-        'DOMContentLoaded',
-        () => {
-            atualizarBotoes()
+    // Sincroniza o tema quando ele é alterado em outra aba.
+    window.addEventListener('storage', evento => {
+        if (evento.key === CHAVE || evento.key === null) {
+            aplicarTema(lerTema())
         }
-    )
-
+    })
 })()

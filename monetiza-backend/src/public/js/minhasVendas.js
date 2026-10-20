@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const estadoVazio = document.querySelector('.empty-sales-state')
 
     if (!token) {
-        alert(t('minhasVendas.js.acessoNegado'))
+        await MonetizaUI.aviso(t('minhasVendas.js.acessoNegado'))
         window.location.href = '/login'
         return
     }
@@ -21,16 +21,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function encerrarSessao() {
+    async function encerrarSessao() {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert(t('minhasVendas.js.sessaoExpirada'))
+        await MonetizaUI.aviso(t('minhasVendas.js.sessaoExpirada'))
         window.location.href = '/login'
     }
 
     function formatarDinheiro(valor) {
-        return Number(valor || 0).toLocaleString('pt-BR', {
+        return Number(valor || 0).toLocaleString(window.i18n.locale(), {
             style: 'currency',
             currency: 'BRL'
         })
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return '-'
         }
 
-        return new Date(data).toLocaleDateString('pt-BR')
+        return new Date(data).toLocaleDateString(window.i18n.locale())
     }
 
     function formatarStatus(status) {
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             )
 
             if (erro.message !== 'Sessão encerrada') {
-                alert(erro.message)
+                await MonetizaUI.aviso(erro.message)
             }
         }
     }
@@ -414,7 +414,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         )
 
         if (erro.message !== 'Sessão encerrada') {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
+        }
+    }
+        // Abre a aba indicada pela busca, após a inicialização da página.
+    const abaSolicitada = new URLSearchParams(
+        window.location.search
+    ).get('aba')
+
+    if (abaSolicitada) {
+        const botaoDestino = Array.from(
+            document.querySelectorAll('.tab-btn[data-tab]')
+        ).find(botao => botao.dataset.tab === abaSolicitada)
+
+        if (botaoDestino) {
+            botaoDestino.click()
+
+            botaoDestino.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            })
+
+            botaoDestino.focus({ preventScroll: true })
         }
     }
 })

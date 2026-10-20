@@ -11,4 +11,4 @@ Dump*.sql
 src/private/uploads/
 src/public/uploads/perfis
 
-node_modules
+migrations/*.sql

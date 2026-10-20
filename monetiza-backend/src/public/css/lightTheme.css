@@ -2,13 +2,6 @@
    DESATIVA TRANSIÇÕES DURANTE CARREGAMENTO/NAVEGAÇÃO
    ========================================================= */
 
-html,
-html *,
-html *::before,
-html *::after {
-    transition: none !important;
-    animation: none !important;
-}
 /* =========================================================
    MONETIZA — LIGHT THEME GLOBAL
    Este arquivo sobrescreve o tema DARK original.
@@ -3657,4 +3650,131 @@ html[data-theme="light"] .menu-perfil-divisor {
         background-color 0.2s ease,
         border-color 0.2s ease,
         color 0.2s ease;
+}
+
+/* MONETIZA IA */
+
+html[data-theme="light"] .pagina-ia {
+    --bg-dark: #f8fafc;
+    --card: #ffffff;
+    --card-hover: #f1f5f9;
+    --border: #dbe2ea;
+    --border-light: #cbd5e1;
+    --text: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+
+    background: #f8fafc;
+    color: var(--text);
+}
+
+html[data-theme="light"] .pagina-ia .ia-rascunhos {
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .pagina-ia .ia-rascunhos button,
+html[data-theme="light"] .pagina-ia .ia-rascunhos select {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+
+/* RUBY */
+
+html[data-theme="light"] .pagina-ruby {
+    --bg-main: #f8fafc;
+    --bg-chat: #ffffff;
+    --bg-bubble: #eef2f7;
+    --text-color: #0f172a;
+    --text-dim: #475569;
+
+    background: var(--bg-main);
+    color: var(--text-color);
+}
+
+html[data-theme="light"] .pagina-ruby .chat-main {
+    background: #f8fafc;
+}
+
+
+/* MINHAS COMPRAS */
+
+html[data-theme="light"] .pagina-compras {
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+html[data-theme="light"] .pagina-compras .topo,
+html[data-theme="light"] .pagina-compras .compra-card,
+html[data-theme="light"] .pagina-compras .estado-vazio {
+    background: #ffffff;
+    border-color: #dbe2ea;
+}
+
+html[data-theme="light"] .pagina-compras .compra-capa {
+    background: #e2e8f0;
+}
+
+html[data-theme="light"] .pagina-compras .logo,
+html[data-theme="light"] .pagina-compras .btn-perfil,
+html[data-theme="light"] .pagina-compras .compra-info strong {
+    color: #0f172a;
+}
+
+html[data-theme="light"] .pagina-compras .cabecalho-pagina p,
+html[data-theme="light"] .pagina-compras .titulo-lista p,
+html[data-theme="light"] .pagina-compras .compra-info,
+html[data-theme="light"] .pagina-compras .compra-valor span,
+html[data-theme="light"] .pagina-compras .estado-vazio p {
+    color: #475569;
+}
+
+html[data-theme="light"] .pagina-compras .btn-vitrine {
+    background: #ffffff;
+    color: #334155;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] .pagina-compras .btn-vitrine:hover {
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+html[data-theme="light"] .pagina-compras .compra-categoria,
+html[data-theme="light"] .pagina-compras .cabecalho-etiqueta {
+    color: #6d28d9;
+}
+
+html[data-theme="light"] .pagina-compras .status-pago {
+    color: #15803d;
+}
+
+html[data-theme="light"] .pagina-compras .status-pendente {
+    color: #854d0e;
+}
+
+html[data-theme="light"] .pagina-compras .status-cancelado {
+    color: #b91c1c;
+}
+
+
+/* PREÇOS DA VITRINE */
+
+html[data-theme="light"] .product-card .product-info strong {
+    /* O JS atual define o preço em branco no atributo style. */
+    color: #0f172a !important;
+}
+
+
+/* AVISOS COMPARTILHADOS */
+
+html[data-theme="light"] #monetiza-aviso {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+html[data-theme="light"] #monetiza-aviso p {
+    color: #475569;
 }

@@ -80,7 +80,8 @@ async function gerarTexto({
     historico = [],
     temperatura = 0.7,
     limiteTokens = 4000,
-    formatoResposta = null
+    formatoResposta = null,
+    onProgress = () => {}
 }) {
     const cliente = obterCliente()
     const configuracao = obterConfiguracao()
@@ -152,8 +153,12 @@ async function gerarTexto({
                 'Aguardando 60 segundos antes de uma tentativa alternativa.'
             )
 
+            onProgress('recuperando')
+
             // Evita repetir imediatamente com a cota de tokens quase esgotada.
             await new Promise(resolve => setTimeout(resolve, 60000))
+
+            onProgress('retomando')
 
             const schema =
                 parametros.response_format.json_schema.schema

@@ -1,19 +1,10 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     console.log('contratos.js carregado')
 
     const token = localStorage.getItem('token')
     const t = chave => window.i18n?.t(chave) ?? chave
 
     let usuarioLogado = {}
-
-    try {
-        usuarioLogado = JSON.parse(
-            localStorage.getItem('usuarioLogado') || '{}'
-        )
-    } catch (erro) {
-        console.error('Erro ao ler usuarioLogado:', erro)
-        usuarioLogado = {}
-    }
 
     if (!token) {
         window.location.href = '/login'
@@ -46,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailUsuario = document.getElementById('email-usuario')
 
     let contratos = []
+    let versaoEditando = null
     let contratoEditando = null
 
     if (nomeUsuario && usuarioLogado.nome) {
@@ -69,12 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function verificarSessao(response) {
+    async function verificarSessao(response) {
         if (response.status === 401) {
             localStorage.removeItem('token')
             localStorage.removeItem('usuarioLogado')
 
-            alert(t('contratos.js.sessaoExpirada'))
+            await MonetizaUI.aviso(t('contratos.js.sessaoExpirada'))
 
             window.location.href = '/login'
 
@@ -86,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function abrirModalNovo() {
         contratoEditando = null
+        versaoEditando = null
 
         if (form) {
             form.reset()
@@ -147,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         contratoEditando = null
+        versaoEditando = null
     }
 
     async function carregarAfiliacoes() {
@@ -157,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: headersAuth()
             })
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const dados = await response.json()
 
@@ -192,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: headersAuth()
             })
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const dados = await response.json()
 
@@ -312,11 +306,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             card.className = 'contrato-card'
 
-            const podeEditar =
-                Number(contrato.criado_por_id) ===
-                Number(usuarioLogado.id) &&
-                !['Encerrado', 'Cancelado']
-                    .includes(contrato.status_contrato)
+            const criador = Number(contrato.criado_por_id) === Number(usuarioLogado.id)
+            const pendente = contrato.status_contrato === 'Pendente'
+            const finalizado = ['Encerrado', 'Cancelado'].includes(contrato.status_contrato)
+            const podeEditar = criador && pendente &&
+                !contrato.aceito_produtor_em && !contrato.aceito_afiliado_em
+            const podeCancelar = criador && !finalizado
+            const meuAceite = Number(contrato.produtor_id) === Number(usuarioLogado.id)
+                ? contrato.aceito_produtor_em : contrato.aceito_afiliado_em
+            const podeAceitar = pendente && !meuAceite
 
             const produtorAceitou =
                 contrato.aceito_produtor_em
@@ -331,8 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
             card.innerHTML = `
                 <div class="contrato-header">
                     <div>
-                        <h3>${contrato.titulo}</h3>
-                        <p>${contrato.produto}</p>
+                        <h3>${escaparHTML(contrato.titulo)}</h3>
+                        <p>${escaparHTML(contrato.produto)}</p>
                     </div>
 
                     <span class="contrato-status">
@@ -343,12 +341,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="contrato-info">
                     <p>
                         <strong>${t('contratos.js.produtor')}:</strong>
-                        ${contrato.produtor}
+                        ${escaparHTML(contrato.produtor)}
                     </p>
 
                     <p>
                         <strong>${t('contratos.js.afiliado')}:</strong>
-                        ${contrato.afiliado}
+                        ${escaparHTML(contrato.afiliado)}
                     </p>
 
                     <p>
@@ -373,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             ? `
                                 <p>
                                     <strong>${t('contratos.js.observacoes')}:</strong>
-                                    ${contrato.observacoes}
+                                    ${escaparHTML(contrato.observacoes)}
                                 </p>
                             `
                             : ''
@@ -387,15 +385,16 @@ document.addEventListener('DOMContentLoaded', () => {
                             data-id="${escaparHTML(contrato.id)}"
                         >
                             <i class="fa-solid fa-file-pdf"></i>
-                            Baixar PDF
+                            ${window.i18n.t('complementos.baixarPdf')}
                         </button>
 
                     ${
-                        contrato.status_contrato === 'Pendente'
+                        podeAceitar
                             ? `
                                 <button
                                     type="button"
                                     class="btn-contrato btn-aceitar"
+                                    data-versao="${escaparHTML(contrato.versao)}"
                                     data-id="${escaparHTML(contrato.id)}"
                                 >
                                     <i class="fa-solid fa-check"></i>
@@ -417,6 +416,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                     ${t('contratos.js.editar')}
                                 </button>
 
+                            `
+                            : ''
+                    }
+                    ${
+                        podeCancelar
+                            ? `
                                 <button
                                     type="button"
                                     class="btn-contrato btn-cancelar-contrato"
@@ -444,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
         !Number.isSafeInteger(contratoId) ||
         contratoId <= 0
     ) {
-        alert('Contrato inválido')
+        await MonetizaUI.aviso(window.i18n.t('complementos.contratoInvalido'))
         return
     }
 
@@ -461,7 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         )
 
-        if (!verificarSessao(response)) return
+        if (!await verificarSessao(response)) return
 
         if (!response.ok) {
             const dados = await response.json()
@@ -469,7 +474,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             throw new Error(
                 dados.erro ||
-                'Não foi possível baixar o PDF'
+                window.i18n.t('complementos.naoFoiPossivelBaixarOPdf')
             )
         }
 
@@ -490,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 60000)
     } catch (erro) {
         console.error('Erro ao baixar PDF:', erro)
-        alert(erro.message)
+        await MonetizaUI.aviso(erro.message)
     } finally {
         botao.disabled = false
     }
@@ -515,7 +520,7 @@ document.addEventListener('click', evento => {
         document.querySelectorAll('.btn-aceitar')
             .forEach(botao => {
                 botao.addEventListener('click', () => {
-                    aceitarContrato(botao.dataset.id)
+                    aceitarContrato(botao.dataset.id, botao.dataset.versao)
                 })
             })
 
@@ -545,24 +550,24 @@ document.addEventListener('click', evento => {
             !inputDataFim ||
             !inputObservacoes
         ) {
-            alert(t('contratos.js.erroCamposFormulario'))
+            await MonetizaUI.aviso(t('contratos.js.erroCamposFormulario'))
             return
         }
 
         const arquivo = inputArquivo.files[0]
 
         if (!contratoEditando && !selectAfiliacao.value) {
-            alert(t('contratos.js.selecioneAfiliacaoAlerta'))
+            await MonetizaUI.aviso(t('contratos.js.selecioneAfiliacaoAlerta'))
             return
         }
 
         if (!inputTitulo.value.trim()) {
-            alert(t('contratos.js.informeTitulo'))
+            await MonetizaUI.aviso(t('contratos.js.informeTitulo'))
             return
         }
 
         if (!contratoEditando && !arquivo) {
-            alert(t('contratos.js.selecionePdf'))
+            await MonetizaUI.aviso(t('contratos.js.selecionePdf'))
             return
         }
 
@@ -573,23 +578,24 @@ document.addEventListener('click', evento => {
                 !arquivo.name.toLowerCase().endsWith('.pdf')
             )
         ) {
-            alert(t('contratos.js.pdfInvalido'))
+            await MonetizaUI.aviso(t('contratos.js.pdfInvalido'))
             return
         }
 
         if (!inputDataInicio.value || !inputDataFim.value) {
-            alert(t('contratos.js.informeDatas'))
+            await MonetizaUI.aviso(t('contratos.js.informeDatas'))
             return
         }
 
         if (inputDataFim.value < inputDataInicio.value) {
-            alert(
+            await MonetizaUI.aviso(
                 t('contratos.js.dataFinalInvalida')
             )
             return
         }
 
         const formData = new FormData()
+        if (contratoEditando) formData.append('versao', versaoEditando || '')
 
         if (!contratoEditando) {
             formData.append(
@@ -651,7 +657,7 @@ document.addEventListener('click', evento => {
                 body: formData
             })
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const resultado = await response.json()
 
@@ -662,7 +668,7 @@ document.addEventListener('click', evento => {
                 )
             }
 
-            alert(resultado.mensagem)
+            await MonetizaUI.aviso(resultado.mensagem)
 
             fecharModal()
 
@@ -673,7 +679,7 @@ document.addEventListener('click', evento => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             if (btnSalvar) {
                 btnSalvar.disabled = false
@@ -695,7 +701,7 @@ document.addEventListener('click', evento => {
                 }
             )
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const contrato = await response.json()
 
@@ -706,7 +712,12 @@ document.addEventListener('click', evento => {
                 )
             }
 
+            if (contrato.status_contrato !== 'Pendente' ||
+                contrato.aceito_produtor_em || contrato.aceito_afiliado_em) {
+                throw new Error(window.i18n.t('complementos.esteContratoNaoPermiteMaisEdicaoAtualizeALista'))
+            }
             contratoEditando = contrato.id
+            versaoEditando = contrato.versao
 
             if (selectAfiliacao) {
                 selectAfiliacao.value =
@@ -758,7 +769,7 @@ document.addEventListener('click', evento => {
                             class="btn-contrato btn-baixar-pdf"
                             data-id="${escaparHTML(contrato.id)}"
                         >
-                            Baixar PDF
+                            ${window.i18n.t('complementos.baixarPdf')}
                         </button>
                         `
                         : ''
@@ -784,13 +795,14 @@ document.addEventListener('click', evento => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
-    async function aceitarContrato(id) {
-        if (!confirm(
-            t('contratos.js.confirmarAceite')
+    async function aceitarContrato(id, versao) {
+        if (!await MonetizaUI.confirmar(
+            t('contratos.js.confirmarAceite'),
+            { titulo: window.i18n.t('complementos.aceitarContrato') }
         )) {
             return
         }
@@ -801,11 +813,11 @@ document.addEventListener('click', evento => {
                 {
                     method: 'PATCH',
                     headers: headersJson(),
-                    body: JSON.stringify({})
+                    body: JSON.stringify({ versao })
                 }
             )
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const resultado = await response.json()
 
@@ -816,7 +828,7 @@ document.addEventListener('click', evento => {
                 )
             }
 
-            alert(resultado.mensagem)
+            await MonetizaUI.aviso(resultado.mensagem)
 
             await carregarContratos()
         } catch (erro) {
@@ -825,13 +837,14 @@ document.addEventListener('click', evento => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
     async function cancelarContrato(id) {
-        if (!confirm(
-            t('contratos.js.confirmarCancelamento')
+        if (!await MonetizaUI.confirmar(
+            t('contratos.js.confirmarCancelamento'),
+            { titulo: window.i18n.t('complementos.cancelarContrato') }
         )) {
             return
         }
@@ -848,7 +861,7 @@ document.addEventListener('click', evento => {
                 }
             )
 
-            if (!verificarSessao(response)) return
+            if (!await verificarSessao(response)) return
 
             const resultado = await response.json()
 
@@ -859,7 +872,7 @@ document.addEventListener('click', evento => {
                 )
             }
 
-            alert(resultado.mensagem)
+            await MonetizaUI.aviso(resultado.mensagem)
 
             await carregarContratos()
         } catch (erro) {
@@ -868,7 +881,7 @@ document.addEventListener('click', evento => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -981,6 +994,16 @@ document.addEventListener('click', evento => {
         )
     }
 
-    carregarAfiliacoes()
-    carregarContratos()
+    try {
+        const respostaPerfil = await fetch('/usuario/perfil', { headers: headersAuth() })
+        if (!await verificarSessao(respostaPerfil)) return
+        if (!respostaPerfil.ok) throw new Error(window.i18n.t('complementos.naoFoiPossivelIdentificarSuaConta'))
+        const perfil = await respostaPerfil.json()
+        usuarioLogado = perfil.usuario
+        if (!usuarioLogado?.id) throw new Error(window.i18n.t('complementos.sessaoInvalidaEntreNovamente'))
+        carregarAfiliacoes()
+        carregarContratos()
+    } catch (erro) {
+        await MonetizaUI.aviso(erro.message)
+    }
 })

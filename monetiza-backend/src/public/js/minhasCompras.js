@@ -23,8 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function formatarDinheiro(valor) {
-        return Number(valor || 0).toLocaleString(
-            'pt-BR',
+        return Number(valor || 0).toLocaleString(window.i18n.locale(),
             {
                 style: 'currency',
                 currency: 'BRL'
@@ -35,8 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function formatarData(data) {
         if (!data) return '-'
 
-        return new Date(data).toLocaleDateString(
-            'pt-BR'
+        return new Date(data).toLocaleDateString(window.i18n.locale()
         )
     }
 
@@ -96,6 +94,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         return traducao === chave
             ? forma || '-'
             : traducao
+    }
+
+    function nomePdfProduto(titulo, id) {
+        let nome = String(titulo || '').normalize('NFC')
+            .replace(/[<>:"/\\|?*\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/g, ' ')
+            .replace(/\s+/g, ' ').trim()
+            .replace(/(?:\.pdf)+$/i, '').replace(/^[. ]+|[. ]+$/g, '')
+        nome = Array.from(nome).slice(0, 100).join('').replace(/[. ]+$/g, '')
+        if (!nome) nome = `produto-${id}`
+        if (/^(con|prn|aux|nul|com[0-9¹²³]|lpt[0-9¹²³])(?:\.|$)/i.test(nome)) nome = `Produto ${nome}`
+        return `${nome}.pdf`
+    }
+
+    async function acessarProduto(compra, botao) {
+        if (botao.dataset.ocupado === '1') return
+        botao.dataset.ocupado = '1'
+        botao.setAttribute('aria-busy', 'true')
+        try {
+            const resposta = await fetch(`/arquivos-produtos/${compra.produto_id}`, {
+                cache: 'no-store',
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            })
+            if (!resposta.ok) {
+                const dados = await resposta.json().catch(() => ({}))
+                throw new Error(resposta.status === 401
+                    ? window.i18n.t('complementos.suaSessaoExpirouEntreNovamente')
+                    : dados.erro || window.i18n.t('complementos.naoFoiPossivelAcessarOProduto'))
+            }
+            if (resposta.headers.get('content-type')?.includes('application/json')) {
+                const dados = await resposta.json()
+                const url = new URL(dados.url)
+                if (!['http:', 'https:'].includes(url.protocol)) {
+                    throw new Error(window.i18n.t('complementos.enderecoInvalido'))
+                }
+                window.location.assign(url.href)
+                return
+            }
+            const blob = await resposta.blob()
+            const url = URL.createObjectURL(blob)
+            const link = document.createElement('a')
+            link.href = url
+            link.download = nomePdfProduto(compra.produto, compra.produto_id)
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+            setTimeout(() => URL.revokeObjectURL(url), 60000)
+        } catch (erro) {
+            await MonetizaUI.aviso(erro.message)
+        } finally {
+            delete botao.dataset.ocupado
+            botao.removeAttribute('aria-busy')
+        }
     }
 
     function criarCard(compra) {
@@ -171,9 +221,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                         podeAcessar
                             ? `
                                 <a
-                                    href="${escaparHtml(compra.produto_arquivo)}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    href="#"
                                     class="btn-acessar-produto"
                                 >
                                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -185,6 +233,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             </div>
         `
+
+        const acessar = card.querySelector('.btn-acessar-produto')
+        acessar?.addEventListener('click', evento => {
+            evento.preventDefault()
+            acessarProduto(compra, acessar)
+        })
 
         return card
     }
@@ -236,7 +290,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 

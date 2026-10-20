@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let produtos = []
 
     if (!token) {
-        alert(t('produto.js.acessoNegado'))
+        await MonetizaUI.aviso(t('produto.js.acessoNegado'))
         window.location.href = '/login'
         return
     }
@@ -47,11 +47,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function encerrarSessao() {
+    async function encerrarSessao() {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert(t('produto.js.sessaoExpirada'))
+        await MonetizaUI.aviso(t('produto.js.sessaoExpirada'))
         window.location.href = '/login'
     }
 
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return false
             }
 
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return true
         } catch (erro) {
             console.error('Erro ao carregar usuário:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
             return false
         }
     }
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function formatarPreco(preco) {
-        return Number(preco).toLocaleString('pt-BR', {
+        return Number(preco).toLocaleString(window.i18n.locale(), {
             style: 'currency',
             currency: 'BRL'
         })
@@ -156,9 +156,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     function renderizarProdutos(lista) {
         listaProdutos.innerHTML = ''
 
-        if (lista.length === 0) {
-            estadoVazio.style.display = 'block'
-            return
+            if (lista.length === 0) {
+            // A conta realmente não possui produtos.
+                if (produtos.length === 0) {
+                    estadoVazio.style.display = 'block'
+                    return
+                }
+
+                // Existem produtos, mas nenhum corresponde à busca.
+                estadoVazio.style.display = 'none'
+
+                const mensagem = document.createElement('p')
+
+                mensagem.textContent = t('vitrine.nenhumProduto')
+                mensagem.setAttribute('role', 'status')
+                mensagem.style.gridColumn = '1 / -1'
+                mensagem.style.textAlign = 'center'
+                mensagem.style.padding = '24px'
+                mensagem.style.color = 'inherit'
+
+                listaProdutos.appendChild(mensagem)
+                return
         }
 
         estadoVazio.style.display = 'none'
@@ -248,7 +266,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return
             }
 
@@ -263,10 +281,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             produtos = dados
 
-            renderizarProdutos(produtos)
+            buscarProdutos()
         } catch (erro) {
             console.error('Erro ao carregar produtos:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -326,7 +344,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             !produto.capa ||
             !produto.produto_arquivo
         ) {
-            alert(
+            await MonetizaUI.aviso(
                 t('produto.js.camposObrigatorios')
             )
             return
@@ -337,14 +355,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             botaoSalvar.textContent =
                 t('produto.js.salvando')
 
-            const resposta = await fetch('/produtos', {
+            const resposta = await MonetizaOperacoes.enviar('/produtos', {
                 method: 'POST',
                 headers: headersAutenticados(),
                 body: JSON.stringify(produto)
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return
             }
 
@@ -357,7 +375,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 )
             }
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             formulario.reset()
 
@@ -366,7 +384,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             await carregarProdutos()
         } catch (erro) {
             console.error('Erro ao cadastrar produto:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             botaoSalvar.disabled = false
             botaoSalvar.textContent =
@@ -383,7 +401,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return
             }
 
@@ -428,7 +446,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             abrirModal(modalEditar)
         } catch (erro) {
             console.error('Erro ao abrir edição:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -492,7 +510,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             !produto.capa ||
             !produto.produto_arquivo
         ) {
-            alert(
+            await MonetizaUI.aviso(
                 t('produto.js.camposObrigatorios')
             )
             return
@@ -510,7 +528,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return
             }
 
@@ -523,14 +541,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 )
             }
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             fecharModal(modalEditar)
 
             await carregarProdutos()
         } catch (erro) {
             console.error('Erro ao atualizar produto:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             botaoSalvar.disabled = false
             botaoSalvar.textContent =
@@ -538,13 +556,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function abrirExclusao(id) {
+    async function abrirExclusao(id) {
         const produto = produtos.find(
             item => Number(item.id) === Number(id)
         )
 
         if (!produto) {
-            alert(t('produto.js.produtoNaoEncontrado'))
+            await MonetizaUI.aviso(t('produto.js.produtoNaoEncontrado'))
             return
         }
 
@@ -581,7 +599,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             })
 
             if (resposta.status === 401) {
-                encerrarSessao()
+                await encerrarSessao()
                 return
             }
 
@@ -594,14 +612,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 )
             }
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             fecharModal(modalExcluir)
 
             await carregarProdutos()
         } catch (erro) {
             console.error('Erro ao excluir produto:', erro)
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         } finally {
             btnConfirmarExclusao.disabled = false
             btnConfirmarExclusao.innerHTML = `
@@ -612,24 +630,29 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function buscarProdutos() {
-        const termo = campoBusca
-            .value
-            .trim()
-            .toLowerCase()
+        function normalizar(valor) {
+            return String(valor ?? '')
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase()
+                .trim()
+        }
+
+        const termos = normalizar(campoBusca.value)
+            .split(/\s+/)
+            .filter(Boolean)
 
         const produtosFiltrados = produtos.filter(produto => {
-            const titulo = produto.titulo || ''
-            const categoria = produto.categoria || ''
-            const descricao = produto.descricao_curta || ''
+            const texto = normalizar([
+                produto.titulo,
+                produto.categoria,
+                produto.descricao_curta
+            ].filter(Boolean).join(' '))
 
-            return (
-                titulo.toLowerCase().includes(termo) ||
-                categoria.toLowerCase().includes(termo) ||
-                descricao.toLowerCase().includes(termo)
-            )
+            return termos.every(termo => texto.includes(termo))
         })
 
-        renderizarProdutos(produtosFiltrados)
+        buscarProdutos()
     }
 
     listaProdutos.addEventListener('click', evento => {

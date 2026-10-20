@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let comissoes = []
 
     if (!token) {
-        alert(t('financeiro.js.acessoNegado'))
+        await MonetizaUI.aviso(t('financeiro.js.acessoNegado'))
         window.location.href = '/login'
         return
     }
@@ -34,17 +34,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    function encerrarSessao() {
+    async function encerrarSessao() {
         localStorage.removeItem('token')
         localStorage.removeItem('usuarioLogado')
 
-        alert(t('financeiro.js.sessaoExpirada'))
+        await MonetizaUI.aviso(t('financeiro.js.sessaoExpirada'))
         window.location.href = '/login'
     }
 
     async function verificarResposta(resposta) {
         if (resposta.status === 401) {
-            encerrarSessao()
+            await encerrarSessao()
             throw new Error('Sessão encerrada')
         }
 
@@ -67,8 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function formatarDinheiro(valor) {
-        return Number(valor || 0).toLocaleString(
-            'pt-BR',
+        return Number(valor || 0).toLocaleString(window.i18n.locale(),
             {
                 style: 'currency',
                 currency: 'BRL'
@@ -81,8 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return '-'
         }
 
-        return new Date(data).toLocaleDateString(
-            'pt-BR'
+        return new Date(data).toLocaleDateString(window.i18n.locale()
         )
     }
 
@@ -553,7 +551,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderizarComissoes()
     }
 
+    let transacaoEmAndamento = false
     async function novaTransacao() {
+        if (transacaoEmAndamento) return
+        transacaoEmAndamento = true
+        try { await executarNovaTransacao() }
+        finally { transacaoEmAndamento = false }
+    }
+
+    async function executarNovaTransacao() {
         const tipo = window.prompt(
             t('financeiro.js.promptTipo')
         )
@@ -581,7 +587,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         ) {
             tipoFormatado = 'Saida'
         } else {
-            alert(
+            await MonetizaUI.aviso(
                 t('financeiro.js.tipoInvalido')
             )
             return
@@ -607,12 +613,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             !Number.isFinite(valor) ||
             valor <= 0
         ) {
-            alert(t('financeiro.js.valorInvalido'))
+            await MonetizaUI.aviso(t('financeiro.js.valorInvalido'))
             return
         }
 
         try {
-            const resposta = await fetch(
+            const resposta = await MonetizaOperacoes.enviar(
                 '/financeiro-api/transacoes',
                 {
                     method: 'POST',
@@ -629,7 +635,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dados =
                 await verificarResposta(resposta)
 
-            alert(dados.mensagem)
+            await MonetizaUI.aviso(dados.mensagem)
 
             await Promise.all([
                 carregarResumo(),
@@ -641,7 +647,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 erro
             )
 
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
         }
     }
 
@@ -696,7 +702,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             erro.message !==
                             'Sessão encerrada'
                         ) {
-                            alert(erro.message)
+                            await MonetizaUI.aviso(erro.message)
                         }
                     }
                 }
@@ -758,7 +764,28 @@ document.addEventListener('DOMContentLoaded', async () => {
             erro.message !==
             'Sessão encerrada'
         ) {
-            alert(erro.message)
+            await MonetizaUI.aviso(erro.message)
+        }
+    }
+        // Abre a aba indicada pela busca, após a inicialização da página.
+    const abaSolicitada = new URLSearchParams(
+        window.location.search
+    ).get('aba')
+
+    if (abaSolicitada) {
+        const botaoDestino = Array.from(
+            document.querySelectorAll('.tab-btn[data-tab]')
+        ).find(botao => botao.dataset.tab === abaSolicitada)
+
+        if (botaoDestino) {
+            botaoDestino.click()
+
+            botaoDestino.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+            })
+
+            botaoDestino.focus({ preventScroll: true })
         }
     }
 })

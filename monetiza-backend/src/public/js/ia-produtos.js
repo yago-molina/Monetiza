@@ -72,6 +72,8 @@ let ideiaEscolhida = '';
 let promptGerado = '';
 
 let produtoGerado = null;
+let rascunhos = null;
+let camposEditorSalvos = null;
 
 
 // ==================================================
@@ -104,7 +106,9 @@ function renderizarMarkdown(texto) {
         typeof marked === 'undefined' ||
         typeof DOMPurify === 'undefined'
     ) {
-        return texto
+        const seguro = document.createElement('div')
+        seguro.textContent = String(texto)
+        return seguro.innerHTML
     }
 
     const html =
@@ -122,8 +126,7 @@ function formatarProdutoMarkdown(produto) {
     const cadastro = produto.cadastro
     const detalhes = produto.produto
 
-    const preco = new Intl.NumberFormat(
-        'pt-BR',
+    const preco = new Intl.NumberFormat(window.i18n.locale(),
         {
             style: 'currency',
             currency: 'BRL'
@@ -307,7 +310,7 @@ function adicionarMensagemIA(texto) {
             <div class="mensagem-topo">
 
                 <span class="autor">
-                    Monetiza IA
+                    ${window.i18n.t('iaProdutos.tituloDocumento')}
                 </span>
 
                 <button class="btn-copiar">
@@ -405,7 +408,7 @@ function adicionarCarregamento() {
         <div class="mensagem-corpo">
 
             <span class="autor">
-                Monetiza IA
+                ${window.i18n.t('iaProdutos.tituloDocumento')}
             </span>
 
             <div class="mensagem-balao">
@@ -542,7 +545,7 @@ function atualizarVisualEtapa() {
 
 
         modoAtualTexto.innerText =
-            'Prompt Builder';
+            iaInterface.texto('estruturar');
 
 
         prompt.placeholder =
@@ -586,6 +589,8 @@ function atualizarVisualEtapa() {
 // ==================================================
 
 function mudarParaConsultor() {
+    if (!rascunhos?.podeMudar()) return
+    rascunhos.agendar()
 
     etapaAtual =
         'consultor';
@@ -623,6 +628,8 @@ ${t('iaProdutos.js.consultorTexto3')}
 // ==================================================
 
 function mudarParaPromptBuilder() {
+    if (!rascunhos?.podeMudar()) return
+    rascunhos.agendar()
 
     etapaAtual =
         'promptBuilder';
@@ -636,7 +643,7 @@ function mudarParaPromptBuilder() {
 
 
     adicionarMensagemIA(`
-## ✨ Prompt Builder
+## ✨ ${window.i18n.t('complementos.promptBuilder')}
 
 ${t('iaProdutos.js.promptBuilderTexto1')}
 
@@ -655,6 +662,8 @@ ${t('iaProdutos.js.exemplo')}:
 // ==================================================
 
 function mudarParaGeradorProduto() {
+    if (!rascunhos?.podeMudar()) return
+    rascunhos.agendar()
 
     etapaAtual =
         'produto';
@@ -683,60 +692,43 @@ ${t('iaProdutos.js.geradorTexto2')}
 // ==================================================
 
 async function carregarModelos() {
-    try {
-        status.innerText =
-            t('iaProdutos.js.verificandoConexao')
+    iaInterface.conexao('verificar')
+    modelo.value = ''
 
-        const requisicao = await fetch(
-            '/ia/produtos/status',
-            {
-                headers: {
-                    Authorization:
-                        `Bearer ${token}`
-                }
-            }
+    const controle = new AbortController()
+    const timer = setTimeout(() => controle.abort(), 20000)
+
+    try {
+        const requisicao = await fetch('/ia/produtos/status', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            signal: controle.signal
+        })
+
+        const dados = await requisicao.json()
+        respostaAutenticada(requisicao, dados)
+
+        if (
+            !dados.disponivel ||
+            !dados.suportaProdutosEstruturados
+        ) {
+            throw new Error(iaInterface.texto('offline'))
+        }
+
+        modelo.replaceChildren(
+            new Option(dados.modelo, dados.modelo)
         )
 
-        const dados =
-            await requisicao.json()
-
-        if (requisicao.status === 401) {
-            localStorage.removeItem('token')
-            window.location.href = '/login'
-            return
-        }
-
-        if (!requisicao.ok) {
-            throw new Error(
-                dados.erro ||
-                t('iaProdutos.js.iaIndisponivel')
-            )
-        }
-
-        modelo.innerHTML = ''
-
-        const option =
-            document.createElement('option')
-
-        option.value = dados.modelo
-        option.innerText = dados.modelo
-
-        modelo.appendChild(option)
         modelo.disabled = true
-
-        status.innerText =
-            t('iaProdutos.js.groqConectada')
+        iaInterface.conexao('online')
     } catch (erro) {
-        console.error(erro)
+        modelo.replaceChildren(new Option('', ''))
+        iaInterface.conexao('offline')
 
-        modelo.innerHTML = `
-            <option value="">
-                ${t('iaProdutos.js.iaIndisponivelCurto')}
-            </option>
-        `
-
-        status.innerText =
-            erro.message
+        console.error('Conexão com a IA:', erro.message)
+    } finally {
+        clearTimeout(timer)
     }
 }
 
@@ -878,6 +870,7 @@ async function usarPromptBuilder(
         resultado;
 
 
+    await rascunhos.salvar()
     return resultado;
 
 }
@@ -890,6 +883,14 @@ async function usarPromptBuilder(
 async function usarGeradorProduto(
     promptFinal
 ) {
+    if (produtoGerado) {
+        await rascunhos.novo(true)
+        etapaAtual = 'produto'
+        atualizarVisualEtapa()
+    }
+    promptGerado = promptFinal
+    await rascunhos.salvar()
+
 
     status.innerText =
         t('iaProdutos.js.gerandoProduto');
@@ -903,9 +904,14 @@ async function usarGeradorProduto(
 
 
     produtoGerado =
-        resultado;
+    resultado;
 
-    pdfPublicado = null 
+    pdfPublicado = null
+    arquivoPdfPronto = null
+    capitulosPdfProntos = []
+    camposEditorSalvos = null
+    mostrarProdutoPreview(produtoGerado)
+    await rascunhos.salvar()
 
     return resultado;
 
@@ -921,7 +927,7 @@ async function enviarMensagem() {
         prompt.value.trim()
 
     if (!modelo.value) {
-        alert(
+        await MonetizaUI.aviso(
             t('iaProdutos.js.iaAindaIndisponivel')
         )
 
@@ -929,7 +935,7 @@ async function enviarMensagem() {
     }
 
     if (!mensagem) {
-        alert(
+        await MonetizaUI.aviso(
             t('iaProdutos.js.digiteMensagem')
         )
 
@@ -940,7 +946,6 @@ async function enviarMensagem() {
 
     adicionarMensagemUsuario(mensagem)
 
-    prompt.value = ''
     botao.disabled = true
 
     const carregamento =
@@ -971,6 +976,8 @@ async function enviarMensagem() {
             )
         }
 
+        prompt.value = ''
+        await rascunhos.salvar()
         removerCarregamento(carregamento)
 
         if (
@@ -1046,165 +1053,6 @@ async function transformarIdeiaEmPrompt(
 
 }
 
-
-// ==================================================
-// TRANSFORMA PROMPT EM PRODUTO
-// ==================================================
-
-async function transformarPromptEmProduto(
-    promptFinal
-) {
-
-    etapaAtual =
-        'produto';
-
-
-    atualizarVisualEtapa();
-
-
-    const resultado =
-        await usarGeradorProduto(
-            promptFinal
-        );
-
-
-    produtoGerado =
-        resultado;
-
-
-    return resultado;
-
-}
-
-
-// ==================================================
-// FLUXO AUTOMÁTICO DE TESTE
-// ==================================================
-
-async function gerarProdutoCompleto(
-    ideia
-) {
-
-    if (!ideia) {
-
-        console.error(
-            'Informe uma ideia.'
-        );
-
-
-        return;
-
-    }
-
-
-    botao.disabled =
-        true;
-
-
-    const inicio =
-        performance.now();
-
-
-    try {
-
-        adicionarMensagemUsuario(
-            ideia
-        );
-
-        // PROMPT BUILDER
-
-        etapaAtual =
-            'promptBuilder';
-
-
-        atualizarVisualEtapa();
-
-
-        status.innerText =
-            t('iaProdutos.js.criandoPrompt');
-
-
-        const promptFinal =
-            await usarPromptBuilder(
-                ideia
-            );
-
-
-        adicionarMensagemIA(`
-## ✨ ${t('iaProdutos.js.promptCriado')}
-
-${promptFinal}
-`);
-
-        // GERADOR DE PRODUTO
-
-        etapaAtual =
-            'produto';
-
-
-        atualizarVisualEtapa();
-
-
-        status.innerText =
-            t('iaProdutos.js.promptCriadoGerando');
-
-
-        const produto =
-            await usarGeradorProduto(
-                promptFinal
-            );
-
-
-        mostrarProdutoPreview(produto)
-
-        adicionarMensagemIA(
-            formatarProdutoMarkdown(produto)
-        );
-
-
-        const fim =
-            performance.now();
-
-
-        const tempo =
-            (
-                (fim - inicio) /
-                1000
-            ).toFixed(2);
-
-
-        status.innerText =
-            `${t('iaProdutos.js.produtoCriadoEm')} ${tempo}s`;
-
-
-        return produto;
-
-    }
-    catch (erro) {
-
-        console.error(erro);
-
-
-        adicionarMensagemIA(`
-## ❌ ${t('iaProdutos.js.erro')}
-
-${erro.message}
-`);
-
-
-        status.innerText =
-            t('iaProdutos.js.erroGerarProduto');
-
-    }
-    finally {
-
-        botao.disabled =
-            false;
-
-    }
-
-}
-
 // BOTÃO EDITAR PRODUTO
 
 // Estado do arquivo correspondente à versão atual do produto.
@@ -1216,7 +1064,7 @@ const campo = id => document.getElementById(id)
 
 function exigirProduto() {
     if (!produtoGerado?.cadastro || !produtoGerado?.produto) {
-        throw new Error('Gere um produto antes de continuar.')
+        throw new Error(window.i18n.t('complementos.gereUmProdutoAntesDeContinuar'))
     }
 }
 
@@ -1224,17 +1072,17 @@ function respostaAutenticada(resposta, dados) {
     if (resposta.status === 401) {
         localStorage.removeItem('token')
         window.location.href = '/login'
-        throw new Error('Sua sessão expirou.')
+        throw new Error(window.i18n.t('iaProdutos.js.sessaoExpirada'))
     }
 
     if (!resposta.ok) {
-        throw new Error(dados.erro || 'Não foi possível concluir a operação.')
+        throw new Error(dados.erro || window.i18n.t('complementos.naoFoiPossivelConcluirAOperacao'))
     }
 
     return dados
 }
 
-function abrirEditorProduto() {
+async function abrirEditorProduto() {
     try {
         exigirProduto()
 
@@ -1248,18 +1096,26 @@ function abrirEditorProduto() {
         campo('ia-comissao').value = cadastro.comissao
         campo('ia-capa').value = produtoGerado.capa || ''
 
+        if (camposEditorSalvos) {
+            for (const [id, valor] of Object.entries(camposEditorSalvos)) {
+                if (IDS_EDITOR.includes(id)) campo(id).value = String(valor)
+            }
+        }
         editor.showModal()
     } catch (erro) {
-        alert(erro.message)
+        await MonetizaUI.aviso(erro.message)
     }
 }
 
-function salvarEdicaoProduto(evento) {
+async function salvarEdicaoProduto(evento) {
     evento.preventDefault()
 
     if (!formEditor.reportValidity()) return
 
     const cadastro = produtoGerado.cadastro
+
+    const tituloAlterado =
+        cadastro.titulo !== campo('ia-titulo').value.trim()
 
     cadastro.titulo = campo('ia-titulo').value.trim()
     cadastro.descricao_curta = campo('ia-descricao-curta').value.trim()
@@ -1267,23 +1123,39 @@ function salvarEdicaoProduto(evento) {
     cadastro.categoria = campo('ia-categoria').value
     cadastro.preco = Number(campo('ia-preco').value)
     cadastro.comissao = Number(campo('ia-comissao').value)
+
     produtoGerado.capa = campo('ia-capa').value.trim()
 
-    // Um PDF anterior pode conter um título ou descrição desatualizados.
-    pdfPublicado = null
+    // Os outros campos pertencem ao anúncio.
+    // O título também aparece dentro do PDF.
+    if (tituloAlterado) {
+        pdfPublicado = null
+        arquivoPdfPronto = null
+    }
 
+    camposEditorSalvos = null
     mostrarProdutoPreview(produtoGerado)
     editor.close()
-    status.innerText = 'Alterações salvas. Gere o PDF antes de publicar.'
+    try { await rascunhos.salvar() } catch (erro) {
+        await MonetizaUI.aviso(window.i18n.t('complementos.aEdicaoEstaNestaPaginaMasAindaNaoFoiSalva')); return
+    }
+
+    status.innerText = pdfPublicado
+        ? window.i18n.t('complementos.alteracoesSalvasSeuPdfEstaProntoParaPublicar')
+        : tituloAlterado && capitulosPdfProntos.length
+            ? window.i18n.t('complementos.tituloAtualizadoCliqueEmGerarPdfParaAtualizarOArquivo')
+            : window.i18n.t('complementos.alteracoesSalvasGereOPdfAntesDePublicar')
 }
 
 async function desenvolverCapitulo(numero) {
     const resposta = await fetch('/ia/produtos/gerar-capitulo', {
         method: 'POST',
+
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
         },
+
         body: JSON.stringify({
             produto: {
                 versao_schema: produtoGerado.versao_schema,
@@ -1291,12 +1163,69 @@ async function desenvolverCapitulo(numero) {
                 produto: produtoGerado.produto,
                 criativos: produtoGerado.criativos
             },
-            numero_capitulo: numero
+
+            numero_capitulo: numero,
+            progresso: true
         })
     })
 
-    const dados = await resposta.json()
-    return respostaAutenticada(resposta, dados).resposta
+    // Mantém compatibilidade com respostas normais e erros de autenticação.
+    if (
+        !resposta.headers.get('content-type')
+            ?.includes('application/x-ndjson')
+    ) {
+        const dados = await resposta.json()
+        return respostaAutenticada(resposta, dados).resposta
+    }
+
+    const leitor = resposta.body.getReader()
+    const decoder = new TextDecoder()
+
+    let buffer = ''
+    let resultado = null
+
+    function processar(linha) {
+        if (!linha.trim()) return
+
+        const evento = JSON.parse(linha)
+
+        if (evento.tipo === 'progresso') {
+            iaInterface.progresso(evento.etapa)
+        } else if (evento.tipo === 'resultado') {
+            resultado = respostaAutenticada(
+                {
+                    status: evento.status,
+                    ok: evento.status >= 200 && evento.status < 300
+                },
+                evento.dados
+            ).resposta
+        }
+    }
+
+    try {
+        while (true) {
+            const { value, done } = await leitor.read()
+
+            if (done) break
+
+            buffer += decoder.decode(value, { stream: true })
+
+            const linhas = buffer.split('\n')
+            buffer = linhas.pop()
+
+            linhas.forEach(processar)
+        }
+
+        processar(buffer + decoder.decode())
+    } finally {
+        leitor.releaseLock()
+    }
+
+    if (!resultado) {
+        throw new Error(iaInterface.texto('falhaFluxo'))
+    }
+
+    return resultado
 }
 
 function limparTextoPdf(texto) {
@@ -1331,7 +1260,7 @@ function nomeArquivoProduto(titulo) {
         ? `Produto ${nome}`
         : nome
 
-    return `${seguro || 'Meu produto'}.pdf`
+    return `${seguro || window.i18n.t('complementos.meuProduto')}.pdf`
 }
 
 function escreverParagrafo(
@@ -1551,6 +1480,7 @@ const botaoBaixarPdf = document.getElementById('baixar-pdf-pronto')
 
 let geracaoPdfEmAndamento = false
 let arquivoPdfPronto = null
+let capitulosPdfProntos = []
 
 // Impede que Esc esconda o progresso durante a geração.
 modalLoadingPdf.addEventListener('cancel', evento => {
@@ -1580,6 +1510,7 @@ botaoBaixarPdf.addEventListener('click', () => {
 })
 
 function atualizarProgressoPdf(mensagem, concluido, total) {
+    iaInterface.progresso('')
     textoEtapaPdf.textContent = mensagem
     status.innerText = mensagem
 
@@ -1595,21 +1526,43 @@ async function gerarPdfProduto() {
     try {
         exigirProduto()
 
+        if (pdfPublicado && !arquivoPdfPronto) {
+            try {
+                arquivoPdfPronto = { blob: await rascunhos.baixarPdf(), nome: nomeArquivoProduto(produtoGerado.cadastro.titulo) }
+            } catch (erro) {
+                if (erro.status !== 404) throw erro
+                pdfPublicado = null
+                await rascunhos.salvar()
+            }
+        }
+        if (pdfPublicado && arquivoPdfPronto) {
+            nomePdfPronto.textContent = arquivoPdfPronto.nome
+            botaoBaixarPdf.disabled = false
+
+            if (!modalSucessoPdf.open) {
+                modalSucessoPdf.showModal()
+            }
+
+            botaoBaixarPdf.focus()
+            return
+        }
+
         if (typeof window.jspdf?.jsPDF !== 'function') {
             throw new Error(
-                'A biblioteca de PDF não carregou. Atualize com Ctrl + F5.'
+                window.i18n.t('complementos.aBibliotecaDePdfNaoCarregouAtualizeComCtrlF5')
             )
         }
 
         const estruturas = produtoGerado.produto.capitulos
 
         if (!Array.isArray(estruturas) || estruturas.length === 0) {
-            throw new Error('O produto não possui capítulos para gerar.')
+            throw new Error(window.i18n.t('complementos.oProdutoNaoPossuiCapitulosParaGerar'))
         }
 
         geracaoPdfEmAndamento = true
+        iaInterface.iniciarPdf()
         botaoGerarPdf.disabled = true
-        botaoGerarPdf.textContent = 'Gerando PDF...'
+        botaoGerarPdf.textContent = window.i18n.t('complementos.gerandoPdf')
 
         arquivoPdfPronto = null
         pdfPublicado = null
@@ -1625,7 +1578,7 @@ async function gerarPdfProduto() {
         const totalEtapas = estruturas.length + 2
 
         atualizarProgressoPdf(
-            'Preparando a geração dos capítulos...',
+            window.i18n.t('complementos.preparandoAGeracaoDosCapitulos'),
             0,
             totalEtapas
         )
@@ -1641,30 +1594,37 @@ async function gerarPdfProduto() {
             const estrutura = estruturas[indice]
 
             atualizarProgressoPdf(
-                `Gerando capítulo ${indice + 1} de ${estruturas.length}: ` +
-                estrutura.titulo,
+                window.i18n.t('complementos.gerandoCapituloNumeroDeTotalTitulo', { numero: indice + 1, total: estruturas.length, titulo: estrutura.titulo }),
                 indice,
                 totalEtapas
             )
 
-            const capitulo = await desenvolverCapitulo(estrutura.numero)
+            const capitulo = capitulosPdfProntos[indice] || await desenvolverCapitulo(estrutura.numero)
+
+            capitulosPdfProntos[indice] = capitulo
             capitulos.push(capitulo)
+            await rascunhos.salvar()
 
             progressoPdf.value = indice + 1
+        if (iaInterface.interrompido()) {
+                status.innerText = iaInterface.texto('pausado')
+                return
+            }
         }
 
         atualizarProgressoPdf(
-            'Organizando o texto e montando o PDF...',
+            window.i18n.t('complementos.organizandoOTextoEMontandoOPdf'),
             estruturas.length,
             totalEtapas
         )
 
         await new Promise(resolve => requestAnimationFrame(resolve))
 
+        iaInterface.montando()
         const pdf = montarPdf(capitulos)
 
         atualizarProgressoPdf(
-            'Salvando o PDF para publicação...',
+            window.i18n.t('complementos.salvandoOPdfParaPublicacao'),
             estruturas.length + 1,
             totalEtapas
         )
@@ -1672,10 +1632,11 @@ async function gerarPdfProduto() {
         const url = await enviarPdf(pdf)
 
         if (!url) {
-            throw new Error('O servidor não retornou o endereço do PDF.')
+            throw new Error(window.i18n.t('complementos.oServidorNaoRetornouOEnderecoDoPdf'))
         }
 
         pdfPublicado = url
+        await rascunhos.salvar()
 
         arquivoPdfPronto = {
             blob: pdf.output('blob'),
@@ -1683,7 +1644,7 @@ async function gerarPdfProduto() {
         }
 
         atualizarProgressoPdf(
-            'PDF gerado e salvo com sucesso!',
+            window.i18n.t('complementos.pdfGeradoESalvoComSucesso'),
             totalEtapas,
             totalEtapas
         )
@@ -1703,7 +1664,7 @@ async function gerarPdfProduto() {
         }
 
         status.innerText = erro.message
-        alert(erro.message)
+        await MonetizaUI.aviso(erro.message)
     } finally {
         if (modalLoadingPdf.open) {
             modalLoadingPdf.close()
@@ -1712,6 +1673,7 @@ async function gerarPdfProduto() {
         // Interrompe a animação quando a sobreposição fecha.
         modalLoadingPdf.querySelector('iframe').src = 'about:blank'
 
+        iaInterface.finalizarPdf()
         geracaoPdfEmAndamento = false
         botaoGerarPdf.disabled = false
         botaoGerarPdf.textContent = textoOriginal
@@ -1728,13 +1690,19 @@ async function publicarProdutoIa() {
         const capa = produtoGerado.capa?.trim()
 
         if (!capa) {
-            abrirEditorProduto()
-            alert('Informe a URL da capa e salve as alterações.')
+            await MonetizaUI.aviso(
+                window.i18n.t('complementos.adicioneUmaImagemDeCapaParaConcluirAPublicacao'),
+                { titulo: window.i18n.t('complementos.faltaACapaDoProduto') }
+            )
+
+            await abrirEditorProduto()
+            campo('ia-capa').focus()
             return
         }
 
+
         if (!pdfPublicado) {
-            alert('Gere o PDF antes de publicar.')
+            await MonetizaUI.aviso(window.i18n.t('complementos.gereOPdfAntesDePublicar'))
             return
         }
 
@@ -1746,8 +1714,13 @@ async function publicarProdutoIa() {
         ]
 
         if (!categorias.includes(cadastro.categoria)) {
-            abrirEditorProduto()
-            alert('Selecione uma categoria válida no editor.')
+            await MonetizaUI.aviso(
+                window.i18n.t('complementos.selecioneACategoriaDoSeuProdutoNoEditor'),
+                { titulo: window.i18n.t('complementos.escolhaUmaCategoria') }
+            )
+
+            await abrirEditorProduto()
+            campo('ia-categoria').focus()
             return
         }
 
@@ -1756,11 +1729,11 @@ async function publicarProdutoIa() {
         const comissao = Number(cadastro.comissao ?? 0)
 
         if (!titulo || titulo.length > 100) {
-            throw new Error('O título deve ter entre 1 e 100 caracteres.')
+            throw new Error(window.i18n.t('complementos.oTituloDeveTerEntre1E100Caracteres'))
         }
 
         if (!Number.isFinite(preco) || preco <= 0) {
-            throw new Error('Informe um preço maior que zero.')
+            throw new Error(window.i18n.t('complementos.informeUmPrecoMaiorQueZero'))
         }
 
         if (
@@ -1768,7 +1741,7 @@ async function publicarProdutoIa() {
             comissao < 0 ||
             comissao > 100
         ) {
-            throw new Error('A comissão deve estar entre 0 e 100%.')
+            throw new Error(window.i18n.t('complementos.aComissaoDeveEstarEntre0E100'))
         }
 
         for (const endereco of [capa, pdfPublicado]) {
@@ -1777,19 +1750,20 @@ async function publicarProdutoIa() {
             try {
                 url = new URL(endereco)
             } catch {
-                throw new Error('A capa ou o PDF está com um endereço inválido.')
+                throw new Error(window.i18n.t('complementos.aCapaOuOPdfEstaComUmEnderecoInvalido'))
             }
 
             if (!['http:', 'https:'].includes(url.protocol)) {
-                throw new Error('A capa e o PDF precisam usar HTTP ou HTTPS.')
+                throw new Error(window.i18n.t('complementos.aCapaEOPdfPrecisamUsarHttpOuHttps'))
             }
         }
 
         botaoPublicarProduto.disabled = true
-        botaoPublicarProduto.textContent = 'Publicando...'
-        status.innerText = 'Salvando produto na plataforma...'
+        botaoPublicarProduto.textContent = window.i18n.t('complementos.publicando')
+        status.innerText = window.i18n.t('complementos.salvandoProdutoNaPlataforma')
 
-        const resposta = await fetch('/produtos', {
+        await rascunhos.salvar()
+        const resposta = await MonetizaOperacoes.enviar('/produtos', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1804,43 +1778,81 @@ async function publicarProdutoIa() {
                 comissao,
                 capa,
                 produto_arquivo: pdfPublicado,
-                status_produto: 'Ativo'
+                status_produto: 'Ativo',
+                ...rascunhos.referencia()
             })
         })
 
         const dados = await resposta.json().catch(() => ({
-            erro: `O servidor retornou uma resposta inválida (${resposta.status}).`
+            erro: window.i18n.t('complementos.oServidorRetornouUmaRespostaInvalidaStatus', { status: resposta.status })
         }))
 
         respostaAutenticada(resposta, dados)
 
         if (!dados.id) {
-            throw new Error('O servidor não confirmou o código do produto.')
+            throw new Error(window.i18n.t('complementos.oServidorNaoConfirmouOCodigoDoProduto'))
         }
 
-        status.innerText = 'Produto publicado com sucesso!'
+        rascunhos.publicado(dados.id)
+        status.innerText = window.i18n.t('complementos.produtoPublicadoComSucesso')
 
-        alert('Produto publicado! Ele já está disponível na vitrine.')
+        await MonetizaUI.aviso(window.i18n.t('complementos.produtoPublicadoEleJaEstaDisponivelNaVitrine'))
 
         window.location.href = '/produto'
     } catch (erro) {
         console.error('Erro ao publicar produto:', erro)
         status.innerText = erro.message
-        alert(erro.message)
+        await MonetizaUI.aviso(erro.message)
     } finally {
-        botaoPublicarProduto.disabled = false
+        botaoPublicarProduto.disabled =
+            Boolean(iaInterface.publicado())
         botaoPublicarProduto.textContent = textoOriginal
     }
 }
 
-botaoEditarProduto?.addEventListener('click', abrirEditorProduto)
-botaoGerarPdf?.addEventListener('click', gerarPdfProduto)
-botaoPublicarProduto?.addEventListener('click', publicarProdutoIa)
+botaoEditarProduto?.addEventListener('click', () => {
+    if (iaInterface.publicado()) {
+        window.location.href = '/produto'
+        return
+    }
 
-formEditor.addEventListener('submit', salvarEdicaoProduto)
+    rascunhos.executar(abrirEditorProduto)
+})
+
+botaoGerarPdf?.addEventListener('click', () => {
+    if (!iaInterface.publicado()) {
+        rascunhos.executar(gerarPdfProduto)
+        return
+    }
+
+    rascunhos.executar(async () => {
+        const blob = await rascunhos.baixarPdf()
+        const url = URL.createObjectURL(blob)
+        const link = document.createElement('a')
+
+        link.href = url
+        link.download = nomeArquivoProduto(
+            produtoGerado.cadastro.titulo
+        )
+
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+
+        setTimeout(() => URL.revokeObjectURL(url), 60000)
+    }, { somenteLeitura: true })
+})
+
+botaoPublicarProduto?.addEventListener('click', () => {
+    rascunhos.executar(publicarProdutoIa)
+})
+
+formEditor.addEventListener('submit', evento => { evento.preventDefault(); rascunhos.executar(() => salvarEdicaoProduto(evento)) })
 
 campo('cancelar-editor').addEventListener('click', () => {
+    camposEditorSalvos = null
     editor.close()
+    rascunhos.agendar()
 })
 
 // botão envar
@@ -1849,7 +1861,7 @@ botao.addEventListener(
     'click',
     function (evento) {
         evento.preventDefault()
-        enviarMensagem()
+        rascunhos.executar(enviarMensagem)
     }
 )
 
@@ -1861,11 +1873,77 @@ prompt.addEventListener(
             evento.key === 'Enter'
         ) {
             evento.preventDefault()
-            enviarMensagem()
+            rascunhos.executar(enviarMensagem)
         }
     }
 )
 
+const IDS_EDITOR = ['ia-titulo','ia-descricao-curta','ia-descricao-completa','ia-categoria','ia-preco','ia-comissao','ia-capa']
+function estadoVazioRascunho() {
+    return { schema:1, etapaAtual:'consultor', ideiaEscolhida:'', promptGerado:'',
+        produtoGerado:null, pdfPublicado:null, capitulosPdfProntos:[], textoPrompt:'',
+        historicos:{consultor:[],promptBuilder:[],produto:[]}, camposEditorSalvos:null }
+}
+function capturarRascunho() {
+    return {schema:1,etapaAtual,ideiaEscolhida,promptGerado,produtoGerado,pdfPublicado,
+        capitulosPdfProntos,textoPrompt:prompt.value,camposEditorSalvos,
+        historicos:Object.fromEntries(Object.entries(historicos).map(([k,v])=>[k,v.slice(-20)]))}
+}
+function restaurarRascunho(estado) {
+    etapaAtual=estado.etapaAtual;ideiaEscolhida=estado.ideiaEscolhida;promptGerado=estado.promptGerado
+    produtoGerado=estado.produtoGerado;pdfPublicado=estado.pdfPublicado
+    capitulosPdfProntos=estado.capitulosPdfProntos;arquivoPdfPronto=null
+    camposEditorSalvos=estado.camposEditorSalvos || null;prompt.value=estado.textoPrompt
+    for (const etapa of Object.keys(historicos)) historicos[etapa]=estado.historicos[etapa] || []
+    chatConteudo.replaceChildren();produtoPreview.classList.add('oculto')
+    atualizarVisualEtapa()
+    // Histórico já vem validado do servidor; a renderização continua sanitizada.
+    for (const mensagem of historicos[etapaAtual]) {
+        if (mensagem.role==='user') adicionarMensagemUsuario(mensagem.content)
+        else if (etapaAtual!=='produto') adicionarMensagemIA(mensagem.content)
+    }
+    if (produtoGerado) mostrarProdutoPreview(produtoGerado)
+    status.innerText=produtoGerado ? window.i18n.t('complementos.quantidadeCapituloSRecuperadoS', { quantidade: capitulosPdfProntos.filter(Boolean).length }) : window.i18n.t('complementos.continueDeOndeParou')
+}
+rascunhos = window.criarGerenciadorRascunhos({token,capturar:capturarRascunho,restaurar:restaurarRascunho,vazio:estadoVazioRascunho,
+    aoPublicar: id => {
+        iaInterface.publicacao(id)
+    }})
+prompt.addEventListener('input',()=>rascunhos.agendar())
+formEditor.addEventListener('input',()=>{
+    camposEditorSalvos=Object.fromEntries(IDS_EDITOR.map(id=>[id,campo(id).value]))
+    rascunhos.agendar()
+})
 // inicialização
+iaInterface.iniciar()
 atualizarVisualEtapa()
 carregarModelos()
+Promise.resolve(rascunhos.iniciar())
+    .then(() => {
+        const etapaSolicitada = new URLSearchParams(
+            window.location.search
+        ).get('etapa')
+
+        const destinos = {
+            consultor: 'menu-consultor',
+            estrutura: 'menu-prompt-builder',
+            produto: 'menu-produto'
+        }
+
+        if (!Object.prototype.hasOwnProperty.call(
+            destinos,
+            etapaSolicitada
+        )) return
+
+        const botao = document.getElementById(
+            destinos[etapaSolicitada]
+        )
+
+        if (!botao) return
+
+        botao.click()
+        botao.focus({ preventScroll: true })
+    })
+    .catch(erro => {
+        console.error('Erro ao iniciar a navegação da IA:', erro)
+    })

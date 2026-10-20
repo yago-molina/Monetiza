@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <script src="/js/i18n.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="dashboard.tituloDocumento">Dashboard - Monetiza</title>
@@ -15,8 +16,8 @@
     <div class="container">
         <aside class="sidebar">
             <div class="logo-area">
-                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar">
-                <span class="brand-name">Monetiza</span>
+                <img src="image/icon_monetiza.png" alt="Logo" class="logo-sidebar" data-i18n-alt="complementos.logo">
+                <span class="brand-name" data-i18n="inicio.tituloDocumento">Monetiza</span>
             </div>
 
             <nav class="menu-nav">
@@ -85,7 +86,7 @@
                 </div>
 
                 <div class="user-info">
-                    <span id="nome-usuario" class="user-name">Username</span>
+                    <span id="nome-usuario" class="user-name" data-i18n="complementos.username">Username</span>
                     <span id="email-usuario" class="user-email">email@gmail.com</span>
                 </div>
             </div>
@@ -130,7 +131,7 @@
                 <div class="welcome-section">
                     <h2>
                         <span data-i18n="dashboard.bemVindo.ola">Olá,</span>
-                        <span id="ola-usuario">Usuário</span>
+                        <span id="ola-usuario" data-i18n="mensagens.js.usuario">Usuário</span>
                     </h2>
 
                     <p data-i18n="dashboard.bemVindo.subtitulo">
@@ -150,7 +151,7 @@
                             </div>
                         </div>
 
-                        <span id="vendas-totais" class="metric-value">R$ 0,00</span>
+                        <span id="vendas-totais" class="metric-value" data-i18n="complementos.r000">R$ 0,00</span>
                         <div class="metric-change positive"></div>
                     </div>
 
@@ -165,7 +166,7 @@
                             </div>
                         </div>
 
-                        <span id="comissoes" class="metric-value">R$ 0,00</span>
+                        <span id="comissoes" class="metric-value" data-i18n="complementos.r000">R$ 0,00</span>
                         <div class="metric-change positive"></div>
                     </div>
 
@@ -219,21 +220,21 @@
                                 </span>
                             </div>
 
-                            <span id="saldo-disponivel" class="balance-value">R$ 0,00</span>
+                            <span id="saldo-disponivel" class="balance-value" data-i18n="complementos.r000">R$ 0,00</span>
 
                             <div class="balance-details">
                                 <div class="detail green">
                                     <i class="fa-solid fa-arrow-down"></i>
                                     <span data-i18n="dashboard.saldo.entradas">Entradas</span>
                                     <br>
-                                    <span id="total-entradas">R$ 0,00</span>
+                                    <span id="total-entradas" data-i18n="complementos.r000">R$ 0,00</span>
                                 </div>
 
                                 <div class="detail red">
                                     <i class="fa-solid fa-arrow-up"></i>
                                     <span data-i18n="dashboard.saldo.saidas">Saídas</span>
                                     <br>
-                                    <span id="total-saidas">R$ 0,00</span>
+                                    <span id="total-saidas" data-i18n="complementos.r000">R$ 0,00</span>
                                 </div>
                             </div>
                         </div>
@@ -308,7 +309,7 @@
     <script src="js/feedback.js"></script>
     <script src="js/ia-btn.js"></script>
     <script src="js/perfil-global.js"></script>
-    <script src="js/i18n.js"></script>
+
     <script src="js/dashboard.js"></script>
     <script src="js/notificacoes.js"></script>
 </body>

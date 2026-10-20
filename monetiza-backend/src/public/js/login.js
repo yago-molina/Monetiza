@@ -51,7 +51,7 @@ function destinoAposLogin() {
         sessionStorage.removeItem('retornoCompra')
     }
 
-    return '/dashboard'
+    return '/landing'
 }
 
 async function fazerLogin(evento) {
@@ -92,7 +92,7 @@ async function fazerLogin(evento) {
         }
 
         if (typeof dados.token !== 'string' || !dados.token.trim()) {
-            throw new Error('O servidor não retornou o token de login.')
+            throw new Error(window.i18n.t('complementos.oServidorNaoRetornouOTokenDeLogin'))
         }
 
         localStorage.setItem('token', dados.token)

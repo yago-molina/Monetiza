@@ -1,4 +1,5 @@
 const db = require('../config/db')
+const operacoes = require('../services/operacaoService')
 
 const statusPermitidos = ['Rascunho', 'Ativo', 'Inativo']
 
@@ -61,14 +62,14 @@ const criar = async (req, res) => {
     const comissaoNumero = Number(comissao || 0)
     const statusProduto = status_produto || 'Rascunho'
 
-    if (Number.isNaN(precoNumero) || precoNumero <= 0) {
+    if (!Number.isFinite(precoNumero) || precoNumero <= 0) {
         return res.status(400).json({
             erro: 'Informe um preço válido'
         })
     }
 
     if (
-        Number.isNaN(comissaoNumero) ||
+        !Number.isFinite(comissaoNumero) ||
         comissaoNumero < 0 ||
         comissaoNumero > 100
     ) {
@@ -83,8 +84,41 @@ const criar = async (req, res) => {
         })
     }
 
+    let conexao
     try {
-        const [resultado] = await db.query(
+        conexao = await db.getConnection()
+        await conexao.beginTransaction()
+        const reserva = await operacoes.iniciar(conexao, req, 'criar-produto')
+        if (reserva.repeticao) {
+            await conexao.commit()
+            return res.status(reserva.repeticao.status).json(reserva.repeticao.corpo)
+        }
+        const rascunhoId = req.body.rascunho_id
+        if (rascunhoId !== undefined) {
+            const { UUID } = require('../services/rascunhos/rascunhoService')
+            if (!UUID.test(rascunhoId) || !Number.isSafeInteger(req.body.rascunho_versao)) {
+                await conexao.rollback()
+                return res.status(400).json({ erro: 'Rascunho inválido.' })
+            }
+            const [[rascunho]] = await conexao.query(
+                'SELECT * FROM ia_rascunhos WHERE id = ? AND usuario_id = ? FOR UPDATE',
+                [rascunhoId, usuario_id]
+            )
+            if (!rascunho) {
+                await conexao.rollback()
+                return res.status(404).json({ erro: 'Rascunho não encontrado.' })
+            }
+            if (rascunho.produto_publicado_id) {
+                const corpo = { mensagem: 'Este rascunho já foi publicado.', id: rascunho.produto_publicado_id }
+                await operacoes.concluir(conexao, reserva, 200, corpo)
+                return res.json(corpo)
+            }
+            if (rascunho.versao !== req.body.rascunho_versao) {
+                await conexao.rollback()
+                return res.status(409).json({ erro: 'O rascunho mudou. Reabra a versão salva antes de publicar.' })
+            }
+        }
+        const [resultado] = await conexao.query(
             `INSERT INTO produtos (
                 titulo,
                 descricao_curta,
@@ -111,16 +145,23 @@ const criar = async (req, res) => {
             ]
         )
 
-        return res.status(201).json({
-            mensagem: 'Produto cadastrado com sucesso!',
-            id: resultado.insertId
-        })
+        if (req.body.rascunho_id !== undefined) {
+            await conexao.query(`UPDATE ia_rascunhos SET produto_publicado_id = ?, versao = versao + 1
+                WHERE id = ? AND usuario_id = ?`, [resultado.insertId, req.body.rascunho_id, usuario_id])
+        }
+        const corpo = { mensagem: 'Produto cadastrado com sucesso!', id: resultado.insertId }
+        await operacoes.concluir(conexao, reserva, 201, corpo)
+        return res.status(201).json(corpo)
     } catch (erro) {
+        if (conexao) await conexao.rollback().catch(() => {})
+        if (erro instanceof operacoes.ErroOperacao) return res.status(erro.status).json({ erro: erro.message })
         console.error('Erro ao cadastrar produto:', erro)
 
         return res.status(500).json({
             erro: 'Erro interno ao cadastrar produto'
         })
+    } finally {
+        conexao?.release()
     }
 }
 
@@ -257,14 +298,14 @@ const atualizar = async (req, res) => {
     const comissaoNumero = Number(comissao || 0)
     const statusProduto = status_produto || 'Rascunho'
 
-    if (Number.isNaN(precoNumero) || precoNumero <= 0) {
+    if (!Number.isFinite(precoNumero) || precoNumero <= 0) {
         return res.status(400).json({
             erro: 'Informe um preço válido'
         })
     }
 
     if (
-        Number.isNaN(comissaoNumero) ||
+        !Number.isFinite(comissaoNumero) ||
         comissaoNumero < 0 ||
         comissaoNumero > 100
     ) {
