@@ -560,7 +560,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     async function executarNovaTransacao() {
-        const tipo = window.prompt(
+        const tipo = await MonetizaUI.entrada(
             t('financeiro.js.promptTipo')
         )
 
@@ -593,21 +593,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             return
         }
 
-        const descricao =
-            window.prompt(
-                t('financeiro.js.promptDescricao')
-            )
+        const descricao = await MonetizaUI.entrada(
+            t('financeiro.js.promptDescricao')
+        )
 
         if (!descricao) {
             return
         }
 
-        const valor =
-            Number(
-                window.prompt(
-                    t('financeiro.js.promptValor')
-                )
-            )
+        const valorInformado = await MonetizaUI.entrada(
+            t('financeiro.js.promptValor')
+        )
+
+        if (valorInformado === null) return
+
+        const valor = Number(valorInformado)
 
         if (
             !Number.isFinite(valor) ||
