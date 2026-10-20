@@ -760,8 +760,8 @@ async function chamarGroq(
             body: JSON.stringify({
                 etapa,
                 mensagem,
-                historico:
-                    historico.slice(-10)
+                idioma: window.i18n?.obterIdiomaAtual?.() || 'pt-BR',
+                historico: historico.slice(-10)
             })
         }
     )
@@ -1163,9 +1163,9 @@ async function desenvolverCapitulo(numero) {
                 produto: produtoGerado.produto,
                 criativos: produtoGerado.criativos
             },
-
             numero_capitulo: numero,
-            progresso: true
+            progresso: true,
+            idioma: window.i18n?.obterIdiomaAtual?.() || 'pt-BR'
         })
     })
 

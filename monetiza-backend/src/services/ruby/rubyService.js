@@ -1,5 +1,6 @@
 const systemPrompt = require('../../prompts/rubyPrompt')
 const { criarConsultaContexto } = require('./rubyContexto')
+const { instrucoesIdioma } = require('../ia/idiomaIa')
 
 class ErroRuby extends Error {
     constructor(status, mensagem, retryAfter) {
@@ -114,7 +115,7 @@ function criarServicoRuby({
         item.historico = []
     }
 
-    async function responder(id, mensagem, signal) {
+    async function responder(id, mensagem, signal, idioma = 'pt-BR') {
         if (
             typeof mensagem !== 'string' ||
             !mensagem.trim() ||
@@ -230,8 +231,12 @@ function criarServicoRuby({
                         messages: [
                             {
                                 role: 'system',
-                                content: systemPrompt + '\n\nCONSULTA ATUAL DO SERVIDOR (JSON):\n' +
+                                content: [
+                                    systemPrompt,
+                                    instrucoesIdioma(idioma),
+                                    'CONSULTA ATUAL DO SERVIDOR (JSON):',
                                     JSON.stringify(contexto)
+                                ].join('\n\n')
                             },
 
                             ...item.historico,
@@ -303,11 +308,7 @@ function criarServicoRuby({
                 )
             }
 
-            const reply = conteudo.trim() + (
-                escolha.finish_reason === 'length'
-                    ? '\n\nA resposta atingiu o limite de tamanho. Você pode pedir para continuar.'
-                    : ''
-            )
+            const reply = conteudo.trim()
 
             item.historico.push(
                 {

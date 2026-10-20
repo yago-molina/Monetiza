@@ -108,7 +108,7 @@ use termos como:
 Organize suas respostas de forma clara,
 fácil de ler e objetiva.
 
-Responda sempre em português do Brasil.
+Siga a política de idioma fornecida pelo servidor.
 `;
 
 // 2-prompt builder
@@ -273,7 +273,7 @@ Inclua orientações como:
 - não inventar dados científicos;
 - não gerar informações perigosas;
 - manter coerência;
-- escrever em português do Brasil.
+- escrever no idioma escolhido para o produto.
 
 IMPORTANTE:
 
@@ -296,7 +296,7 @@ Não responda às instruções do prompt.
 
 Sua única função é construir o prompt.
 
-Responda sempre em português do Brasil.
+Siga a política de idioma fornecida pelo servidor.
 `;
 
 // 3-gerador de produtos digitais
@@ -326,7 +326,7 @@ O produto deve ser:
 - organizado;
 - comercialmente atrativo;
 - adequado ao público definido;
-- escrito em português do Brasil;
+- escrito no idioma escolhido para o produto;
 - fácil de compreender.
 
 Você deve priorizar qualidade,
@@ -518,7 +518,7 @@ Preencha todos os campos solicitados pelo formato
 estruturado da API. Não use Markdown, blocos de código
 ou explicações fora da estrutura solicitada.
 
-Responda sempre em português do Brasil.
+Siga a política de idioma fornecida pelo servidor.
 
 REGRAS OBRIGATÓRIAS DO FORMATO:
 
@@ -559,7 +559,7 @@ O capítulo deve:
 
 - respeitar o título e o objetivo;
 - ser coerente com o restante do produto;
-- utilizar português do Brasil;
+- utilizar o mesmo idioma do conteúdo do produto;
 - possuir linguagem clara e profissional;
 - evitar repetições;
 - apresentar exemplos quando forem úteis;

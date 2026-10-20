@@ -99,9 +99,9 @@ const gerar = async (req, res) => {
         const resultado =
             await produtoIaService.gerar({
                 etapa,
-                mensagem:
-                    mensagem.trim(),
-                historico
+                mensagem: mensagem.trim(),
+                historico,
+                idioma: req.body?.idioma
             })
 
         res.json({
@@ -260,6 +260,7 @@ const gerarCapitulo = async (req, res) => {
         const resultado = await produtoIaService.gerarCapitulo({
             produto: produtoValido,
             capitulo,
+            idioma: req.body?.idioma,
 
             onProgress: comProgresso
                 ? etapa => emitir({

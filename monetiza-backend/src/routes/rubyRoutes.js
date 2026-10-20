@@ -88,7 +88,8 @@ function criarRotasRuby(
             const dados = await servico.responder(
                 req.usuario.id,
                 req.body?.message,
-                abort.signal
+                abort.signal,
+                req.body?.idioma
             )
 
             if (!res.destroyed) {

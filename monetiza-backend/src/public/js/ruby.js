@@ -139,7 +139,8 @@
                 ...(method === 'POST'
                     ? {
                         body: JSON.stringify({
-                            message: texto
+                            message: texto,
+                            idioma: window.i18n?.obterIdiomaAtual?.() || 'pt-BR'
                         })
                     }
                     : {})

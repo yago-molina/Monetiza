@@ -1,3 +1,5 @@
+const { instrucoesIdioma } = require('./idiomaIa')
+
 const {
     PROMPT_CONSULTOR,
     PROMPT_BUILDER,
@@ -54,7 +56,8 @@ const configuracoes = {
 async function gerar({
     etapa,
     mensagem,
-    historico
+    historico,
+    idioma
 }) {
     const configuracao =
         configuracoes[etapa]
@@ -66,7 +69,10 @@ async function gerar({
     }
 
     const resultado = await gerarTexto({
-        systemPrompt: configuracao.prompt,
+        systemPrompt: [
+            configuracao.prompt,
+            instrucoesIdioma(idioma)
+        ].join('\n\n'),
         mensagem,
         historico,
         temperatura:
@@ -164,8 +170,10 @@ async function gerarCapitulo({
 
     const resultado =
         await gerarTexto({
-            systemPrompt:
+            systemPrompt: [
                 PROMPT_CAPITULO,
+                instrucoesIdioma(idioma, { capitulo: true })
+            ].join('\n\n'),
 
             onProgress,
 

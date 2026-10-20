@@ -652,7 +652,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return termos.every(termo => texto.includes(termo))
         })
 
-        buscarProdutos()
+        renderizarProdutos(produtosFiltrados)
     }
 
     listaProdutos.addEventListener('click', evento => {
