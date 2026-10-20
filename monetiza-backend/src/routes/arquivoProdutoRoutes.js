@@ -48,6 +48,9 @@ function criarRotasArquivos({
                 return res.status(404).json({ erro: 'Produto indisponível para esta conta.' })
             }
             const produto = produtos[0]
+            if (produto.produto_arquivo === `/cursos/${id}`) {
+                return res.json({ url: `/cursos/${id}` })
+            }
             const url = new URL(produto.produto_arquivo)
             if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) {
                 return res.status(400).json({ erro: 'Endereço do produto inválido.' })

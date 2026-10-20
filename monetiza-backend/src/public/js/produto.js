@@ -330,6 +330,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             return dados.capa
         }
 
+    const categoriaCadastro = document.getElementById('prod-categoria')
+    const arquivoCadastro = document.getElementById('prod-arquivo')
+    const statusCadastro = document.getElementById('prod-status')
+    function ajustarCadastroCurso() {
+        const curso = categoriaCadastro.value === 'Curso'
+        arquivoCadastro.required = !curso
+        arquivoCadastro.disabled = curso
+        arquivoCadastro.closest('.input-group').style.display = curso ? 'none' : ''
+        if (curso) statusCadastro.value = 'Rascunho'
+        statusCadastro.disabled = curso
+    }
+    categoriaCadastro.addEventListener('change', ajustarCadastroCurso)
+    formulario.addEventListener('reset', () => setTimeout(ajustarCadastroCurso, 0))
+    ajustarCadastroCurso()
+
     async function cadastrarProduto(evento) {
         evento.preventDefault()
 
@@ -388,7 +403,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             !produto.preco ||
             !produto.categoria ||
             (!produto.capa && !arquivoCapa) ||
-            !produto.produto_arquivo
+            (produto.categoria !== 'Curso' && !produto.produto_arquivo)
         ) {
             await MonetizaUI.aviso(
                 t('produto.js.camposObrigatorios')
@@ -409,7 +424,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 produto.capa = enderecoCapa
             }
 
-            const resposta = await MonetizaOperacoes.enviar('/produtos', {
+            const resposta = await MonetizaOperacoes.enviar(produto.categoria === 'Curso' ? '/api/cursos' : '/produtos', {
                 method: 'POST',
                 headers: headersAutenticados(),
                 body: JSON.stringify(produto)
@@ -427,6 +442,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     dados.erro ||
                     t('produto.js.erroCadastrarProduto')
                 )
+            }
+
+            if (produto.categoria === 'Curso') {
+                window.location.assign(`/cursos/${dados.id}`)
+                return
             }
 
             await MonetizaUI.aviso(dados.mensagem)
@@ -466,6 +486,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     produto.erro ||
                     t('produto.js.erroCarregarProduto')
                 )
+            }
+
+            if (produto.produto_arquivo === `/cursos/${produto.id}`) {
+                window.location.assign(`/cursos/${produto.id}`)
+                return
             }
 
             document.getElementById('edit-prod-id').value = produto.id

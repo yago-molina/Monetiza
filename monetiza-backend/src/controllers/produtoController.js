@@ -259,6 +259,13 @@ const buscarPorId = async (req, res) => {
 }
 
 const atualizar = async (req, res) => {
+    const [[cursoInterno]] = await db.query(
+        'SELECT produto_id FROM cursos WHERE produto_id = ?', [req.params.id]
+    )
+    if (cursoInterno) {
+        return res.status(400).json({ erro: 'Use o editor do curso para alterar este produto.' })
+    }
+
     const { id } = req.params
     const usuario_id = req.usuario.id
 

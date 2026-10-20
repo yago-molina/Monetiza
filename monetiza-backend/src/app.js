@@ -9,6 +9,11 @@ app.use('/ia/rascunhos', require('./routes/rascunhoIaRoutes'))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+app.use('/api/cursos', require('./routes/cursoRoutes'))
+app.get('/cursos/:id', (_req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'curso.html'))
+})
 app.use(
     '/ia/produtos',
     produtoIaRoutes

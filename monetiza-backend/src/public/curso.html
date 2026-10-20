@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/image/logo_monetiza.png">
+    <title>Curso — Monetiza</title>
+    <link rel="stylesheet" href="/css/curso.css">
+
+    <script src="/js/theme.js"></script>
+</head>
+<body>
+<main id="curso-app">
+    <header id="cabecalho" class="curso-cabecalho" hidden>
+        <div class="curso-identidade">
+            <img id="capa" alt="">
+            <div>
+                <span class="curso-identidade-legenda">Área do curso</span>
+                <h1 id="titulo"></h1>
+            </div>
+        </div>
+
+        <nav aria-label="Navegação da plataforma">
+            <a href="/produto">Meus produtos</a>
+            <a href="/minhasCompras">Minhas compras</a>
+        </nav>
+    </header>
+
+    <p id="aviso" role="status" aria-live="polite">Carregando curso...</p>
+
+    <div class="curso-resumo">
+        <p id="apresentacao"></p>
+        <p id="progresso"></p>
+    </div>
+    <section id="editor" hidden aria-label="Editor do curso">
+        <h2>Editar curso</h2>
+        <p>Envie vídeos MP4 (H.264/AAC), até 250 MB, e materiais PDF, até 20 MB. Limite de 2 GB por curso.</p>
+        <p>Depois dos uploads, clique em Salvar curso. As aulas só aparecem para o aluno após salvar.</p>
+        <label>Título<input id="editar-titulo" maxlength="100" required></label>
+        <label>Apresentação<textarea id="editar-apresentacao" maxlength="10000" rows="4"></textarea></label>
+        <label>Preço (R$)<input id="editar-preco" type="number" min="0.01" max="999999.99" step="0.01"></label>
+        <label>Comissão (%)<input id="editar-comissao" type="number" min="0" max="100" step="0.01"></label>
+        <label>Cor de destaque<input id="editar-cor" type="color"></label>
+        <label>Nova capa (opcional)<input id="editar-capa" type="file" accept="image/png,image/jpeg,image/webp"></label>
+        <label>Publicação<select id="editar-status">
+            <option value="Rascunho">Rascunho</option><option value="Ativo">Publicado</option><option value="Inativo">Retirado da vitrine</option>
+        </select></label>
+        <div id="modulos-editor"></div>
+        <button id="adicionar-modulo" type="button">Adicionar módulo</button>
+        <button id="salvar" type="button">Salvar curso</button>
+    </section>
+    <section id="area-aluno" hidden>
+        <aside class="curso-conteudo">
+            <div class="curso-conteudo-cabecalho">
+                <span class="curso-identidade-legenda">Seu aprendizado</span>
+                <h2>Módulos e aulas</h2>
+            </div>
+
+            <div id="aulas"></div>
+        </aside>
+
+        <div class="curso-player">
+            <span class="curso-identidade-legenda">Área de estudo</span>
+            <h2 id="aula-titulo">Selecione uma aula para começar</h2>
+
+            <video
+                id="video"
+                controls
+                playsinline
+                preload="metadata"
+                hidden
+            ></video>
+
+            <p id="video-aviso" role="status"></p>
+
+            <div class="curso-player-acoes">
+                <a id="material" hidden>↓ Baixar material PDF</a>
+
+                <label id="conclusao" hidden>
+                    <input id="concluida" type="checkbox">
+                    Marcar aula como concluída
+                </label>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="/js/curso.js"></script>
+</body>
+</html>

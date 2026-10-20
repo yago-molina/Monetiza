@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             if (resposta.headers.get('content-type')?.includes('application/json')) {
                 const dados = await resposta.json()
-                const url = new URL(dados.url)
+                const url = new URL(dados.url, window.location.origin)
                 if (!['http:', 'https:'].includes(url.protocol)) {
                     throw new Error(window.i18n.t('complementos.enderecoInvalido'))
                 }
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                     class="btn-acessar-produto"
                                 >
                                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                    ${t('minhasCompras.acessarProduto')}
+                                    ${compra.produto_arquivo === `/cursos/${compra.produto_id}` ? 'Acessar curso' : t('minhasCompras.acessarProduto')}
                                 </a>
                             `
                             : ''
