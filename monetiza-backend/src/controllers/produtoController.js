@@ -18,6 +18,16 @@ function validarUrlHttp(url) {
         return false
     }
 }
+function validarCapa(valor) {
+    if (typeof valor !== 'string') return false
+
+    const capa = valor.trim()
+
+    const capaEnviada =
+        /^\/uploads\/capas\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.webp$/i
+
+    return capaEnviada.test(capa) || validarUrlHttp(capa)
+}
 
 const criar = async (req, res) => {
     const {
@@ -52,7 +62,7 @@ const criar = async (req, res) => {
         })
     }
 
-    if (!validarUrlHttp(capa) || !validarUrlHttp(produto_arquivo)) {
+    if (!validarCapa(capa) || !validarUrlHttp(produto_arquivo)) {
         return res.status(400).json({
             erro: 'Informe links HTTP ou HTTPS válidos para a imagem e para o produto'
         })
@@ -288,7 +298,7 @@ const atualizar = async (req, res) => {
         })
     }
 
-    if (!validarUrlHttp(capa) || !validarUrlHttp(produto_arquivo)) {
+    if (!validarCapa(capa) || !validarUrlHttp(produto_arquivo)) {
         return res.status(400).json({
             erro: 'Informe links HTTP ou HTTPS válidos para a imagem e para o produto'
         })

@@ -128,7 +128,8 @@ async function gerar({
 async function gerarCapitulo({
     produto,
     capitulo,
-    onProgress
+    onProgress,
+    idioma
 }) {
     const detalhes =
         produto.produto

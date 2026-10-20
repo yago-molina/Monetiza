@@ -288,8 +288,54 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+        // Reutiliza o upload caso o cadastro falhe e seja tentado novamente.
+        const capasEnviadas = new WeakMap()
+
+        async function enviarCapa(arquivo) {
+            if (capasEnviadas.has(arquivo)) {
+                return capasEnviadas.get(arquivo)
+            }
+
+            if (arquivo.size > 5 * 1024 * 1024) {
+                throw new Error('A imagem deve ter no máximo 5 MB.')
+            }
+
+            const formularioCapa = new FormData()
+            formularioCapa.append('capa', arquivo)
+
+            const resposta = await fetch('/produtos/capa', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: formularioCapa
+            })
+
+            // Não definir Content-Type: o navegador monta o multipart.
+            if (resposta.status === 401) {
+                await encerrarSessao()
+                return null
+            }
+
+            const dados = await resposta.json().catch(() => ({}))
+
+            if (!resposta.ok || typeof dados.capa !== 'string') {
+                throw new Error(
+                    dados.erro || 'Não foi possível enviar a capa.'
+                )
+            }
+
+            capasEnviadas.set(arquivo, dados.capa)
+
+            return dados.capa
+        }
+
     async function cadastrarProduto(evento) {
         evento.preventDefault()
+
+        const arquivoCapa = document
+            .getElementById('prod-imagem-arquivo')
+            .files[0]
 
         const botaoSalvar = formulario.querySelector(
             'button[type="submit"]'
@@ -341,7 +387,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             !produto.titulo ||
             !produto.preco ||
             !produto.categoria ||
-            !produto.capa ||
+            (!produto.capa && !arquivoCapa) ||
             !produto.produto_arquivo
         ) {
             await MonetizaUI.aviso(
@@ -354,6 +400,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             botaoSalvar.disabled = true
             botaoSalvar.textContent =
                 t('produto.js.salvando')
+
+            if (arquivoCapa) {
+                const enderecoCapa = await enviarCapa(arquivoCapa)
+
+                if (!enderecoCapa) return
+
+                produto.capa = enderecoCapa
+            }
 
             const resposta = await MonetizaOperacoes.enviar('/produtos', {
                 method: 'POST',

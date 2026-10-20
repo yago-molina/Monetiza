@@ -246,3 +246,16 @@ body {
     max-width: none;
     max-height: none;
 }
+
+/* Fundo da animação conforme o tema da Monetiza */
+html[data-theme="light"],
+html[data-theme="light"] body {
+    background: #ffffff;
+    color: #0f172a;
+}
+
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+    background: #0b0d14;
+    color: #ffffff;
+}

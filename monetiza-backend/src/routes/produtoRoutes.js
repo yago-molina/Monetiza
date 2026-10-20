@@ -15,6 +15,12 @@ const autenticar = require('../middlewares/authMiddleware')
 // Todas as rotas de produtos precisam de autenticação
 router.use(autenticar)
 
+const {
+    uploadCapa
+} = require('../controllers/capaProdutoController')
+
+router.post('/capa', uploadCapa)
+
 // Criar produto
 router.post('/', criar)
 

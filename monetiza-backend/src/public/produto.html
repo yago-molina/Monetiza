@@ -408,9 +408,24 @@
                             type="url"
                             id="prod-imagem"
                             placeholder="https://exemplo.com/imagem.jpg"
-                            required
                         >
                     </div>
+
+                    <label for="prod-imagem-arquivo">
+                        Ou selecione uma imagem do computador
+                    </label>
+
+                    <input
+                        type="file"
+                        id="prod-imagem-arquivo"
+                        accept="image/png,image/jpeg,image/webp"
+                        aria-describedby="prod-imagem-ajuda"
+                    >
+
+                    <small id="prod-imagem-ajuda">
+                        PNG, JPG ou WebP, até 5 MB.
+                        Se selecionar um arquivo, ele será usado como capa.
+                    </small>
                 </div>
 
                 <div class="input-group file-group">
@@ -592,7 +607,6 @@
                         <input
                             type="url"
                             id="edit-prod-imagem"
-                            required
                         >
                     </div>
                 </div>
