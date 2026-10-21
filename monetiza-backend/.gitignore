@@ -1,0 +1,14 @@
+node_modules
+.env
+.env.*
+!.env.example
+
+Dump*.sql
+*.dump
+*.sql
+
+
+src/private/uploads/
+src/public/uploads/perfis
+
+migrations/*.sql

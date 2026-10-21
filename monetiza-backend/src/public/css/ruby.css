@@ -1,0 +1,330 @@
+/* --- CONFIGURAÇÕES GLOBAIS E VARIÁVEIS --- */
+:root {
+    --bg-main: #0b0d14;
+    --bg-chat: #151928;
+    --bg-bubble: #1a1f35;
+    --text-color: #ffffff;
+    --text-dim: #9494b8;
+    --accent-green: #22c55e;
+    --accent-green-dark: #15803d;
+    --accent-lime: #b1ff00;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-main);
+    color: var(--text-color);
+    overflow: hidden;
+}
+
+/* --- ÁREA PRINCIPAL DO CHAT --- */
+.chat-main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: radial-gradient(circle at center, #151928 0%, #0b0d14 100%);
+}
+
+/* --- CABEÇALHO VERDE DA RUBY --- */
+.chat-header {
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark));
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    z-index: 10;
+    flex-shrink: 0;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
+
+.back-btn:hover {
+    opacity: 0.8;
+}
+
+.avatar-container {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background: #ffffff !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0;
+}
+
+.avatar-container img {
+    width: 90% !important;
+    height: 90% !important;
+    object-fit: contain !important;
+    display: block;
+}
+
+.status-dot {
+    position: absolute;
+    bottom: -1px;  
+    right: -1px;   
+    width: 12px;
+    height: 12px;
+    background-color: var(--accent-lime);
+    border: 2px solid #111522; 
+    border-radius: 50%;
+}
+
+.header-info h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+.header-info span {
+    font-size: 12px;
+    color: #bbf7d0;
+}
+
+/* --- CORPO DO CHAT --- */
+.chat-body {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.chat-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-body::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.message-wrapper {
+    display: flex;
+    align-items: flex-start;
+    max-width: 85%;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message-bubble {
+    background-color: var(--bg-bubble);
+    color: var(--text-color);
+    padding: 15px 18px;
+    border-radius: 4px 18px 18px 18px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(34, 197, 94, 0.15);
+}
+
+.message-bubble p {
+    margin-bottom: 8px;
+}
+
+.message-bubble p:last-child {
+    margin-bottom: 0;
+}
+
+/* Mensagens do utilizador (Alinhadas à direita com tom verde) */
+.message-wrapper.user-message {
+    margin-left: auto;
+    justify-content: flex-end;
+}
+
+.message-wrapper.user-message .message-bubble {
+    background: linear-gradient(135deg, var(--accent-green), #15803d);
+    border-radius: 18px 4px 18px 18px;
+    border: 1px solid rgba(177, 255, 0, 0.2);
+}
+
+/* --- RODAPÉ E INPUT --- */
+.chat-footer {
+    padding: 15px 20px;
+    background-color: #111522;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.tools-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tools-btn:hover {
+    color: var(--accent-lime);
+}
+
+.input-container {
+    flex: 1;
+    background-color: var(--bg-bubble);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    padding: 6px 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-container:focus-within {
+    border-color: var(--accent-green);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
+}
+
+.input-container input {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 14.5px;
+    outline: none;
+}
+
+.input-container input::placeholder {
+    color: #7b7b9e;
+}
+
+.send-btn {
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-green-dark));
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.4);
+    flex-shrink: 0;
+}
+
+.send-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.6);
+}
+
+/* Estados funcionais da Ruby */
+.chat-body {
+    min-height: 0;
+}
+
+.message-bubble {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    min-width: 0;
+}
+
+.input-container,
+.input-container input {
+    min-width: 0;
+}
+
+#ruby-nova-conversa {
+    margin-left: auto;
+    color: white;
+    padding: 8px;
+}
+
+.ruby-feedback {
+    padding: 0 16px;
+    font-size: 12px;
+    color: #bbf7d0;
+}
+
+#ruby-aviso:not(:empty) {
+    padding: 10px 0;
+}
+
+#ruby-login {
+    color: white;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+#ruby-login[hidden] {
+    display: none;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid #b1ff00;
+    outline-offset: 3px;
+}
+
+.ruby-digitando {
+    opacity: 0.7;
+}
+
+@media (max-width: 400px) {
+    .chat-header,
+    .chat-footer {
+        padding: 12px;
+    }
+
+    .chat-body {
+        padding: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .message-wrapper {
+        animation: none;
+    }
+}
+
+.message-bubble.ruby-formatado { white-space: normal; line-height: 1.6; }
+.ruby-formatado p + p, .ruby-formatado ul, .ruby-formatado ol { margin-top: .55em; }
+.ruby-formatado ul, .ruby-formatado ol { padding-left: 1.4em; margin-bottom: .55em; }
+.ruby-formatado li + li { margin-top: .3em; }
+.ruby-formatado strong { font-weight: 600; }
+.ruby-formatado code { font-family: monospace; background: #ffffff12; border-radius: 4px; padding: 1px 4px; }

@@ -1,0 +1,260 @@
+document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('token')
+    const email = localStorage.getItem('usuarioLogado')
+    const t = chave => window.i18n?.t(chave) ?? chave
+
+    if (!token) {
+        await MonetizaUI.aviso(
+            t('dashboard.js.acessoNegado'),
+            { titulo: window.i18n.t('complementos.acessoNecessario') }
+        )
+        window.location.href = '/login'
+        return
+    }
+
+    async function encerrarSessao() {
+        localStorage.removeItem('token')
+        localStorage.removeItem('usuarioLogado')
+        await MonetizaUI.aviso(
+            t('dashboard.js.sessaoExpirada'),
+            { titulo: window.i18n.t('complementos.sessaoExpirada') }
+        )
+        window.location.href = '/login'
+    }
+
+    function formatarDinheiro(valor) {
+        return Number(valor || 0).toLocaleString(window.i18n.locale(), {
+            style: 'currency',
+            currency: 'BRL'
+        })
+    }
+
+    function formatarData(data) {
+        return new Date(data).toLocaleDateString(window.i18n.locale(), {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        })
+    }
+
+    function alterarTexto(id, texto) {
+        const elemento = document.getElementById(id)
+
+        if (elemento) {
+            elemento.textContent = texto
+        }
+    }
+
+    async function carregarUsuario() {
+        const resposta = await fetch('/usuario/perfil', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        if (resposta.status === 401) {
+            await encerrarSessao()
+            return false
+        }
+
+        const dados = await resposta.json()
+
+        if (!resposta.ok) {
+            throw new Error(
+                dados.erro || t('dashboard.js.erroCarregarUsuario')
+            )
+        }
+
+        alterarTexto('ola-usuario', dados.usuario.nome)
+        alterarTexto('nome-usuario', dados.usuario.nome)
+        alterarTexto('email-usuario', email || '')
+
+        return true
+    }
+
+    function criarVendaRecente(venda) {
+        const vendaElemento = document.createElement('div')
+        vendaElemento.className = 'venda-recente'
+
+        const informacoes = document.createElement('div')
+        informacoes.className = 'venda-recente-informacoes'
+
+        const titulo = document.createElement('strong')
+        titulo.textContent = venda.produto
+
+        const comprador = document.createElement('span')
+        comprador.textContent = `${t('dashboard.js.comprador')}: ${venda.comprador}`
+
+        const detalhes = document.createElement('span')
+
+        let textoDetalhes =
+            `${formatarData(venda.data_venda)} • ` +
+            `${venda.forma_pagamento} • ${venda.status_venda}`
+
+        if (Number(venda.comissao_afiliado || 0) > 0) {
+            textoDetalhes += ` • ${t('dashboard.js.vendaAfiliado')}`
+        }
+
+        detalhes.textContent = textoDetalhes
+
+        const valor = document.createElement('strong')
+        valor.className = 'venda-recente-valor'
+        valor.textContent = formatarDinheiro(venda.valor)
+
+        informacoes.appendChild(titulo)
+        informacoes.appendChild(comprador)
+        informacoes.appendChild(detalhes)
+
+        vendaElemento.appendChild(informacoes)
+        vendaElemento.appendChild(valor)
+
+        return vendaElemento
+    }
+
+    function renderizarVendasRecentes(vendas) {
+        const lista = document.getElementById(
+            'lista-vendas-recentes'
+        )
+
+        if (!lista) {
+            return
+        }
+
+        lista.innerHTML = ''
+
+        if (!vendas || vendas.length === 0) {
+            const mensagem = document.createElement('div')
+
+            mensagem.id = 'mensagem-sem-vendas'
+            mensagem.className = 'no-sales-message'
+
+            const texto = document.createElement('p')
+            texto.textContent = t('dashboard.js.nenhumaVenda')
+
+            mensagem.appendChild(texto)
+            lista.appendChild(mensagem)
+
+            return
+        }
+
+        vendas.forEach(venda => {
+            lista.appendChild(criarVendaRecente(venda))
+        })
+    }
+
+    async function carregarResumo() {
+        const resposta = await fetch('/dashboard/resumo', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        if (resposta.status === 401) {
+            await encerrarSessao()
+            return
+        }
+
+        const dados = await resposta.json()
+
+        if (!resposta.ok) {
+            throw new Error(
+                dados.erro || t('dashboard.js.erroCarregarDashboard')
+            )
+        }
+
+        alterarTexto(
+            'vendas-totais',
+            formatarDinheiro(dados.vendas_totais)
+        )
+
+        alterarTexto(
+            'comissoes',
+            formatarDinheiro(dados.comissoes)
+        )
+
+        alterarTexto(
+            'produtos-ativos',
+            dados.produtos_ativos
+        )
+
+        alterarTexto(
+            'total-vendas',
+            dados.total_vendas
+        )
+
+        alterarTexto(
+            'saldo-disponivel',
+            formatarDinheiro(dados.saldo_disponivel)
+        )
+
+        alterarTexto(
+            'total-entradas',
+            formatarDinheiro(dados.total_entradas)
+        )
+
+        alterarTexto(
+            'total-saidas',
+            formatarDinheiro(dados.total_saidas)
+        )
+
+        renderizarVendasRecentes(dados.vendas_recentes)
+    }
+
+    function configurarAcoesRapidas() {
+        const acaoNovoProduto = document.getElementById(
+            'acao-novo-produto'
+        )
+
+        const acaoGerarLink = document.getElementById(
+            'acao-gerar-link'
+        )
+
+        const acaoNovoContrato = document.getElementById(
+            'acao-novo-contrato'
+        )
+
+        const acaoMensagens = document.getElementById(
+            'acao-mensagens'
+        )
+
+        if (acaoNovoProduto) {
+            acaoNovoProduto.addEventListener('click', () => {
+                window.location.href = '/produto'
+            })
+        }
+
+        if (acaoGerarLink) {
+            acaoGerarLink.addEventListener('click', () => {
+                window.location.href = '/afiliados'
+            })
+        }
+
+        if (acaoNovoContrato) {
+            acaoNovoContrato.addEventListener('click', () => {
+                window.location.href = '/contratos'
+            })
+        }
+
+        if (acaoMensagens) {
+            acaoMensagens.addEventListener('click', () => {
+                window.location.href = '/mensagens'
+            })
+        }
+    }
+
+    try {
+        configurarAcoesRapidas()
+
+        const usuarioCarregado = await carregarUsuario()
+
+        if (usuarioCarregado) {
+            await carregarResumo()
+        }
+        } catch (erro) {
+        console.error('Erro ao carregar o Dashboard:', erro)
+        await MonetizaUI.aviso(
+            erro.message,
+            { titulo: window.i18n.t('complementos.naoFoiPossivelCarregarODashboard') }
+        )
+    }
+})
