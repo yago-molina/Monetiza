@@ -167,6 +167,11 @@
         document.body.appendChild(modal)
 
         const iframe = modal.querySelector('iframe')
+        function sincronizarRuby() {
+            iframe.contentWindow?.postMessage({ type: 'ruby:context' }, window.location.origin)
+        }
+        iframe.addEventListener('load', sincronizarRuby)
+        window.addEventListener('i18n:change', sincronizarRuby)
 
         function definirAberta(aberta) {
             modal.classList.toggle(

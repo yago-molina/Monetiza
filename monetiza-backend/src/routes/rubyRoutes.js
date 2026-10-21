@@ -1,4 +1,5 @@
 const express = require('express')
+const { escolherIdioma, traduzirErro } = require('../services/ruby/rubyIdiomas')
 
 const autenticar = require(
     '../middlewares/authMiddleware'
@@ -70,7 +71,7 @@ function criarRotasRuby(
     router.post('/', async (req, res, next) => {
         if (!req.is('application/json')) {
             return res.status(415).json({
-                error: 'Envie a mensagem em JSON.'
+                error: traduzirErro(415, escolherIdioma('', req.get('X-Ruby-Idioma')))
             })
         }
 
@@ -89,7 +90,8 @@ function criarRotasRuby(
                 req.usuario.id,
                 req.body?.message,
                 abort.signal,
-                req.body?.idioma
+                req.body?.idioma,
+                req.body?.pagina
             )
 
             if (!res.destroyed) {
@@ -104,7 +106,8 @@ function criarRotasRuby(
         }
     })
 
-    router.use((erro, _req, res, _next) => {
+    router.use((erro, req, res, _next) => {
+        const idioma = escolherIdioma(req.body?.message, req.body?.idioma || req.get('X-Ruby-Idioma'))
         if (erro instanceof ErroRuby) {
             if (erro.retryAfter) {
                 res.set(
@@ -114,25 +117,25 @@ function criarRotasRuby(
             }
 
             return res.status(erro.status).json({
-                error: erro.message,
+                error: traduzirErro(erro.status, idioma),
                 retryAfter: erro.retryAfter || null
             })
         }
 
         if (erro.type === 'entity.too.large') {
             return res.status(413).json({
-                error: 'A mensagem enviada é muito grande.'
+                error: traduzirErro(413, idioma)
             })
         }
 
         if (erro.type === 'entity.parse.failed') {
             return res.status(400).json({
-                error: 'JSON inválido.'
+                error: traduzirErro(400, idioma)
             })
         }
 
         res.status(500).json({
-            error: 'Não foi possível concluir a operação com a Ruby.'
+            error: traduzirErro(500, idioma)
         })
     })
 

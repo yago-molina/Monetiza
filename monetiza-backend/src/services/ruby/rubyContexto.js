@@ -4,8 +4,9 @@ function criarConsultaContexto(obterDb = () => require('../../config/db')) {
         const id = Number(usuarioId)
         if (!Number.isSafeInteger(id) || id <= 0) throw new Error('Identidade inválida')
         const db = obterDb()
-        const referencia = mensagem.match(/\b(produto|compra)\s*#?\s*(\d{1,15})\b/i)
-        const tipo = referencia?.[1].toLowerCase()
+        const referencia = mensagem.match(/\b(produto|product|producto|compra|purchase|order|pedido)\s*#?\s*(\d{1,15})\b/i)
+        const termo = referencia?.[1].toLowerCase()
+        const tipo = termo ? (['produto', 'product', 'producto'].includes(termo) ? 'produto' : 'compra') : null
         const numero = referencia ? Number(referencia[2]) : null
         const produtoId = tipo === 'produto' ? numero : null
         const compraId = tipo === 'compra' ? numero : null
