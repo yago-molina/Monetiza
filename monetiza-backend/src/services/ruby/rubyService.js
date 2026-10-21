@@ -209,9 +209,25 @@ function criarServicoRuby({
 
         try {
             if (abort.signal.aborted) throw new Error('Requisição cancelada')
-            let selecionadas = selecionarPaginas(mensagem, pagina, item.historico)
-            let conteudo = orientacaoDireta(mensagem, idiomaResposta, idiomaInterface)
-            if (conteudo) selecionadas = [paginas.find(p => p.id === 'idioma')]
+            let selecionadas = selecionarPaginas(
+                mensagem,
+                pagina,
+                item.historico
+            )
+
+            const orientacao = orientacaoDireta(
+                mensagem,
+                idiomaResposta,
+                idiomaInterface
+            )
+
+            let conteudo = orientacao?.reply || null
+
+            if (orientacao) {
+                selecionadas = paginas.filter(
+                    paginaMapa => orientacao.ids.includes(paginaMapa.id)
+                )
+            }
             if (!conteudo) {
                 let contexto
                 try {

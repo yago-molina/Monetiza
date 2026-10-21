@@ -29,21 +29,192 @@ function politicaIdioma(idioma, interfaceIdioma) {
 
 function orientacaoDireta(mensagem, idioma, interfaceIdioma) {
     const texto = normalizar(mensagem).trim()
-    // Apenas perguntas simples de navegação. Dúvidas de erro, IA/conteúdo ou múltiplas ações vão ao modelo.
-    if (texto.length > 180 || /\b(ruby|ia|ai|pdf|produto|product|producto|curso|course|erro|error|falha|nao|not|cannot|no|responde|respondendo|responder|reply|senha|password|tema|theme)\b/.test(texto)) return null
-    if (!/\b(idioma|linguagem|lingua|language|lenguaje|lengua)\b/.test(texto)) return null
-    if (!/\b(onde|como|mudar|mudo|trocar|alterar|where|how|change|switch|donde|cambiar|cambio)\b/.test(texto)) return null
-    const labels = {
-        'pt-BR': ['Configurações', 'Idioma', 'Salvar Idioma'],
-        en: ['Settings', 'Language', 'Save Language'],
-        es: ['Configuración', 'Idioma', 'Guardar Idioma']
-    }[normalizarIdioma(interfaceIdioma)]
-    const [config, aba, salvar] = labels
+
+    // Dúvidas sobre conteúdo ou erros precisam de análise.
+    if (texto.length > 350) return null
+
+    if (
+        /2fa|duas etapas|two.factor|dos pasos|reembolso|refund|saque|withdraw/
+            .test(texto)
+    ) return null
+
+    if (
+        /\b(pdf|produto|product|producto|curso|course|video|ruby|erro|error|falha|bug)\b/
+            .test(texto)
+    ) return null
+
+    if (
+        /nao funciona|nao muda|not working|no funciona|forgot|esqueci|olvide/
+            .test(texto)
+    ) return null
+
+    if (
+        !/\b(onde|como|qual|quero|preciso|mudar|mudo|trocar|alterar|abrir|acessar|where|how|change|switch|open|find|donde|cambiar|cambio|quiero)\b/
+            .test(texto)
+    ) return null
+
+    const ui = normalizarIdioma(interfaceIdioma)
+    const respostaIdioma = normalizarIdioma(idioma)
+
+    const indice = ui === 'en' ? 1 : ui === 'es' ? 2 : 0
+
+    const config = [
+        'Configurações',
+        'Settings',
+        'Configuración'
+    ][indice]
+
+    // Os nomes dos botões acompanham o idioma da interface.
+    const botoes = [
+        ['Claro', 'Light', 'Claro'],
+        ['Escuro', 'Dark', 'Oscuro'],
+        ['Salvar Idioma', 'Save Language', 'Guardar Idioma'],
+        ['Alterar Senha', 'Change Password', 'Cambiar Contraseña'],
+        ['Alterar foto', 'Change photo', 'Cambiar foto'],
+        ['Salvar Alterações', 'Save Changes', 'Guardar Cambios'],
+        ['Salvar Preferências', 'Save Preferences', 'Guardar Preferencias'],
+        ['Adicionar chave PIX', 'Add PIX key', 'Agregar clave PIX'],
+        ['Salvar', 'Save', 'Guardar']
+    ]
+
+    function ajustarRotulos(detalhe) {
+        return detalhe.replace(/\*\*([^*]+)\*\*/g, (_, nome) => {
+            const botao = botoes.find(opcoes => opcoes.includes(nome))
+
+            return `**${botao ? botao[indice] : nome}**`
+        })
+    }
+
+    const secoes = [
+        {
+            id: 'tema',
+            nomes: ['Tema', 'Theme', 'Tema'],
+            teste: /\b(tema|theme|aparencia|appearance|escuro|oscuro|dark|claro|light)\b/,
+
+            detalhe: {
+                'pt-BR':
+                    'Escolha **Claro** ou **Escuro**. A mudança é imediata; não existe botão Salvar Tema.',
+
+                en:
+                    'Choose **Light** or **Dark**. The change applies immediately; there is no Save Theme button.',
+
+                es:
+                    'Elige **Claro** u **Oscuro**. El cambio es inmediato; no hay botón Guardar Tema.'
+            }
+        },
+        {
+            id: 'idioma',
+            nomes: ['Idioma', 'Language', 'Idioma'],
+            teste: /\b(idioma|linguagem|lingua|language|lenguaje|lengua)\b/,
+
+            detalhe: {
+                'pt-BR':
+                    'Escolha Português, English ou Español e clique em **Salvar Idioma**.',
+
+                en:
+                    'Choose Português, English or Español, then click **Save Language**.',
+
+                es:
+                    'Elige Português, English o Español y pulsa **Guardar Idioma**.'
+            }
+        },
+        {
+            id: 'seguranca',
+            nomes: ['Segurança', 'Security', 'Seguridad'],
+            teste: /\b(senha|password|contrasena|seguranca|security|seguridad)\b/,
+
+            detalhe: {
+                'pt-BR':
+                    'Para trocar a senha, preencha a senha atual, a nova senha e sua confirmação; clique em **Alterar Senha**. Faça isso somente no formulário, sem enviar senhas aqui.',
+
+                en:
+                    'To change your password, enter the current password, the new password and its confirmation, then click **Change Password**. Use only the form; do not send passwords here.',
+
+                es:
+                    'Para cambiar la contraseña, introduce la actual, la nueva y su confirmación; pulsa **Cambiar Contraseña**. Usa solo el formulario; no envíes contraseñas aquí.'
+            }
+        },
+        {
+            id: 'perfil',
+            nomes: ['Meu Perfil', 'My Profile', 'Mi Perfil'],
+            teste: /\b(foto|photo|avatar|bio|telefone|phone|telefono)\b/,
+
+            detalhe: {
+                'pt-BR':
+                    'Use **Alterar foto** para escolher uma imagem. Nome, bio e telefone ficam nessa aba e usam **Salvar Alterações**. O e-mail não pode ser alterado ali.',
+
+                en:
+                    'Use **Change photo** to choose an image. Name, bio and phone are on this tab and use **Save Changes**. Email cannot be changed there.',
+
+                es:
+                    'Usa **Cambiar foto** para elegir una imagen. El nombre, la biografía y el teléfono están en esta pestaña; usa **Guardar Cambios**. El correo no puede cambiarse allí.'
+            }
+        },
+        {
+            id: 'notificacoes',
+            nomes: ['Notificações', 'Notifications', 'Notificaciones'],
+            teste: /\b(notificacoes|notificacao|notifications|notification|notificaciones|notificacion)\b/,
+
+            detalhe: {
+                'pt-BR':
+                    'Ajuste as opções e clique em **Salvar Preferências**. Para ler os avisos internos, use o sino do topo. A opção Email não confirma envio de e-mails nesta versão.',
+
+                en:
+                    'Adjust the options and click **Save Preferences**. To read in-app notifications, use the bell at the top. The Email option does not confirm email delivery in this version.',
+
+                es:
+                    'Ajusta las opciones y pulsa **Guardar Preferencias**. Para leer avisos internos, usa la campana superior. La opción Email no confirma envíos en esta versión.'
+            }
+        },
+        {
+            id: 'pagamento',
+            nomes: ['Pagamento', 'Payment', 'Pago'],
+            teste: /\b(chave|key|clave)\b.*\bpix\b|\bpix\b.*\b(chave|key|clave)\b/,
+
+            detalhe: {
+                'pt-BR':
+                    'Use **Adicionar chave PIX**, preencha os dados e clique em **Salvar**. Isso cadastra a chave; não realiza pagamentos nem saques.',
+
+                en:
+                    'Use **Add PIX key**, fill in the details and click **Save**. This registers the key; it does not make payments or withdrawals.',
+
+                es:
+                    'Usa **Agregar clave PIX**, completa los datos y pulsa **Guardar**. Esto registra la clave; no realiza pagos ni retiros.'
+            }
+        }
+    ]
+
+    const encontradas = secoes.filter(secao => secao.teste.test(texto))
+
+    if (!encontradas.length) return null
+
+    const inicio = {
+        'pt-BR':
+            `Clique diretamente em **${config}**, no menu lateral.`,
+
+        en:
+            `Click **${config}** directly in the sidebar.`,
+
+        es:
+            `Haz clic directamente en **${config}**, en el menú lateral.`
+    }[respostaIdioma]
+
+    const passos = encontradas.map(secao => {
+        const aba = secao.nomes[indice]
+
+        const abrir = {
+            'pt-BR': `Abra a aba **${aba}**.`,
+            en: `Open the **${aba}** tab.`,
+            es: `Abre la pestaña **${aba}**.`
+        }[respostaIdioma]
+
+        return `${abrir} ${ajustarRotulos(secao.detalhe[respostaIdioma])}`
+    })
+
     return {
-        'pt-BR': `Você muda em **${config} → ${aba}**. Escolha **Português**, **English** ou **Español** e clique em **${salvar}**. Essa opção fica em Configurações, não no menu do perfil.`,
-        en: `Open **${config} → ${aba}**. Choose **Português**, **English** or **Español**, then click **${salvar}**. The language option is in Settings, not in the profile menu.`,
-        es: `Abre **${config} → ${aba}**. Elige **Português**, **English** o **Español** y pulsa **${salvar}**. La opción de idioma está en Configuración, no en el menú del perfil.`
-    }[idioma]
+        ids: encontradas.map(secao => secao.id),
+        reply: [inicio, ...passos].join('\n\n')
+    }
 }
 
 // Erros operacionais também acompanham o idioma; detalhes internos não são exibidos.
