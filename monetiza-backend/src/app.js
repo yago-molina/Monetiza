@@ -115,9 +115,7 @@ app.get('/vitrine', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'vitrine.html'))
 })
 
-app.get('/vitrine/produto/:id', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'paginaDoProduto.html'))
-})
+app.use(require('./routes/produtoPaginaRoutes'))
 
 app.get('/ia-produtos', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'ia-produtos.html'))

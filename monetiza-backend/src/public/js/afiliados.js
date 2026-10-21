@@ -393,7 +393,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             return
         }
 
-        const link = `${window.location.origin}/vitrine/produto/${produtoId}?ref=${codigo}`
+        let link
+        try {
+            const resposta = await fetch(`/vitrine-api/produtos/${encodeURIComponent(produtoId)}`)
+            if (!resposta.ok) throw new Error('Produto indisponível')
+            const produto = await resposta.json()
+            const url = new URL(`/produto/${encodeURIComponent(produto.slug)}`, window.location.origin)
+            url.searchParams.set('ref', codigo)
+            link = url.href
+        } catch {
+            await MonetizaUI.aviso(t('afiliados.js.linkIndisponivel'))
+            return
+        }
 
         try {
             await navigator.clipboard.writeText(link)

@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const paramRef = codigoAfiliado ? `?ref=${encodeURIComponent(codigoAfiliado)}` : ''
 
-        const urlDetalhes = `/vitrine/produto/${produto.id}${paramRef}`
+        const urlDetalhes = `/produto/${encodeURIComponent(produto.slug || produto.id)}${paramRef}`
 
         card.innerHTML = `
 

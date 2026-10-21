@@ -52,7 +52,7 @@
                 box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6) !important;
                 z-index: 999999 !important;
                 overflow: hidden !important;
-                border: 1px solid rgba(204, 0, 0, 0.3) !important;
+                border: 1px solid rgba(21, 128, 61, 0.3) !important;
                 background: #0b0d14 !important;
                 display: flex;
                 flex-direction: column !important;

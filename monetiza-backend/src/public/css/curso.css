@@ -1,484 +1,85 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: #121214;
-  color: #f4f4f5;
-  font: 16px/1.5 system-ui, sans-serif;
-}
-
-#curso-app {
-  --destaque: #4f46e5;
-  max-width: 1200px;
-  margin: auto;
-  padding: 24px;
-}
-
-#curso-app [hidden] {
-  display: none !important;
-}
-
-#curso-app a {
-  color: inherit;
-  text-decoration: underline;
-}
-
-#curso-app nav {
-  margin-bottom: 20px;
-}
-
-#curso-app header {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  border-top: 6px solid var(--destaque);
-  padding: 24px 0;
-}
-
-#curso-app #capa {
-  width: 150px;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
-#curso-app #apresentacao {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
-#curso-app section {
-  border: 1px solid #7776;
-  border-radius: 12px;
-  padding: 24px;
-  margin-block: 20px;
-}
-
-#curso-app label {
-  display: block;
-  margin-block: 12px;
-}
-
-#curso-app input:not([type=checkbox]),
-#curso-app textarea,
-#curso-app select {
-  display: block;
-  width: 100%;
-  max-width: 650px;
-  padding: 10px;
-  background: #202024;
-  color: inherit;
-  border: 1px solid #888;
-  border-radius: 6px;
-  font: inherit;
-}
-
-#curso-app input[type=color] {
-  width: 80px;
-  height: 44px;
-  padding: 4px;
-}
-
-#curso-app button {
-  padding: 10px 16px;
-  margin: 6px 8px 6px 0;
-  border: 1px solid #888;
-  border-radius: 8px;
-  background: #27272a;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-}
-
-#curso-app button:disabled {
-  opacity: .5;
-  cursor: wait;
-}
-
-#curso-app button:focus-visible,
-#curso-app a:focus-visible {
-  outline: 3px solid #a5b4fc;
-  outline-offset: 3px;
-}
-
-#curso-app fieldset {
-  border: 1px solid #8886;
-  border-radius: 10px;
-  margin: 16px 0;
-  padding: 16px;
-  min-width: 0;
-}
-
-#curso-app #area-aluno {
-  display: grid;
-  grid-template-columns: minmax(180px, 1fr) minmax(0, 3fr);
-  gap: 24px;
-}
-
-#curso-app #aulas button {
-  display: block;
-  width: 100%;
-  text-align: left;
-}
-
-#curso-app video {
-  width: 100%;
-  max-height: 65vh;
-  background: #000;
-}
-
-#curso-app #material {
-  display: inline-block;
-  padding: 12px 0;
-}
-
-html[data-theme=light] body {
-  background: #f4f4f6;
-  color: #18181b;
-}
-
-html[data-theme=light] #curso-app input:not([type=checkbox]),
-html[data-theme=light] #curso-app textarea,
-html[data-theme=light] #curso-app select,
-html[data-theme=light] #curso-app button {
-  background: #fff;
-  color: #18181b;
-}
-
-@media(max-width: 700px) {
-  #curso-app #area-aluno {
-    grid-template-columns: 1fr;
-  }
-  
-  #curso-app header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-/* Identidade do curso e navegação por módulos */
-#curso-app {
-    --curso-painel: #1c1c20;
-    --curso-superficie: #25252b;
-    --curso-texto: #f4f4f5;
-    --curso-suave: #a8a8b5;
-    --curso-borda: #ffffff16;
-    --curso-selecao: #34344e;
-
-    max-width: 1440px;
-    padding: 24px 32px;
-    color: var(--curso-texto);
-}
-
-html[data-theme="light"] #curso-app {
-    --curso-painel: #ffffff;
-    --curso-superficie: #f4f4f8;
-    --curso-texto: #18181b;
-    --curso-suave: #626273;
-    --curso-borda: #18181b20;
-    --curso-selecao: #ededff;
-}
-
-#curso-app #cabecalho {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    padding: 20px 0 24px;
-    border-top: 0;
-    border-bottom: 1px solid var(--curso-borda);
-}
-
-#curso-app .curso-identidade {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    min-width: 0;
-}
-
-#curso-app #capa {
-    width: 64px;
-    height: 64px;
-    flex-shrink: 0;
-    object-fit: contain;
-    background: var(--curso-superficie);
-    border: 1px solid var(--curso-borda);
-    border-radius: 14px;
-}
-
-#curso-app #titulo {
-    margin: 4px 0 0;
-    font-size: clamp(20px, 3vw, 28px);
-    line-height: 1.2;
-    overflow-wrap: anywhere;
-}
-
-#curso-app .curso-identidade-legenda {
-    color: var(--curso-suave);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-}
-
-#curso-app #cabecalho nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 0;
-}
-
-#curso-app #cabecalho nav a {
-    padding: 9px 13px;
-    color: var(--curso-texto);
-    background: var(--curso-superficie);
-    border: 1px solid var(--curso-borda);
-    border-radius: 8px;
-    font-size: 13px;
-    text-decoration: none;
-}
-
-#curso-app #aviso {
-    color: var(--curso-suave);
-    font-size: 13px;
-}
-
-#curso-app .curso-resumo {
-    margin: 24px 0;
-}
-
-#curso-app #apresentacao {
-    max-width: 850px;
-    color: var(--curso-suave);
-}
-
-#curso-app #progresso {
-    font-size: 13px;
-    font-weight: 600;
-}
-
-#curso-app #area-aluno {
-    display: grid;
-    grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
-    align-items: start;
-    gap: 24px;
-    padding: 0;
-    border: 0;
-}
-
-#curso-app .curso-conteudo,
-#curso-app .curso-player {
-    min-width: 0;
-    background: var(--curso-painel);
-    border: 1px solid var(--curso-borda);
-    border-radius: 16px;
-}
-
-#curso-app .curso-conteudo {
-    padding: 20px;
-}
-
-#curso-app .curso-conteudo-cabecalho {
-    margin-bottom: 20px;
-}
-
-#curso-app .curso-conteudo-cabecalho h2 {
-    margin: 6px 0 0;
-    font-size: 20px;
-}
-
-#curso-app .curso-modulo {
-    margin-bottom: 12px;
-    overflow: hidden;
-    border: 1px solid var(--curso-borda);
-    border-radius: 12px;
-}
-
-#curso-app .curso-modulo-resumo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 16px 12px;
-    list-style: none;
-    cursor: pointer;
-    background: var(--curso-superficie);
-}
-
-#curso-app .curso-modulo-resumo::-webkit-details-marker {
-    display: none;
-}
-
-#curso-app .curso-modulo-numero {
-    display: grid;
-    place-items: center;
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    border: 1px solid var(--curso-borda);
-    border-bottom: 3px solid var(--destaque);
-    font-size: 13px;
-    font-weight: 700;
-}
-
-#curso-app .curso-modulo-informacoes {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 0;
-}
-
-#curso-app .curso-modulo-informacoes strong {
-    font-size: 14px;
-    overflow-wrap: anywhere;
-}
-
-#curso-app .curso-modulo-progresso {
-    color: var(--curso-suave);
-    font-size: 11px;
-}
-
-#curso-app .curso-modulo-seta {
-    font-size: 20px;
-    transition: transform 0.2s;
-}
-
-#curso-app .curso-modulo[open] .curso-modulo-seta {
-    transform: rotate(180deg);
-}
-
-#curso-app .curso-modulo-aulas {
-    padding: 8px;
-}
-
-#curso-app #aulas .curso-aula {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    margin: 4px 0;
-    padding: 12px;
-    text-align: left;
-    color: var(--curso-texto);
-    background: transparent;
-    border: 1px solid transparent;
-    border-radius: 9px;
-    transition: background 0.15s;
-}
-
-#curso-app #aulas .curso-aula:hover {
-    background: var(--curso-superficie);
-}
-
-#curso-app #aulas .curso-aula.selecionada {
-    background: var(--curso-selecao);
-    border-color: var(--curso-borda);
-    box-shadow: inset 3px 0 0 var(--destaque);
-}
-
-#curso-app .curso-aula-icone {
-    display: grid;
-    place-items: center;
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-    border: 1px solid var(--curso-borda);
-    border-radius: 50%;
-    font-size: 18px;
-}
-
-#curso-app .curso-aula.concluida .curso-aula-icone {
-    background: #166534;
-    color: #ffffff;
-}
-
-#curso-app .curso-aula-textos {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 0;
-}
-
-#curso-app .curso-aula-textos strong {
-    font-size: 13px;
-    overflow-wrap: anywhere;
-}
-
-#curso-app .curso-aula-status {
-    color: var(--curso-suave);
-    font-size: 11px;
-}
-
-#curso-app .curso-player {
-    padding: 24px;
-}
-
-#curso-app #aula-titulo {
-    margin: 8px 0 20px;
-    font-size: 22px;
-    overflow-wrap: anywhere;
-}
-
-#curso-app #video {
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: none;
-    object-fit: contain;
-    border-radius: 12px;
-    background: #000000;
-}
-
-#curso-app .curso-player-acoes {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 16px;
-}
-
-#curso-app #material {
-    padding: 10px 14px;
-    background: var(--curso-superficie);
-    border: 1px solid var(--curso-borda);
-    border-radius: 8px;
-    font-size: 13px;
-    text-decoration: none;
-}
-
-#curso-app #conclusao {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-}
-
-#curso-app summary:focus-visible {
-    outline: 2px solid #818cf8;
-    outline-offset: -3px;
-}
-
-@media (max-width: 900px) {
-    #curso-app #area-aluno {
-        grid-template-columns: minmax(0, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    #curso-app {
-        padding: 16px;
-    }
-
-    #curso-app #cabecalho {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    #curso-app .curso-player,
-    #curso-app .curso-conteudo {
-        padding: 16px;
-    }
-}
+html { color-scheme: dark; }
+body.pagina-curso { --fundo:#101014; --painel:#19191f; --elevado:#22222b; --texto:#f5f5fa; --suave:#a5a5b7; --borda:#ffffff18; --foco:#b9b1ff; margin:0; background:var(--fundo); background-image:none; color:var(--texto); font:15px/1.5 system-ui,sans-serif; }
+html[data-theme="light"] body.pagina-curso { --fundo:#f5f5f9; --painel:#fff; --elevado:#eeeef5; --texto:#20202c; --suave:#616173; --borda:#20202c20; --foco:#5541b0; color-scheme:light; }
+#curso-app { box-sizing:border-box; --destaque:#6d4aff; width:100%; max-width:1600px; margin:auto; padding:0 40px 56px; color:var(--texto); }
+#curso-app *, #curso-app *::before, #curso-app *::after { box-sizing:border-box; }
+#curso-app [hidden] { display:none!important; }
+#curso-app h1,#curso-app h2,#curso-app h3,#curso-app p { margin:0; color:inherit; }
+#curso-app button,#curso-app input,#curso-app textarea,#curso-app select { font:inherit; }
+#curso-app button,#curso-app a { -webkit-tap-highlight-color:transparent; }
+#curso-app button { cursor:pointer; }
+#curso-app button:disabled { cursor:wait; opacity:.55; }
+#curso-app a { color:inherit; }
+#curso-app :is(button,a,input,textarea,select,summary):focus-visible { outline:3px solid var(--foco); outline-offset:4px; }
+#curso-app .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+#curso-app .curso-topo { min-height:88px; display:flex; align-items:center; gap:32px; border-bottom:1px solid var(--borda); }
+#curso-app .curso-marca { display:flex; align-items:center; gap:10px; font-size:21px; font-weight:800; text-decoration:none; }
+#curso-app .curso-marca img { width:45px; height:45px; object-fit:contain; }
+#curso-app .curso-nav { display:flex; gap:24px; margin-left:auto; }
+#curso-app .curso-nav a { color:var(--suave); font-size:13px; text-decoration:none; padding:10px 0; border-bottom:2px solid transparent; }
+#curso-app .curso-nav a:hover { color:var(--texto); border-color:var(--foco); }
+#curso-app .curso-preferencias { display:flex; gap:5px; align-items:center; }
+#curso-app .curso-preferencias select,#curso-app .curso-preferencias button { background:var(--painel); border:1px solid var(--borda); border-radius:7px; color:var(--suave); padding:8px; font-size:12px; }
+#curso-app .curso-preferencias button.active { color:var(--texto); border-color:var(--foco); }
+#curso-app .curso-barra-produtor { display:flex; justify-content:flex-end; align-items:center; gap:12px; padding-top:16px; }
+#curso-app #estado-edicao { margin-right:auto; color:var(--suave); font-size:12px; }
+#curso-app :is(.curso-barra-produtor,#faixa-previa,#editor) button { border:1px solid var(--borda); background:var(--elevado); color:var(--texto); border-radius:8px; padding:10px 16px; }
+#curso-app #aviso { color:var(--suave); font-size:13px; margin-top:12px; }
+#curso-app #aviso:empty { display:none; }
+#curso-app #faixa-previa { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:20px; padding:14px 20px; background:var(--elevado); border:1px dashed var(--foco); border-radius:10px; }
+#curso-app .curso-hero { position:relative; display:grid; grid-template-columns:minmax(0,1fr) 220px; gap:48px; align-items:center; margin:28px 0 36px; padding:36px 40px; border:1px solid var(--borda); border-radius:18px; background:var(--painel); overflow:hidden; }
+#curso-app .curso-hero::before { content:''; position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--destaque); }
+#curso-app .sobretitulo { color:var(--suave); font-size:11px; letter-spacing:1.8px; font-weight:700; text-transform:uppercase; }
+#curso-app #titulo { margin-top:10px; font-size:clamp(28px,3.5vw,48px); line-height:1.1; overflow-wrap:anywhere; }
+#curso-app #apresentacao { margin-top:16px; max-width:760px; white-space:pre-wrap; overflow-wrap:anywhere; color:var(--suave); }
+#curso-app #progresso { margin-top:24px; font-size:12px; font-weight:600; }
+#curso-app #barra-progresso { display:block; width:min(340px,100%); height:6px; margin-top:10px; accent-color:var(--foco); }
+#curso-app #capa { width:220px; height:190px; object-fit:contain; border-radius:14px; background:var(--elevado); }
+#curso-app .curso-modulos h2 { margin-bottom:18px; font-size:22px; }
+#curso-app #cards-modulos { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; }
+#curso-app .modulo-card { padding:0; overflow:hidden; text-align:left; border-radius:14px; border:1px solid var(--borda); background:var(--painel); color:var(--texto); transition:transform .15s,border-color .15s; }
+#curso-app .modulo-card:hover { transform:translateY(-3px); border-color:var(--foco); }
+#curso-app .modulo-card[aria-pressed="true"] { border-color:var(--foco); }
+#curso-app .modulo-arte { position:relative; display:block; height:165px; background:linear-gradient(135deg,#1e1741,#36304a); overflow:hidden; }
+#curso-app .modulo-arte img { width:100%; height:100%; object-fit:cover; opacity:.45; }
+#curso-app .modulo-arte::after { content:''; position:absolute; inset:0; background:linear-gradient(transparent,#0009); }
+#curso-app .modulo-arte>span { position:absolute; z-index:1; bottom:12px; left:18px; font-size:38px; line-height:1; font-weight:800; color:white; }
+#curso-app .modulo-texto { display:flex; flex-direction:column; gap:7px; padding:18px; }
+#curso-app .modulo-texto small { font-size:11px; color:var(--suave); }
+#curso-app .modulo-texto strong { font-size:17px; overflow-wrap:anywhere; }
+#curso-app .modulo-texto>span { font-size:12px; color:var(--foco); margin-top:10px; }
+#curso-app #area-aluno { display:grid; grid-template-columns:minmax(0,1fr) 330px; gap:0; margin-top:36px; border:1px solid var(--borda); border-radius:16px; overflow:hidden; background:var(--painel); scroll-margin-top:20px; }
+#curso-app .curso-player { min-width:0; }
+#curso-app #player-vazio { aspect-ratio:16/9; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:14px; text-align:center; padding:24px; background:var(--elevado); }
+#curso-app #player-vazio>span { display:grid; place-items:center; width:70px; height:70px; border:1px solid var(--borda); border-radius:50%; font-size:38px; color:var(--foco); }
+#curso-app #player-vazio p { color:var(--suave); font-size:13px; }
+#curso-app #video { display:block; width:100%; aspect-ratio:16/9; object-fit:contain; background:#000; }
+#curso-app .player-informacoes { padding:24px; }
+#curso-app #aula-titulo { font-size:22px; margin-top:6px; overflow-wrap:anywhere; }
+#curso-app #video-aviso { color:var(--suave); font-size:13px; }
+#curso-app .player-acoes { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px; margin-top:16px; font-size:13px; }
+#curso-app #material { color:var(--foco); }
+#curso-app #conclusao { display:flex; align-items:center; gap:8px; }
+#curso-app .curso-conteudo { padding:22px 16px; border-left:1px solid var(--borda); min-width:0; }
+#curso-app .curso-conteudo>h2 { font-size:16px; margin-bottom:20px; }
+#curso-app #aulas summary { padding:12px 8px; font-size:14px; font-weight:700; cursor:pointer; overflow-wrap:anywhere; }
+#curso-app #aulas button { display:flex; align-items:center; gap:12px; width:100%; padding:14px 12px; margin-top:6px; color:var(--texto); text-align:left; background:transparent; border:1px solid transparent; border-radius:8px; }
+#curso-app #aulas button:hover { background:var(--elevado); }
+#curso-app #aulas button.selecionada { background:var(--elevado); border-color:var(--borda); box-shadow:inset 3px 0 var(--foco); }
+#curso-app #aulas .aula-icone { font-size:22px; width:26px; flex-shrink:0; color:var(--foco); }
+#curso-app #aulas strong { display:block; font-size:13px; overflow-wrap:anywhere; }
+#curso-app #aulas small { display:block; font-size:11px; color:var(--suave); margin-top:4px; }
+#curso-app #editor { margin-top:28px; background:var(--painel); padding:28px; border:1px solid var(--borda); border-radius:16px; }
+#curso-app .editor-titulo { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:20px; }
+#curso-app #editor>p { color:var(--suave); font-size:13px; }
+#curso-app .editor-campos { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:20px; }
+#curso-app #editor label { display:block; margin:12px 0; font-size:13px; }
+#curso-app #editor :is(input,textarea,select) { display:block; width:100%; padding:10px; margin-top:7px; background:var(--fundo); border:1px solid var(--borda); border-radius:8px; color:var(--texto); }
+#curso-app #editor input[type=color] { height:44px; width:90px; }
+#curso-app #editor fieldset { min-width:0; margin:20px 0; padding:18px; border:1px solid var(--borda); border-radius:12px; }
+#curso-app #editor small { color:var(--suave); }
+#curso-app #editor fieldset button { margin:8px 8px 0 0; }
+@media(max-width:1100px) { #curso-app .curso-topo { gap:18px; flex-wrap:wrap; padding:16px 0; } #curso-app #cards-modulos { grid-template-columns:repeat(3,minmax(0,1fr)); } #curso-app #area-aluno { grid-template-columns:minmax(0,1fr) 280px; } }
+@media(max-width:800px) { #curso-app { padding:0 20px 40px; } #curso-app #cards-modulos { grid-template-columns:repeat(2,minmax(0,1fr)); } #curso-app #area-aluno { grid-template-columns:1fr; } #curso-app .curso-conteudo { border-left:0; border-top:1px solid var(--borda); } #curso-app .curso-hero { grid-template-columns:minmax(0,1fr) 130px; gap:20px; padding:26px; } #curso-app #capa { width:130px; height:130px; } }
+@media(max-width:520px) { #curso-app .curso-nav { margin-left:0; gap:14px; } #curso-app .curso-preferencias { flex-wrap:wrap; } #curso-app .curso-hero { grid-template-columns:1fr; } #curso-app #capa { display:none; } #curso-app #cards-modulos { gap:10px; } #curso-app .modulo-arte { height:120px; } #curso-app .modulo-texto { padding:12px; } #curso-app .modulo-texto strong { font-size:14px; } #curso-app .editor-campos { grid-template-columns:1fr; } #curso-app .curso-barra-produtor,#curso-app #faixa-previa { flex-wrap:wrap; } }
+@media(prefers-reduced-motion:reduce) { #curso-app .modulo-card { transition:none; } }
