@@ -4,23 +4,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search);
     const codigoAfiliado = params.get('ref');
 
-    // 1. Captura flexível do ID (aceita ?id=X e /produto/X)
-    let idBruto = params.get('id');
-    if (!idBruto) {
-        const partesUrl = window.location.pathname.split('/');
-        const indiceProduto = partesUrl.indexOf('produto');
-        if (indiceProduto !== -1 && partesUrl[indiceProduto + 1]) {
-            idBruto = partesUrl[indiceProduto + 1];
-        }
-    }
+    // A URL pode conter um ID antigo ou o nome permanente do produto.
+    const partesUrl = window.location.pathname.split('/');
+    const indiceProduto = partesUrl.indexOf('produto');
 
-    const produtoId = Number(idBruto);
+    const referencia =
+        indiceProduto !== -1 && partesUrl[indiceProduto + 1]
+            ? partesUrl[indiceProduto + 1]
+            : params.get('id');
+
     let produtoAtual = null;
     let compraEmAndamento = false;
 
-    if (!produtoId || Number.isNaN(produtoId)) {
-        console.error('ID do produto não identificado na URL.');
-        await MonetizaUI.aviso(t('paginaProduto.js.produtoNaoEspecificado'));
+    if (
+        !referencia ||
+        !/^[a-z0-9-]{1,180}$/.test(referencia)
+    ) {
+        await MonetizaUI.aviso(
+            t('paginaProduto.js.produtoNaoEspecificado')
+        );
+
         window.location.href = '/vitrine';
         return;
     }
@@ -47,8 +50,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function carregarProduto() {
     try {
-        console.log(`Buscando produto ID: ${produtoId}...`);
-        const resposta = await fetch(`/vitrine-api/produtos/${produtoId}`);
+        const resposta = await fetch(
+            `/vitrine-api/produtos/${encodeURIComponent(referencia)}`
+        );
         const dados = await resposta.json();
 
         console.log('Resposta da API:', dados);

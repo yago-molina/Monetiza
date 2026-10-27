@@ -2,12 +2,18 @@ const crypto = require('crypto')
 const db = require('../config/db')
 const operacoes = require('../services/operacaoService')
 
+const {
+    garantirSlug,
+    buscarPublico
+} = require('../services/produtoSlugService')
+
 const listarProdutos = async (req, res) => {
     try {
         const [produtos] = await db.query(
             `SELECT
                 p.id,
                 p.titulo,
+                p.slug,
                 p.descricao_curta,
                 p.descricao_completa,
                 p.preco,
@@ -35,6 +41,7 @@ const listarProdutos = async (req, res) => {
             GROUP BY
                 p.id,
                 p.titulo,
+                p.slug,
                 p.descricao_curta,
                 p.descricao_completa,
                 p.preco,
@@ -46,6 +53,10 @@ const listarProdutos = async (req, res) => {
                 u.nome
             ORDER BY p.criado_em DESC`
         )
+
+        for (const produto of produtos) {
+            await garantirSlug(produto, db)
+        }
 
         const produtosFormatados = produtos.map(produto => ({
             ...produto,
@@ -68,22 +79,29 @@ const listarProdutos = async (req, res) => {
 }
 
 const buscarProdutoPorId = async (req, res) => {
-    const { id } = req.params
+    const referencia = String(req.params.id || '')
 
-    if (
-        Number.isNaN(Number(id)) ||
-        Number(id) <= 0
-    ) {
+    if (!/^[a-z0-9-]{1,180}$/.test(referencia)) {
         return res.status(400).json({
-            erro: 'ID do produto inválido'
+            erro: 'Referência do produto inválida'
         })
     }
 
     try {
+        const publico = await buscarPublico(referencia, db)
+
+        if (!publico) {
+            return res.status(404).json({
+                erro: 'Produto não encontrado ou indisponível'
+            })
+        }
+
+        const id = publico.id
         const [produtos] = await db.query(
             `SELECT
                 p.id,
                 p.titulo,
+                p.slug,
                 p.descricao_curta,
                 p.descricao_completa,
                 p.preco,
@@ -112,6 +130,7 @@ const buscarProdutoPorId = async (req, res) => {
             GROUP BY
                 p.id,
                 p.titulo,
+                p.slug,
                 p.descricao_curta,
                 p.descricao_completa,
                 p.preco,
