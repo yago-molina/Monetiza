@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                     class="btn-acessar-produto"
                                 >
                                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                                    ${compra.produto_arquivo === `/cursos/${compra.produto_id}` ? 'Acessar curso' : t('minhasCompras.acessarProduto')}
+                                    ${compra.produto_arquivo === `/cursos/${compra.produto_id}` ? t('minhasCompras.acessarCurso') : t('minhasCompras.acessarProduto')}
                                 </a>
                             `
                             : ''
@@ -270,20 +270,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 )
             }
 
-            listaCompras.innerHTML = ''
-
-            if (!dados.length) {
-                comprasVazio.classList.remove('hidden')
-                return
-            }
-
-            comprasVazio.classList.add('hidden')
-
-            dados.forEach(compra => {
-                listaCompras.appendChild(
-                    criarCard(compra)
-                )
-            })
+            comprasCarregadas = dados
+            renderizarCompras(comprasCarregadas)
         } catch (erro) {
             console.error(
                 'Erro ao carregar compras:',
@@ -293,6 +281,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             await MonetizaUI.aviso(erro.message)
         }
     }
+
+    let comprasCarregadas = []
+
+    // Os cards são gerados em JavaScript, então precisam ser recriados
+    // para refletir a mudança de idioma sem consultar novamente a API.
+    function renderizarCompras(compras) {
+        listaCompras.innerHTML = ''
+        comprasVazio.classList.toggle('hidden', compras.length > 0)
+        compras.forEach(compra => listaCompras.appendChild(criarCard(compra)))
+    }
+
+    window.addEventListener('i18n:change', () => {
+        renderizarCompras(comprasCarregadas)
+    })
 
     await carregarCompras()
 })
