@@ -18,42 +18,34 @@
 
     const token = () => localStorage.getItem('token')
 
-    function contextoTela() {
-        // O iframe lê a preferência atual, não a que existia quando foi aberto.
+        function contextoInterface() {
+        let idioma =
+            window.i18n?.obterIdiomaAtual?.() || 'pt-BR'
+
+        let pagina = window.location.pathname
+
         try {
-            const origem = window.parent !== window && window.parent.location.origin === window.location.origin
-                ? window.parent : window
-            return {
-                idioma: origem.i18n?.obterIdiomaAtual?.() || window.i18n.obterIdiomaAtual(),
-                pagina: origem.location.pathname // sem query, token ou conteúdo da página
+            if (
+                window.parent !== window &&
+                window.parent.location.origin === window.location.origin
+            ) {
+                idioma =
+                    window.parent.i18n?.obterIdiomaAtual?.() || idioma
+
+                pagina = window.parent.location.pathname
             }
         } catch {
-            return { idioma: window.i18n.obterIdiomaAtual(), pagina: '' }
+            // Um iframe externo não fornece contexto confiável.
         }
-    }
-    function sincronizarIdioma() {
-        const { idioma } = contextoTela()
-        if (idioma !== window.i18n.obterIdiomaAtual()) window.i18n.aplicarIdioma(idioma)
+
+        if (window.i18n?.obterIdiomaAtual?.() !== idioma) {
+            window.i18n?.aplicarIdioma?.(idioma)
+        }
+
+        return { idioma, pagina }
     }
 
-    function mostrarAtalhos(itens) {
-        if (!Array.isArray(itens)) return
-        const grupo = document.createElement('div')
-        grupo.className = 'ruby-atalhos'
-        for (const item of itens.slice(0, 3)) {
-            if (typeof item.url !== 'string' || typeof item.titulo !== 'string') continue
-            // Apenas destinos internos conhecidos; nunca HTML/links enviados pelo modelo.
-            if (!/^\/(?:$|login$|cadastro$|landing$|dashboard$|produto$|ia-produtos$|vitrine$|minhasCompras$|minhasVendas$|afiliados$|financeiro$|contratos$|mensagens$|ruby\.html$|configuracoes(?:\?aba=(?:perfil|notificacoes|seguranca|pagamento|tema|idioma))?$)/.test(item.url)) continue
-            const link = document.createElement('a')
-            link.href = item.url
-            link.target = '_top'
-            link.textContent = item.titulo
-            grupo.appendChild(link)
-        }
-        if (grupo.children.length) corpo.appendChild(grupo)
-        corpo.scrollTop = corpo.scrollHeight
-    }
-
+    contextoInterface()
 
     function mensagem(texto, usuario = false) {
         const linha = document.createElement('div')
@@ -149,8 +141,6 @@
     }
 
     async function requisicao(method, texto) {
-        sincronizarIdioma()
-        const contexto = contextoTela()
         controller = new AbortController()
 
         const controle = controller
@@ -167,7 +157,6 @@
 
                 headers: {
                     Authorization: `Bearer ${tokenAtual}`,
-                    'X-Ruby-Idioma': contexto.idioma,
 
                     ...(method === 'POST'
                         ? {
@@ -180,8 +169,7 @@
                     ? {
                         body: JSON.stringify({
                             message: texto,
-                            idioma: contexto.idioma,
-                            pagina: contexto.pagina
+                            ...contextoInterface()
                         })
                     }
                     : {})
@@ -383,7 +371,6 @@
             }
 
             mensagem(dados.reply)
-            mostrarAtalhos(dados.atalhos)
 
             entrada.value = ''
             estado.textContent = window.i18n.t('complementos.assistenteDaMonetiza')
@@ -488,8 +475,6 @@
             return
         }
 
-        if (['ruby:open', 'ruby:context'].includes(evento.data?.type)) sincronizarIdioma()
-
         if (evento.data?.type === 'ruby:open') {
             if (
                 tokenAtual !== token() ||
@@ -530,6 +515,5 @@
         clearInterval(intervalo)
     })
 
-    sincronizarIdioma()
     carregar()
 })()

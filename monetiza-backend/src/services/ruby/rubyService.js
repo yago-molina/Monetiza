@@ -1,8 +1,18 @@
 const systemPrompt = require('../../prompts/rubyPrompt')
 const { criarConsultaContexto } = require('./rubyContexto')
-const { normalizarIdioma } = require('../ia/idiomaIa')
-const { escolherIdioma, politicaIdioma, orientacaoDireta } = require('./rubyIdiomas')
-const { paginas, selecionarPaginas, contextoMapa, paginaAtual, atalhos } = require('./rubyMapa')
+
+const {
+    escolherIdioma,
+    politicaIdioma,
+    orientacaoDireta
+} = require('./rubyIdiomas')
+
+const {
+    paginas,
+    selecionarPaginas,
+    contextoMapa,
+    atalhos
+} = require('./rubyMapa')
 
 class ErroRuby extends Error {
     constructor(status, mensagem, retryAfter) {
@@ -117,7 +127,13 @@ function criarServicoRuby({
         item.historico = []
     }
 
-    async function responder(id, mensagem, signal, idioma = 'pt-BR', pagina = '') {
+    async function responder(
+        id,
+        mensagem,
+        signal,
+        idioma = 'pt-BR',
+        pagina = ''
+    ) {
         if (
             typeof mensagem !== 'string' ||
             !mensagem.trim() ||
@@ -129,8 +145,6 @@ function criarServicoRuby({
             )
         }
 
-        const idiomaInterface = normalizarIdioma(idioma)
-        const idiomaResposta = escolherIdioma(mensagem, idiomaInterface)
         const { apiKey, modelo } = configuracao()
 
         if (!apiKey || !modelo) {
@@ -208,122 +222,155 @@ function criarServicoRuby({
         )
 
         try {
-            if (abort.signal.aborted) throw new Error('Requisição cancelada')
-            let selecionadas = selecionarPaginas(
-                mensagem,
-                pagina,
-                item.historico
-            )
+                        const idiomaResposta = escolherIdioma(mensagem, idioma)
 
-            const orientacao = orientacaoDireta(
+            const direta = orientacaoDireta(
                 mensagem,
                 idiomaResposta,
-                idiomaInterface
+                idioma
             )
 
-            let conteudo = orientacao?.reply || null
-
-            if (orientacao) {
-                selecionadas = paginas.filter(
-                    paginaMapa => orientacao.ids.includes(paginaMapa.id)
+            const selecionadas = direta
+                ? paginas.filter(p => direta.ids.includes(p.id))
+                : selecionarPaginas(
+                    mensagem,
+                    pagina,
+                    item.historico
                 )
-            }
-            if (!conteudo) {
-                let contexto
-                try {
-                    contexto = await consultarContexto(id, mensagem)
-                } catch {
-                    contexto = { consultado: false, motivo: 'Consulta indisponível' }
-                }
-                if (abort.signal.aborted) throw new Error('Requisição cancelada')
-                const resposta = await fetchImpl(
-                    'https://api.groq.com/openai/v1/chat/completions',
+
+            const concluir = reply => {
+                item.historico.push(
                     {
-                        method: 'POST',
-
-                        signal: abort.signal,
-
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Authorization: `Bearer ${apiKey}`
-                        },
-
-                        body: JSON.stringify({
-                            model: modelo,
-                            temperature: 0.2,
-                            max_completion_tokens: 1200,
-
-                            messages: [
-                                {
-                                    role: 'system',
-                                    content: [
-                                        systemPrompt,
-                                        contextoMapa(selecionadas, idiomaInterface),
-                                        `Página atual (apenas dica de contexto): ${paginaAtual(pagina) || 'não informada'}`,
-                                        politicaIdioma(idiomaResposta, idiomaInterface),
-                                        'CONSULTA ATUAL DO SERVIDOR (JSON):',
-                                        JSON.stringify(contexto)
-                                    ].join('\n\n')
-                                },
-
-                                ...item.historico,
-
-                                {
-                                    role: 'user',
-                                    content: mensagem.trim()
-                                }
-                            ]
-                        })
+                        role: 'user',
+                        content: mensagem.trim()
+                    },
+                    {
+                        role: 'assistant',
+                        content: reply
                     }
                 )
 
-                if (!resposta.ok) {
-                    console.warn(
-                        'Ruby: provedor retornou HTTP',
-                        resposta.status
+                while (
+                    item.historico.length > 6 ||
+                    item.historico.reduce(
+                        (total, mensagem) =>
+                            total + mensagem.content.length,
+                        0
+                    ) > 10000
+                ) {
+                    item.historico.splice(0, 2)
+                }
+
+                return {
+                    reply,
+                    idioma: idiomaResposta,
+                    atalhos: atalhos(selecionadas, idioma)
+                }
+            }
+
+            if (abort.signal.aborted) {
+                throw new Error('Requisição cancelada')
+            }
+
+            if (direta) {
+                return concluir(direta.reply)
+            }
+            let contexto
+            try {
+                contexto = await consultarContexto(id, mensagem)
+            } catch {
+                contexto = { consultado: false, motivo: 'Consulta indisponível' }
+            }
+            if (abort.signal.aborted) throw new Error('Requisição cancelada')
+            const resposta = await fetchImpl(
+                'https://api.groq.com/openai/v1/chat/completions',
+                {
+                    method: 'POST',
+
+                    signal: abort.signal,
+
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${apiKey}`
+                    },
+
+                    body: JSON.stringify({
+                        model: modelo,
+                        temperature: 0.3,
+                        max_completion_tokens: 1200,
+
+                        messages: [
+                            {
+                                role: 'system',
+                                content: [
+                                    systemPrompt,
+                                    politicaIdioma(
+                                        idiomaResposta,
+                                        idioma
+                                    ),
+                                    contextoMapa(selecionadas, idioma),
+                                    'CONSULTA ATUAL DO SERVIDOR (JSON):',
+                                    JSON.stringify(contexto)
+                                ].join('\n\n')
+                            },
+
+                            ...item.historico,
+
+                            {
+                                role: 'user',
+                                content: mensagem.trim()
+                            }
+                        ]
+                    })
+                }
+            )
+
+            if (!resposta.ok) {
+                console.warn(
+                    'Ruby: provedor retornou HTTP',
+                    resposta.status
+                )
+
+                if (resposta.status === 429) {
+                    const retry = Number(
+                        resposta.headers.get('retry-after')
                     )
 
-                    if (resposta.status === 429) {
-                        const retry = Number(
-                            resposta.headers.get('retry-after')
-                        )
+                    const espera =
+                        Number.isFinite(retry) && retry > 0
+                            ? Math.min(86400, Math.ceil(retry))
+                            : 60
 
-                        const espera =
-                            Number.isFinite(retry) && retry > 0
-                                ? Math.min(86400, Math.ceil(retry))
-                                : 60
-
-                        pausaAte = agora() + espera * 1000
-
-                        throw new ErroRuby(
-                            429,
-                            'A IA atingiu um limite de uso. Aguarde antes de tentar novamente.',
-                            espera
-                        )
-                    }
-
-                    if (
-                        [400, 401, 403, 404].includes(
-                            resposta.status
-                        )
-                    ) {
-                        throw new ErroRuby(
-                            503,
-                            'A configuração da Ruby precisa ser revisada no servidor.'
-                        )
-                    }
+                    pausaAte = agora() + espera * 1000
 
                     throw new ErroRuby(
-                        502,
-                        'A IA está indisponível agora. Tente novamente mais tarde.'
+                        429,
+                        'A IA atingiu um limite de uso. Aguarde antes de tentar novamente.',
+                        espera
                     )
                 }
 
-                const dados = await resposta.json()
+                if (
+                    [400, 401, 403, 404].includes(
+                        resposta.status
+                    )
+                ) {
+                    throw new ErroRuby(
+                        503,
+                        'A configuração da Ruby precisa ser revisada no servidor.'
+                    )
+                }
 
-                const escolha = dados.choices?.[0]
-                conteudo = escolha?.message?.content
+                throw new ErroRuby(
+                    502,
+                    'A IA está indisponível agora. Tente novamente mais tarde.'
+                )
             }
+
+            const dados = await resposta.json()
+
+            const escolha = dados.choices?.[0]
+            const conteudo = escolha?.message?.content
 
             if (
                 typeof conteudo !== 'string' ||
@@ -338,30 +385,8 @@ function criarServicoRuby({
 
             const reply = conteudo.trim()
 
-            item.historico.push(
-                {
-                    role: 'user',
-                    content: mensagem.trim()
-                },
-                {
-                    role: 'assistant',
-                    content: reply
-                }
-            )
-
-            // Mantém pares completos de pergunta e resposta.
-            while (
-                item.historico.length > 6 ||
-                item.historico.reduce(
-                    (total, mensagem) =>
-                        total + mensagem.content.length,
-                    0
-                ) > 10000
-            ) {
-                item.historico.splice(0, 2)
-            }
-
-            return { reply, idioma: idiomaResposta, atalhos: atalhos(selecionadas, idiomaResposta) }
+            return concluir(reply)
+            
         } catch (erro) {
             if (erro instanceof ErroRuby) {
                 throw erro

@@ -14,10 +14,7 @@ app.use('/api/cursos', require('./routes/cursoRoutes'))
 app.get('/cursos/:id', (_req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'curso.html'))
 })
-app.use(
-    '/ia/produtos',
-    produtoIaRoutes
-)
+app.use('/ia/produtos',produtoIaRoutes)
 
 require('./config/db')
 
@@ -115,7 +112,9 @@ app.get('/vitrine', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'vitrine.html'))
 })
 
-app.use(require('./routes/produtoPaginaRoutes'))
+app.get('/vitrine/produto/:id', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'paginaDoProduto.html'))
+})
 
 app.get('/ia-produtos', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'ia-produtos.html'))

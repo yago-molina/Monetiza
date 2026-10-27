@@ -9,7 +9,9 @@ const { criarConsultaContexto } = require('../src/services/ruby/rubyContexto')
 const publico = path.join(__dirname, '../src/public')
 
 test('mapa cobre todos os HTML; caminhos e controles citados continuam existindo', () => {
-    const html = fs.readdirSync(publico, {recursive: true}).filter(f => f.endsWith('.html'))
+    const html = fs.readdirSync(publico, { recursive: true })
+        .filter(arquivo => arquivo.endsWith('.html'))
+        .map(arquivo => arquivo.replace(/\\/g, '/'))
     for (const arquivo of html) assert(paginas.some(p => p.arquivo === arquivo), arquivo)
     for (const p of paginas) {
         const codigo = fs.readFileSync(path.join(publico,p.arquivo),'utf8')
@@ -138,4 +140,50 @@ test('iframe envia idioma atual do pai em cada mensagem e só a página, sem que
     idiomaPai='es';nodes.get('ruby-mensagem').value='Hola'
     await nodes.get('ruby-form').listeners.submit({preventDefault(){}})
     body=JSON.parse(pedidos.at(-1).body);assert.equal(body.idioma,'es');assert.equal(idiomaFilho,'es')
+    body = JSON.parse(pedidos.at(-1).body)
+    assert.equal(body.idioma, 'es')
+    assert.equal(idiomaFilho, 'es')
+})
+
+test('orientação direta mantém cota, isolamento e cancelamento', async () => {
+    const s = servico({
+        fetchImpl: () => {
+            throw new Error('não chamar modelo')
+        }
+    })
+
+    for (let i = 0; i < 10; i++) {
+        await s.responder(
+            1,
+            'Onde mudo o idioma?',
+            undefined,
+            'pt-BR'
+        )
+    }
+
+    s.limpar(1)
+
+    await assert.rejects(
+        s.responder(1, 'Onde mudo o idioma?'),
+        erro => erro.status === 429
+    )
+
+    assert.equal(
+        (await s.responder(2, 'Onde mudo o idioma?')).idioma,
+        'pt-BR'
+    )
+
+    const abort = new AbortController()
+    abort.abort()
+
+    await assert.rejects(
+        s.responder(
+            3,
+            'Onde mudo o idioma?',
+            abort.signal
+        ),
+        erro => erro.status === 504
+    )
+
+    assert.equal(s.historico(3).history.length, 0)
 })

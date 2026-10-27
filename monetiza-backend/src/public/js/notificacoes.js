@@ -86,19 +86,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
                 <div class="notificacao-conteudo">
-                    <span class="notificacao-titulo">
-                        ${notificacao.titulo}
-                    </span>
+                    <span class="notificacao-titulo"></span>
 
-                    <span class="notificacao-mensagem">
-                        ${notificacao.mensagem}
-                    </span>
+                    <span class="notificacao-mensagem"></span>
 
                     <span class="notificacao-data">
                         ${formatarData(notificacao.criado_em)}
                     </span>
                 </div>
             `
+            item.querySelector('.notificacao-titulo').textContent =
+                notificacao.titulo || ''
+
+            item.querySelector('.notificacao-mensagem').textContent =
+                notificacao.mensagem || ''
 
             item.addEventListener('click', async () => {
                 if (!notificacao.lida) {
@@ -113,9 +114,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     )
                 }
 
-                if (notificacao.link) {
-                    window.location.href = notificacao.link
-                    return
+                if (
+                    typeof notificacao.link === 'string' &&
+                    notificacao.link.trim()
+                ) {
+                    try {
+                        const destino = new URL(
+                            notificacao.link,
+                            window.location.origin
+                        )
+
+                        if (
+                            destino.origin === window.location.origin &&
+                            ['http:', 'https:'].includes(destino.protocol) &&
+                            !destino.username &&
+                            !destino.password
+                        ) {
+                            window.location.href =
+                                destino.pathname +
+                                destino.search +
+                                destino.hash
+
+                            return
+                        }
+                    } catch {
+                    }
                 }
 
                 item.classList.remove('nao-lida')

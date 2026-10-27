@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function mostrarProduto() {
         const produto = produtos[indice]
 
-        link.href = `/produto/${encodeURIComponent(produto.slug || produto.id)}`
+        link.href = `/vitrine/produto/${encodeURIComponent(produto.id)}`
 
         elemento('ranking-nome').textContent = produto.titulo
         elemento('ranking-categoria').textContent = produto.categoria || ''

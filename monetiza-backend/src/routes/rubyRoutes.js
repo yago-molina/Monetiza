@@ -1,5 +1,9 @@
 const express = require('express')
-const { escolherIdioma, traduzirErro } = require('../services/ruby/rubyIdiomas')
+
+const {
+    escolherIdioma,
+    traduzirErro
+} = require('../services/ruby/rubyIdiomas')
 
 const autenticar = require(
     '../middlewares/authMiddleware'
@@ -71,7 +75,7 @@ function criarRotasRuby(
     router.post('/', async (req, res, next) => {
         if (!req.is('application/json')) {
             return res.status(415).json({
-                error: traduzirErro(415, escolherIdioma('', req.get('X-Ruby-Idioma')))
+                error: 'Envie a mensagem em JSON.'
             })
         }
 
@@ -107,7 +111,11 @@ function criarRotasRuby(
     })
 
     router.use((erro, req, res, _next) => {
-        const idioma = escolherIdioma(req.body?.message, req.body?.idioma || req.get('X-Ruby-Idioma'))
+        const idioma = escolherIdioma(
+            req.body?.message || '',
+            req.body?.idioma
+        )
+
         if (erro instanceof ErroRuby) {
             if (erro.retryAfter) {
                 res.set(
@@ -135,7 +143,7 @@ function criarRotasRuby(
         }
 
         res.status(500).json({
-            error: traduzirErro(500, idioma)
+            error: traduzirErro(502, idioma)
         })
     })
 
