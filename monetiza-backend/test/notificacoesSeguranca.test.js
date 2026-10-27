@@ -73,7 +73,7 @@ test(
                 }
             }
 
-            const window = {
+            const window = { addEventListener() {},
                 location: {
                     origin: 'https://monetiza.test',
                     href: ''
@@ -92,8 +92,9 @@ test(
                 'utf8'
             )
 
-            vm.runInNewContext(codigo, {
-                document,
+            vm.runInNewContext(codigo, { setInterval: () => 0, clearInterval() {},
+                setInterval: () => 0, clearInterval() {},
+            document,
                 window,
 
                 localStorage: {

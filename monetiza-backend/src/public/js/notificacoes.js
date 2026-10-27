@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             afiliacao: 'fa-handshake'
         }
 
-        return icones[tipo] || 'fa-bell'
+        return icones[String(tipo).toLowerCase()] || 'fa-bell'
     }
 
     async function carregarContador() {
@@ -173,6 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const aberto = menu.classList.toggle('aberto')
 
         if (aberto) {
+            await carregarContador()
             await carregarNotificacoes()
         }
     })
@@ -209,5 +210,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    let atualizando = false
+    async function atualizarSino() {
+        if (document.hidden || atualizando) return
+        atualizando = true
+        try { await carregarContador() } finally { atualizando = false }
+    }
+    const timer = setInterval(atualizarSino, 30000)
+    window.addEventListener('focus', atualizarSino)
+    window.addEventListener('pagehide', () => clearInterval(timer))
+    document.addEventListener('visibilitychange', atualizarSino)
     carregarContador()
 })

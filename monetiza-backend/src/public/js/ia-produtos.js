@@ -1080,7 +1080,7 @@ async function enviarCapaIa(arquivo) {
     const dados = await resposta.json().catch(() => ({}))
     respostaAutenticada(resposta, dados)
     if (typeof dados.capa !== 'string' || !dados.capa) throw new Error('Upload não retornou URL da capa.')
-    return dados.capa
+    return new URL(dados.capa, window.location.origin).href
 }
 
 
@@ -1116,7 +1116,8 @@ async function abrirEditorProduto() {
         campo('ia-categoria').value = cadastro.categoria
         campo('ia-preco').value = cadastro.preco
         campo('ia-comissao').value = cadastro.comissao
-        campo('ia-capa').value = produtoGerado.capa || ''
+        campo('ia-capa').value = produtoGerado.capa
+            ? new URL(produtoGerado.capa, window.location.origin).href : ''
         campo('ia-capa-arquivo').value = ''
         arquivoCapaIa = null
         campo('ia-capa-upload-status').textContent = ''
@@ -1786,7 +1787,11 @@ async function publicarProdutoIa() {
             let url
 
             try {
-                url = new URL(endereco)
+                url = new URL(endereco, window.location.origin)
+                if (endereco === capa && !/^https?:/i.test(endereco) &&
+                    !/^\/uploads\/capas\/[0-9a-f-]{36}\.webp$/i.test(endereco)) {
+                    throw new Error('Caminho de capa inválido')
+                }
             } catch {
                 throw new Error(window.i18n.t('complementos.aCapaOuOPdfEstaComUmEnderecoInvalido'))
             }

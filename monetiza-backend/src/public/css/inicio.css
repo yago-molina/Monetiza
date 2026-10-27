@@ -583,3 +583,5 @@ header {
         gap: 12px;
     }
 }
+/* Versão leve para demonstração: não carrega o modelo GLB de 60 MB. */
+.hero-logo-leve { width: min(75%, 360px); height: auto; object-fit: contain; margin: auto; filter: drop-shadow(0 16px 35px #854dff55); }

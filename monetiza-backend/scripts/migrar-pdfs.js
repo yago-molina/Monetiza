@@ -1,9 +1,10 @@
 const fs = require('fs/promises')
 const { constants } = require('fs')
 const path = require('path')
-async function migrar() {
-    const origem = path.join(__dirname, '../src/public/uploads/produtos')
-    const destino = path.join(__dirname, '../src/private/uploads/produtos')
+async function migrar({
+    origem = path.join(__dirname, '../src/public/uploads/produtos'),
+    destino = path.join(__dirname, '../src/private/uploads/produtos')
+} = {}) {
     await fs.mkdir(destino, { recursive: true })
     const nomes = await fs.readdir(origem).catch(erro => {
         if (erro.code === 'ENOENT') return []
@@ -29,4 +30,7 @@ async function migrar() {
     }
     console.log(`${total} PDF(s) migrado(s).`)
 }
-migrar().catch(erro => { console.error(erro.message); process.exitCode = 1 })
+module.exports = { migrar }
+if (require.main === module) {
+    migrar().catch(erro => { console.error(erro.message); process.exitCode = 1 })
+}

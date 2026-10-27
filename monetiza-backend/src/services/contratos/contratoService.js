@@ -1,3 +1,4 @@
+const { notificar } = require('../notificacaoService')
 const crypto = require('crypto')
 
 class ErroContrato extends Error {
@@ -38,6 +39,12 @@ function validarDados(dados) {
 }
 
 function criarServicoContratos(db) {
+    async function avisar(conexao, partes, usuario, titulo) {
+        const outro = Number(partes.produtor_id) === usuario
+            ? Number(partes.afiliado_id) : Number(partes.produtor_id)
+        await notificar(conexao, { usuarioId: outro, tipo: 'Contrato', titulo,
+            mensagem: 'Há uma atualização em um contrato da sua afiliação. Abra Contratos para revisar.', link: '/contratos' })
+    }
     async function transacao(executar) {
         const conexao = await db.getConnection()
         let tentouCommit = false
@@ -109,6 +116,7 @@ function criarServicoContratos(db) {
                 afiliacao, usuario, dados.titulo.trim(), arquivo,
                 dados.data_inicio, dados.data_fim, dados.observacoes?.trim() || null
             ])
+            await avisar(conexao, linhas[0], usuario, 'Novo contrato para revisão')
             return { mensagem: 'Contrato criado com sucesso!', id: resultado.insertId }
         })
     }
@@ -131,6 +139,7 @@ function criarServicoContratos(db) {
                 dados.titulo.trim(), arquivo || contrato.arquivo_pdf,
                 dados.data_inicio, dados.data_fim, dados.observacoes?.trim() || null, contrato.id
             ])
+            await avisar(conexao, contrato, usuario, 'Contrato atualizado')
             return { mensagem: 'Contrato atualizado com sucesso!' }
         })
     }
@@ -153,6 +162,7 @@ function criarServicoContratos(db) {
                 throw new ErroContrato(409, 'Somente um contrato ativo pode ser encerrado.')
             }
             await conexao.query('UPDATE contratos SET status_contrato = ? WHERE id = ?', [status, contrato.id])
+            await avisar(conexao, contrato, usuario, `Contrato ${status.toLowerCase()}`)
             return { mensagem: 'Status do contrato atualizado com sucesso!' }
         })
     }
@@ -174,6 +184,7 @@ function criarServicoContratos(db) {
             await conexao.query(`UPDATE contratos SET status_contrato = 'Ativo'
                 WHERE id = ? AND status_contrato = 'Pendente'
                 AND aceito_produtor_em IS NOT NULL AND aceito_afiliado_em IS NOT NULL`, [contrato.id])
+            if (!contrato[campo]) await avisar(conexao, contrato, usuario, 'Aceite de contrato registrado')
             return { mensagem: 'Aceite registrado com sucesso!' }
         })
     }

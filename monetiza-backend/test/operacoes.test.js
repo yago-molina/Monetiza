@@ -6,7 +6,7 @@ const express = require('express')
 const draftId = '11111111-1111-1111-1111-111111111111'
 let state, failCommit, loseCommitReply, tail = Promise.resolve()
 function reset() {
-    state = { ops: {}, products: [], sales: [], items: [], transactions: [],
+    state = { notifications: [], ops: {}, products: [], sales: [], items: [], transactions: [],
         draft: { id: draftId, usuario_id: 1, versao: 2, produto_publicado_id: null } }
     failCommit = false; loseCommitReply = false
 }
@@ -18,6 +18,7 @@ const database = { getConnection: async () => {
             before = structuredClone(state)
         },
         async query(sql, args) {
+            if (sql.includes('INSERT INTO notificacoes')) { state.notifications.push(args); return [{ affectedRows: 1 }] }
             if (sql.includes('INSERT INTO operacoes_idempotentes')) {
                 const key = args.slice(0, 3).join(':')
                 state.ops[key] ||= { corpo_hash: args[3], resposta_status: null, resposta_json: null }
@@ -90,14 +91,17 @@ for (const [route, collection] of [['/produto', 'products'], ['/compra', 'sales'
         for (const response of responses) { assert.equal(response.status, 201); assert.deepEqual(response, responses[0]) }
         assert.equal(state[collection].length, 1)
         assert.deepEqual(await post(route, key), responses[0])
+        if (route === '/compra') assert.equal(state.notifications.length, 1)
     })
     test(route + ': rollback and lost commit reply never duplicate', async t => {
         const post = await setup(t), key = randomUUID()
         failCommit = true; assert.equal((await post(route, key)).status, 500)
         assert.equal(state[collection].length, 0); assert.equal(Object.keys(state.ops).length, 0)
+        if (route === '/compra') assert.equal(state.notifications.length, 0)
         failCommit = false; loseCommitReply = true
         assert.equal((await post(route, key)).status, 500); assert.equal(state[collection].length, 1)
         assert.equal((await post(route, key)).status, 201); assert.equal(state[collection].length, 1)
+        if (route === '/compra') assert.equal(state.notifications.length, 1)
     })
 }
 test('Missing key, changed payload, and user isolation', async t => {

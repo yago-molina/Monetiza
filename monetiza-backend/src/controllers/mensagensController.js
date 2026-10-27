@@ -1,3 +1,4 @@
+const { notificarSemBloquear } = require('../services/notificacaoService')
 const db = require('../config/db')
 
 function ordenarUsuarios(usuarioId, outroUsuarioId) {
@@ -655,7 +656,7 @@ const enviarMensagem = async (req, res) => {
 
     try {
         const [conversas] = await db.query(`
-            SELECT id
+            SELECT id, usuario_1_id, usuario_2_id
             FROM conversas
             WHERE id = ?
             AND (
@@ -711,6 +712,15 @@ const enviarMensagem = async (req, res) => {
             WHERE m.id = ?
             LIMIT 1
         `, [resultado.insertId])
+
+        const conversa = conversas[0]
+        await notificarSemBloquear(db, {
+            usuarioId: Number(conversa.usuario_1_id) === usuarioId
+                ? Number(conversa.usuario_2_id) : Number(conversa.usuario_1_id),
+            tipo: 'Mensagem', titulo: 'Nova mensagem',
+            mensagem: 'Você recebeu uma nova mensagem. Abra a conversa para ler.',
+            link: `/mensagens?conversa=${conversaId}`
+        })
 
         return res.status(201).json({
             mensagem: 'Mensagem enviada',

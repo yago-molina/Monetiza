@@ -210,7 +210,7 @@ const traducoes = {
             },
 
             saldo: {
-                titulo: 'Saldo Disponível',
+                titulo: 'Saldo Simulado',
                 entradas: 'Entradas',
                 saidas: 'Saídas'
             },
@@ -244,7 +244,7 @@ const traducoes = {
             },
 
             resumo: {
-                saldoDisponivel: 'Saldo Disponível',
+                saldoDisponivel: 'Saldo Simulado',
                 entradas: 'Entradas',
                 saidas: 'Saídas',
                 totalEntradas: 'Total de Entradas',
@@ -507,8 +507,7 @@ const traducoes = {
             },
 
             garantias: {
-                pagamentoSeguro: 'Pagamento 100% Seguro',
-                garantia: 'Garantia de 7 Dias',
+                pagamentoSeguro: 'Compra',
                 acesso: 'Acesso Imediato'
             },
 
@@ -520,7 +519,7 @@ const traducoes = {
                 emailPlaceholder: 'seu@email.com',
                 formaPagamento: 'Forma de Pagamento',
                 cartao: 'Cartão',
-                confirmarPagamento: 'Confirmar Pagamento'
+                confirmarPagamento: 'Confirmar compra'
             }
         },
 
@@ -932,7 +931,7 @@ const traducoes = {
             },
 
             saldo: {
-                titulo: 'Available Balance',
+                titulo: 'Simulated Balance',
                 entradas: 'Income',
                 saidas: 'Expenses'
             },
@@ -966,7 +965,7 @@ const traducoes = {
             },
 
             resumo: {
-                saldoDisponivel: 'Available Balance',
+                saldoDisponivel: 'Simulated Balance',
                 entradas: 'Income',
                 saidas: 'Expenses',
                 totalEntradas: 'Total Income',
@@ -1229,8 +1228,7 @@ const traducoes = {
             },
 
             garantias: {
-                pagamentoSeguro: '100% Secure Payment',
-                garantia: '7-Day Guarantee',
+                pagamentoSeguro: 'Purchase',
                 acesso: 'Immediate Access'
             },
 
@@ -1242,7 +1240,7 @@ const traducoes = {
                 emailPlaceholder: 'your@email.com',
                 formaPagamento: 'Payment Method',
                 cartao: 'Card',
-                confirmarPagamento: 'Confirm Payment'
+                confirmarPagamento: 'Confirm purchase'
             }
         },
 
@@ -1654,7 +1652,7 @@ const traducoes = {
             },
 
             saldo: {
-                titulo: 'Saldo Disponible',
+                titulo: 'Saldo',
                 entradas: 'Entradas',
                 saidas: 'Salidas'
             },
@@ -1688,7 +1686,7 @@ const traducoes = {
             },
 
             resumo: {
-                saldoDisponivel: 'Saldo Disponible',
+                saldoDisponivel: 'Saldo',
                 entradas: 'Ingresos',
                 saidas: 'Gastos',
                 totalEntradas: 'Total de Ingresos',
@@ -1951,8 +1949,7 @@ const traducoes = {
             },
 
             garantias: {
-                pagamentoSeguro: 'Pago 100% Seguro',
-                garantia: 'Garantía de 7 Días',
+                pagamentoSeguro: 'Compra',
                 acesso: 'Acceso Inmediato'
             },
 
@@ -1964,7 +1961,7 @@ const traducoes = {
                 emailPlaceholder: 'tu@email.com',
                 formaPagamento: 'Forma de Pago',
                 cartao: 'Tarjeta',
-                confirmarPagamento: 'Confirmar Pago'
+                confirmarPagamento: 'Confirmar compra'
             }
         },
 
@@ -2437,7 +2434,7 @@ traducoes['pt-BR'].paginaProduto.js = {
     falhaPagamento: 'Falha ao processar o pagamento.',
     compraDe: 'Compra de',
     compraSucesso: 'realizada com sucesso!',
-    confirmarPagamento: 'Confirmar Pagamento',
+    confirmarPagamento: 'Confirmar compra simulada',
     loginVendedor: 'Você precisa estar logado para falar com o vendedor.',
     aguardeProdutoCarregado: 'Aguarde o produto ser carregado.',
     abrindoConversa: 'Abrindo conversa...',
@@ -2768,7 +2765,7 @@ traducoes.en.paginaProduto.js = {
     falhaPagamento: 'Failed to process payment.',
     compraDe: 'Purchase of',
     compraSucesso: 'completed successfully!',
-    confirmarPagamento: 'Confirm Payment',
+    confirmarPagamento: 'Confirm simulated purchase',
     loginVendedor: 'You must be signed in to talk to the seller.',
     aguardeProdutoCarregado: 'Wait for the product to load.',
     abrindoConversa: 'Opening conversation...',
@@ -3099,7 +3096,7 @@ traducoes.es.paginaProduto.js = {
     falhaPagamento: 'Error al procesar el pago.',
     compraDe: 'Compra de',
     compraSucesso: 'realizada con éxito!',
-    confirmarPagamento: 'Confirmar Pago',
+    confirmarPagamento: 'Confirmar compra simulada',
     loginVendedor: 'Debes iniciar sesión para hablar con el vendedor.',
     aguardeProdutoCarregado: 'Espera a que se cargue el producto.',
     abrindoConversa: 'Abriendo conversación...',

@@ -1,4 +1,5 @@
 const crypto = require('crypto')
+const { notificar } = require('../services/notificacaoService')
 const db = require('../config/db')
 const operacoes = require('../services/operacaoService')
 
@@ -368,6 +369,17 @@ const comprar = async (req, res) => {
                 comissao_afiliado
             ]
         )
+
+        await notificar(conexao, {
+            usuarioId: Number(produto.usuario_id), tipo: 'Venda', titulo: 'Nova venda simulada',
+            mensagem: `Seu produto ${produto.titulo} recebeu uma compra simulada.`, link: '/minhasVendas'
+        })
+        if (afiliado_id && comissao_afiliado > 0) {
+            await notificar(conexao, {
+                usuarioId: Number(afiliado_id), tipo: 'Comissao', titulo: 'Nova comissão simulada',
+                mensagem: `Você recebeu uma comissão pela indicação de ${produto.titulo}.`, link: '/financeiro'
+            })
+        }
 
         const corpo = {
             mensagem: 'Compra simulada realizada com sucesso!',

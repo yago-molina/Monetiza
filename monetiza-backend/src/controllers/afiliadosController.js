@@ -1,5 +1,6 @@
 const db = require('../config/db')
 const crypto = require('crypto')
+const { notificarSemBloquear } = require('../services/notificacaoService')
 
 const listarDisponiveis = async (req, res) => {
   const usuario_id = req.usuario.id
@@ -130,6 +131,11 @@ const solicitar = async (req, res) => {
         ]
       )
 
+    await notificarSemBloquear(db, {
+      usuarioId: Number(produto.usuario_id), tipo: 'Afiliacao', titulo: 'Solicitação de afiliação',
+      mensagem: 'Uma pessoa solicitou afiliação a um dos seus produtos.', link: '/afiliados'
+    })
+
       return res.status(200).json({
         mensagem: 'Nova solicitação de afiliação enviada!',
         id: afiliacaoExistente.id
@@ -151,6 +157,11 @@ const solicitar = async (req, res) => {
         codigoLink
       ]
     )
+
+    await notificarSemBloquear(db, {
+      usuarioId: Number(produto.usuario_id), tipo: 'Afiliacao', titulo: 'Solicitação de afiliação',
+      mensagem: 'Uma pessoa solicitou afiliação a um dos seus produtos.', link: '/afiliados'
+    })
 
     return res.status(201).json({
       mensagem: 'Solicitação de afiliação enviada!',
@@ -391,6 +402,13 @@ const alterarStatus = async (req, res) => {
       WHERE id = ?`,
       [status, status, id]
     )
+
+    await notificarSemBloquear(db, {
+      usuarioId: Number(afiliacao.produtor_id) === Number(usuario_id)
+        ? Number(afiliacao.afiliado_id) : Number(afiliacao.produtor_id),
+      tipo: 'Afiliacao', titulo: 'Afiliação atualizada',
+      mensagem: `O status da afiliação foi alterado para ${status}.`, link: '/afiliados'
+    })
 
     return res.json({
       mensagem: `Afiliação atualizada para ${status}`
