@@ -3,24 +3,48 @@ document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token')
     if (!token) { location.assign('/login'); return }
     const el = id => document.getElementById(id)
+    const t = window.CursoI18n
     const base = `/api/cursos/${id}`
-    let curso, aulaAtual, ocupado = false, alterado = false, selecao = 0
-    const aviso = mensagem => { el('aviso').textContent = mensagem }
+    let curso, visual, rascunho, aulaAtual, ocupado = false, alterado = false, previa = false, selecao = 0
+    let moduloAtual = 0, urlCapa = null, arquivoCapa = null, mensagem = 'loading'
+    const aviso = chave => { mensagem = chave; el('aviso').textContent = t(chave) }
+    function erro(chave) { return Object.assign(new Error(chave), { chave }) }
     async function api(url, options = {}) {
         const headers = { Authorization: `Bearer ${token}`, ...options.headers }
         if (typeof options.body === 'string') headers['Content-Type'] = 'application/json'
-        const resposta = await fetch(url, { ...options, headers, cache: 'no-store' })
+        let resposta
+        try { resposta = await fetch(url, { ...options, headers, cache: 'no-store' }) } catch { throw erro('error') }
         const dados = await resposta.json().catch(() => ({}))
-        if (!resposta.ok) throw new Error(resposta.status === 401 ? 'Sessão expirada. Entre novamente.' : dados.erro || 'Não foi possível concluir a operação.')
+        if (!resposta.ok) {
+            console.error('Curso:', resposta.status, dados.erro)
+            throw erro(({ 401: 'expired', 403: 'forbidden', 404: 'forbidden', 409: 'conflict', 400: 'invalid', 413: 'tooLarge' })[resposta.status] || 'error')
+        }
         return dados
     }
+    function preferencias() {
+        document.querySelectorAll('[data-ct]').forEach(item => { item.textContent = t(item.dataset.ct) })
+        el('idioma').value = window.i18n.obterIdiomaAtual()
+        el('aviso').textContent = mensagem ? t(mensagem) : ''
+        el('estado-edicao').textContent = alterado ? t('unsaved') : ''
+    }
+    el('idioma').addEventListener('change', evento => window.i18n.aplicarIdioma(evento.target.value))
+    window.addEventListener('i18n:change', () => {
+        preferencias()
+        if (visual) desenharAluno()
+        // Não reconstrói o editor: preserva foco, textos e arquivos selecionados.
+        el('modulos-editor').querySelectorAll('[data-dinamico]').forEach(item => {
+            item.textContent = t(item.dataset.dinamico, { n: item.dataset.numero })
+        })
+    })
+    preferencias()
     async function executar(fn) {
         if (ocupado) return
         ocupado = true
-        el('editor').querySelectorAll('button, input, textarea, select').forEach(e => { e.disabled = true })
-        try { await fn() } catch (erro) { aviso(erro.message) } finally {
+        const controles = document.querySelectorAll('#editor button, #editor input, #editor textarea, #editor select, #barra-produtor button, #faixa-previa button')
+        controles.forEach(e => { e.disabled = true })
+        try { await fn() } catch (e) { aviso(e.chave || 'error') } finally {
             ocupado = false
-            el('editor').querySelectorAll('button, input, textarea, select').forEach(e => { e.disabled = false })
+            document.querySelectorAll('#editor button, #editor input, #editor textarea, #editor select, #barra-produtor button, #faixa-previa button').forEach(e => { e.disabled = false })
         }
     }
     function elemento(tag, texto) {
@@ -28,312 +52,222 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (texto) item.textContent = texto
         return item
     }
-    function botao(texto, fn) {
-        const b = elemento('button', texto)
-        b.type = 'button'
-        b.addEventListener('click', fn)
+    function traduzido(tag, chave, n) {
+        const item = elemento(tag, t(chave, { n }))
+        item.dataset.dinamico = chave
+        if (n !== undefined) item.dataset.numero = n
+        return item
+    }
+    function botao(chave, fn) {
+        const b = traduzido('button', chave)
+        b.type = 'button'; b.addEventListener('click', fn)
         return b
     }
+    function mudar() { alterado = true; el('estado-edicao').textContent = t('unsaved') }
     function campoTitulo(objeto, container) {
-        const label = elemento('label', 'Título')
+        const label = elemento('label')
         const campo = elemento('input')
-        campo.maxLength = 150
-        campo.value = objeto.titulo
-        campo.addEventListener('input', () => { objeto.titulo = campo.value; alterado = true })
-        label.append(campo)
-        container.append(label)
+        campo.maxLength = 150; campo.value = objeto.titulo
+        campo.addEventListener('input', () => { objeto.titulo = campo.value; mudar() })
+        label.append(traduzido('span', 'title'), campo); container.append(label)
     }
     function campoUpload(aula, tipo, container) {
-        const label = elemento('label', tipo === 'video' ? 'Vídeo MP4' : 'Material PDF (opcional)')
-        const input = elemento('input')
-        input.type = 'file'
-        input.accept = tipo === 'video' ? '.mp4,video/mp4' : '.pdf,application/pdf'
-        label.append(input)
-        container.append(label, elemento('small', aula[tipo] ? 'Arquivo enviado.' : 'Nenhum arquivo enviado.'))
+        const label = elemento('label'), input = elemento('input')
+        input.type = 'file'; input.accept = tipo === 'video' ? '.mp4,video/mp4' : '.pdf,application/pdf'
+        label.append(traduzido('span', tipo === 'video' ? 'video' : 'pdf'), input)
+        const estado = traduzido('small', aula[tipo] ? 'uploaded' : 'noFile')
+        container.append(label, estado)
         input.addEventListener('change', () => executar(async () => {
             const arquivo = input.files[0]
             if (!arquivo) return
-            const limite = (tipo === 'video' ? 250 : 20) * 1024 * 1024
-            if (arquivo.size > limite) throw new Error('Arquivo acima do limite informado.')
-            aviso('Enviando arquivo. Aguarde antes de sair da página...')
-            const form = new FormData()
-            form.append('arquivo', arquivo)
+            if (arquivo.size > (tipo === 'video' ? 250 : 20) * 1024 * 1024) throw erro('tooLarge')
+            aviso('sending')
+            const form = new FormData(); form.append('arquivo', arquivo)
             const dados = await api(`${base}/arquivos/${tipo}`, { method: 'POST', body: form })
-            aula[tipo] = dados.id
-            alterado = true
-            desenharEditor()
-            aviso('Arquivo enviado. Clique em Salvar curso para vincular à aula.')
+            aula[tipo] = dados.id; mudar()
+            estado.dataset.dinamico = 'uploaded'; estado.textContent = t('uploaded')
+            aviso('sent')
         }))
     }
     function desenharEditor() {
         el('modulos-editor').replaceChildren()
-        curso.estrutura.forEach((modulo, indice) => {
+        rascunho.estrutura.forEach((modulo, indice) => {
             const grupo = elemento('fieldset')
-            grupo.append(elemento('legend', `Módulo ${indice + 1}`))
-            campoTitulo(modulo, grupo)
+            grupo.append(traduzido('legend', 'module', indice + 1)); campoTitulo(modulo, grupo)
             modulo.aulas.forEach((aula, posicao) => {
                 const bloco = elemento('fieldset')
-                bloco.append(elemento('legend', `Aula ${posicao + 1}`))
-                campoTitulo(aula, bloco)
-                campoUpload(aula, 'video', bloco)
-                campoUpload(aula, 'material', bloco)
-                if (posicao > 0) bloco.append(botao('Mover aula para cima', () => {
+                bloco.append(traduzido('legend', 'lesson', posicao + 1)); campoTitulo(aula, bloco)
+                campoUpload(aula, 'video', bloco); campoUpload(aula, 'material', bloco)
+                if (posicao > 0) bloco.append(botao('up', () => {
                     [modulo.aulas[posicao - 1], modulo.aulas[posicao]] = [aula, modulo.aulas[posicao - 1]]
-                    alterado = true; desenharEditor()
+                    mudar(); desenharEditor()
                 }))
                 grupo.append(bloco)
             })
-            grupo.append(botao('Adicionar aula', () => {
-                modulo.aulas.push({ id: crypto.randomUUID(), titulo: 'Nova aula', video: null, material: null })
-                alterado = true; desenharEditor()
+            grupo.append(botao('addLesson', () => {
+                modulo.aulas.push({ id: crypto.randomUUID(), titulo: t('newLesson'), video: null, material: null })
+                mudar(); desenharEditor()
             }))
-            if (indice > 0) grupo.append(botao('Mover módulo para cima', () => {
-                [curso.estrutura[indice - 1], curso.estrutura[indice]] = [modulo, curso.estrutura[indice - 1]]
-                alterado = true; desenharEditor()
+            if (indice > 0) grupo.append(botao('up', () => {
+                [rascunho.estrutura[indice - 1], rascunho.estrutura[indice]] = [modulo, rascunho.estrutura[indice - 1]]
+                mudar(); desenharEditor()
             }))
             el('modulos-editor').append(grupo)
         })
     }
-    function atualizarProgresso() {
-        const ids = curso.estrutura.flatMap(
-            modulo => modulo.aulas.map(aula => aula.id)
-        )
-
-        const quantidade = ids.filter(
-            id => curso.concluidas.includes(id)
-        ).length
-
-        el('progresso').textContent =
-            `${quantidade} de ${ids.length} aulas concluídas`
-
-        atualizarVisualDasAulas()
+    function lerFormulario() {
+        for (const chave of ['titulo', 'apresentacao', 'preco', 'comissao', 'cor']) rascunho[chave] = el(`editar-${chave}`).value
+        rascunho.status_produto = el('editar-status').value
+    }
+    function pararVideo() {
+        selecao++; aulaAtual = null
+        el('video').pause(); el('video').removeAttribute('src'); el('video').load()
+        el('video').hidden = true; el('material').hidden = true; el('conclusao').hidden = true
+        el('player-vazio').hidden = false; el('aula-titulo').textContent = ''; el('video-aviso').textContent = ''
+    }
+    function abrirEditor() {
+        if (!curso.editor || ocupado) return
+        pararVideo(); previa = false
+        el('editor').hidden = false; el('visao-aluno').hidden = true; el('faixa-previa').hidden = true
+        el('editar-titulo').focus()
+    }
+    function verPrevia() {
+        if (!curso.editor || ocupado) return
+        lerFormulario(); pararVideo(); previa = true
+        visual = structuredClone(rascunho)
+        visual.capa = urlCapa || visual.capa
+        el('editor').hidden = true; el('visao-aluno').hidden = false; el('faixa-previa').hidden = false
+        desenharAluno(); el('voltar-editor').focus()
+    }
+    el('abrir-editor').addEventListener('click', abrirEditor)
+    el('voltar-editor').addEventListener('click', abrirEditor)
+    el('ver-previa').addEventListener('click', verPrevia)
+    el('editar-capa').addEventListener('change', () => {
+        if (urlCapa) URL.revokeObjectURL(urlCapa)
+        arquivoCapa = el('editar-capa').files[0] || null
+        urlCapa = arquivoCapa ? URL.createObjectURL(arquivoCapa) : null
+        mudar()
+    })
+    function progresso() {
+        const ids = visual.estrutura.flatMap(m => m.aulas.map(a => a.id))
+        const done = ids.filter(id => curso.concluidas.includes(id)).length
+        el('progresso').textContent = t('progress', { done, total: ids.length })
+        el('barra-progresso').value = ids.length ? done / ids.length * 100 : 0
+        el('barra-progresso').setAttribute('aria-label', el('progresso').textContent)
+        el('aulas').querySelectorAll('[data-aula]').forEach(b => {
+            const concluida = curso.concluidas.includes(b.dataset.aula)
+            const atual = aulaAtual?.id === b.dataset.aula
+            b.classList.toggle('selecionada', atual)
+            if (atual) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current')
+            b.querySelector('small').textContent = t(concluida ? 'completed' : atual ? 'current' : 'watch')
+            b.querySelector('.aula-icone').textContent = concluida ? '✓' : '▷'
+        })
+    }
+    function desenharLista() {
+        el('aulas').replaceChildren()
+        const modulo = visual.estrutura[moduloAtual]
+        el('modulo-atual').textContent = modulo?.titulo || ''
+        if (!modulo?.aulas.length) { el('aulas').append(elemento('p', t('empty'))); return }
+        const grupo = elemento('details'); grupo.open = true
+        grupo.append(elemento('summary', modulo.titulo))
+        modulo.aulas.forEach(aula => {
+            const b = elemento('button'); b.type = 'button'; b.dataset.aula = aula.id
+            const icone = elemento('span', '▷'); icone.className = 'aula-icone'; icone.setAttribute('aria-hidden', 'true')
+            const conteudo = elemento('span'); conteudo.append(elemento('strong', aula.titulo), elemento('small'))
+            b.append(icone, conteudo); b.addEventListener('click', () => selecionarAula(aula))
+            grupo.append(b)
+        })
+        el('aulas').append(grupo); progresso()
+    }
+    function desenharAluno() {
+        document.title = `${visual.titulo} — Monetiza`
+        el('titulo').textContent = visual.titulo; el('apresentacao').textContent = visual.apresentacao
+        el('curso-app').style.setProperty('--destaque', visual.cor)
+        el('capa').hidden = false; el('capa').onerror = () => { el('capa').hidden = true }; el('capa').src = visual.capa
+        el('cards-modulos').replaceChildren()
+        visual.estrutura.forEach((modulo, indice) => {
+            const card = elemento('button'); card.type = 'button'; card.className = 'modulo-card'
+            card.setAttribute('aria-controls', 'area-aluno'); card.setAttribute('aria-pressed', String(indice === moduloAtual))
+            const arte = elemento('span'); arte.className = 'modulo-arte'
+            const img = elemento('img'); img.alt = ''; img.loading = 'lazy'; img.src = visual.capa
+            img.onerror = () => { img.hidden = true }
+            arte.append(img, elemento('span', String(indice + 1).padStart(2, '0')))
+            const texto = elemento('span'); texto.className = 'modulo-texto'
+            texto.append(elemento('small', t('module', { n: indice + 1 })), elemento('strong', modulo.titulo), elemento('small', t('lessons', { n: modulo.aulas.length })), elemento('span', `${t('open')} →`))
+            card.append(arte, texto)
+            card.addEventListener('click', () => {
+                moduloAtual = indice; pararVideo(); desenharLista()
+                el('cards-modulos').querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-pressed', String(i === indice)))
+                el('area-aluno').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' })
+                const primeiro = el('aulas').querySelector('button'); primeiro?.focus({ preventScroll: true })
+                if (modulo.aulas[0]) selecionarAula(modulo.aulas[0])
+            })
+            el('cards-modulos').append(card)
+        })
+        if (!visual.estrutura.length) el('cards-modulos').append(elemento('p', t('empty')))
+        if (moduloAtual >= visual.estrutura.length) moduloAtual = 0
+        desenharLista(); progresso()
     }
     async function selecionarAula(aula) {
-        const atual = ++selecao
-        el('video').pause()
-        el('video').removeAttribute('src')
-        el('video').load()
-        el('video').hidden = true
-        el('material').hidden = true
-        el('conclusao').hidden = true
-        el('video-aviso').textContent = ''
+        pararVideo(); const atual = selecao
+        el('video-aviso').textContent = t('loading')
         try {
             await api(`${base}/sessao`, { method: 'POST' })
             if (atual !== selecao) return
-            aulaAtual = aula
-            el('aula-titulo').textContent = aula.titulo
-            if (aula.video) {
-                el('video').src = `${base}/midia/${aula.video}`
-                el('video').hidden = false
-            } else el('video-aviso').textContent = 'Vídeo ainda não enviado.'
-            if (aula.material) {
-                el('material').href = `${base}/midia/${aula.material}`
-                el('material').hidden = false
-            }
-            el('concluida').checked = curso.concluidas.includes(aula.id)
-            el('conclusao').hidden = false
-        } catch (erro) { aviso(erro.message) }
+            aulaAtual = aula; el('aula-titulo').textContent = aula.titulo; el('video-aviso').textContent = ''
+            el('player-vazio').hidden = Boolean(aula.video)
+            if (aula.video) { el('video').src = `${base}/midia/${aula.video}`; el('video').hidden = false }
+            else el('video-aviso').textContent = t('missingVideo')
+            if (aula.material) { el('material').href = `${base}/midia/${aula.material}`; el('material').hidden = false }
+            el('concluida').checked = curso.concluidas.includes(aula.id); el('concluida').disabled = previa
+            el('conclusao').hidden = false; progresso()
+        } catch (e) { if (atual === selecao) aviso(e.chave || 'error') }
     }
-    function atualizarVisualDasAulas() {
-    el('aulas').querySelectorAll('.curso-aula').forEach(botao => {
-        const id = botao.dataset.aulaId
-        const concluida = curso.concluidas.includes(id)
-        const selecionada = aulaAtual?.id === id
-
-        botao.classList.toggle('selecionada', selecionada)
-        botao.classList.toggle('concluida', concluida)
-
-        if (selecionada) {
-            botao.setAttribute('aria-current', 'true')
-        } else {
-            botao.removeAttribute('aria-current')
-        }
-
-        botao.querySelector('.curso-aula-icone').textContent =
-            concluida ? '✓' : '▷'
-
-        botao.querySelector('.curso-aula-status').textContent =
-            concluida
-                ? 'Concluída'
-                : selecionada
-                    ? 'Aula selecionada'
-                    : 'Assistir aula'
-    })
-
-    el('aulas').querySelectorAll('.curso-modulo').forEach(grupo => {
-        const botoes = [...grupo.querySelectorAll('.curso-aula')]
-
-        const concluidas = botoes.filter(botao =>
-            curso.concluidas.includes(botao.dataset.aulaId)
-        ).length
-
-        grupo.querySelector('.curso-modulo-progresso').textContent =
-            `${concluidas}/${botoes.length} concluídas`
-    })
-}
-
-function desenharAluno() {
-    document.title = `${curso.titulo} — Monetiza`
-
-    el('titulo').textContent = curso.titulo
-    el('apresentacao').textContent = curso.apresentacao
-    el('curso-app').style.setProperty('--destaque', curso.cor)
-
-    el('capa').hidden = false
-    el('capa').alt = ''
-    el('capa').onerror = () => {
-        el('capa').hidden = true
-    }
-    el('capa').src = curso.capa
-
-    // Preserva os módulos abertos ao salvar alterações no curso.
-    const gruposAnteriores = [
-        ...el('aulas').querySelectorAll('.curso-modulo')
-    ]
-
-    const abertos = new Set(
-        gruposAnteriores
-            .filter(grupo => grupo.open)
-            .map(grupo => Number(grupo.dataset.indice))
-    )
-
-    el('aulas').replaceChildren()
-
-    curso.estrutura.forEach((modulo, indice) => {
-        const grupo = elemento('details')
-        grupo.className = 'curso-modulo'
-        grupo.dataset.indice = indice
-        grupo.open = gruposAnteriores.length
-            ? abertos.has(indice)
-            : indice === 0
-
-        const resumo = elemento('summary')
-        resumo.className = 'curso-modulo-resumo'
-
-        const numero = elemento(
-            'span',
-            String(indice + 1).padStart(2, '0')
-        )
-        numero.className = 'curso-modulo-numero'
-
-        const informacoes = elemento('span')
-        informacoes.className = 'curso-modulo-informacoes'
-
-        const nome = elemento('strong', modulo.titulo)
-        const progresso = elemento('small')
-        progresso.className = 'curso-modulo-progresso'
-
-        informacoes.append(nome, progresso)
-
-        const seta = elemento('span', '⌄')
-        seta.className = 'curso-modulo-seta'
-        seta.setAttribute('aria-hidden', 'true')
-
-        resumo.append(numero, informacoes, seta)
-
-        const lista = elemento('div')
-        lista.className = 'curso-modulo-aulas'
-
-        modulo.aulas.forEach(aula => {
-            const item = botao('', () => selecionarAula(aula))
-            item.className = 'curso-aula'
-            item.dataset.aulaId = aula.id
-
-            const icone = elemento('span', '▷')
-            icone.className = 'curso-aula-icone'
-            icone.setAttribute('aria-hidden', 'true')
-
-            const textos = elemento('span')
-            textos.className = 'curso-aula-textos'
-
-            const titulo = elemento('strong', aula.titulo)
-            const status = elemento('small', 'Assistir aula')
-            status.className = 'curso-aula-status'
-
-            textos.append(titulo, status)
-            item.append(icone, textos)
-            lista.append(item)
-        })
-
-        if (!modulo.aulas.length) {
-            lista.append(elemento('p', 'Este módulo ainda não possui aulas.'))
-        }
-
-        grupo.append(resumo, lista)
-        el('aulas').append(grupo)
-    })
-
-    atualizarProgresso()
-}
-    el('editor').addEventListener('input', () => { alterado = true })
-    el('adicionar-modulo').addEventListener('click', () => {
-        curso.estrutura.push({ titulo: 'Novo módulo', aulas: [] })
-        alterado = true; desenharEditor()
-    })
+    el('editor').addEventListener('input', mudar)
+    el('adicionar-modulo').addEventListener('click', () => { rascunho.estrutura.push({ titulo: t('newModule'), aulas: [] }); mudar(); desenharEditor() })
     el('salvar').addEventListener('click', () => executar(async () => {
-        aviso('Salvando curso...')
-        const arquivoCapa = el('editar-capa').files[0]
+        lerFormulario(); aviso('saving')
         if (arquivoCapa) {
-            const form = new FormData()
-            form.append('capa', arquivoCapa)
+            if (arquivoCapa.size > 5 * 1024 * 1024) throw erro('tooLarge')
+            const form = new FormData(); form.append('capa', arquivoCapa)
             const dados = await api('/produtos/capa', { method: 'POST', body: form })
-            curso.capa = dados.capa
-            el('editar-capa').value = ''
+            rascunho.capa = dados.capa; arquivoCapa = null; el('editar-capa').value = ''
+            if (urlCapa) URL.revokeObjectURL(urlCapa); urlCapa = null
         }
-        const corpo = { versao: curso.versao, estrutura: curso.estrutura, capa: curso.capa,
-            titulo: el('editar-titulo').value, apresentacao: el('editar-apresentacao').value,
-            preco: el('editar-preco').value, comissao: el('editar-comissao').value,
-            cor: el('editar-cor').value, status_produto: el('editar-status').value }
-        const resultado = await api(base, { method: 'PUT', body: JSON.stringify(corpo) })
-        Object.assign(curso, corpo, resultado)
-        alterado = false
-        desenharAluno()
-        aviso('Curso salvo. A publicação segue o status selecionado.')
+        const dados = await api(base, { method: 'PUT', body: JSON.stringify(rascunho) })
+        Object.assign(rascunho, dados); curso = structuredClone(rascunho); visual = structuredClone(curso)
+        alterado = false; el('estado-edicao').textContent = ''; desenharAluno(); aviso('saved')
     }))
     el('concluida').addEventListener('change', async () => {
-        const aula = aulaAtual
-        const concluida = el('concluida').checked
+        if (previa || !aulaAtual) return
+        const aula = aulaAtual, concluida = el('concluida').checked
         el('concluida').disabled = true
         try {
             await api(`${base}/progresso/${aula.id}`, { method: 'PUT', body: JSON.stringify({ concluida }) })
             curso.concluidas = curso.concluidas.filter(id => id !== aula.id)
             if (concluida) curso.concluidas.push(aula.id)
-            atualizarProgresso()
-        } catch (erro) { if (aulaAtual === aula) el('concluida').checked = !concluida; aviso(erro.message) }
-        finally { el('concluida').disabled = false }
+            if (rascunho) rascunho.concluidas = [...curso.concluidas]
+            progresso()
+        } catch (e) { if (aulaAtual === aula) el('concluida').checked = !concluida; aviso(e.chave || 'error') }
+        finally { el('concluida').disabled = previa }
     })
-    const renovarSessao = setInterval(async () => {
+    const renovar = setInterval(async () => {
         if (!aulaAtual) return
-        if (localStorage.getItem('token') !== token) {
-            el('video').pause()
-            el('video').removeAttribute('src')
-            el('video').load()
-            aviso('Sua sessão mudou. Entre novamente para continuar.')
-            clearInterval(renovarSessao)
-            return
-        }
-        try { await api(`${base}/sessao`, { method: 'POST' }) }
-        catch (erro) { aviso(erro.message) }
+        if (localStorage.getItem('token') !== token) { pararVideo(); aviso('expired'); clearInterval(renovar); return }
+        try { await api(`${base}/sessao`, { method: 'POST' }) } catch (e) { aviso(e.chave || 'error') }
     }, 10 * 60 * 1000)
-
-    el('video').addEventListener('error', () => {
-        el('video-aviso').textContent = 'Não foi possível reproduzir. Selecione a aula novamente. Se persistir, confira sua sessão e se o vídeo usa H.264/AAC.'
-    })
-    window.addEventListener('beforeunload', evento => {
-        if (alterado || ocupado) { evento.preventDefault(); evento.returnValue = '' }
-    })
+    el('video').addEventListener('error', () => { el('video-aviso').textContent = t('videoError') })
+    window.addEventListener('beforeunload', evento => { if (alterado || ocupado) { evento.preventDefault(); evento.returnValue = '' } })
     try {
-        if (!id) throw new Error('Endereço de curso inválido.')
-        curso = await api(base)
-        desenharAluno()
-        el('cabecalho').hidden = false
-        el('area-aluno').hidden = false
+        if (!id) throw erro('forbidden')
+        curso = await api(base); visual = structuredClone(curso)
+        desenharAluno(); el('visao-aluno').hidden = false
         if (curso.editor) {
-            for (const chave of ['titulo', 'apresentacao', 'preco', 'comissao', 'cor']) el(`editar-${chave}`).value = curso[chave]
-            el('editar-status').value = curso.status_produto
-            el('editor').hidden = false
-            desenharEditor()
+            rascunho = structuredClone(curso)
+            for (const chave of ['titulo', 'apresentacao', 'preco', 'comissao', 'cor']) el(`editar-${chave}`).value = rascunho[chave]
+            el('editar-status').value = rascunho.status_produto
+            el('barra-produtor').hidden = false; desenharEditor()
         }
-        aviso(curso.editor ? 'Você está no editor e na prévia do seu curso.' : 'Seu curso está disponível.')
-    } catch (erro) { aviso(erro.message) }
+        mensagem = ''; el('aviso').textContent = ''
+    } catch (e) { aviso(e.chave || 'error') }
 })
