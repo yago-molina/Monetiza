@@ -451,7 +451,10 @@
                                     <input id="ia-comissao" type="number" min="0" max="100" step="0.01" required>
 
                                     <label for="ia-capa" data-i18n="complementos.urlDaImagemDeCapa">URL da imagem de capa</label>
-                                    <input id="ia-capa" type="url" placeholder="https://..." required>
+                                    <input id="ia-capa" type="url" placeholder="https://...">
+<label for="ia-capa-arquivo">Ou envie uma imagem (PNG, JPG ou WebP, até 5 MB)</label>
+<input id="ia-capa-arquivo" type="file" accept="image/png,image/jpeg,image/webp">
+<small id="ia-capa-upload-status" role="status" aria-live="polite"></small>
 
                                     <div style="display:flex; gap:12px; margin-top:20px">
                                         <button type="button" id="cancelar-editor" data-i18n="afiliados.modal.cancelar">Cancelar</button>
