@@ -459,6 +459,7 @@ const traducoes = {
             pagamento: 'Forma de pagamento',
             totalPago: 'Total pago',
             acessarProduto: 'Acessar produto',
+            acessarCurso: 'Acessar curso',
             erroCarregar: 'Erro ao carregar compras',
 
             vazio: {
@@ -1180,6 +1181,7 @@ const traducoes = {
             pagamento: 'Payment method',
             totalPago: 'Total paid',
             acessarProduto: 'Access product',
+            acessarCurso: 'Access course',
             erroCarregar: 'Error loading purchases',
 
             vazio: {
@@ -1901,6 +1903,7 @@ const traducoes = {
             pagamento: 'Forma de pago',
             totalPago: 'Total pagado',
             acessarProduto: 'Acceder al producto',
+            acessarCurso: 'Acceder al curso',
             erroCarregar: 'Error al cargar las compras',
 
             vazio: {
