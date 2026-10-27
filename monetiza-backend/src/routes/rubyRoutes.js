@@ -94,8 +94,7 @@ function criarRotasRuby(
                 req.usuario.id,
                 req.body?.message,
                 abort.signal,
-                req.body?.idioma,
-                req.body?.pagina
+                req.body?.idioma
             )
 
             if (!res.destroyed) {
@@ -125,20 +124,20 @@ function criarRotasRuby(
             }
 
             return res.status(erro.status).json({
-                error: traduzirErro(erro.status, idioma),
+                error: erro.message,
                 retryAfter: erro.retryAfter || null
             })
         }
 
         if (erro.type === 'entity.too.large') {
             return res.status(413).json({
-                error: traduzirErro(413, idioma)
+                error: 'A mensagem enviada é muito grande.'
             })
         }
 
         if (erro.type === 'entity.parse.failed') {
             return res.status(400).json({
-                error: traduzirErro(400, idioma)
+                error: 'JSON inválido.'
             })
         }
 
