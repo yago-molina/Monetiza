@@ -1062,6 +1062,28 @@ const editor = document.getElementById('editor-produto')
 const formEditor = document.getElementById('form-editor-produto')
 const campo = id => document.getElementById(id)
 
+let arquivoCapaIa = null
+campo('ia-capa-arquivo')?.addEventListener('change', evento => {
+    arquivoCapaIa = evento.target.files?.[0] || null
+    campo('ia-capa-upload-status').textContent = arquivoCapaIa ? 'Selecionado: ' + arquivoCapaIa.name : ''
+})
+async function enviarCapaIa(arquivo) {
+    if (!['image/png', 'image/jpeg', 'image/webp'].includes(arquivo.type)) throw new Error('Selecione PNG, JPG ou WebP.')
+    if (arquivo.size > 5 * 1024 * 1024) throw new Error('A imagem deve ter no máximo 5 MB.')
+    const formulario = new FormData()
+    formulario.append('capa', arquivo)
+    const resposta = await fetch('/produtos/capa', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+        body: formulario
+    })
+    const dados = await resposta.json().catch(() => ({}))
+    respostaAutenticada(resposta, dados)
+    if (typeof dados.capa !== 'string' || !dados.capa) throw new Error('Upload não retornou URL da capa.')
+    return dados.capa
+}
+
+
 function exigirProduto() {
     if (!produtoGerado?.cadastro || !produtoGerado?.produto) {
         throw new Error(window.i18n.t('complementos.gereUmProdutoAntesDeContinuar'))
@@ -1095,6 +1117,9 @@ async function abrirEditorProduto() {
         campo('ia-preco').value = cadastro.preco
         campo('ia-comissao').value = cadastro.comissao
         campo('ia-capa').value = produtoGerado.capa || ''
+        campo('ia-capa-arquivo').value = ''
+        arquivoCapaIa = null
+        campo('ia-capa-upload-status').textContent = ''
 
         if (camposEditorSalvos) {
             for (const [id, valor] of Object.entries(camposEditorSalvos)) {
@@ -1124,6 +1149,19 @@ async function salvarEdicaoProduto(evento) {
     cadastro.preco = Number(campo('ia-preco').value)
     cadastro.comissao = Number(campo('ia-comissao').value)
 
+    if (arquivoCapaIa) {
+        campo('ia-capa-upload-status').textContent = 'Enviando imagem...'
+        try {
+            campo('ia-capa').value = await enviarCapaIa(arquivoCapaIa)
+            arquivoCapaIa = null
+            campo('ia-capa-arquivo').value = ''
+            campo('ia-capa-upload-status').textContent = 'Imagem enviada com sucesso.'
+        } catch (erro) {
+            campo('ia-capa-upload-status').textContent = erro.message
+            await MonetizaUI.aviso(erro.message)
+            return
+        }
+    }
     produtoGerado.capa = campo('ia-capa').value.trim()
 
     // Os outros campos pertencem ao anúncio.
