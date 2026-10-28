@@ -1,0 +1,9 @@
+diff --git a/monetiza-backend/src/controllers/vitrineController.js b/monetiza-backend/src/controllers/vitrineController.js
+--- a/monetiza-backend/src/controllers/vitrineController.js
++++ b/monetiza-backend/src/controllers/vitrineController.js
+@@ -252,6 +252,7 @@
+                  acesso_produto: produto.produto_arquivo }
+             await operacoes.concluir(conexao, reserva, 200, corpo)
++            await conexao.commit()
+             return res.json(corpo)
+         }

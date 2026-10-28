@@ -9,8 +9,8 @@ botaoCadastrar.addEventListener('click', async function (evento) {
 
     const nome = document.getElementById('cadastro-nome').value.trim()
     const email = document.getElementById('cadastro-email').value.trim()
-    const senha = document.getElementById('cadastro-senha').value.trim()
-    const repSenha = document.getElementById('cadastro-rep-senha').value.trim()
+    const senha = document.getElementById('cadastro-senha').value
+    const repSenha = document.getElementById('cadastro-rep-senha').value
     const termos = document.getElementById('termos')
 
     if (!nome || !email || !senha || !repSenha) {
